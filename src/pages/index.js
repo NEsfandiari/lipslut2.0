@@ -1,48 +1,49 @@
 import React from 'react'
-import Link from 'gatsby-link'
-import { Featured, Mission } from '../components'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
+
+import { Featured, Mission, Footer } from '../components'
+import { StyledHr } from '../components/atoms'
 
 const Container = Styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: 'futura';
-  hr{
-    border: 0;
-    margin: 2rem;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
-    width: 80%;
-  }
-  h2{
+   h1, h2, h3, h4, p{
     font-family: 'futura';
-    font-size: 2rem;
-  }
-  a{
-        color: #FF0086
-        border-radius: 2px 2px 2px 2px;
-        border: 2px solid #FF0086;
-        text-decoration: none;
-        height: 4rem
-        width: 14em;
+   }
+   input{
+        height: 3rem;
+        width: 13rem;
+        font-size: .8rem;
         text-align: center;
-        font-size: .7rem;
-        line-height: 3.5rem;
-        letter-spacing: .1rem;
+        padding: 0;
     }
-    a:hover{
+    button{
+        margin-left: 1rem;
+        font-size: .8rem;
+        padding: 0;
+        height: 3rem;
+        width: 7rem;
         color: white;
-        background-color: #FF0086
+        background-color: #FF0086;
+    }
+    button:hover{
+      background-color: #FF33A1;
     }
 `
 
 const IndexPage = () => (
   <Container>
     <Featured />
-    <hr />
+    <StyledHr />
     <Mission />
+    <StyledHr />
+    <form action="">
+      <input type="text" placeholder="Email Address" />
+      <button>JOIN US.</button>
+    </form>
   </Container>
 )
 

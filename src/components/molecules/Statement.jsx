@@ -6,6 +6,7 @@ const Container = Styled.div`
     flex-direction: column;
     align-items: center;
     padding: .5rem;
+    flex-basis: 33%;
     img{
         height: 15rem;
     }

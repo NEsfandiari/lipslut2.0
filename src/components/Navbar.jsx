@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'gatsby-link'
+import { NavLink } from './atoms'
 import Styled from 'styled-components'
 import { FaShoppingCart } from 'react-icons/lib/fa'
 import 'futura-font/styles.css'
@@ -19,18 +20,6 @@ const Container = Styled.div`
   .links{
     display: flex;
     font-family: 'futura';
-    a{
-      text-decoration: none;
-      font-size: .7rem;
-      padding: .5rem
-      letter-spacing: .1rem;
-    }
-    a:visited {
-      color: black;
-    }
-    a:hover{
-      color: darkgrey
-    }
     flex-basis: 30%;
   }
   .logo{
@@ -54,9 +43,9 @@ const Navbar = () => (
   <Container>
     <div className="nav">
       <div className="links">
-        <Link to="/trump">F*CK TRUMP</Link>
-        <Link to="/hollywood">F*CK HOLLYWOOD</Link>
-        <a href="">MORE</a>
+        <NavLink to="/fck-trump">F*CK TRUMP</NavLink>
+        <NavLink to="/fck-hollywood">F*CK HOLLYWOOD</NavLink>
+        <NavLink to="">MORE</NavLink>
       </div>
       <div className="logo">
         <Link to="/">

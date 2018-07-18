@@ -1,7 +1,9 @@
-import Statement from './Statement'
-import Product from './Product'
+import LinkButton from './LinkButton.jsx'
+import NavLink from './NavLink.jsx'
+import StyledHr from './StyledHr.jsx'
 
 export default {
-  Statement,
-  Product,
+  LinkButton,
+  NavLink,
+  StyledHr,
 }

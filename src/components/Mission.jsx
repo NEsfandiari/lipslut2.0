@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import Link from 'gatsby-link'
 import Styled from 'styled-components'
-import { Statement } from './atoms'
+
+import { LinkButton } from './atoms'
+import { Statement, Philosophy } from './molecules'
 
 const Container = Styled.div`
   display: flex;
@@ -11,11 +12,8 @@ const Container = Styled.div`
     display:flex;
     justify-content: space-between
   }
-  .faq{
-    font-size: .6rem;
-    height: 2.5rem;
-    width: 9rem;
-    line-height: 2.4rem
+  h2{
+    font-size: 2rem;
   }
 `
 
@@ -39,9 +37,17 @@ const Misson = () => (
         image="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a0e6e7871c10b10891ca933/1486790093728/GlobeLogo2.png?format=500w"
       />
     </div>
-    <Link to="/faq" className="faq">
+    <LinkButton
+      to="/faq"
+      className="faq"
+      height={'2.5rem'}
+      fontSize={'.6rem'}
+      width={'9rem'}
+      lineHeight={'2.4rem'}
+    >
       <b>LEARN MORE</b>
-    </Link>
+    </LinkButton>
+    <Philosophy />
   </Container>
 )
 
