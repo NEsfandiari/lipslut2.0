@@ -3,7 +3,6 @@ import Styled from 'styled-components'
 import Link from 'gatsby-link'
 
 const NavLink = Styled(Link)`
-    text-decoration: none;
     color: black;
     font-size: .7rem;
     padding: .5rem

@@ -1,12 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
+import styled from 'styled-components'
 
 import { Navbar, Footer } from '../components'
 import './index.css'
 
+const Container = styled.div`
+  h1, h2, h3, h4, p, a, label, button, input{
+    font-family: 'futura'
+  }
+  a{
+      text-decoration: none;
+  }
+`
+
 const Layout = ({ children, data }) => (
-  <div>
+  <Container>
     <Helmet
       title="Lipslut"
       meta={[
@@ -26,7 +36,7 @@ const Layout = ({ children, data }) => (
       {children()}
     </div>
     <Footer />
-  </div>
+  </Container>
 )
 
 Layout.propTypes = {
