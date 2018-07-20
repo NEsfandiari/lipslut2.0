@@ -28,6 +28,11 @@ const Container = Styled.div`
   button:hover{
     background-color: #FF33A1;
   }
+  animation: fadein 1s;
+  @keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
 `
 
 const IndexPage = () => (
@@ -35,7 +40,7 @@ const IndexPage = () => (
     <Featured />
     <StyledHr />
     <Mission />
-    <StyledHr />
+    <StyledHr width="65%" />
     <form action="">
       <input type="text" placeholder="Email Address" />
       <button>JOIN US.</button>

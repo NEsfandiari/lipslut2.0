@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 3rem;
+  padding: 4rem;
   animation: fadein 1s;
   @keyframes fadein {
         from { opacity: 0; }

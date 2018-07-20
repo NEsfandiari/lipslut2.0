@@ -15,6 +15,9 @@ const Container = styled.div`
     flex-direction: column
     flex-basis: 50%;
   }
+  h1{
+      font-size: 3.5rem;
+  }
   animation: fadein 1s;
   @keyframes fadein {
         from { opacity: 0; }

@@ -8,7 +8,13 @@ import './index.css'
 
 const Container = styled.div`
   h1, h2, h3, h4, p, a, label, button, input{
-    font-family: 'futura'
+    font-family: 'futura';
+  }
+   h3, h4, p{
+    font-weight: 100;
+  }
+  p{
+    font-size: .9rem;
   }
   a{
       text-decoration: none;

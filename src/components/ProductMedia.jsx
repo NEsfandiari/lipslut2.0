@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import 'animate.css'
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const Container = styled.div`
       max-width: 10rem;
   }
   img{
-      padding: 1.1rem;
+      padding: .5rem;
       margin: 0;
   }
   .sellingPoints{
@@ -27,9 +28,21 @@ const Container = styled.div`
   }
 `
 class ProductMedia extends Component {
+  state = {
+    display: 'none',
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleFade)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleFade)
+  }
+
   handleFade = e => {
-    debugger
-    e.target.classList.add('fadeIn')
+    console.log(window.scrollY)
+    if (window.scrollY > 600) {
+      this.setState({ display: 'initial' })
+    }
   }
   render() {
     const sellingPoints = this.props.sellingPoints.map((point, i) => (
@@ -42,7 +55,10 @@ class ProductMedia extends Component {
       <a
         href={media.link}
         key={i}
-        className="animated"
+        className="animated fadeIn"
+        style={{
+          display: this.state.display,
+        }}
         onScroll={this.handleFade}
         target="_blank"
       >
