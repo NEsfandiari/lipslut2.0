@@ -58,6 +58,7 @@ class Product extends Component {
     super(props)
     this.state = {
       highlight: 0,
+      quantity: 1,
       price: this.props.price,
     }
   }
@@ -66,9 +67,17 @@ class Product extends Component {
     this.setState({ highlight: parseInt(e.target.name) })
   }
 
-  handlePrice = e => {
+  handleChange = e => {
     const newPrice = e.target.value * this.props.price
-    this.setState({ price: newPrice.toFixed(2) })
+    this.setState({
+      [e.target.name]: e.target.value,
+      price: newPrice.toFixed(2),
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    handleCart()
   }
 
   render() {
@@ -99,20 +108,21 @@ class Product extends Component {
           <h1>{this.props.title}</h1>
           {claims}
           <StyledHr width={'100%'} margin={'.8rem'} />
-          <div className="purchase">
+          <form className="purchase" onSubmit={this.handleSubmit}>
             <p>${this.state.price}</p>
             <label htmlFor="quantity">Quantity: </label>
             <input
               type="number"
-              onChange={this.handlePrice}
+              name="quantity"
+              onChange={this.handleChange}
+              value={this.state.quantity}
               id="quantity"
               min="1"
-              placeholder="1"
             />
             <StyledButton height={'4rem'} width={'8.5rem'} fontSize={'.65rem'}>
               <b>ADD TO CART</b>
             </StyledButton>
-          </div>
+          </form>
         </div>
       </Container>
     )

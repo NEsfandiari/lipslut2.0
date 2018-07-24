@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Link from 'gatsby-link'
-import { NavLink } from './atoms'
 import Styled from 'styled-components'
-import { FaShoppingCart } from 'react-icons/lib/fa'
 import 'futura-font/styles.css'
+import { FaShoppingBag } from 'react-icons/lib/fa'
+import { NavLink } from './atoms'
+import { CartSidebar } from './molecules'
 
-const Container = Styled.div`
+const NavContainer = Styled.div`
   display: flex;
   justify-content: center;
   padding-top: .6rem;
@@ -32,37 +33,67 @@ const Container = Styled.div`
     display: flex;
     justify-content: flex-end;
     svg{
-      font-size: 1.5rem
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    p{
+      position: relative;
+      top: .3rem;
+      right: 1rem;
+      cursor: pointer;
     }
   }
     width: 85vw;
   }
 `
-
-const Navbar = () => (
-  <Container>
-    <div className="nav">
-      <div className="links">
-        <NavLink to="/fck-trump">F*CK TRUMP</NavLink>
-        <NavLink to="/fck-hollywood">F*CK HOLLYWOOD</NavLink>
-        <NavLink to="/hat">MORE</NavLink>
+class Navbar extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      sidebar: false,
+    }
+    this.handleSidebar = this.handleSidebar.bind(this)
+  }
+  handleSidebar() {
+    this.setState({
+      sidebar: !this.state.sidebar,
+    })
+  }
+  render() {
+    const { cart } = this.props
+    return (
+      <div>
+        <NavContainer>
+          <div className="nav">
+            <div className="links">
+              <NavLink to="/fck-trump">F*CK TRUMP</NavLink>
+              <NavLink to="/fck-hollywood">F*CK HOLLYWOOD</NavLink>
+              <NavLink to="/hat">MORE</NavLink>
+            </div>
+            <div className="logo">
+              <Link to="/">
+                <img
+                  style={{
+                    margin: '0 auto',
+                    maxWidth: 175,
+                  }}
+                  src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a0f8b654192028235394491/1531257223005/?format=1500w"
+                />
+              </Link>
+            </div>
+            <div className="cart" onClick={this.handleSidebar}>
+              <FaShoppingBag color="#FF0088" />
+              <p>{cart.length}</p>
+            </div>
+          </div>
+        </NavContainer>
+        <CartSidebar
+          display={this.state.sidebar}
+          handleSidebar={this.handleSidebar}
+        />
       </div>
-      <div className="logo">
-        <Link to="/">
-          <img
-            style={{
-              margin: '0 auto',
-              maxWidth: 175,
-            }}
-            src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a0f8b654192028235394491/1531257223005/?format=1500w"
-          />
-        </Link>
-      </div>
-      <div className="cart">
-        <FaShoppingCart />
-      </div>
-    </div>
-  </Container>
-)
+    )
+  }
+}
 
 export default Navbar

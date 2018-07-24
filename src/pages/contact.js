@@ -10,7 +10,7 @@ const Container = styled.div`
   padding-right: 10rem;
   padding-top: 5rem;
   a{
-      color: #75EAFC
+      color: #9ae0f5;
       transition: .3s;
   }
   a:hover{

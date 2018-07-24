@@ -39,7 +39,6 @@ class ProductMedia extends Component {
   }
 
   handleFade = e => {
-    console.log(window.scrollY)
     if (window.scrollY > 600) {
       this.setState({ display: 'initial' })
     }
