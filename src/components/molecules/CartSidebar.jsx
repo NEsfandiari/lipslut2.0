@@ -15,6 +15,7 @@ const Container = styled.div`
     width: 25rem;
     height: 100%
     background-color: #F9F7F1;
+    overflow: auto;
 
     .contents{
         display: flex;

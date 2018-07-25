@@ -9,6 +9,7 @@ const StyledButton = Styled.button`
     width: ${({ width }) => width || '7rem'};
     color: white;
     background-color: #FF0086;
+    outline: none;
 
   :hover{
     background-color: #FF33A1;

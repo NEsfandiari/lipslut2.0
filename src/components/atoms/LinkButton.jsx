@@ -14,6 +14,7 @@ const LinkButton = Styled(Link)`
     line-height: ${({ lineHeight }) => lineHeight || '3.5rem'};
     letter-spacing: .1rem;
     transition: 0.3s ease;
+    outline: none;
 
     :hover{
     color: white;
