@@ -31,31 +31,32 @@ exports.handler = function(event, context, callback) {
   const amount = data.amount
   const token = data.token.id
 
-  return stripe.charges
-    .create(
-      {
-        // Create Stripe charge with token
-        amount,
-        source: token,
-        currency: 'usd',
-        description: 'Serverless test Stripe charge',
-      },
-      {
-        idempotency_key: data.idempotency_key,
-      },
-      (err, charge) => {
-        if (err !== null) {
-          console.log(err)
-        }
-  
-        let status =
-          charge === null || charge.status !== 'succeeded'
-            ? 'failed'
-            : charge.status
-  
-        callback(null, {
-          statusCode,
-          headers,
-          body: JSON.stringify({ status }),
-        })
+  return stripe.charges.create(
+    {
+      // Create Stripe charge with token
+      amount,
+      source: token,
+      currency: 'usd',
+      description: 'Serverless test Stripe charge',
+    },
+    {
+      idempotency_key: data.idempotency_key,
+    },
+    (err, charge) => {
+      if (err !== null) {
+        console.log(err)
+      }
+
+      let status =
+        charge === null || charge.status !== 'succeeded'
+          ? 'failed'
+          : charge.status
+
+      callback(null, {
+        statusCode,
+        headers,
+        body: JSON.stringify({ status }),
+      })
+    }
+  )
 }
