@@ -27,18 +27,11 @@ class Layout extends Component {
     this.state = {
       cart: [
         {
-          title: 'fuck-trump',
+          title: 'F*ck-Trump',
           price: 19.95,
           quantity: 1,
           image:
             'https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/588c3f172e69cf76b74bf83d/5a1245a124a694409fb63065/1530824100181/website+tubes+web+copy.jpg',
-        },
-        {
-          title: 'fuck-hollywood',
-          price: 19.95,
-          quantity: 1,
-          image:
-            'https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/5a12380e53450af6e5e65072/5a1239c04192028235842900/1511145212468/2+tubes+red.jpg?format=300w',
         },
       ],
     }
