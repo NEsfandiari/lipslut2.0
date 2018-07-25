@@ -1,6 +1,6 @@
-const stripe = require('stripe')('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
 exports.handler = function(event, context, callback) {
   // your server-side functionality
+  const stripe = require('stripe')('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
   console.log(event)
   const requestData = JSON.parse(event.body)
   console.log(requestData)
