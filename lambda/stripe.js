@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const stripe = require('stripe')('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
 const headers = {
   'Access-Control-Allow-Origin': '*',
