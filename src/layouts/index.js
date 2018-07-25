@@ -20,13 +20,37 @@ const Container = styled.div`
       text-decoration: none;
   }
 `
+
 class Layout extends Component {
-  state = {
-    cart: ['fck-trump'],
+  constructor(props) {
+    super(props)
+    this.state = {
+      cart: [
+        {
+          title: 'fuck-trump',
+          price: 19.95,
+          quantity: 1,
+          image:
+            'https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/588c3f172e69cf76b74bf83d/5a1245a124a694409fb63065/1530824100181/website+tubes+web+copy.jpg',
+        },
+        {
+          title: 'fuck-hollywood',
+          price: 19.95,
+          quantity: 1,
+          image:
+            'https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/5a12380e53450af6e5e65072/5a1239c04192028235842900/1511145212468/2+tubes+red.jpg?format=300w',
+        },
+      ],
+    }
+    this.editCart = this.editCart.bind(this)
   }
 
-  handleCart = () => {
-    console.log('hey')
+  editCart(name, value, i) {
+    let newCart = this.state.cart
+    newCart[i][name] = value
+    this.setState({
+      cart: newCart,
+    })
   }
   render() {
     const { children, data } = this.props
@@ -39,7 +63,7 @@ class Layout extends Component {
             { name: 'keywords', content: 'sample, something' },
           ]}
         />
-        <Navbar cart={this.state.cart} />
+        <Navbar cart={this.state.cart} editCart={this.editCart} />
         <div
           style={{
             margin: '0 auto',

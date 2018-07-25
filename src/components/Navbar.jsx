@@ -38,9 +38,10 @@ const NavContainer = Styled.div`
     }
     p{
       position: relative;
-      top: .3rem;
-      right: 1rem;
+      top: 1rem;
+      right: 1.3rem;
       cursor: pointer;
+      font-size: 1.3rem
     }
   }
     width: 85vw;
@@ -60,7 +61,7 @@ class Navbar extends Component {
     })
   }
   render() {
-    const { cart } = this.props
+    const { cart, editCart } = this.props
     return (
       <div>
         <NavContainer>
@@ -82,7 +83,7 @@ class Navbar extends Component {
               </Link>
             </div>
             <div className="cart" onClick={this.handleSidebar}>
-              <FaShoppingBag color="#FF0088" />
+              <FaShoppingBag color="#FF0088" size="2.2rem" />
               <p>{cart.length}</p>
             </div>
           </div>
@@ -90,6 +91,8 @@ class Navbar extends Component {
         <CartSidebar
           display={this.state.sidebar}
           handleSidebar={this.handleSidebar}
+          cart={this.props.cart}
+          editCart={editCart}
         />
       </div>
     )

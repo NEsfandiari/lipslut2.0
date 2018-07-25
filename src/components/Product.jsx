@@ -77,7 +77,6 @@ class Product extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    handleCart()
   }
 
   render() {
