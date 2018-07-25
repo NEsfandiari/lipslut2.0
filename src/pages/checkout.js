@@ -58,7 +58,7 @@ class Checkout extends Component {
       description: 'A product well worth your time',
       token: token => {
         fetch(
-          `https://elated-carson-131bb5.netlify.com/.netlify/lambda/stripe`,
+          `https://elated-carson-131bb5.netlify.com/.netlify/functions/stripe`,
           {
             method: 'POST',
             body: JSON.stringify({
