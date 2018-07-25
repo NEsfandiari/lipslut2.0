@@ -57,16 +57,19 @@ class Checkout extends Component {
       amount: amount,
       description: 'A product well worth your time',
       token: token => {
-        fetch(`${../../lambda/stripe}`, {
-          method: 'POST',
-          body: JSON.stringify({
-            token,
-            amount,
-          }),
-          headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
-        })
+        fetch(
+          `https://elated-carson-131bb5.netlify.com/.netlify/lambda/stripe`,
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              token,
+              amount,
+            }),
+            headers: new Headers({
+              'Content-Type': 'application/json',
+            }),
+          }
+        )
           .then(res => {
             console.log('Transaction processed successfully')
             this.resetButton()
