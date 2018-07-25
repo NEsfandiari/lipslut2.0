@@ -1,9 +1,12 @@
 require('dotenv').config()
+
 const stripe = require('stripe')('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
 }
+const statusCode = 200
+
 exports.handler = function(event, context, callback) {
   // your server-side functionality
   if (event.httpMethod !== 'POST' || !event.body) {
