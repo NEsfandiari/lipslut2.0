@@ -13,17 +13,22 @@ const Container = Styled.div`
       font-size: 2rem;
     }
 `
-
-const Product = ({ title, image, route }) => (
-  <Container className="product">
-    <Link to={route}>
-      <img src={image} />
-    </Link>
-    <h2>{title}</h2>
-    <LinkButton to={route}>
-      <b>SHOP NOW</b>
-    </LinkButton>
-  </Container>
-)
+class Product extends Component {
+  state = {}
+  render() {
+    const { title, image, route } = this.props
+    return (
+      <Container className="product">
+        <Link to={route}>
+          <img src={image} />
+        </Link>
+        <h2>{title}</h2>
+        <LinkButton to={route}>
+          <b>SHOP NOW</b>
+        </LinkButton>
+      </Container>
+    )
+  }
+}
 
 export default Product

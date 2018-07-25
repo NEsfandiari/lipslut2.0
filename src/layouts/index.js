@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
@@ -44,6 +44,7 @@ class Layout extends Component {
     }
     this.editItem = this.editItem.bind(this)
     this.removeItem = this.removeItem.bind(this)
+    this.addItem = this.addItem.bind(this)
   }
 
   editItem(name, value, i) {
@@ -56,6 +57,13 @@ class Layout extends Component {
   removeItem(i) {
     let newCart = this.state.cart
     newCart.splice(i, 1)
+    this.setState({
+      cart: newCart,
+    })
+  }
+  addItem(title, price, quantity, image) {
+    let newCart = this.state.cart
+    newCart.push({ title, price, quantity, image })
     this.setState({
       cart: newCart,
     })
@@ -84,7 +92,7 @@ class Layout extends Component {
             paddingTop: 0,
           }}
         >
-          {children()}
+          {children({ ...this.props, addItem: this.addItem })}
         </div>
         <Footer />
       </Container>

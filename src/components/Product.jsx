@@ -77,6 +77,12 @@ class Product extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
+    this.props.addItem(
+      this.props.title,
+      this.state.price,
+      this.state.quantity,
+      this.props.images[0]
+    )
   }
 
   render() {
