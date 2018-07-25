@@ -11,6 +11,7 @@
     "gatsby-plugin-react-helmet": "^2.0.10",
     "gatsby-plugin-stripe-checkout": "^1.0.5",
     "gatsby-plugin-styled-components": "^2.0.11",
+    "netlify-lambda": "^0.4.0",
     "react-helmet": "^5.2.0",
     "react-icons": "^2.2.7",
     "styled-components": "^3.3.3"

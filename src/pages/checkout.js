@@ -57,7 +57,7 @@ class Checkout extends Component {
       amount: amount,
       description: 'A product well worth your time',
       token: token => {
-        fetch(`AWS_LAMBDA_URL`, {
+        fetch(`${../../lambda/stripe}`, {
           method: 'POST',
           body: JSON.stringify({
             token,

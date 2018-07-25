@@ -1,15 +1,17 @@
+const stripe = require('stripe')('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+}
 exports.handler = function(event, context, callback) {
   // your server-side functionality
-  const stripe = require('stripe')('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
+
   console.log(event)
   const requestData = JSON.parse(event.body)
   console.log(requestData)
   const amount = requestData.amount
   const token = requestData.token.id
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  }
+
   return stripe.charges
     .create({
       // Create Stripe charge with token
