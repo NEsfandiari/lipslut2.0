@@ -1,4 +1,5 @@
-const stripe = require('stripe')('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
+import stripePackage from 'stripe'
+const stripe = stripePackage('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
