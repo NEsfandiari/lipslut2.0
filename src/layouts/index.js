@@ -42,12 +42,20 @@ class Layout extends Component {
         },
       ],
     }
-    this.editCart = this.editCart.bind(this)
+    this.editItem = this.editItem.bind(this)
+    this.removeItem = this.removeItem.bind(this)
   }
 
-  editCart(name, value, i) {
+  editItem(name, value, i) {
     let newCart = this.state.cart
     newCart[i][name] = value
+    this.setState({
+      cart: newCart,
+    })
+  }
+  removeItem(i) {
+    let newCart = this.state.cart
+    newCart.splice(i, 1)
     this.setState({
       cart: newCart,
     })
@@ -63,7 +71,11 @@ class Layout extends Component {
             { name: 'keywords', content: 'sample, something' },
           ]}
         />
-        <Navbar cart={this.state.cart} editCart={this.editCart} />
+        <Navbar
+          cart={this.state.cart}
+          editItem={this.editItem}
+          removeItem={this.removeItem}
+        />
         <div
           style={{
             margin: '0 auto',

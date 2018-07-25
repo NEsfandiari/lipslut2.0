@@ -38,8 +38,8 @@ const NavContainer = Styled.div`
     }
     p{
       position: relative;
-      top: 1rem;
-      right: 1.3rem;
+      top: .8rem;
+      right: 1.45rem;
       cursor: pointer;
       font-size: 1.3rem
     }
@@ -61,7 +61,7 @@ class Navbar extends Component {
     })
   }
   render() {
-    const { cart, editCart } = this.props
+    const { cart, editItem, removeItem } = this.props
     return (
       <div>
         <NavContainer>
@@ -92,7 +92,8 @@ class Navbar extends Component {
           display={this.state.sidebar}
           handleSidebar={this.handleSidebar}
           cart={this.props.cart}
-          editCart={editCart}
+          editItem={editItem}
+          removeItem={removeItem}
         />
       </div>
     )
