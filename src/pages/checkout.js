@@ -38,8 +38,9 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
+    debugger
     this.stripeHandler = StripeCheckout.configure({
-      key: 'pk_test_sU4VUstuUSHQ1JlBIDJNsnlo',
+      key: process.env.STRIPE_PUBLIC_KEY,
       closed: () => {
         this.resetButton()
       },
@@ -58,20 +59,17 @@ class Checkout extends Component {
       amount: amount,
       description: 'A product well worth your time',
       token: token => {
-        fetch(
-          `https://elated-carson-131bb5.netlify.com/.netlify/functions/purchase`,
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              token,
-              amount,
-              idempotency_key: uuid(),
-            }),
-            headers: new Headers({
-              'Content-Type': 'application/json',
-            }),
-          }
-        )
+        fetch(`${process.env.LAMBDA_ENDPOINT}purchase`, {
+          method: 'POST',
+          body: JSON.stringify({
+            token,
+            amount,
+            idempotency_key: uuid(),
+          }),
+          headers: new Headers({
+            'Content-Type': 'application/json',
+          }),
+        })
           .then(res => {
             console.log('Transaction processed successfully')
             this.resetButton()

@@ -6,6 +6,7 @@
   "dependencies": {
     "animate.css": "^3.6.1",
     "dotenv": "^6.0.0",
+    "fs": "0.0.1-security",
     "futura-font": "^1.0.0",
     "gatsby": "^1.9.247",
     "gatsby-link": "^1.6.40",
@@ -25,9 +26,9 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "yarn run build:gatsby && yarn run build:lambda",
+    "build-netlify": "yarn run build:gatsby && yarn run build:lambda",
     "build:gatsby": "gatsby build",
-    "build:lambda": "NODE_ENV=production webpack && netlify-lambda build lambda-src",
+    "build:lambda": "netlify-lambda build lambda-src",
     "lambda-serve": "netlify-lambda serve lambda-src",
     "develop": "gatsby develop",
     "format": "prettier --write 'src/**/*.js'",
