@@ -1,4 +1,4 @@
-const stripe = require('stripe')('sk_test_oM9uhMtxBAYcopS1CjVpl94i')
+const stripe = require('stripe')(process.env.STRIPE_KEY)
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
