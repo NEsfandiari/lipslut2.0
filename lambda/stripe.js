@@ -1,11 +1,7 @@
 // const stripe = require('stripe')(process.env.STRIPE_KEY)
 // console.log(process.env.STRIPE_KEY)
-// const headers = {
-//   'Access-Control-Allow-Origin': '*',
-//   'Access-Control-Allow-Headers': 'Content-Type',
-// }
-// const statusCode = 200
-exports.handler = function(e, context, cb) {
+
+module.exports.handler = function(e, context, cb) {
   callback(null, {
     statusCode: 200,
     body: 'Hello, World',
@@ -13,6 +9,11 @@ exports.handler = function(e, context, cb) {
 }
 
 // exports.handler = function(event, context, callback) {
+// const headers = {
+//   'Access-Control-Allow-Origin': '*',
+//   'Access-Control-Allow-Headers': 'Content-Type',
+// }
+// const statusCode = 200
 //   // your server-side functionality
 //   if (event.httpMethod !== 'POST' || !event.body) {
 //     callback(null, {
