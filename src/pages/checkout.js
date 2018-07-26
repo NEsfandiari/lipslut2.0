@@ -78,7 +78,7 @@ class Checkout extends Component {
             console.log('Transaction processed successfully')
             this.resetButton()
             this.setState({ paymentMessage: 'Payment Successful!' })
-            return res.json()
+            return res
           })
           .catch(error => {
             console.error('Error:', error)
