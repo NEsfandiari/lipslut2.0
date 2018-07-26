@@ -59,7 +59,7 @@ class Checkout extends Component {
       amount: amount,
       description: 'A product well worth your time',
       token: token => {
-        fetch(`${process.env.LAMBDA_ENDPOINT}purchase`, {
+        fetch(`${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`, {
           method: 'POST',
           body: JSON.stringify({
             token,
