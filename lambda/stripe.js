@@ -1,4 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_KEY)
+console.log(process.env.STRIPE_KEY)
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
@@ -15,9 +16,10 @@ exports.handler = function(event, context, callback) {
     })
   }
 
-  console.log(event)
   const data = JSON.parse(event.body)
+  console.log(event)
   console.log(data)
+
   if (!data.token || !data.amount || !data.idempotency_key) {
     console.error('Required information is missing.')
 
