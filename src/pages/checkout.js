@@ -38,7 +38,6 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-    console.log(process.env.GATSBY_STRIPE_PUBLISHABLE_KEY)
     this.stripeHandler = StripeCheckout.configure({
       key: process.env.GATSBY_STRIPE_PUBLISHABLE_KEY,
       closed: () => {
@@ -59,17 +58,22 @@ class Checkout extends Component {
       amount: amount,
       description: 'A product well worth your time',
       token: token => {
-        fetch(`${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`, {
-          method: 'POST',
-          body: JSON.stringify({
-            token,
-            amount,
-            idempotency_key: uuid(),
-          }),
-          headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
-        })
+        fetch(
+          location.hostname === 'localhost'
+            ? 'http://localhost:9000/purchase'
+            : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              token,
+              amount,
+              idempotency_key: uuid(),
+            }),
+            headers: new Headers({
+              'Content-Type': 'application/json',
+            }),
+          }
+        )
           .then(res => {
             console.log('Transaction processed successfully')
             this.resetButton()
