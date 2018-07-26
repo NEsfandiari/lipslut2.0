@@ -3,13 +3,13 @@ import { StyledHr } from '../atoms'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 0.7rem;
   .contents {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.7rem;
     margin-right: 3rem;
   }
   img {
@@ -36,7 +36,7 @@ class SummaryItem extends Component {
             <p>{item.title}</p>
           </div>
           <p className="price">
-            {item.quantity} x {item.price}
+            {item.quantity} x ${item.price}
           </p>
         </div>
         <StyledHr margin="0" />

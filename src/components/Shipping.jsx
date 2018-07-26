@@ -11,6 +11,9 @@ const Container = styled.div`
     width: 17rem;
     margin-bottom: 0.5rem;
   }
+  #checkbox {
+    width: 3rem;
+  }
   .address {
   }
   .half {
@@ -31,8 +34,8 @@ class Shipping extends Component {
           <h3>Shipping</h3>
           <input type="text" placeholder="Email" />
           <div>
-            <input type="checkbox" id="newsletter" />
-            <label htmlfor="newsletter"> I'd like to hear from Lisplut</label>
+            <input type="checkbox" id="checkbox" />
+            <label> I'd like to hear from Lipslut</label>
           </div>
           <div className="address">
             <p>Address</p>
