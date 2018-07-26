@@ -24,11 +24,13 @@
   ],
   "license": "MIT",
   "scripts": {
+    "build": "yarn run build:gatsby && yarn run build:lambda",
+    "build:gatsby": "gatsby build",
+    "build:lambda": "netlify-lambda build src/lambda",
     "develop": "gatsby develop",
     "format": "prettier --write 'src/**/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lambda-serve": "netlify-lambda serve lambda-src",
-    "build": "NODE_ENV=production webpack && netlify-lambda build lambda-src",
     "dev": "NODE_ENV=development concurrently \"webpack-dev-server --content-base src/\" \"yarn run lambda-serve\""
   },
   "devDependencies": {
