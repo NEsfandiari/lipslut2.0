@@ -27,11 +27,10 @@
     "build": "yarn run build:gatsby && yarn run build:lambda",
     "build:gatsby": "gatsby build",
     "build:lambda": "netlify-lambda build src/lambda",
+    "lambda-serve": "netlify-lambda serve lambda-src",
     "develop": "gatsby develop",
     "format": "prettier --write 'src/**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lambda-serve": "netlify-lambda serve lambda-src",
-    "dev": "NODE_ENV=development concurrently \"webpack-dev-server --content-base src/\" \"yarn run lambda-serve\""
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "concurrently": "^3.6.1",
