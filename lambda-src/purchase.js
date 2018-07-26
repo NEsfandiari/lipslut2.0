@@ -25,7 +25,7 @@ exports.handler = function(event, context, callback) {
     })
     return
   }
-  stripe.charges.create(
+  return stripe.charges.create(
     {
       currency: 'usd',
       amount: data.amount,
