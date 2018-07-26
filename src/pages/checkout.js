@@ -1,57 +1,30 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
+import { Shipping, Summary, Payment } from '../components'
+import { Elements, injectStripe } from 'react-stripe-elements'
 
-const Container = styled.div`
+const ContainerForm = styled.form`
     display: flex;
-    align-items: center;
-
-    .card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: flex-start;
-        padding: 3rem;
-        box-shadow: 5px 5px 25px 0 rgba(46,61,73,.2);
-        background-color: #fff;
-        border-radius: 6px;
-        max-width: 400px;
-    }
-    button{
-        font-Size: 13px;
-        text-Align: center;
-        color: #fff;
-        outline: none;
-        padding: 12px 60px;
-        box-Shadow: 2px 5px 10px rgba(0,0,0,.1);
-        background-Color: rgb(255, 178, 56);
-        border-Radius: 6px;
-        letter-Spacing: 1.5px;
-    }
+    justify-content: space-between
+    width: 100%;
+    margin-top: 2rem;
 `
-const amount = 2500
-class Checkout extends Component {
-  state = {
-    disabled: false,
-    buttonText: 'BUY NOW',
-    paymentMessage: '',
-  }
+injectStripe(ContainerForm)
 
-  componentDidMount() {
-    this.stripeHandler = StripeCheckout.configure({
-      key: process.env.GATSBY_STRIPE_PUBLISHABLE_KEY,
-      closed: () => {
-        this.resetButton()
-      },
+class Checkout extends Component {
+  state = {}
+  handleSubmit = e => {
+    e.preventDefault()
+    // Within the context of `Elements`, this call to createToken knows which Element to
+    // tokenize, since there's only one in this group.
+    this.props.stripe.createToken({ name: 'Jenny Rosen' }).then(({ token }) => {
+      console.log('Received Stripe token:', token)
     })
   }
 
-  resetButton() {
-    this.setState({ disabled: false, buttonText: 'BUY NOW' })
-  }
-
-  openStripeCheckout(event) {
-    event.preventDefault()
+  openStripeCheckout(e) {
+    e.preventDefault()
     this.setState({ disabled: true, buttonText: 'WAITING...' })
     this.stripeHandler.open({
       name: 'Demo Product',
@@ -89,22 +62,13 @@ class Checkout extends Component {
   }
   render() {
     return (
-      <Container>
-        <div className="card">
-          <h4>Shipping!</h4>
-          <p>
-            Use any email, 4242 4242 4242 4242 as the credit card number, any 3
-            digit number, and any future date of expiration.
-          </p>
-          <button
-            onClick={event => this.openStripeCheckout(event)}
-            disabled={this.state.disabled}
-          >
-            {this.state.buttonText}
-          </button>
-          {this.state.paymentMessage}
-        </div>
-      </Container>
+      <Elements>
+        <ContainerForm onSubmit={this.handleSubmit}>
+          <Shipping />
+          <Payment />
+          <Summary cart={this.props.cart} addItem={this.props.addItem} />
+        </ContainerForm>
+      </Elements>
     )
   }
 }

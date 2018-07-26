@@ -954,7 +954,7 @@ var compactQueue = function compactQueue(queue) {
     return obj;
 };
 
-exports.arrayToObject = function arrayToObject(source, options) {
+var arrayToObject = function arrayToObject(source, options) {
     var obj = options && options.plainObjects ? Object.create(null) : {};
     for (var i = 0; i < source.length; ++i) {
         if (typeof source[i] !== 'undefined') {
@@ -965,7 +965,7 @@ exports.arrayToObject = function arrayToObject(source, options) {
     return obj;
 };
 
-exports.merge = function merge(target, source, options) {
+var merge = function merge(target, source, options) {
     if (!source) {
         return target;
     }
@@ -990,14 +990,14 @@ exports.merge = function merge(target, source, options) {
 
     var mergeTarget = target;
     if (Array.isArray(target) && !Array.isArray(source)) {
-        mergeTarget = exports.arrayToObject(target, options);
+        mergeTarget = arrayToObject(target, options);
     }
 
     if (Array.isArray(target) && Array.isArray(source)) {
         source.forEach(function (item, i) {
             if (has.call(target, i)) {
                 if (target[i] && typeof target[i] === 'object') {
-                    target[i] = exports.merge(target[i], item, options);
+                    target[i] = merge(target[i], item, options);
                 } else {
                     target.push(item);
                 }
@@ -1012,7 +1012,7 @@ exports.merge = function merge(target, source, options) {
         var value = source[key];
 
         if (has.call(acc, key)) {
-            acc[key] = exports.merge(acc[key], value, options);
+            acc[key] = merge(acc[key], value, options);
         } else {
             acc[key] = value;
         }
@@ -1020,14 +1020,14 @@ exports.merge = function merge(target, source, options) {
     }, mergeTarget);
 };
 
-exports.assign = function assignSingleSource(target, source) {
+var assign = function assignSingleSource(target, source) {
     return Object.keys(source).reduce(function (acc, key) {
         acc[key] = source[key];
         return acc;
     }, target);
 };
 
-exports.decode = function (str) {
+var decode = function (str) {
     try {
         return decodeURIComponent(str.replace(/\+/g, ' '));
     } catch (e) {
@@ -1035,7 +1035,7 @@ exports.decode = function (str) {
     }
 };
 
-exports.encode = function encode(str) {
+var encode = function encode(str) {
     // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
     // It has been adapted here for stricter adherence to RFC 3986
     if (str.length === 0) {
@@ -1087,7 +1087,7 @@ exports.encode = function encode(str) {
     return out;
 };
 
-exports.compact = function compact(value) {
+var compact = function compact(value) {
     var queue = [{ obj: { o: value }, prop: 'o' }];
     var refs = [];
 
@@ -1109,16 +1109,27 @@ exports.compact = function compact(value) {
     return compactQueue(queue);
 };
 
-exports.isRegExp = function isRegExp(obj) {
+var isRegExp = function isRegExp(obj) {
     return Object.prototype.toString.call(obj) === '[object RegExp]';
 };
 
-exports.isBuffer = function isBuffer(obj) {
+var isBuffer = function isBuffer(obj) {
     if (obj === null || typeof obj === 'undefined') {
         return false;
     }
 
     return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    merge: merge
 };
 
 
@@ -1490,31 +1501,30 @@ exports.handler = function (event, context, callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var fs = __webpack_require__(14)
+const fs = __webpack_require__(14)
+const path = __webpack_require__(19)
 
 /*
  * Parses a string or buffer into an object
- * @param {String|Buffer} src - source to be parsed
- * @returns {Object}
+ * @param {(string|Buffer)} src - source to be parsed
+ * @returns {Object} keys and values from src
 */
 function parse (src) {
-  var obj = {}
+  const obj = {}
 
   // convert Buffers before splitting into lines and processing
   src.toString().split('\n').forEach(function (line) {
     // matching "KEY' and 'VAL' in 'KEY=VAL'
-    var keyValueArr = line.match(/^\s*([\w\.\-]+)\s*=\s*(.*)?\s*$/)
+    const keyValueArr = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/)
     // matched?
     if (keyValueArr != null) {
-      var key = keyValueArr[1]
+      const key = keyValueArr[1]
 
       // default undefined or missing values to empty string
-      var value = keyValueArr[2] ? keyValueArr[2] : ''
+      let value = keyValueArr[2] || ''
 
       // expand newlines in quoted values
-      var len = value ? value.length : 0
+      const len = value ? value.length : 0
       if (len > 0 && value.charAt(0) === '"' && value.charAt(len - 1) === '"') {
         value = value.replace(/\\n/gm, '\n')
       }
@@ -1531,16 +1541,18 @@ function parse (src) {
 
 /*
  * Main entry point into dotenv. Allows configuration before loading .env
- * @param {Object} options - valid options: path ('.env'), encoding ('utf8')
- * @returns {Boolean}
+ * @param {Object} options - options for parsing .env file
+ * @param {string} [options.path=.env] - path to .env file
+ * @param {string} [options.encoding=utf8] - encoding of .env file
+ * @returns {Object} parsed object or error
 */
 function config (options) {
-  var path = '.env'
-  var encoding = 'utf8'
+  let dotenvPath = path.resolve(process.cwd(), '.env')
+  let encoding = 'utf8'
 
   if (options) {
     if (options.path) {
-      path = options.path
+      dotenvPath = options.path
     }
     if (options.encoding) {
       encoding = options.encoding
@@ -1549,13 +1561,15 @@ function config (options) {
 
   try {
     // specifying an encoding returns a string instead of a buffer
-    var parsedObj = parse(fs.readFileSync(path, { encoding: encoding }))
+    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }))
 
-    Object.keys(parsedObj).forEach(function (key) {
-      process.env[key] = process.env[key] || parsedObj[key]
+    Object.keys(parsed).forEach(function (key) {
+      if (!process.env.hasOwnProperty(key)) {
+        process.env[key] = parsed[key]
+      }
     })
 
-    return { parsed: parsedObj }
+    return { parsed }
   } catch (e) {
     return { error: e }
   }
@@ -1847,7 +1861,7 @@ module.exports.Stripe = Stripe;
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = {"_args":[["stripe@6.3.0","/Users/nikiesfandiari/Desktop/lipslut"]],"_from":"stripe@6.3.0","_id":"stripe@6.3.0","_inBundle":false,"_integrity":"sha512-f2GtsoqGLdAZe1mrtFBthpbvM9uHr6IEusyqZymJgj/Nx0xvHkzRkO/h2sePbk/4lhCjfprr4+hbhui7RMPCsw==","_location":"/stripe","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"stripe@6.3.0","name":"stripe","escapedName":"stripe","rawSpec":"6.3.0","saveSpec":null,"fetchSpec":"6.3.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/stripe/-/stripe-6.3.0.tgz","_spec":"6.3.0","_where":"/Users/nikiesfandiari/Desktop/lipslut","author":{"name":"Stripe","email":"support@stripe.com","url":"https://stripe.com/"},"bugs":{"url":"https://github.com/stripe/stripe-node/issues"},"bugs:":"https://github.com/stripe/stripe-node/issues","contributors":[{"name":"Ask Bjørn Hansen","email":"ask@develooper.com","url":"http://www.askask.com/"},{"name":"Michelle Bu","email":"michelle@stripe.com"},{"name":"Alex Sexton","email":"alex@stripe.com"},{"name":"James Padolsey"}],"dependencies":{"lodash.isplainobject":"^4.0.6","qs":"~6.5.1","safe-buffer":"^5.1.1"},"description":"Stripe API wrapper","devDependencies":{"chai":"~4.1.2","chai-as-promised":"~7.1.1","coveralls":"^3.0.0","eslint":"^4.19.1","eslint-plugin-chai-friendly":"^0.4.0","mocha":"~5.0.5","nyc":"^11.3.0"},"engines":{"node":">=4"},"homepage":"https://github.com/stripe/stripe-node","keywords":["stripe","payment processing","credit cards","api"],"license":"MIT","main":"lib/stripe.js","name":"stripe","repository":{"type":"git","url":"git://github.com/stripe/stripe-node.git"},"scripts":{"clean":"rm -rf ./.nyc_output ./node_modules/.cache ./coverage","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","lint":"eslint .","mocha":"nyc mocha","report":"nyc -r text -r lcov report","test":"npm run lint && npm run mocha"},"version":"6.3.0"}
+module.exports = {"name":"stripe","version":"6.3.0","description":"Stripe API wrapper","keywords":["stripe","payment processing","credit cards","api"],"homepage":"https://github.com/stripe/stripe-node","author":"Stripe <support@stripe.com> (https://stripe.com/)","contributors":["Ask Bjørn Hansen <ask@develooper.com> (http://www.askask.com/)","Michelle Bu <michelle@stripe.com>","Alex Sexton <alex@stripe.com>","James Padolsey"],"repository":{"type":"git","url":"git://github.com/stripe/stripe-node.git"},"bugs:":"https://github.com/stripe/stripe-node/issues","engines":{"node":">=4"},"main":"lib/stripe.js","devDependencies":{"chai":"~4.1.2","chai-as-promised":"~7.1.1","coveralls":"^3.0.0","eslint":"^4.19.1","eslint-plugin-chai-friendly":"^0.4.0","mocha":"~5.0.5","nyc":"^11.3.0"},"dependencies":{"lodash.isplainobject":"^4.0.6","qs":"~6.5.1","safe-buffer":"^5.1.1"},"license":"MIT","scripts":{"clean":"rm -rf ./.nyc_output ./node_modules/.cache ./coverage","mocha":"nyc mocha","test":"npm run lint && npm run mocha","lint":"eslint .","report":"nyc -r text -r lcov report","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"}}
 
 /***/ }),
 /* 17 */

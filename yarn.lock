@@ -3334,6 +3334,10 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
 
+fs@0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+
 fsevents@^1.0.0, fsevents@^1.2.2:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.4.tgz#f41dcb1af2582af3692da36fc55cbd8e1041c426"
@@ -3432,6 +3436,16 @@ gatsby-plugin-react-helmet@^2.0.10:
 gatsby-plugin-stripe-checkout@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-stripe-checkout/-/gatsby-plugin-stripe-checkout-1.0.5.tgz#e670c63c34952a92c9fe7e7ff69291b72c2c8a21"
+  dependencies:
+    babel-cli "6.26.0"
+    babel-preset-env "1.7.0"
+    babel-preset-react "6.24.1"
+    babel-runtime "6.26.0"
+    cross-env "5.2.0"
+
+gatsby-plugin-stripe-elements@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-stripe-elements/-/gatsby-plugin-stripe-elements-1.0.7.tgz#2a929998467ffe3a00c869dbb82ce120312ea0d6"
   dependencies:
     babel-cli "6.26.0"
     babel-preset-env "1.7.0"
@@ -6685,6 +6699,12 @@ react-side-effect@^1.1.0:
   dependencies:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
+
+react-stripe-elements@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-stripe-elements/-/react-stripe-elements-2.0.1.tgz#197db4762c57bf73a07d852564ebdbac52954094"
+  dependencies:
+    prop-types "^15.5.10"
 
 react@^15.6.0:
   version "15.6.2"

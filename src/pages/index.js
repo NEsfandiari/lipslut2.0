@@ -2,7 +2,7 @@ import React from 'react'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
 
-import { Featured, Mission, Footer } from '../components'
+import { Featured, Mission } from '../components'
 import { StyledHr } from '../components/atoms'
 
 const Container = Styled.div`

@@ -2,22 +2,33 @@ import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
+import { StripeProvider } from 'react-stripe-elements'
 
 import { Navbar, Footer } from '../components'
 import './index.css'
 
 const Container = styled.div`
-  h1, h2, h3, h4, p, a, label, button, input{
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  a,
+  label,
+  button,
+  input {
     font-family: 'futura';
   }
-   h3, h4, p{
+  h3,
+  h4,
+  p {
     font-weight: 100;
   }
-  p{
-    font-size: .9rem;
+  p {
+    font-size: 0.9rem;
   }
-  a{
-      text-decoration: none;
+  a {
+    text-decoration: none;
   }
 `
 
@@ -64,31 +75,39 @@ class Layout extends Component {
   render() {
     const { children, data } = this.props
     return (
-      <Container>
-        <Helmet
-          title="Lipslut"
-          meta={[
-            { name: 'description', content: 'Sample' },
-            { name: 'keywords', content: 'sample, something' },
-          ]}
-        />
-        <Navbar
-          cart={this.state.cart}
-          editItem={this.editItem}
-          removeItem={this.removeItem}
-        />
-        <div
-          style={{
-            margin: '0 auto',
-            maxWidth: 1260,
-            padding: '0px 1.0875rem 1.45rem',
-            paddingTop: 0,
-          }}
-        >
-          {children({ ...this.props, addItem: this.addItem })}
-        </div>
-        <Footer />
-      </Container>
+      <StripeProvider apiKey={process.env.GATSBY_STRIPE_PUBLISHABLE_KEY}>
+        <Container>
+          <Helmet
+            title="Lipslut"
+            meta={[
+              { name: 'description', content: 'Sample' },
+              { name: 'keywords', content: 'sample, something' },
+            ]}
+          />
+          <Navbar
+            cart={this.state.cart}
+            editItem={this.editItem}
+            removeItem={this.removeItem}
+          />
+          <div
+            style={{
+              margin: '0 auto',
+              maxWidth: 1260,
+              padding: '0px 1.0875rem 1.45rem',
+              paddingTop: 0,
+            }}
+          >
+            {children({
+              ...this.props,
+              addItem: this.addItem,
+              editItem: this.editItem,
+              removeItem: this.removeItem,
+              cart: this.state.cart,
+            })}
+          </div>
+          <Footer />
+        </Container>
+      </StripeProvider>
     )
   }
 }
