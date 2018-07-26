@@ -1,5 +1,5 @@
-const stripe = require('stripe')(process.env.STRIPE_KEY)
-console.log(process.env.STRIPE_KEY)
+// const stripe = require('stripe')(process.env.STRIPE_KEY)
+// console.log(process.env.STRIPE_KEY)
 // const headers = {
 //   'Access-Control-Allow-Origin': '*',
 //   'Access-Control-Allow-Headers': 'Content-Type',
