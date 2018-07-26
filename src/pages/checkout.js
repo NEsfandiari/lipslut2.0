@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
 import { Shipping, Summary, Payment } from '../components'
-import { Elements, injectStripe } from 'react-stripe-elements'
+import { Elements, injectStripe, StripeProvider } from 'react-stripe-elements'
 
 const ContainerForm = styled.form`
     display: flex;
@@ -62,13 +62,15 @@ class Checkout extends Component {
   }
   render() {
     return (
-      <Elements>
-        <ContainerForm onSubmit={this.handleSubmit}>
-          <Shipping />
-          <Payment />
-          <Summary cart={this.props.cart} addItem={this.props.addItem} />
-        </ContainerForm>
-      </Elements>
+      <StripeProvider apiKey={process.env.GATSBY_STRIPE_PUBLISHABLE_KEY}>
+        <Elements>
+          <ContainerForm onSubmit={this.handleSubmit}>
+            <Shipping />
+            <Payment />
+            <Summary cart={this.props.cart} addItem={this.props.addItem} />
+          </ContainerForm>
+        </Elements>
+      </StripeProvider>
     )
   }
 }

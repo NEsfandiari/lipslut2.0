@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Card, StyledButton } from './atoms'
-import { SummaryItem } from '../components/molecules'
+import { SummaryItem, Financials } from '../components/molecules'
 
 const Container = styled.div`
   border-radius: 6px;
@@ -12,10 +12,6 @@ const Container = styled.div`
   }
 
   .financials {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 2rem;
   }
 `
 
@@ -42,18 +38,7 @@ class Summary extends Component {
         <Card>
           <h3>Summary</h3>
           <div className="items">{items}</div>
-          <div className="financials">
-            <p>Subtotal</p>
-            <p>${subtotal}</p>
-          </div>
-          <div className="financials">
-            <p>Tax</p>
-            <p>${tax}</p>
-          </div>
-          <div className="financials">
-            <p>Shipping</p>
-            <p>Free Ninety-Nine</p>
-          </div>
+          <Financials subtotal={subtotal} tax={tax} />
           <StyledButton width="14rem">Place Order</StyledButton>
         </Card>
       </Container>

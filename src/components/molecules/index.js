@@ -4,6 +4,7 @@ import Philosophy from './Philosophy.jsx'
 import CartSidebar from './CartSidebar.jsx'
 import SidebarItem from './SidebarItem.jsx'
 import SummaryItem from './SummaryItem.jsx'
+import Financials from './Financials.jsx'
 
 export default {
   Statement,
@@ -12,4 +13,5 @@ export default {
   CartSidebar,
   SidebarItem,
   SummaryItem,
+  Financials,
 }

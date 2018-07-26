@@ -2,7 +2,6 @@ import React, { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
-import { StripeProvider } from 'react-stripe-elements'
 
 import { Navbar, Footer } from '../components'
 import './index.css'
@@ -75,39 +74,37 @@ class Layout extends Component {
   render() {
     const { children, data } = this.props
     return (
-      <StripeProvider apiKey={process.env.GATSBY_STRIPE_PUBLISHABLE_KEY}>
-        <Container>
-          <Helmet
-            title="Lipslut"
-            meta={[
-              { name: 'description', content: 'Sample' },
-              { name: 'keywords', content: 'sample, something' },
-            ]}
-          />
-          <Navbar
-            cart={this.state.cart}
-            editItem={this.editItem}
-            removeItem={this.removeItem}
-          />
-          <div
-            style={{
-              margin: '0 auto',
-              maxWidth: 1260,
-              padding: '0px 1.0875rem 1.45rem',
-              paddingTop: 0,
-            }}
-          >
-            {children({
-              ...this.props,
-              addItem: this.addItem,
-              editItem: this.editItem,
-              removeItem: this.removeItem,
-              cart: this.state.cart,
-            })}
-          </div>
-          <Footer />
-        </Container>
-      </StripeProvider>
+      <Container>
+        <Helmet
+          title="Lipslut"
+          meta={[
+            { name: 'description', content: 'Sample' },
+            { name: 'keywords', content: 'sample, something' },
+          ]}
+        />
+        <Navbar
+          cart={this.state.cart}
+          editItem={this.editItem}
+          removeItem={this.removeItem}
+        />
+        <div
+          style={{
+            margin: '0 auto',
+            maxWidth: 1260,
+            padding: '0px 1.0875rem 1.45rem',
+            paddingTop: 0,
+          }}
+        >
+          {children({
+            ...this.props,
+            addItem: this.addItem,
+            editItem: this.editItem,
+            removeItem: this.removeItem,
+            cart: this.state.cart,
+          })}
+        </div>
+        <Footer />
+      </Container>
     )
   }
 }
