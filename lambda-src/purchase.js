@@ -1,13 +1,13 @@
-const stripe = require('stripe')(process.env.STRIPE_KEY)
+require('dotenv').config()
 
-module.exports.handler = function(event, context, callback) {
-  console.log(process.env.STRIPE_KEY)
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  }
-  const statusCode = 200
-  // your server-side functionality
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const statusCode = 200
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+}
+
+exports.handler = function(event, context, callback) {
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
       statusCode,
@@ -15,14 +15,9 @@ module.exports.handler = function(event, context, callback) {
       body: '',
     })
   }
-
   const data = JSON.parse(event.body)
-  console.log(event)
-  console.log(data)
-
   if (!data.token || !data.amount || !data.idempotency_key) {
     console.error('Required information is missing.')
-
     callback(null, {
       statusCode,
       headers,
@@ -30,17 +25,13 @@ module.exports.handler = function(event, context, callback) {
     })
     return
   }
-
-  const amount = data.amount
-  const token = data.token.id
-
-  return stripe.charges.create(
+  stripe.charges.create(
     {
-      // Create Stripe charge with token
-      amount,
-      source: token,
       currency: 'usd',
-      description: 'Serverless test Stripe charge',
+      amount: data.amount,
+      source: data.token.id,
+      receipt_email: data.token.email,
+      description: `charge for a widget`,
     },
     {
       idempotency_key: data.idempotency_key,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import uuid from 'uuid/v4'
 
 const Container = styled.div`
     display: flex;
@@ -58,12 +59,13 @@ class Checkout extends Component {
       description: 'A product well worth your time',
       token: token => {
         fetch(
-          `https://elated-carson-131bb5.netlify.com/.netlify/functions/stripe`,
+          `https://elated-carson-131bb5.netlify.com/.netlify/functions/purchase`,
           {
             method: 'POST',
             body: JSON.stringify({
               token,
               amount,
+              idempotency_key: uuid(),
             }),
             headers: new Headers({
               'Content-Type': 'application/json',
