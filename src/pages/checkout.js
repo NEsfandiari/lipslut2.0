@@ -38,9 +38,9 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-    debugger
+    console.log(process.env.GATSBY_STRIPE_PUBLISHABLE_KEY)
     this.stripeHandler = StripeCheckout.configure({
-      key: process.env.STRIPE_PUBLIC_KEY,
+      key: process.env.GATSBY_STRIPE_PUBLISHABLE_KEY,
       closed: () => {
         this.resetButton()
       },
