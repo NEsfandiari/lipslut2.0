@@ -27,7 +27,7 @@
   "scripts": {
     "build": "yarn run build:gatsby && yarn run build:lambda",
     "build:gatsby": "gatsby build",
-    "build:lambda": "netlify-lambda build ./lambda",
+    "build:lambda": "NODE_ENV=production webpack && netlify-lambda build lambda-src",
     "lambda-serve": "netlify-lambda serve lambda-src",
     "develop": "gatsby develop",
     "format": "prettier --write 'src/**/*.js'",
