@@ -40,10 +40,10 @@ const Misson = () => (
     <LinkButton
       to="/faq"
       className="faq"
-      height={'2.5rem'}
-      fontSize={'.6rem'}
-      width={'9rem'}
-      lineHeight={'2.4rem'}
+      height="2.5rem"
+      fontSize=".6rem"
+      width="9rem"
+      lineHeight="2.4rem"
     >
       <b>LEARN MORE</b>
     </LinkButton>

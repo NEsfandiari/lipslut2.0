@@ -15,7 +15,7 @@ const Container = styled.div`
   }
 `
 
-const Financials = ({ subtotal, tax }) => (
+const Financials = ({ subtotal, tax, shipping }) => (
   <Container>
     <div className="number">
       <p>Subtotal</p>
@@ -27,7 +27,7 @@ const Financials = ({ subtotal, tax }) => (
     </div>
     <div className="number">
       <p>Shipping</p>
-      <p>Free Ninety-Nine</p>
+      <p>${shipping}</p>
     </div>
   </Container>
 )

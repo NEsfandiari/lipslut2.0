@@ -15,7 +15,8 @@ exports.handler = function(event, context, callback) {
       body: '',
     })
   }
-  const data = JSON.parse(event.body)
+  let data = JSON.parse(event.body)
+  data = JSON.parse(data.body)
   if (!data.token || !data.amount || !data.idempotency_key) {
     console.error('Required information is missing.')
     callback(null, {

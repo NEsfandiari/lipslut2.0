@@ -25,7 +25,6 @@ const Container = styled.div`
   }
 `
 class SummaryItem extends Component {
-  state = {}
   render() {
     const { item, id } = this.props
     return (

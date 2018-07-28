@@ -13,7 +13,6 @@ module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
     `gatsby-plugin-styled-components`,
-    'gatsby-plugin-stripe-checkout',
     `gatsby-plugin-stripe-elements`,
     `gatsby-plugin-netlify`,
   ],

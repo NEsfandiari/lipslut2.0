@@ -1,36 +1,35 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { FaClose } from 'react-icons/lib/fa'
-import { LinkButton, StyledHr } from '../atoms'
-import SidebarItem from './SidebarItem'
+import { LinkButton, StyledHr } from './atoms'
+import { SidebarItem } from './molecules'
 import 'animate.css'
 
 const Container = styled.div`
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 2;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  flex-direction: column;
+  align-items: center;
+  width: 25rem;
+  height: 100%;
+  background-color: #f9f7f1;
+  overflow: auto;
+
+  .contents {
+    display: flex;
     flex-direction: column;
     align-items: center;
-    width: 25rem;
-    height: 100%
-    background-color: #F9F7F1;
-    overflow: auto;
-
-    .contents{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+  }
+  .header {
+    display: flex;
+    width: 90%;
+    svg {
+      margin-right: 6rem;
+      cursor: pointer;
     }
-    .header{
-        display: flex;
-        width: 90%;
-        svg{
-            margin-right: 6rem;
-            cursor: pointer;
-        }
-    }
-
+  }
 `
 
 class CartSidebar extends Component {
@@ -45,6 +44,8 @@ class CartSidebar extends Component {
       this.props.editItem('quantity', newVal, i)
     }
   }
+
+  componentDidMount() {}
 
   render() {
     const { cart, removeItem } = this.props

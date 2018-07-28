@@ -4,7 +4,7 @@ import Styled from 'styled-components'
 import 'futura-font/styles.css'
 import { FaShoppingBag } from 'react-icons/lib/fa'
 import { NavLink } from './atoms'
-import { CartSidebar } from './molecules'
+import CartSidebar from './CartSidebar'
 
 const NavContainer = Styled.div`
   display: flex;

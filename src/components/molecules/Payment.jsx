@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
-import { Card } from './atoms'
+import { Card, StyledButton } from '../atoms'
 import { CardElement } from 'react-stripe-elements'
 
 class Payment extends Component {
-  state = {}
   render() {
     return (
       <Card>
         <h3>Payment</h3>
         <CardElement />
+        <StyledButton width="17rem">PLACE ORDER</StyledButton>
       </Card>
     )
   }

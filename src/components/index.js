@@ -4,9 +4,8 @@ import Navbar from './Navbar.jsx'
 import Mission from './Mission.jsx'
 import Product from './Product.jsx'
 import ProductMedia from './ProductMedia.jsx'
-import Shipping from './Shipping.jsx'
-import Summary from './Summary.jsx'
-import Payment from './Payment.jsx'
+import CheckoutForm from './CheckoutForm.jsx'
+import CartSidebar from './CartSidebar.jsx'
 
 export default {
   Featured,
@@ -15,7 +14,6 @@ export default {
   Mission,
   Product,
   ProductMedia,
-  Payment,
-  Shipping,
-  Summary,
+  CheckoutForm,
+  CartSidebar,
 }

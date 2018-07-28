@@ -1,4 +1,4 @@
-import React, { Component, Children } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
@@ -15,7 +15,8 @@ const Container = styled.div`
   a,
   label,
   button,
-  input {
+  input,
+  select {
     font-family: 'futura';
   }
   h3,

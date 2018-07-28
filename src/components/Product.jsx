@@ -60,6 +60,7 @@ class Product extends Component {
       highlight: 0,
       quantity: 1,
       price: this.props.price,
+      buttonText: 'ADD TO CART',
     }
   }
 
@@ -83,6 +84,7 @@ class Product extends Component {
       this.state.quantity,
       this.props.images[0]
     )
+    this.setState({ buttonText: 'ADDED!' })
   }
 
   render() {
@@ -125,7 +127,7 @@ class Product extends Component {
               min="1"
             />
             <StyledButton height={'4rem'} width={'8.5rem'} fontSize={'.65rem'}>
-              <b>ADD TO CART</b>
+              <b>{this.state.buttonText}</b>
             </StyledButton>
           </form>
         </div>
