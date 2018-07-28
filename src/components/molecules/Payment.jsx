@@ -8,7 +8,7 @@ class Payment extends Component {
       <Card>
         <h3>Payment</h3>
         <CardElement />
-        <StyledButton width="17rem">PLACE ORDER</StyledButton>
+        <StyledButton width="17rem">{this.props.orderMessage}</StyledButton>
       </Card>
     )
   }

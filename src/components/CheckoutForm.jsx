@@ -27,6 +27,7 @@ class CheckoutForm extends Component {
       state: '',
       phone: '',
       shipping: 4.95,
+      orderMessage: 'PLACE ORDER',
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -34,42 +35,49 @@ class CheckoutForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    this.props.stripe
-      .createToken({
-        name: this.state.firstName + ' ' + this.state.lastName,
-        address_city: this.state.city,
-        address_state: this.state.state,
-        address_line1: this.state.address,
-        address_line2: this.state.apartment,
-      })
-      .then(({ token }) => {
-        const stripeAmount =
-          parseFloat(
-            (
-              this.props.tax +
-              this.props.subtotal +
-              this.state.shipping
-            ).toFixed(2)
-          ) * 100
-        axios
-          .post(
-            location.hostname === 'localhost'
-              ? 'http://localhost:9000/purchase'
-              : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
-            {
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                token,
-                amount: stripeAmount,
-                idempotency_key: uuid(),
-              }),
-            }
-          )
-          .then(res => {
-            console.log(res)
-            this.props.clearCart()
-          })
-      })
+    this.setState({ orderMessage: 'PROCESSING...' })
+    try {
+      this.props.stripe
+        .createToken({
+          name: this.state.firstName + ' ' + this.state.lastName,
+          address_city: this.state.city,
+          address_state: this.state.state,
+          address_line1: this.state.address,
+          address_line2: this.state.apartment,
+        })
+        .then(({ token }) => {
+          const stripeAmount =
+            parseFloat(
+              (
+                this.props.tax +
+                this.props.subtotal +
+                this.state.shipping
+              ).toFixed(2)
+            ) * 100
+          axios
+            .post(
+              location.hostname === 'localhost'
+                ? 'http://localhost:9000/purchase'
+                : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
+              {
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  token,
+                  amount: stripeAmount,
+                  idempotency_key: uuid(),
+                }),
+              }
+            )
+            .then(res => {
+              console.log(res)
+              this.props.clearCart()
+              this.setState({ orderMessage: 'TRANSACTION SUCCESSFUL!' })
+            })
+        })
+    } catch (error) {
+      console.log(error)
+      this.setState({ orderMessage: 'TRANSACTION DECLINED' })
+    }
   }
 
   handleChange(e) {
@@ -80,6 +88,7 @@ class CheckoutForm extends Component {
 
   render() {
     const { cart, addItem, subtotal, tax, stripe } = this.props
+    const { shipping, orderMessage } = this.state
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
@@ -89,9 +98,9 @@ class CheckoutForm extends Component {
           addItem={addItem}
           subtotal={subtotal}
           tax={tax}
-          shipping={this.state.shipping}
+          shipping={shipping}
         />
-        <Payment stripe={stripe} total={total} />
+        <Payment stripe={stripe} total={total} orderMessage={orderMessage} />
       </ContainerForm>
     )
   }
