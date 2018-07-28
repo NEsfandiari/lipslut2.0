@@ -80,7 +80,7 @@ class Product extends Component {
     e.preventDefault()
     this.props.addItem(
       this.props.title,
-      this.state.price,
+      this.props.price,
       this.state.quantity,
       this.props.images[0]
     )
