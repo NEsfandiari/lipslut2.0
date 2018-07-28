@@ -6,10 +6,15 @@ import Financials from './Financials'
 
 const Container = styled.div`
   border-radius: 6px;
-
   .items {
     display: flex;
     flex-direction: column;
+    max-height: 50vh;
+    overflow: auto;
+    flex-basis: 75%;
+  }
+  .financials {
+    flex-basis: 25%;
   }
 `
 
@@ -24,7 +29,12 @@ class Summary extends Component {
         <Card>
           <h3>Summary</h3>
           <div className="items">{items}</div>
-          <Financials subtotal={subtotal} tax={tax} shipping={shipping} />
+          <Financials
+            subtotal={subtotal}
+            tax={tax}
+            shipping={shipping}
+            className="financials"
+          />
         </Card>
       </Container>
     )

@@ -9,9 +9,7 @@ const Card = styled.div`
   background: white;
   border-radius: 6px;
   max-width: 400px;
+  max-height: 70vh;
   width: ${({ width }) => width};
-  .StripeElement {
-    width: 17rem;
-  }
 `
 export default Card

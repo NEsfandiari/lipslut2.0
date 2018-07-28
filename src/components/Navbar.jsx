@@ -39,7 +39,7 @@ const NavContainer = Styled.div`
     p{
       position: relative;
       top: .8rem;
-      right: 1.45rem;
+      right: 1.5rem;
       cursor: pointer;
       font-size: 1.3rem
     }

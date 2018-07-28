@@ -38,6 +38,10 @@ const Container = styled.div`
     width: 110%;
   }
   .address {
+    margin-top: 0.5rem;
+    p {
+      margin-bottom: 0.5rem;
+    }
   }
   .half {
     display: flex;
