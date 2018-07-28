@@ -46,9 +46,6 @@ class CartSidebar extends Component {
       this.props.editItem('quantity', newVal, i)
     }
   }
-
-  componentDidMount() {}
-
   render() {
     const { cart, removeItem } = this.props
     const animation =

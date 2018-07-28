@@ -11,5 +11,8 @@ const Card = styled.div`
   max-width: 400px;
   max-height: 70vh;
   width: ${({ width }) => width};
+  .StripeElement {
+    width: 17rem;
+  }
 `
 export default Card

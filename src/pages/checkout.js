@@ -11,7 +11,6 @@ class Checkout extends Component {
       })
     } else {
       document.querySelector('#stripe-js').addEventListener('load', () => {
-        // Create Stripe instance once Stripe.js loads
         this.setState({
           stripe: window.Stripe(process.env.GATSBY_STRIPE_PUBLISHABLE_KEY),
         })

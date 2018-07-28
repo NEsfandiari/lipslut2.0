@@ -76,6 +76,7 @@ class CheckoutForm extends Component {
     )
     const tax = parseFloat((subtotal * 0.15).toFixed(2))
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
+    console.log(this.props)
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
         <Shipping handleChange={this.handleChange} />
