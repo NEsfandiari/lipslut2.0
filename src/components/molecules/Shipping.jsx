@@ -91,7 +91,7 @@ class Shipping extends Component {
                 type="text"
                 placeholder="Last Name"
                 onChange={handleChange}
-                name="lasttName"
+                name="lastName"
                 required
               />
             </div>

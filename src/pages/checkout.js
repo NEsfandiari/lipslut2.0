@@ -18,10 +18,24 @@ class Checkout extends Component {
     }
   }
   render() {
+    const subtotal = parseFloat(
+      this.props.cart
+        .reduce((accumulator, currentValue) => {
+          return accumulator + currentValue.price * currentValue.quantity
+        }, 0)
+        .toFixed(2)
+    )
+    const tax = parseFloat((subtotal * 0.15).toFixed(2))
     return (
       <StripeProvider stripe={this.state.stripe}>
         <Elements>
-          <CheckoutForm cart={this.props.cart} addItem={this.props.addItem} />
+          <CheckoutForm
+            cart={this.props.cart}
+            addItem={this.props.addItem}
+            clearCart={this.props.clearCart}
+            subtotal={subtotal}
+            tax={tax}
+          />
         </Elements>
       </StripeProvider>
     )

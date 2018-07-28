@@ -49,6 +49,7 @@ class Layout extends Component {
     this.editItem = this.editItem.bind(this)
     this.removeItem = this.removeItem.bind(this)
     this.addItem = this.addItem.bind(this)
+    this.clearCart = this.clearCart.bind(this)
   }
 
   editItem(name, value, i) {
@@ -71,6 +72,9 @@ class Layout extends Component {
     this.setState({
       cart: newCart,
     })
+  }
+  clearCart() {
+    this.setState({ cart: [] })
   }
   render() {
     const { children, data } = this.props
@@ -101,6 +105,7 @@ class Layout extends Component {
             addItem: this.addItem,
             editItem: this.editItem,
             removeItem: this.removeItem,
+            clearCart: this.clearCart,
             cart: this.state.cart,
           })}
         </div>

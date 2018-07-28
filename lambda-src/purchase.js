@@ -1,13 +1,14 @@
-require('dotenv').config()
+require('dotenv').config({ path: '.env.development' })
 
 const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
-const statusCode = 200
+let statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
 }
 
 exports.handler = function(event, context, callback) {
+  // TEST for post request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
       statusCode,
@@ -15,8 +16,11 @@ exports.handler = function(event, context, callback) {
       body: '',
     })
   }
+
   let data = JSON.parse(event.body)
   data = JSON.parse(data.body)
+
+  // TEST for all necessary data
   if (!data.token || !data.amount || !data.idempotency_key) {
     console.error('Required information is missing.')
     callback(null, {
@@ -26,13 +30,14 @@ exports.handler = function(event, context, callback) {
     })
     return
   }
-  return stripe.charges.create(
+
+  // Actual function
+  stripe.charges.create(
     {
       currency: 'usd',
       amount: data.amount,
       source: data.token.id,
-      receipt_email: data.token.email,
-      description: `charge for a widget`,
+      description: `Lipslut test`,
     },
     {
       idempotency_key: data.idempotency_key,
@@ -46,7 +51,6 @@ exports.handler = function(event, context, callback) {
         charge === null || charge.status !== 'succeeded'
           ? 'failed'
           : charge.status
-
       callback(null, {
         statusCode,
         headers,

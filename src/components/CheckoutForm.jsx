@@ -36,28 +36,40 @@ class CheckoutForm extends Component {
     e.preventDefault()
     this.props.stripe
       .createToken({
-        name: this.state.firstName + this.state.lastName,
+        name: this.state.firstName + ' ' + this.state.lastName,
         address_city: this.state.city,
         address_state: this.state.state,
         address_line1: this.state.address,
         address_line2: this.state.apartment,
       })
       .then(({ token }) => {
-        axios.post(
-          location.hostname === 'localhost'
-            ? 'http://localhost:9000/purchase'
-            : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
-          {
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              token,
-              amount: 69,
-              idempotency_key: uuid(),
-            }),
-          }
-        )
+        const stripeAmount =
+          parseFloat(
+            (
+              this.props.tax +
+              this.props.subtotal +
+              this.state.shipping
+            ).toFixed(2)
+          ) * 100
+        axios
+          .post(
+            location.hostname === 'localhost'
+              ? 'http://localhost:9000/purchase'
+              : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
+            {
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                token,
+                amount: stripeAmount,
+                idempotency_key: uuid(),
+              }),
+            }
+          )
+          .then(res => {
+            console.log(res)
+            this.props.clearCart()
+          })
       })
-      .then(navigateTo('/'))
   }
 
   handleChange(e) {
@@ -67,27 +79,19 @@ class CheckoutForm extends Component {
   }
 
   render() {
-    const subtotal = parseFloat(
-      this.props.cart
-        .reduce((accumulator, currentValue) => {
-          return accumulator + currentValue.price * currentValue.quantity
-        }, 0)
-        .toFixed(2)
-    )
-    const tax = parseFloat((subtotal * 0.15).toFixed(2))
+    const { cart, addItem, subtotal, tax, stripe } = this.props
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
-    console.log(this.props)
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
         <Shipping handleChange={this.handleChange} />
         <Summary
-          cart={this.props.cart}
-          addItem={this.props.addItem}
+          cart={cart}
+          addItem={addItem}
           subtotal={subtotal}
           tax={tax}
           shipping={this.state.shipping}
         />
-        <Payment stripe={this.props.stripe} total={total} />
+        <Payment stripe={stripe} total={total} />
       </ContainerForm>
     )
   }

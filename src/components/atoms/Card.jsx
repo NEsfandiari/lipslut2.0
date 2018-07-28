@@ -8,7 +8,7 @@ const Card = styled.div`
   box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.2);
   background: white;
   border-radius: 6px;
-  max-width: 400px;
+  width: 400px;
   max-height: 70vh;
   width: ${({ width }) => width};
   .StripeElement {
