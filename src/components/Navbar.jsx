@@ -52,12 +52,14 @@ class Navbar extends Component {
     super(props)
     this.state = {
       sidebar: false,
+      styleFix: false,
     }
     this.handleSidebar = this.handleSidebar.bind(this)
   }
   handleSidebar() {
     this.setState({
       sidebar: !this.state.sidebar,
+      styleFix: true,
     })
   }
   render() {
@@ -94,6 +96,7 @@ class Navbar extends Component {
           cart={this.props.cart}
           editItem={editItem}
           removeItem={removeItem}
+          styleFix={this.state.styleFix}
         />
       </div>
     )
