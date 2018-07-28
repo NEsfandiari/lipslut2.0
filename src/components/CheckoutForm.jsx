@@ -32,7 +32,7 @@ class CheckoutForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  async handleSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault()
     this.props.stripe
       .createToken({
@@ -57,6 +57,7 @@ class CheckoutForm extends Component {
           }
         )
       })
+      .then(navigateTo('/'))
   }
 
   handleChange(e) {
