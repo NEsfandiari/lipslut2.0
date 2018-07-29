@@ -31,7 +31,7 @@ const Container = styled.div`
     text-decoration: none;
   }
   img {
-    border-radius: 20px;
+    border-radius: 9px;
   }
 `
 

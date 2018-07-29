@@ -8,9 +8,14 @@ import uuid from 'uuid/v4'
 
 const ContainerForm = styled.form`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
   margin-top: 2rem;
+  @media (max-width: 1200px) {
+    align-items:center
+    flex-direction: column;
+    height: 215vh
+  }
 `
 class CheckoutForm extends Component {
   constructor(props) {
