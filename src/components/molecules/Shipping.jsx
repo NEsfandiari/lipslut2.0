@@ -32,11 +32,6 @@ const Container = styled.div`
   #checkbox {
     width: 2rem;
   }
-  .email {
-    display: flex;
-    flex-direction: column;
-    width: 110%;
-  }
   .address {
     margin-top: 0.5rem;
     p {
@@ -45,9 +40,17 @@ const Container = styled.div`
   }
   .half {
     display: flex;
-    input {
-      width: 8rem;
+    justify-content: space-between;
+    input:first-child {
       margin-right: 1rem;
+    }
+    input {
+      width: 70%;
+    }
+  }
+  @media (max-width: 1200px) {
+    input {
+      width: 75vw;
     }
   }
 `
