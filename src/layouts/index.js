@@ -85,6 +85,7 @@ class Layout extends Component {
     this.setState({
       cart: newCart,
       sidebar: true,
+      styleFix: true,
     })
   }
   clearCart() {

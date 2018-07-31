@@ -27,6 +27,7 @@ class Product extends Component {
           descriptors={descriptors}
           title={title}
           price={price}
+          images={images}
         />
       </Container>
     )
