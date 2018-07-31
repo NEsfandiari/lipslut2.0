@@ -34,11 +34,11 @@ const Container = styled.div`
     border-radius: 9px;
   }
 `
-
+const windowGlobal = typeof window !== 'undefined' && window
 class Layout extends Component {
   constructor(props) {
     super(props)
-    const cartData = JSON.parse(localStorage.getItem('cart')) || []
+    const cartData = JSON.parse(windowGlobal.localStorage.getItem('cart')) || []
     this.state = {
       cart: cartData,
       sidebar: false,
@@ -64,7 +64,7 @@ class Layout extends Component {
     this.setState({
       cart: newCart,
     })
-    localStorage.setItem('cart', JSON.stringify(newCart))
+    windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
   removeItem(i) {
     let newCart = this.state.cart
@@ -72,7 +72,7 @@ class Layout extends Component {
     this.setState({
       cart: newCart,
     })
-    localStorage.setItem('cart', JSON.stringify(newCart))
+    windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
   addItem(title, price, quantity, image) {
     let newCart = this.state.cart
@@ -82,11 +82,11 @@ class Layout extends Component {
       sidebar: true,
       styleFix: true,
     })
-    localStorage.setItem('cart', JSON.stringify(newCart))
+    windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
   clearCart() {
     this.setState({ cart: [] })
-    localStorage.setItem('cart', [])
+    windowGlobal.localStorage.setItem('cart', [])
   }
   render() {
     const { children, data } = this.props

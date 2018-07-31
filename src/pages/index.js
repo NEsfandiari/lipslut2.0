@@ -44,14 +44,11 @@ const Container = Styled.div`
 class IndexPage extends Component {
   state = {
     email: '',
-    buttonText: 'JOIN US',
+    status: 'JOIN US',
   }
   handleSubmit = e => {
     e.preventDefault()
-    addToMailchimp(this.state.email).then(data => {
-      this.setState({ buttonText: 'WELCOME!' })
-      console.log(data)
-    })
+    this.setState({ status: 'WELCOME!', email: '' })
   }
   handleChange = e => {
     this.setState({
@@ -73,7 +70,7 @@ class IndexPage extends Component {
             value={this.state.email}
             onChange={this.handleChange}
           />
-          <button>{this.state.buttonText}</button>
+          <button>{this.state.status}</button>
         </form>
       </Container>
     )

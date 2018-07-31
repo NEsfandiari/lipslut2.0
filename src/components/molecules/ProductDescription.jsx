@@ -26,7 +26,7 @@ class ProductDescription extends Component {
   state = {
     quantity: 1,
     price: this.props.price,
-    buttonText: 'ADD TO CART',
+    status: 'ADD TO CART',
   }
   handlePrice = e => {
     const newPrice = e.target.value * this.props.price
@@ -43,7 +43,7 @@ class ProductDescription extends Component {
       this.state.quantity,
       this.props.images[0]
     )
-    this.setState({ buttonText: 'ADDED!' })
+    this.setState({ status: 'ADDED!' })
   }
   render() {
     const descriptors = this.props.descriptors.map((description, i) => (
@@ -66,7 +66,7 @@ class ProductDescription extends Component {
             min="1"
           />
           <StyledButton height={'4rem'} width={'8.5rem'} fontSize={'.65rem'}>
-            <b>{this.state.buttonText}</b>
+            <b>{this.state.status}</b>
           </StyledButton>
         </form>
       </Container>
