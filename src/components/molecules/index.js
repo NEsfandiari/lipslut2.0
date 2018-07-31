@@ -1,5 +1,7 @@
 import Statement from './Statement.jsx'
 import FeaturedProduct from './FeaturedProduct.jsx'
+import ProductPhotos from './ProductPhotos.jsx'
+import ProductDescription from './ProductDescription.jsx'
 import Philosophy from './Philosophy.jsx'
 import SidebarItem from './SidebarItem.jsx'
 import SummaryItem from './SummaryItem.jsx'
@@ -11,6 +13,8 @@ import Payment from './Payment.jsx'
 export default {
   Statement,
   FeaturedProduct,
+  ProductPhotos,
+  ProductDescription,
   Philosophy,
   SidebarItem,
   SummaryItem,
