@@ -81,7 +81,7 @@ class Footer extends Component {
           <NavLink to="/about">ABOUT</NavLink>
           <NavLink to="/contact">CONTACT</NavLink>
           <NavLink to="/privacy-policy">PRIVACY POLICY</NavLink>
-          <NavLink to="terms-conditions">TERMS {'&'} CONDITIONS</NavLink>
+          <NavLink to="/terms-conditions">TERMS {'&'} CONDITIONS</NavLink>
         </div>
         <p className="copyright">&copy; 2018 LIPSLUT&trade;</p>
       </Container>

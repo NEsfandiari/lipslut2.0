@@ -11,7 +11,7 @@ const Container = styled.div`
 class ProductTemplate extends Component {
   render() {
     const data = this.props.pathContext.node
-    const images = data.images.map(img => img.fields.file.url)
+    const images = data.images.map(img => img.file.url)
     let productMedia
 
     // if there is media to link to
@@ -19,7 +19,7 @@ class ProductTemplate extends Component {
       const sellingPoints = data.sellingPoints.data
       const media = data.mediaLogos.map(img => {
         return {
-          image: img.fields.file.url,
+          image: img.file.url,
         }
       })
       data.mediaStories.forEach((story, i) => {

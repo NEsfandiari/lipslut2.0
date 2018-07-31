@@ -66,9 +66,9 @@ class Navbar extends Component {
         <NavContainer>
           <div className="nav">
             <div className="links">
-              <NavLink to="/Fck-Trump.">F*CK TRUMP</NavLink>
-              <NavLink to="/Fck-Hollywood.">F*CK HOLLYWOOD</NavLink>
-              <NavLink to="/Lipslut-Hat.">MORE</NavLink>
+              <NavLink to="/Fck-Trump">F*CK TRUMP</NavLink>
+              <NavLink to="/Fck-Hollywood">F*CK HOLLYWOOD</NavLink>
+              <NavLink to="/Lipslut-Hat">MORE</NavLink>
             </div>
             <div className="logo">
               <Link to="/">

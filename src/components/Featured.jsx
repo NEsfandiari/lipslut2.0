@@ -12,12 +12,12 @@ const Featured = () => (
   <Container>
     <FeaturedProduct
       title="F*ck Trump."
-      route="/Fck-Trump."
+      route="/Fck-Trump"
       image="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a114c56652dea88b02f4156/1511125818700/?format=750w"
     />
     <FeaturedProduct
       title="F*ck Hollywood."
-      route="/Fck-Hollywood."
+      route="/Fck-Hollywood"
       image="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a114c2c71c10ba553225e61/1511144864804/?format=750w"
     />
   </Container>
