@@ -66,6 +66,14 @@ exports.createPages = async ({ boundActionCreators, graphql }) => {
     )
   })
 }
+
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    node: {
+      fs: 'empty',
+    },
+  })
+}
 // =============================================================================
 // CREATE graphql data from contentful- not necessary anymore because of pulgin
 // =============================================================================

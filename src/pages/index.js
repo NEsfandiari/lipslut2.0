@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
 
@@ -15,6 +15,11 @@ const Container = Styled.div`
       font-size: .8rem;
       text-align: center;
       padding: 0;
+      border-style: solid;
+    border-color: #f0f0f0;
+    border-width: 2px;
+    outline: none;
+    border-radius: 3px;
   }
   button{
       margin-left: 1rem;
@@ -24,6 +29,7 @@ const Container = Styled.div`
       width: 7rem;
       color: white;
       background-color: #FF0086;
+      border-radius: 2px;
   }
   button:hover{
     background-color: #FF33A1;
@@ -35,17 +41,43 @@ const Container = Styled.div`
     }
 `
 
-const IndexPage = () => (
-  <Container>
-    <Featured />
-    <StyledHr />
-    <Mission />
-    <StyledHr width="65%" />
-    <form action="">
-      <input type="text" placeholder="Email Address" />
-      <button>JOIN US.</button>
-    </form>
-  </Container>
-)
+class IndexPage extends Component {
+  state = {
+    email: '',
+    buttonText: 'JOIN US',
+  }
+  handleSubmit = e => {
+    e.preventDefault()
+    addToMailchimp(this.state.email).then(data => {
+      this.setState({ buttonText: 'WELCOME!' })
+      console.log(data)
+    })
+  }
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    })
+  }
+  render() {
+    return (
+      <Container>
+        <Featured />
+        <StyledHr />
+        <Mission />
+        <StyledHr width="65%" />
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email Address"
+            name="email"
+            value={this.state.email}
+            onChange={this.handleChange}
+          />
+          <button>{this.state.buttonText}</button>
+        </form>
+      </Container>
+    )
+  }
+}
 
 export default IndexPage

@@ -38,16 +38,9 @@ const Container = styled.div`
 class Layout extends Component {
   constructor(props) {
     super(props)
+    const cartData = JSON.parse(localStorage.getItem('cart')) || []
     this.state = {
-      cart: [
-        {
-          title: 'F*ck-Trump',
-          price: 19.95,
-          quantity: 1,
-          image:
-            'https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/588c3f172e69cf76b74bf83d/5a1245a124a694409fb63065/1530824100181/website+tubes+web+copy.jpg',
-        },
-      ],
+      cart: cartData,
       sidebar: false,
       styleFix: false,
     }
@@ -71,6 +64,7 @@ class Layout extends Component {
     this.setState({
       cart: newCart,
     })
+    localStorage.setItem('cart', JSON.stringify(newCart))
   }
   removeItem(i) {
     let newCart = this.state.cart
@@ -78,6 +72,7 @@ class Layout extends Component {
     this.setState({
       cart: newCart,
     })
+    localStorage.setItem('cart', JSON.stringify(newCart))
   }
   addItem(title, price, quantity, image) {
     let newCart = this.state.cart
@@ -87,9 +82,11 @@ class Layout extends Component {
       sidebar: true,
       styleFix: true,
     })
+    localStorage.setItem('cart', JSON.stringify(newCart))
   }
   clearCart() {
     this.setState({ cart: [] })
+    localStorage.setItem('cart', [])
   }
   render() {
     const { children, data } = this.props
