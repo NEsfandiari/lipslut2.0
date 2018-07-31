@@ -88,7 +88,9 @@ class Product extends Component {
   }
 
   render() {
-    const claims = this.props.claims.map((claim, i) => <p key={i}>{claim}</p>)
+    const descriptors = this.props.descriptors.map((claim, i) => (
+      <p key={i}>{claim}</p>
+    ))
     const images = this.props.images.map((image, i) => (
       <img
         src={image}
@@ -113,7 +115,7 @@ class Product extends Component {
         </div>
         <div className="description">
           <h1>{this.props.title}</h1>
-          {claims}
+          {descriptors}
           <StyledHr width={'100%'} margin={'.8rem'} />
           <form className="purchase" onSubmit={this.handleSubmit}>
             <p>${this.state.price}</p>

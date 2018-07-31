@@ -32,7 +32,7 @@ class CheckoutForm extends Component {
       state: '',
       phone: '',
       shipping: 4.95,
-      orderMessage: 'PLACE ORDER',
+      orderStatus: 'PLACE ORDER',
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -40,7 +40,7 @@ class CheckoutForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    this.setState({ orderMessage: 'PROCESSING...' })
+    this.setState({ orderStatus: 'PROCESSING...' })
     try {
       this.props.stripe
         .createToken({
@@ -49,8 +49,10 @@ class CheckoutForm extends Component {
           address_state: this.state.state,
           address_line1: this.state.address,
           address_line2: this.state.apartment,
+          email: this.state.email,
         })
         .then(({ token }) => {
+          debugger
           const stripeAmount =
             parseFloat(
               (
@@ -76,12 +78,12 @@ class CheckoutForm extends Component {
             .then(res => {
               console.log(res)
               this.props.clearCart()
-              this.setState({ orderMessage: 'TRANSACTION SUCCESSFUL!' })
+              this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
             })
         })
     } catch (error) {
       console.log(error)
-      this.setState({ orderMessage: 'TRANSACTION DECLINED' })
+      this.setState({ orderStatus: 'TRANSACTION DECLINED' })
     }
   }
 
@@ -93,7 +95,7 @@ class CheckoutForm extends Component {
 
   render() {
     const { cart, addItem, subtotal, tax, stripe } = this.props
-    const { shipping, orderMessage } = this.state
+    const { shipping, orderStatus } = this.state
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
@@ -105,7 +107,7 @@ class CheckoutForm extends Component {
           tax={tax}
           shipping={shipping}
         />
-        <Payment stripe={stripe} total={total} orderMessage={orderMessage} />
+        <Payment stripe={stripe} total={total} orderStatus={orderStatus} />
       </ContainerForm>
     )
   }

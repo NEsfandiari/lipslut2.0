@@ -6,6 +6,7 @@
   "dependencies": {
     "animate.css": "^3.6.1",
     "axios": "^0.18.0",
+    "contentful": "^6.1.2",
     "dotenv": "^6.0.0",
     "fs": "0.0.1-security",
     "futura-font": "^1.0.0",
@@ -16,6 +17,7 @@
     "gatsby-plugin-stripe-checkout": "^1.0.5",
     "gatsby-plugin-stripe-elements": "^1.0.7",
     "gatsby-plugin-styled-components": "^2.0.11",
+    "gatsby-source-filesystem": "^1.5.39",
     "netlify-lambda": "^0.4.0",
     "react-helmet": "^5.2.0",
     "react-icons": "^2.2.7",

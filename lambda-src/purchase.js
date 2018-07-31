@@ -19,6 +19,7 @@ exports.handler = function(event, context, callback) {
 
   let data = JSON.parse(event.body)
   data = JSON.parse(data.body)
+  console.log(data)
 
   // TEST for all necessary data
   if (!data.token || !data.amount || !data.idempotency_key) {
@@ -37,7 +38,8 @@ exports.handler = function(event, context, callback) {
       currency: 'usd',
       amount: data.amount,
       source: data.token.id,
-      description: `Lipslut test`,
+      description: `Receipt from Lipslut LLC`,
+      receipt_email: data.token.email,
     },
     {
       idempotency_key: data.idempotency_key,
