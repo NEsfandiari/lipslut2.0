@@ -38,9 +38,8 @@ const windowGlobal = typeof window !== 'undefined' && window
 class Layout extends Component {
   constructor(props) {
     super(props)
-    const cartData = JSON.parse(windowGlobal.localStorage.getItem('cart')) || []
     this.state = {
-      cart: cartData,
+      cart: [],
       sidebar: false,
       styleFix: false,
     }
@@ -49,6 +48,11 @@ class Layout extends Component {
     this.removeItem = this.removeItem.bind(this)
     this.addItem = this.addItem.bind(this)
     this.clearCart = this.clearCart.bind(this)
+  }
+
+  componentDidMount() {
+    const cartData = JSON.parse(windowGlobal.localStorage.getItem('cart')) || []
+    this.setState({ cart: cartData })
   }
 
   handleSidebar() {
