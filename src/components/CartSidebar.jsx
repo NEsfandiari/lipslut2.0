@@ -13,7 +13,7 @@ const Container = styled.div`
   z-index: 2;
   flex-direction: column;
   align-items: center;
-  width: 25rem;
+  width: 23rem;
   height: 100%;
   background-color: #f9f7f1;
   overflow: auto;

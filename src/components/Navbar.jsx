@@ -50,27 +50,24 @@ const NavContainer = Styled.div`
 class Navbar extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      sidebar: false,
-      styleFix: false,
-    }
-    this.handleSidebar = this.handleSidebar.bind(this)
   }
-  handleSidebar() {
-    this.setState({
-      sidebar: !this.state.sidebar,
-      styleFix: true,
-    })
-  }
+
   render() {
-    const { cart, editItem, removeItem } = this.props
+    const {
+      cart,
+      editItem,
+      removeItem,
+      sidebar,
+      styleFix,
+      handleSidebar,
+    } = this.props
     return (
       <div>
         <NavContainer>
           <div className="nav">
             <div className="links">
-              <NavLink to="/F*ck-Trump.">F*CK TRUMP</NavLink>
-              <NavLink to="/F*ck-Hollywood.">F*CK HOLLYWOOD</NavLink>
+              <NavLink to="/Fck-Trump.">F*CK TRUMP</NavLink>
+              <NavLink to="/Fck-Hollywood.">F*CK HOLLYWOOD</NavLink>
               <NavLink to="/Lipslut-Hat.">MORE</NavLink>
             </div>
             <div className="logo">
@@ -84,19 +81,19 @@ class Navbar extends Component {
                 />
               </Link>
             </div>
-            <div className="cart" onClick={this.handleSidebar}>
+            <div className="cart" onClick={handleSidebar}>
               <FaShoppingBag color="#FF0088" size="2.2rem" />
               <p>{cart.length}</p>
             </div>
           </div>
         </NavContainer>
         <CartSidebar
-          display={this.state.sidebar}
-          handleSidebar={this.handleSidebar}
-          cart={this.props.cart}
+          display={sidebar}
+          handleSidebar={handleSidebar}
+          cart={cart}
           editItem={editItem}
           removeItem={removeItem}
-          styleFix={this.state.styleFix}
+          styleFix={styleFix}
         />
       </div>
     )

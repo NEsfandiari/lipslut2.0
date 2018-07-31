@@ -12,6 +12,7 @@ class ProductTemplate extends Component {
   render() {
     const data = this.props.pathContext.node
     const images = data.images.map(img => img.fields.file.url)
+    let productMedia
 
     // if there is media to link to
     if (data.sellingPoints) {
@@ -24,7 +25,7 @@ class ProductTemplate extends Component {
       data.mediaStories.forEach((story, i) => {
         media[i]['link'] = story
       })
-      const ProductMedia = (
+      productMedia = (
         <ProductMedia sellingPoints={sellingPoints} media={media} />
       )
     }
@@ -37,7 +38,7 @@ class ProductTemplate extends Component {
           price={data.price}
           addItem={this.props.addItem}
         />
-        {ProductMedia}
+        {productMedia}
       </Container>
     )
   }

@@ -96,7 +96,8 @@ exports.createPages = async ({ boundActionCreators, graphql }) => {
 
         // Create pages for each graphql node.
         result.data.allProductPage.edges.forEach(({ node }) => {
-          const path = node.title.replace(/\s+/g, '-')
+          let path = node.title.replace(/\s+/g, '-')
+          path = path.replace('*', '')
           createPage({
             path,
             component: ProductPageTemplate,

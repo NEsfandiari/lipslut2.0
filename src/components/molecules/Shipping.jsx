@@ -27,7 +27,6 @@ const Container = styled.div`
     background: white;
     height: 1.8rem;
     width: 8rem;
-    margin-right: 1rem;
   }
   #checkbox {
     width: 2rem;
@@ -45,12 +44,15 @@ const Container = styled.div`
       margin-right: 1rem;
     }
     input {
-      width: 70%;
+      width: 50%;
     }
   }
   @media (max-width: 1200px) {
     input {
       width: 75vw;
+    }
+    select {
+      flex-basis: 50%;
     }
   }
 `

@@ -48,11 +48,21 @@ class Layout extends Component {
             'https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/588c3f172e69cf76b74bf83d/5a1245a124a694409fb63065/1530824100181/website+tubes+web+copy.jpg',
         },
       ],
+      sidebar: false,
+      styleFix: false,
     }
+    this.handleSidebar = this.handleSidebar.bind(this)
     this.editItem = this.editItem.bind(this)
     this.removeItem = this.removeItem.bind(this)
     this.addItem = this.addItem.bind(this)
     this.clearCart = this.clearCart.bind(this)
+  }
+
+  handleSidebar() {
+    this.setState({
+      sidebar: !this.state.sidebar,
+      styleFix: true,
+    })
   }
 
   editItem(name, value, i) {
@@ -74,6 +84,7 @@ class Layout extends Component {
     newCart.push({ title, price, quantity, image })
     this.setState({
       cart: newCart,
+      sidebar: true,
     })
   }
   clearCart() {
@@ -94,6 +105,9 @@ class Layout extends Component {
           cart={this.state.cart}
           editItem={this.editItem}
           removeItem={this.removeItem}
+          sidebar={this.state.sidebar}
+          styleFix={this.state.styleFix}
+          handleSidebar={this.handleSidebar}
         />
         <div
           style={{
