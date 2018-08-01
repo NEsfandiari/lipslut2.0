@@ -2,6 +2,8 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+import webpack from 'webpack'
+
 // create product pages from graphql data
 const path = require('path')
 
@@ -66,18 +68,18 @@ exports.createPages = async ({ boundActionCreators, graphql }) => {
     )
   })
 }
-// exports.modifyWebpackConfig = ({ config, stage }) => {
-//   switch (stage) {
-//     case 'build-html':
-//       config.plugin('define', webpack.DefinePlugin, [
-//         { 'global.GENTLY': false },
-//       ])
+exports.modifyWebpackConfig = ({ config, stage }) => {
+  switch (stage) {
+    case 'build-html':
+      config.plugin('define', webpack.DefinePlugin, [
+        { 'global.GENTLY': false },
+      ])
 
-//       break
-//   }
+      break
+  }
 
-//   return config
-// }
+  return config
+}
 
 // =============================================================================
 // CREATE graphql data from contentful- not necessary anymore because of pulgin
