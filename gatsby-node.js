@@ -2,8 +2,6 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
-import webpack from 'webpack'
-
 // create product pages from graphql data
 const path = require('path')
 
