@@ -63,7 +63,8 @@ export default class Auth {
   }
 
   getUser() {
-    return JSON.parse(windowGlobal.localStorage.getItem('user'))
+    let data = JSON.parse(windowGlobal.localStorage.getItem('user'))
+    return data
   }
 
   getUserName() {
