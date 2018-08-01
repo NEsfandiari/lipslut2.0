@@ -9,6 +9,7 @@ export default class Auth {
     this.logout = this.logout.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
+    const windowGlobal = typeof window !== 'undefined' && window
   }
   auth0 = new auth0.WebAuth({
     domain: process.env.GATSBY_AUTH0_DOMAIN,
@@ -23,10 +24,10 @@ export default class Auth {
     this.auth0.authorize()
   }
   logout() {
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('id_token')
-    localStorage.removeItem('expires_at')
-    localStorage.removeItem('user')
+    windowGlobal.localStorage.removeItem('access_token')
+    windowGlobal.localStorage.removeItem('id_token')
+    windowGlobal.localStorage.removeItem('expires_at')
+    windowGlobal.localStorage.removeItem('user')
   }
 
   handleAuthentication() {
@@ -46,7 +47,9 @@ export default class Auth {
   }
 
   isAuthenticated() {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'))
+    const expiresAt = JSON.parse(
+      windowGlobal.localStorage.getItem('expires_at')
+    )
     return new Date().getTime() < expiresAt
   }
 
@@ -54,18 +57,18 @@ export default class Auth {
     const expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     )
-    localStorage.setItem('access_token', authResult.accessToken)
-    localStorage.setItem('id_token', authResult.idToken)
-    localStorage.setItem('expires_at', expiresAt)
+    windowGlobal.localStorage.setItem('access_token', authResult.accessToken)
+    windowGlobal.localStorage.setItem('id_token', authResult.idToken)
+    windowGlobal.localStorage.setItem('expires_at', expiresAt)
 
     this.auth0.client.userInfo(authResult.accessToken, (err, user) => {
-      localStorage.setItem('user', JSON.stringify(user))
+      windowGlobal.localStorage.setItem('user', JSON.stringify(user))
     })
   }
 
   getUser() {
-    if (localStorage.getItem('user')) {
-      return JSON.parse(localStorage.getItem('user'))
+    if (windowGlobal.localStorage.getItem('user')) {
+      return JSON.parse(windowGlobal.localStorage.getItem('user'))
     }
   }
 
