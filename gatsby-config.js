@@ -22,28 +22,6 @@ module.exports = {
         host: `cdn.contentful.com`,
       },
     },
-    {
-      resolve: 'gatsby-plugin-mailchimp',
-      options: {
-        endpoint:
-          'https://netlify.us19.list-manage.com/subscribe/post?u=8872e95e9fea0632ec13c477c&amp;id=b73b5132a6',
-      },
-    },
-    {
-      resolve: 'gatsby-source-firestore',
-      options: {
-        credential: require('./firebase-key.json'),
-        types: [
-          {
-            type: 'User',
-            collection: 'users',
-            map: doc => ({
-              email: doc.email,
-            }),
-          },
-        ],
-      },
-    },
     `gatsby-plugin-netlify`,
   ],
 }
