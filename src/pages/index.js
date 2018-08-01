@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
+import firebase from '../firebase'
 
 import { Featured, Mission } from '../components'
 import { StyledHr, StyledInput, StyledButton } from '../components/atoms'
@@ -23,6 +24,14 @@ class IndexPage extends Component {
   }
   handleSubmit = e => {
     e.preventDefault()
+    const db = firebase.store()
+    db.collection('users')
+      .add({
+        email: this.state.email,
+      })
+      .then(docRef => {
+        console.log('Document written with ID: ', docRef.id)
+      })
     this.setState({ status: 'WELCOME!', email: '' })
   }
   handleChange = e => {

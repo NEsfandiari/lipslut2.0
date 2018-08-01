@@ -726,9 +726,71 @@ _Error.StripeIdempotencyError = StripeError.extend({type: 'StripeIdempotencyErro
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/safe-buffer/index.js'");
+/* eslint-disable node/no-deprecated-api */
+var buffer = __webpack_require__(20)
+var Buffer = buffer.Buffer
+
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key]
+  }
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports)
+  exports.Buffer = SafeBuffer
+}
+
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer)
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size)
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding)
+    } else {
+      buf.fill(fill)
+    }
+  } else {
+    buf.fill(0)
+  }
+  return buf
+}
+
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+}
+
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+}
+
 
 /***/ }),
 /* 4 */
@@ -750,14 +812,348 @@ module.exports = require("events");
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Accounts.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  // Since path can either be `account` or `accounts`, support both through stripeMethod path
+
+  create: stripeMethod({
+    method: 'POST',
+    path: 'accounts',
+  }),
+
+  list: stripeMethod({
+    method: 'GET',
+    path: 'accounts',
+  }),
+
+  update: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{id}',
+    urlParams: ['id'],
+  }),
+
+  // Avoid 'delete' keyword in JS
+  del: stripeMethod({
+    method: 'DELETE',
+    path: 'accounts/{id}',
+    urlParams: ['id'],
+  }),
+
+  reject: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{id}/reject',
+    urlParams: ['id'],
+  }),
+
+  retrieve: function(id) {
+    // No longer allow an api key to be passed as the first string to this function due to ambiguity between
+    // old account ids and api keys. To request the account for an api key, send null as the id
+    if (typeof id === 'string') {
+      return stripeMethod({
+        method: 'GET',
+        path: 'accounts/{id}',
+        urlParams: ['id'],
+      }).apply(this, arguments);
+    } else {
+      if (id === null || id === undefined) {
+        // Remove id as stripeMethod would complain of unexpected argument
+        [].shift.apply(arguments);
+      }
+      return stripeMethod({
+        method: 'GET',
+        path: 'account',
+      }).apply(this, arguments);
+    }
+  },
+
+  /**
+   * Accounts: External account methods
+   */
+
+  createExternalAccount: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/external_accounts',
+    urlParams: ['accountId'],
+  }),
+
+  listExternalAccounts: stripeMethod({
+    method: 'GET',
+    path: 'accounts/{accountId}/external_accounts',
+    urlParams: ['accountId'],
+  }),
+
+  retrieveExternalAccount: stripeMethod({
+    method: 'GET',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  updateExternalAccount: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  deleteExternalAccount: stripeMethod({
+    method: 'DELETE',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  /**
+  * Accounts: LoginLink methods
+  */
+
+  createLoginLink: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/login_links',
+    urlParams: ['accountId'],
+  }),
+});
+
 
 /***/ }),
-/* 8 */,
-/* 9 */,
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    var obj;
+
+    while (queue.length) {
+        var item = queue.pop();
+        obj = item.obj[item.prop];
+
+        if (Array.isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+
+    return obj;
+};
+
+exports.arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+exports.merge = function merge(target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = exports.arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = exports.merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = exports.merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+exports.assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+exports.decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+exports.encode = function encode(str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+exports.compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    return compactQueue(queue);
+};
+
+exports.isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+exports.isBuffer = function isBuffer(obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
@@ -767,7 +1163,146 @@ module.exports = require("crypto");
 /* 11 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/lodash.isplainobject/index.js'");
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var getPrototype = overArg(Object.getPrototypeOf, Object);
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) ||
+      objectToString.call(value) != objectTag || isHostObject(value)) {
+    return false;
+  }
+  var proto = getPrototype(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return (typeof Ctor == 'function' &&
+    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+}
+
+module.exports = isPlainObject;
+
 
 /***/ }),
 /* 12 */
@@ -965,12 +1500,94 @@ exports.handler = function (event, context, callback) {
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/dotenv/lib/main.js'");
+const fs = __webpack_require__(15)
+const path = __webpack_require__(4)
+
+/*
+ * Parses a string or buffer into an object
+ * @param {(string|Buffer)} src - source to be parsed
+ * @returns {Object} keys and values from src
+*/
+function parse (src) {
+  const obj = {}
+
+  // convert Buffers before splitting into lines and processing
+  src.toString().split('\n').forEach(function (line) {
+    // matching "KEY' and 'VAL' in 'KEY=VAL'
+    const keyValueArr = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/)
+    // matched?
+    if (keyValueArr != null) {
+      const key = keyValueArr[1]
+
+      // default undefined or missing values to empty string
+      let value = keyValueArr[2] || ''
+
+      // expand newlines in quoted values
+      const len = value ? value.length : 0
+      if (len > 0 && value.charAt(0) === '"' && value.charAt(len - 1) === '"') {
+        value = value.replace(/\\n/gm, '\n')
+      }
+
+      // remove any surrounding quotes and extra spaces
+      value = value.replace(/(^['"]|['"]$)/g, '').trim()
+
+      obj[key] = value
+    }
+  })
+
+  return obj
+}
+
+/*
+ * Main entry point into dotenv. Allows configuration before loading .env
+ * @param {Object} options - options for parsing .env file
+ * @param {string} [options.path=.env] - path to .env file
+ * @param {string} [options.encoding=utf8] - encoding of .env file
+ * @returns {Object} parsed object or error
+*/
+function config (options) {
+  let dotenvPath = path.resolve(process.cwd(), '.env')
+  let encoding = 'utf8'
+
+  if (options) {
+    if (options.path) {
+      dotenvPath = options.path
+    }
+    if (options.encoding) {
+      encoding = options.encoding
+    }
+  }
+
+  try {
+    // specifying an encoding returns a string instead of a buffer
+    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }))
+
+    Object.keys(parsed).forEach(function (key) {
+      if (!process.env.hasOwnProperty(key)) {
+        process.env[key] = parsed[key]
+      }
+    })
+
+    return { parsed }
+  } catch (e) {
+    return { error: e }
+  }
+}
+
+module.exports.config = config
+module.exports.load = config
+module.exports.parse = parse
+
 
 /***/ }),
-/* 15 */,
+/* 15 */
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1260,16 +1877,428 @@ module.exports = require("child_process");
 module.exports = require("https");
 
 /***/ }),
-/* 20 */,
-/* 21 */
+/* 20 */
 /***/ (function(module, exports) {
 
-"use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/qs/lib/index.js'");
+module.exports = require("buffer");
 
 /***/ }),
-/* 22 */,
-/* 23 */,
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(22);
+var parse = __webpack_require__(23);
+var formats = __webpack_require__(9);
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(8);
+var formats = __webpack_require__(9);
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
+        return prefix + '[]';
+    },
+    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
+        return prefix;
+    }
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaults = {
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var stringify = function stringify( // eslint-disable-line func-name-matching
+    object,
+    prefix,
+    generateArrayPrefix,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    formatter,
+    encodeValuesOnly
+) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (Array.isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        if (Array.isArray(obj)) {
+            values = values.concat(stringify(
+                obj[key],
+                generateArrayPrefix(prefix, key),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        } else {
+            values = values.concat(stringify(
+                obj[key],
+                prefix + (allowDots ? '.' + key : '[' + key + ']'),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        }
+    }
+
+    return values;
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
+    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
+    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
+    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
+    var sort = typeof options.sort === 'function' ? options.sort : null;
+    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
+    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
+    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
+    if (typeof options.format === 'undefined') {
+        options.format = formats['default'];
+    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
+        throw new TypeError('Unknown format option provided.');
+    }
+    var formatter = formats.formatters[options.format];
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (Array.isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (options.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = options.arrayFormat;
+    } else if ('indices' in options) {
+        arrayFormat = options.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (sort) {
+        objKeys.sort(sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        keys = keys.concat(stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encode ? encoder : null,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            formatter,
+            encodeValuesOnly
+        ));
+    }
+
+    var joined = keys.join(delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(8);
+
+var has = Object.prototype.hasOwnProperty;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    parameterLimit: 1000,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+
+    for (var i = 0; i < parts.length; ++i) {
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder);
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder);
+            val = options.decoder(part.slice(pos + 1), defaults.decoder);
+        }
+        if (has.call(obj, key)) {
+            obj[key] = [].concat(obj[key]).concat(val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options) {
+    var leaf = val;
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]') {
+            obj = [];
+            obj = obj.concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj;
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys
+        // that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while ((segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options);
+};
+
+module.exports = function (str, opts) {
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
+    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
+    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
+    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
+    options.parseArrays = options.parseArrays !== false;
+    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
+    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
+    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
+    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
+    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
+    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options);
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1388,284 +2417,1400 @@ module.exports = {
 
 /***/ }),
 /* 25 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/ApplePayDomains.js'");
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'apple_pay/domains',
+  includeBasic: ['create', 'list', 'retrieve', 'del'],
+});
+
 
 /***/ }),
 /* 26 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Balance.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'balance',
+
+  retrieve: stripeMethod({
+    method: 'GET',
+  }),
+
+  listTransactions: stripeMethod({
+    method: 'GET',
+    path: 'history',
+  }),
+
+  retrieveTransaction: stripeMethod({
+    method: 'GET',
+    path: 'history/{transactionId}',
+    urlParams: ['transactionId'],
+  }),
+
+});
+
 
 /***/ }),
 /* 27 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Charges.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'charges',
+
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update',
+    'setMetadata', 'getMetadata',
+  ],
+
+  capture: stripeMethod({
+    method: 'POST',
+    path: '/{id}/capture',
+    urlParams: ['id'],
+  }),
+
+  refund: stripeMethod({
+    method: 'POST',
+    path: '/{id}/refund',
+    urlParams: ['id'],
+  }),
+
+  updateDispute: stripeMethod({
+    method: 'POST',
+    path: '/{id}/dispute',
+    urlParams: ['id'],
+  }),
+
+  closeDispute: stripeMethod({
+    method: 'POST',
+    path: '/{id}/dispute/close',
+    urlParams: ['id'],
+  }),
+
+  /**
+   * Charge: Refund methods
+   * (Deprecated)
+   */
+  createRefund: stripeMethod({
+    method: 'POST',
+    path: '/{chargeId}/refunds',
+    urlParams: ['chargeId'],
+  }),
+
+  listRefunds: stripeMethod({
+    method: 'GET',
+    path: '/{chargeId}/refunds',
+    urlParams: ['chargeId'],
+  }),
+
+  retrieveRefund: stripeMethod({
+    method: 'GET',
+    path: '/{chargeId}/refunds/{refundId}',
+    urlParams: ['chargeId', 'refundId'],
+  }),
+
+  updateRefund: stripeMethod({
+    method: 'POST',
+    path: '/{chargeId}/refunds/{refundId}',
+    urlParams: ['chargeId', 'refundId'],
+  }),
+
+  markAsSafe: function(chargeId) {
+    return this.update(chargeId, {'fraud_details': {'user_report': 'safe'}})
+  },
+
+  markAsFraudulent: function(chargeId) {
+    return this.update(chargeId, {'fraud_details': {'user_report': 'fraudulent'}})
+  },
+});
+
 
 /***/ }),
 /* 28 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/CountrySpecs.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: 'country_specs',
+
+  includeBasic: [
+    'list', 'retrieve',
+  ],
+});
+
 
 /***/ }),
 /* 29 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Coupons.js'");
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'coupons',
+  includeBasic: ['create', 'list', 'update', 'retrieve', 'del'],
+});
+
+
 
 /***/ }),
 /* 30 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Customers.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var utils = __webpack_require__(1);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'customers',
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update', 'del',
+    'setMetadata', 'getMetadata',
+  ],
+
+  /**
+   * Customer: Subscription methods
+   */
+
+  _legacyUpdateSubscription: stripeMethod({
+    method: 'POST',
+    path: '{customerId}/subscription',
+    urlParams: ['customerId'],
+  }),
+
+  _newstyleUpdateSubscription: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/subscriptions/{subscriptionId}',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+
+  _legacyCancelSubscription: stripeMethod({
+    method: 'DELETE',
+    path: '{customerId}/subscription',
+    urlParams: ['customerId'],
+  }),
+
+  _newstyleCancelSubscription: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/subscriptions/{subscriptionId}',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+
+  createSubscription: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/subscriptions',
+    urlParams: ['customerId'],
+  }),
+
+  listSubscriptions: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/subscriptions',
+    urlParams: ['customerId'],
+  }),
+
+  retrieveSubscription: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/subscriptions/{subscriptionId}',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+
+  updateSubscription: function(customerId, subscriptionId) {
+    if (typeof subscriptionId == 'string') {
+      return this._newstyleUpdateSubscription.apply(this, arguments);
+    } else {
+      return this._legacyUpdateSubscription.apply(this, arguments);
+    }
+  },
+
+  cancelSubscription: function(customerId, subscriptionId) {
+    // This is a hack, but it lets us maximize our overloading.
+    // Precarious assumption: If it's not an auth key it _could_ be a sub id:
+    if (typeof subscriptionId == 'string' && !utils.isAuthKey(subscriptionId)) {
+      return this._newstyleCancelSubscription.apply(this, arguments);
+    } else {
+      return this._legacyCancelSubscription.apply(this, arguments);
+    }
+  },
+
+  /**
+   * Customer: Card methods
+   */
+
+  createCard: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/cards',
+    urlParams: ['customerId'],
+  }),
+
+  listCards: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/cards',
+    urlParams: ['customerId'],
+  }),
+
+  retrieveCard: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/cards/{cardId}',
+    urlParams: ['customerId', 'cardId'],
+  }),
+
+  updateCard: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/cards/{cardId}',
+    urlParams: ['customerId', 'cardId'],
+  }),
+
+  deleteCard: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/cards/{cardId}',
+    urlParams: ['customerId', 'cardId'],
+  }),
+
+  /**
+   * Customer: Source methods
+   */
+
+  createSource: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/sources',
+    urlParams: ['customerId'],
+  }),
+
+  listSources: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/sources',
+    urlParams: ['customerId'],
+  }),
+
+  retrieveSource: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/sources/{sourceId}',
+    urlParams: ['customerId', 'sourceId'],
+  }),
+
+  updateSource: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/sources/{sourceId}',
+    urlParams: ['customerId', 'sourceId'],
+  }),
+
+  deleteSource: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/sources/{sourceId}',
+    urlParams: ['customerId', 'sourceId'],
+  }),
+
+  verifySource: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/sources/{sourceId}/verify',
+    urlParams: ['customerId', 'sourceId'],
+  }),
+
+  /**
+   * Customer: Discount methods
+   */
+
+  deleteDiscount: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/discount',
+    urlParams: ['customerId'],
+  }),
+
+  deleteSubscriptionDiscount: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/subscriptions/{subscriptionId}/discount',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+
+});
+
 
 /***/ }),
 /* 31 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Disputes.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'disputes',
+
+  includeBasic: [
+    'list', 'retrieve', 'update', 'setMetadata', 'getMetadata',
+  ],
+
+  close: stripeMethod({
+    method: 'POST',
+    path: '/{id}/close',
+    urlParams: ['id'],
+  }),
+
+});
+
+
 
 /***/ }),
 /* 32 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/EphemeralKeys.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  create: stripeMethod({
+    method: 'POST',
+    validator: function(data, options) {
+      if (!options.headers || !options.headers['Stripe-Version']) {
+        throw new Error('stripe_version must be specified to create an ephemeral key');
+      }
+    },
+  }),
+
+  path: 'ephemeral_keys',
+
+  includeBasic: ['del'],
+});
+
 
 /***/ }),
 /* 33 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Events.js'");
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'events',
+  includeBasic: ['list', 'retrieve'],
+});
+
+
 
 /***/ }),
 /* 34 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/ExchangeRates.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: 'exchange_rates',
+
+  includeBasic: [
+    'list', 'retrieve',
+  ],
+});
+
 
 /***/ }),
 /* 35 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Invoices.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+var utils = __webpack_require__(1);
+
+module.exports = StripeResource.extend({
+
+  path: 'invoices',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+
+  retrieveLines: stripeMethod({
+    method: 'GET',
+    path: '{invoiceId}/lines',
+    urlParams: ['invoiceId'],
+  }),
+
+  pay: stripeMethod({
+    method: 'POST',
+    path: '{invoiceId}/pay',
+    urlParams: ['invoiceId'],
+  }),
+
+  retrieveUpcoming: stripeMethod({
+    method: 'GET',
+    path: function(urlData) {
+      var url = 'upcoming?customer=' + urlData.customerId;
+      // Legacy support where second argument is the subscription id
+      if (urlData.invoiceOptions && typeof urlData.invoiceOptions === 'string') {
+        return url + '&subscription=' + urlData.invoiceOptions;
+      } else if (urlData.invoiceOptions && typeof urlData.invoiceOptions === 'object') {
+        if (urlData.invoiceOptions.subscription_items !== undefined) {
+          urlData.invoiceOptions.subscription_items = utils.arrayToObject(urlData.invoiceOptions.subscription_items);
+        }
+        return url + '&' + utils.stringifyRequestData(urlData.invoiceOptions);
+      }
+      return url;
+    },
+    urlParams: ['customerId', 'optional!invoiceOptions'],
+    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'subscription_items'),
+  }),
+
+});
+
 
 /***/ }),
 /* 36 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/InvoiceItems.js'");
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'invoiceitems',
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update', 'del',
+    'setMetadata', 'getMetadata',
+  ],
+});
+
+
 
 /***/ }),
 /* 37 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/IssuerFraudRecords.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+  path: 'issuer_fraud_records',
+
+  includeBasic: ['list', 'retrieve'],
+});
+
 
 /***/ }),
 /* 38 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/LoginLinks.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+  path: 'accounts/{accountId}/login_links',
+  includeBasic: ['create'],
+});
+
 
 /***/ }),
 /* 39 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/PaymentIntents.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  path: 'payment_intents',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+
+  cancel: stripeMethod({
+    method: 'POST',
+    path: '{paymentIntentId}/cancel',
+    urlParams: ['paymentIntentId'],
+  }),
+
+  capture: stripeMethod({
+    method: 'POST',
+    path: '{paymentIntentId}/capture',
+    urlParams: ['paymentIntentId'],
+  }),
+
+  confirm: stripeMethod({
+    method: 'POST',
+    path: '{paymentIntentId}/confirm',
+    urlParams: ['paymentIntentId'],
+  }),
+});
+
+
 
 /***/ }),
 /* 40 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Payouts.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'payouts',
+
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update',
+    'setMetadata', 'getMetadata',
+  ],
+
+  cancel: stripeMethod({
+    method: 'POST',
+    path: '{payoutId}/cancel',
+    urlParams: ['payoutId'],
+  }),
+
+  listTransactions: stripeMethod({
+    method: 'GET',
+    path: '{payoutId}/transactions',
+    urlParams: ['payoutId'],
+  }),
+});
+
+
 
 /***/ }),
 /* 41 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Plans.js'");
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'plans',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
+});
+
+
 
 /***/ }),
 /* 42 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/RecipientCards.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * RecipientCard is similar to CustomerCard in that, upon instantiation, it
+ * requires a recipientId, and therefore each of its methods only
+ * require the cardId argument.
+ *
+ * This streamlines the API specifically for the case of accessing cards
+ * on a returned recipient object.
+ *
+ * E.g. recipientObject.cards.retrieve(cardId)
+ * (As opposed to the also-supported stripe.recipients.retrieveCard(recipientId, cardId))
+ */
+module.exports = StripeResource.extend({
+  path: 'recipients/{recipientId}/cards',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
+});
+
 
 /***/ }),
 /* 43 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Recipients.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'recipients',
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update', 'del',
+    'setMetadata', 'getMetadata',
+  ],
+
+  createCard: stripeMethod({
+    method: 'POST',
+    path: '/{recipientId}/cards',
+    urlParams: ['recipientId'],
+  }),
+
+  listCards: stripeMethod({
+    method: 'GET',
+    path: '/{recipientId}/cards',
+    urlParams: ['recipientId'],
+  }),
+
+  retrieveCard: stripeMethod({
+    method: 'GET',
+    path: '/{recipientId}/cards/{cardId}',
+    urlParams: ['recipientId', 'cardId'],
+  }),
+
+  updateCard: stripeMethod({
+    method: 'POST',
+    path: '/{recipientId}/cards/{cardId}',
+    urlParams: ['recipientId', 'cardId'],
+  }),
+
+  deleteCard: stripeMethod({
+    method: 'DELETE',
+    path: '/{recipientId}/cards/{cardId}',
+    urlParams: ['recipientId', 'cardId'],
+  }),
+
+});
+
+
 
 /***/ }),
 /* 44 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Refunds.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: 'refunds',
+
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update',
+  ],
+});
+
+
 
 /***/ }),
 /* 45 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Tokens.js'");
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'tokens',
+  includeBasic: ['create', 'retrieve'],
+});
+
 
 /***/ }),
 /* 46 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Topups.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+  path: 'topups',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'setMetadata', 'getMetadata'],
+});
+
 
 /***/ }),
 /* 47 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Transfers.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'transfers',
+
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update',
+    'setMetadata', 'getMetadata',
+  ],
+
+  reverse: stripeMethod({
+    method: 'POST',
+    path: '/{transferId}/reversals',
+    urlParams: ['transferId'],
+  }),
+
+  cancel: stripeMethod({
+    method: 'POST',
+    path: '{transferId}/cancel',
+    urlParams: ['transferId'],
+  }),
+
+  listTransactions: stripeMethod({
+    method: 'GET',
+    path: '{transferId}/transactions',
+    urlParams: ['transferId'],
+  }),
+
+  /**
+   * Transfer: Reversal methods
+   */
+  createReversal: stripeMethod({
+    method: 'POST',
+    path: '/{transferId}/reversals',
+    urlParams: ['transferId'],
+  }),
+
+  listReversals: stripeMethod({
+    method: 'GET',
+    path: '/{transferId}/reversals',
+    urlParams: ['transferId'],
+  }),
+
+  retrieveReversal: stripeMethod({
+    method: 'GET',
+    path: '/{transferId}/reversals/{reversalId}',
+    urlParams: ['transferId', 'reversalId'],
+  }),
+
+  updateReversal: stripeMethod({
+    method: 'POST',
+    path: '/{transferId}/reversals/{reversalId}',
+    urlParams: ['transferId', 'reversalId'],
+  }),
+});
+
+
 
 /***/ }),
 /* 48 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/ApplicationFees.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'application_fees',
+
+  includeBasic: [
+    'list', 'retrieve',
+  ],
+
+  refund: stripeMethod({
+    method: 'POST',
+    path: '/{id}/refund',
+    urlParams: ['id'],
+  }),
+
+  createRefund: stripeMethod({
+    method: 'POST',
+    path: '/{feeId}/refunds',
+    urlParams: ['feeId'],
+  }),
+
+  listRefunds: stripeMethod({
+    method: 'GET',
+    path: '/{feeId}/refunds',
+    urlParams: ['feeId'],
+  }),
+
+  retrieveRefund: stripeMethod({
+    method: 'GET',
+    path: '/{feeId}/refunds/{refundId}',
+    urlParams: ['feeId', 'refundId'],
+  }),
+
+  updateRefund: stripeMethod({
+    method: 'POST',
+    path: '/{feeId}/refunds/{refundId}',
+    urlParams: ['feeId', 'refundId'],
+  }),
+});
+
 
 /***/ }),
 /* 49 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/FileUploads.js'");
+
+
+var Buffer = __webpack_require__(3).Buffer;
+var utils = __webpack_require__(1);
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+var multipartDataGenerator = __webpack_require__(50);
+var Error = __webpack_require__(2);
+
+module.exports = StripeResource.extend({
+
+  overrideHost: 'uploads.stripe.com',
+
+  requestDataProcessor: function(method, data, headers, callback) {
+    data = data || {};
+
+    if (method === 'POST') {
+      return getProcessorForSourceType(data);
+    } else {
+      return callback(null, utils.stringifyRequestData(data));
+    }
+
+    function getProcessorForSourceType(data) {
+      var isStream = utils.checkForStream(data);
+      if (isStream) {
+        return streamProcessor(multipartDataGenerator);
+      } else {
+        var buffer = multipartDataGenerator(method, data, headers);
+        return callback(null, buffer);
+      }
+    }
+
+    function streamProcessor (fn) {
+      var bufferArray = [];
+      data.file.data.on('data', function(line) {
+        bufferArray.push(line);
+      }).on('end', function() {
+        var bufferData = Object.assign({}, data);
+        bufferData.file.data = Buffer.concat(bufferArray);
+        var buffer = fn(method, bufferData, headers);
+        callback(null, buffer);
+      }).on('error', function(err) {
+        var errorHandler = streamError(callback);
+        errorHandler(err, null);
+      });
+    }
+
+    function streamError(callback) {
+      var StreamProcessingError = Error.extend({
+        type: 'StreamProcessingError',
+        populate: function(raw) {
+          this.type = this.type;
+          this.message = raw.message;
+          this.detail = raw.detail;
+        }
+      });
+      return function(error) {
+        callback(
+          new StreamProcessingError({
+            message: 'An error occurred while attempting to process the file for upload.',
+            detail: error,
+          }),
+          null
+        );
+      }
+    }
+  },
+
+  path: 'files',
+
+  includeBasic: [
+    'retrieve',
+    'list',
+  ],
+
+  create: stripeMethod({
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
+});
+
 
 /***/ }),
-/* 50 */,
-/* 51 */
-/***/ (function(module, exports) {
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/BitcoinReceivers.js'");
+
+
+var Buffer = __webpack_require__(3).Buffer;
+
+// Method for formatting HTTP body for the multipart/form-data specification
+// Mostly taken from Fermata.js
+// https://github.com/natevw/fermata/blob/5d9732a33d776ce925013a265935facd1626cc88/fermata.js#L315-L343
+function multipartDataGenerator(method, data, headers) {
+  var segno = (Math.round(Math.random() * 1e16) + Math.round(Math.random() * 1e16)).toString();
+  headers['Content-Type'] = ('multipart/form-data; boundary=' + segno);
+  var buffer = new Buffer(0);
+
+  function push(l) {
+    var prevBuffer = buffer;
+    var newBuffer = (l instanceof Buffer) ? l : new Buffer(l);
+    buffer = new Buffer(prevBuffer.length + newBuffer.length + 2);
+    prevBuffer.copy(buffer);
+    newBuffer.copy(buffer, prevBuffer.length);
+    buffer.write('\r\n', buffer.length - 2);
+  }
+
+  function q(s) {
+    return '"' + s.replace(/"|"/g, '%22').replace(/\r\n|\r|\n/g, ' ') + '"';
+  }
+
+  for (var k in data) {
+    var v = data[k];
+    push('--' + segno);
+    if (v.hasOwnProperty('data')) {
+      push('Content-Disposition: form-data; name=' + q(k) + '; filename=' + q(v.name || 'blob'));
+      push('Content-Type: ' + (v.type || 'application/octet-stream'));
+      push('');
+      push(v.data);
+    } else {
+      push('Content-Disposition: form-data; name=' + q(k));
+      push('');
+      push(v);
+    }
+  }
+  push('--' + segno + '--');
+
+  return buffer;
+}
+
+module.exports = multipartDataGenerator;
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'bitcoin/receivers',
+
+  includeBasic: [
+    'create', 'list', 'retrieve',
+    'update', 'setMetadata', 'getMetadata',
+  ],
+
+  listTransactions: stripeMethod({
+    method: 'GET',
+    path: '/{receiverId}/transactions',
+    urlParams: ['receiverId'],
+  }),
+});
+
 
 /***/ }),
 /* 52 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Products.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'products',
+
+  includeBasic: [
+    'list', 'retrieve', 'update', 'del',
+  ],
+
+  create: stripeMethod({
+    method: 'POST',
+    required: ['name'],
+  }),
+
+});
+
 
 /***/ }),
 /* 53 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/SKUs.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'skus',
+
+  includeBasic: [
+    'list', 'retrieve', 'update', 'del',
+  ],
+
+  create: stripeMethod({
+    method: 'POST',
+    required: ['currency', 'inventory', 'price', 'product'],
+  }),
+
+});
+
 
 /***/ }),
 /* 54 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Orders.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'orders',
+
+  includeBasic: [
+    'list', 'retrieve', 'update',
+  ],
+
+  create: stripeMethod({
+    method: 'POST',
+    required: ['currency'],
+  }),
+
+  pay: stripeMethod({
+    method: 'POST',
+    path: '/{orderId}/pay',
+    urlParams: ['orderId'],
+  }),
+
+  returnOrder: stripeMethod({
+    method: 'POST',
+    path: '/{orderId}/returns',
+    urlParams: ['orderId'],
+  }),
+
+});
+
 
 /***/ }),
 /* 55 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/OrderReturns.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: 'order_returns',
+
+  includeBasic: [
+    'list', 'retrieve',
+  ],
+});
+
 
 /***/ }),
 /* 56 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Subscriptions.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var utils = __webpack_require__(1);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'subscriptions',
+  includeBasic: ['list', 'retrieve', 'del',],
+
+  create: stripeMethod({
+    method: 'POST',
+    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'items'),
+  }),
+
+  update: stripeMethod({
+    method: 'POST',
+    path: '{id}',
+    urlParams: ['id'],
+    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'items'),
+  }),
+
+  /**
+   * Subscription: Discount methods
+   */
+  deleteDiscount: stripeMethod({
+    method: 'DELETE',
+    path: '/{subscriptionId}/discount',
+    urlParams: ['subscriptionId'],
+  }),
+});
+
 
 /***/ }),
 /* 57 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/SubscriptionItems.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+  path: 'subscription_items',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del',],
+});
+
+
 
 /***/ }),
 /* 58 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/ThreeDSecure.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: '3d_secure',
+
+  includeBasic: [
+    'create',
+    'retrieve',
+  ],
+});
+
 
 /***/ }),
 /* 59 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/Sources.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'sources',
+
+  includeBasic: [
+    'create', 'retrieve', 'update', 'setMetadata', 'getMetadata',
+  ],
+
+  listSourceTransactions: stripeMethod({
+    method: 'GET',
+    path: '/{id}/source_transactions',
+    urlParams: ['id'],
+  }),
+
+  verify: stripeMethod({
+    method: 'POST',
+    path: '/{id}/verify',
+    urlParams: ['id'],
+  }),
+
+});
+
 
 /***/ }),
 /* 60 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/UsageRecords.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  path: 'subscription_items',
+
+  create: stripeMethod({
+    method: 'POST',
+    path: '{subscriptionItem}/usage_records',
+    urlParams: ['subscriptionItem'],
+  }),
+});
+
 
 /***/ }),
 /* 61 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/CustomerCards.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * CustomerCard is a unique resource in that, upon instantiation,
+ * requires a customerId, and therefore each of its methods only
+ * require the cardId argument.
+ *
+ * This streamlines the API specifically for the case of accessing cards
+ * on a returned customer object.
+ *
+ * E.g. customerObject.cards.retrieve(cardId)
+ * (As opposed to the also-supported stripe.customers.retrieveCard(custId, cardId))
+ */
+module.exports = StripeResource.extend({
+  path: 'customers/{customerId}/cards',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
+});
+
 
 /***/ }),
 /* 62 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/CustomerSubscriptions.js'");
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+/**
+ * CustomerSubscription is a unique resource in that, upon instantiation,
+ * requires a customerId, and therefore each of its methods only
+ * require the subscriptionId argument.
+ *
+ * This streamlines the API specifically for the case of accessing cards
+ * on a returned customer object.
+ *
+ * E.g. customerObject.cards.retrieve(cardId)
+ * (As opposed to the also-supported stripe.customers.retrieveCard(custId, cardId))
+ */
+module.exports = StripeResource.extend({
+  path: 'customers/{customerId}/subscriptions',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
+
+  /**
+   * Customer: Discount methods
+   */
+
+  deleteDiscount: stripeMethod({
+    method: 'DELETE',
+    path: '/{subscriptionId}/discount',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+});
+
 
 /***/ }),
 /* 63 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/ChargeRefunds.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * ChargeRefunds is a unique resource in that, upon instantiation,
+ * requires a chargeId, and therefore each of its methods only
+ * require the refundId argument.
+ *
+ * This streamlines the API specifically for the case of accessing refunds
+ * on a returned charge object.
+ *
+ * E.g. chargeObject.refunds.retrieve(refundId)
+ * (As opposed to the also-supported stripe.charges.retrieveRefund(chargeId,
+ * refundId))
+ */
+module.exports = StripeResource.extend({
+  path: 'charges/{chargeId}/refunds',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+});
+
 
 /***/ }),
 /* 64 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/ApplicationFeeRefunds.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * ApplicationFeeRefunds is a unique resource in that, upon instantiation,
+ * requires an application fee id , and therefore each of its methods only
+ * require the refundId argument.
+ *
+ * This streamlines the API specifically for the case of accessing refunds
+ * on a returned application fee object.
+ *
+ * E.g. applicationFeeObject.refunds.retrieve(refundId)
+ * (As opposed to the also-supported stripe.applicationFees.retrieveRefund(chargeId,
+ * refundId))
+ */
+module.exports = StripeResource.extend({
+  path: 'application_fees/{feeId}/refunds',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+});
+
 
 /***/ }),
 /* 65 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/nikiesfandiari/Desktop/lipslut/node_modules/stripe/lib/resources/TransferReversals.js'");
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * TransferReversals is a unique resource in that, upon instantiation,
+ * requires a transferId, and therefore each of its methods only
+ * require the reversalId argument.
+ *
+ * This streamlines the API specifically for the case of accessing reversals
+ * on a returned transfer object.
+ *
+ * E.g. transferObject.reversals.retrieve(reversalId)
+ * (As opposed to the also-supported stripe.transfers.retrieveReversal(transferId,
+ * reversalId))
+ */
+module.exports = StripeResource.extend({
+  path: 'transfers/{transferId}/reversals',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+});
+
+
 
 /***/ }),
 /* 66 */

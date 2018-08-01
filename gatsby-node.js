@@ -2,9 +2,8 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
-// create product pages from graphql data
+// create product pages from contentful graphql data
 const path = require('path')
-
 exports.createPages = async ({ boundActionCreators, graphql }) => {
   const { createPage } = boundActionCreators
 

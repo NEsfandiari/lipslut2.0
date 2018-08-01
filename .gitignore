@@ -3,6 +3,7 @@
 node_modules
 yarn-error.log
 .env.development
+firebase-key.json
 # Build directory
 /public
 .DS_Store
