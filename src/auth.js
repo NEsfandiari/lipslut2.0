@@ -1,15 +1,13 @@
 import auth0 from 'auth0-js'
 import { navigateTo } from 'gatsby-link'
 
-console.log(process.env.GATSBY_AUTH0_DOMAIN, process.env.GATSBY_AUTH0_CLIENT_ID)
-
+const windowGlobal = typeof window !== 'undefined' && window
 export default class Auth {
   constructor() {
     this.login = this.login.bind(this)
     this.logout = this.logout.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
-    const windowGlobal = typeof window !== 'undefined' && window
   }
   auth0 = new auth0.WebAuth({
     domain: process.env.GATSBY_AUTH0_DOMAIN,
