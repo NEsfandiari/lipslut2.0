@@ -5,6 +5,9 @@ import 'futura-font/styles.css'
 import { FaShoppingBag } from 'react-icons/lib/fa'
 import { NavLink } from './atoms'
 import CartSidebar from './CartSidebar'
+import Auth from '../auth'
+
+const auth = new Auth()
 
 const NavContainer = Styled.div`
   display: flex;
@@ -18,7 +21,7 @@ const NavContainer = Styled.div`
   .nav div{
     padding: 1rem;
   }
-  .links{
+  .leftNav{
     display: flex;
     font-family: 'futura';
     flex-basis: 30%;
@@ -28,13 +31,16 @@ const NavContainer = Styled.div`
     display: flex;
     justify-content: center;
   }
-  .cart{
+  .rightNav{
     flex-basis: 30%;
     display: flex;
     justify-content: flex-end;
     svg{
       font-size: 1.5rem;
       cursor: pointer;
+    }
+    a{
+      margin-right: .5rem;
     }
     p{
       position: relative;
@@ -50,6 +56,30 @@ const NavContainer = Styled.div`
 class Navbar extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      authenticated: false,
+    }
+  }
+  login() {
+    auth.login()
+
+    this.setState({
+      authenticated: auth.isAuthenticated(),
+    })
+  }
+
+  logout() {
+    auth.logout()
+
+    this.setState({
+      authenticated: auth.isAuthenticated(),
+    })
+  }
+
+  componentDidMount() {
+    this.setState({
+      authenticated: auth.isAuthenticated(),
+    })
   }
 
   render() {
@@ -65,7 +95,7 @@ class Navbar extends Component {
       <div>
         <NavContainer>
           <div className="nav">
-            <div className="links">
+            <div className="leftNav">
               <NavLink to="/Fck-Trump">F*CK TRUMP</NavLink>
               <NavLink to="/Fck-Hollywood">F*CK HOLLYWOOD</NavLink>
               <NavLink to="/Lipslut-Hat">MORE</NavLink>
@@ -81,9 +111,25 @@ class Navbar extends Component {
                 />
               </Link>
             </div>
-            <div className="cart" onClick={handleSidebar}>
-              <FaShoppingBag color="#FF0088" size="2.2rem" />
-              <p>{cart.length}</p>
+            <div className="rightNav">
+              {!this.state.authenticated ? (
+                <NavLink to="" onClick={this.login.bind(this)}>
+                  LOG IN
+                </NavLink>
+              ) : (
+                <NavLink to="" onClick={this.logout.bind(this)}>
+                  LOG OUT
+                </NavLink>
+              )}
+              {auth.getUserName() ? (
+                <NavLink to="/account"> ACCOUNT </NavLink>
+              ) : null}
+              <FaShoppingBag
+                color="#FF0088"
+                size="2.2rem"
+                onClick={handleSidebar}
+              />
+              <p onClick={handleSidebar}>{cart.length}</p>
             </div>
           </div>
         </NavContainer>

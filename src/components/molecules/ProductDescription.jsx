@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import { StyledHr, StyledButton } from '../atoms'
+import { StyledHr, StyledButton, StyledInput } from '../atoms'
 
 const Container = styled.div`
   flex-basis: 50%;
@@ -12,9 +12,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  input {
-    width: 3rem;
   }
   p {
     font-size: 0.9rem;
@@ -57,7 +54,8 @@ class ProductDescription extends Component {
         <form className="purchase" onSubmit={this.handleSubmit}>
           <p>${this.state.price}</p>
           <label htmlFor="quantity">Quantity: </label>
-          <input
+          <StyledInput
+            width="3.5rem"
             type="number"
             name="quantity"
             onChange={this.handlePrice}

@@ -5,6 +5,7 @@
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "animate.css": "^3.6.1",
+    "auth0-js": "^9.7.3",
     "axios": "^0.18.0",
     "contentful": "^6.1.2",
     "dotenv": "^6.0.0",

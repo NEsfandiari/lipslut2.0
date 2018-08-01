@@ -1,21 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Card } from '../atoms'
+import { Card, StyledInput } from '../atoms'
 
 const Container = styled.div`
   border-radius: 6px;
   label {
     font-size: 0.8rem;
-  }
-  input {
-    width: 17rem;
-    margin-bottom: 0.5rem;
-    border-style: solid;
-    border-color: #f0f0f0;
-    border-width: 2px;
-    outline: none;
-    border-radius: 6px;
-    padding-left: 1rem;
   }
   select {
     outline: none;
@@ -65,7 +55,7 @@ class Shipping extends Component {
         <Card>
           <h3>Shipping</h3>
           <div className="email">
-            <input
+            <StyledInput
               type="text"
               placeholder="Email"
               onChange={handleChange}
@@ -73,7 +63,7 @@ class Shipping extends Component {
               required
             />
             <div>
-              <input
+              <StyledInput
                 type="checkbox"
                 id="checkbox"
                 onChange={handleChange}
@@ -85,14 +75,14 @@ class Shipping extends Component {
           <div className="address">
             <p>Address</p>
             <div className="half">
-              <input
+              <StyledInput
                 type="text"
                 placeholder="First Name"
                 onChange={handleChange}
                 name="firstName"
                 required
               />
-              <input
+              <StyledInput
                 type="text"
                 placeholder="Last Name"
                 onChange={handleChange}
@@ -100,28 +90,28 @@ class Shipping extends Component {
                 required
               />
             </div>
-            <input
+            <StyledInput
               type="text"
               placeholder="Address"
               onChange={handleChange}
               name="address"
               required
             />
-            <input
+            <StyledInput
               type="text"
               placeholder="Apt/Floor/Suite"
               onChange={handleChange}
               name="apartment"
             />
             <div className="half">
-              <input
+              <StyledInput
                 type="text"
                 placeholder="City"
                 onChange={handleChange}
                 name="city"
                 required
               />
-              <input
+              <StyledInput
                 type="text"
                 placeholder="Zip Code"
                 onChange={handleChange}
@@ -130,7 +120,7 @@ class Shipping extends Component {
               />
             </div>
             <div className="half">
-              <input
+              <StyledInput
                 type="tel"
                 placeholder="Phone"
                 onChange={handleChange}

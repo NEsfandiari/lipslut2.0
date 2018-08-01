@@ -9,6 +9,7 @@ const StyledButton = Styled.button`
     color: white;
     background-color: #FF0086;
     outline: none;
+    border-radius: 2px;
 
   :hover{
     background-color: #FF33A1;
