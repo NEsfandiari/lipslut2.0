@@ -29,19 +29,17 @@ export default class Auth {
   }
 
   handleAuthentication() {
-    if (typeof window !== 'undefined') {
-      this.auth0.parseHash((err, authResult) => {
-        if (authResult && authResult.accessToken && authResult.idToken) {
-          this.setSession(authResult)
-        } else if (err) {
-          console.log(err)
-        }
+    this.auth0.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        this.setSession(authResult)
+      } else if (err) {
+        console.log(err)
+      }
 
-        // Return to the homepage after authentication.
-        navigateTo('/')
-        window.history.go(0)
-      })
-    }
+      // Return to the homepage after authentication.
+      navigateTo('/')
+      window.history.go(0)
+    })
   }
 
   isAuthenticated() {
@@ -65,9 +63,7 @@ export default class Auth {
   }
 
   getUser() {
-    if (windowGlobal.localStorage.getItem('user')) {
-      return JSON.parse(windowGlobal.localStorage.getItem('user'))
-    }
+    return JSON.parse(windowGlobal.localStorage.getItem('user'))
   }
 
   getUserName() {
