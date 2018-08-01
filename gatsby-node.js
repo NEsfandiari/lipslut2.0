@@ -66,6 +66,8 @@ exports.createPages = async ({ boundActionCreators, graphql }) => {
     )
   })
 }
+// Auth0 gatsby build configurations
+const webpack = require('webpack')
 exports.modifyWebpackConfig = ({ config, stage }) => {
   switch (stage) {
     case 'build-html':
