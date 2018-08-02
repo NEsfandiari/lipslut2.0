@@ -121,7 +121,7 @@ class Navbar extends Component {
                   LOG OUT
                 </NavLink>
               )}
-              {auth.getUserName() ? (
+              {this.state.authenticated ? (
                 <NavLink to="/account"> ACCOUNT </NavLink>
               ) : null}
               <FaShoppingBag
