@@ -9,7 +9,7 @@ const Card = styled.div`
   background: white;
   border-radius: 6px;
   width: 400px;
-  height: 27rem;
+  height: ${({ height }) => height || '27rem'};
   @media (max-width: 1200px) {
     width: 85vw;
   }

@@ -3,26 +3,27 @@ require('dotenv').config({
 })
 
 // Auth0 gatsby build configurations
-const webpack = require('webpack')
-exports.modifyWebpackConfig = ({ config, stage }) => {
-  switch (stage) {
-    case 'build-html':
-      config.plugin('define', webpack.DefinePlugin, [
-        { 'global.GENTLY': false },
-      ])
+// const webpack = require('webpack')
+// exports.modifyWebpackConfig = ({ config, stage }) => {
+//   switch (stage) {
+//     case 'build-html':
+//       config.plugin('define', webpack.DefinePlugin, [
+//         { 'global.GENTLY': false },
+//       ])
 
-      break
-  }
+//       break
+//   }
 
-  return config
-}
-exports.modifyWebpackConfig = ({ config, stage }) => {
-  if (stage === 'build-html') {
-    config.loader('null', {
-      test: 'auth0-js',
-      loader: 'null-loader',
-    })
-  }
+//   return config
+// }
+
+// exports.modifyWebpackConfig = ({ config, stage }) => {
+//   if (stage === 'build-html') {
+//     config.loader('null', {
+//       test: /auth0-js/,
+//       loader: 'null-loader',
+//     })
+//   }
 }
 
 // create product pages from contentful graphql data

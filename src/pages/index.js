@@ -30,9 +30,9 @@ class IndexPage extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { firebase } = this.context
-    debugger
     const db = firebase.store()
-    db.collection('users')
+    db
+      .collection('emails')
       .add({
         email: this.state.email,
       })

@@ -1,18 +1,22 @@
 import Styled from 'styled-components'
 
 const StyledButton = Styled.button`
-    margin: 1rem;
+    margin: ${({ margin }) => margin || '1rem'};
     font-size: ${({ fontSize }) => fontSize || '.8rem'};
     padding: 0;
     height: ${({ height }) => height || '3rem'};
     width: ${({ width }) => width || '7rem'};
-    color: white;
-    background-color: #FF0086;
+    color: ${({ color }) => color || 'white'};
+    background-color: ${({ backgroundColor }) => backgroundColor || '#FF0086'};
+    border-color: ${({ borderColor }) => borderColor};
     outline: none;
-    border-radius: 2px;
+    border-radius: ${({ borderRadius }) => borderRadius || '2px'};
+    border-width: ${({ borderWidth }) => borderWidth || '0'};
+    cursor: pointer;
+    
 
   :hover{
-    background-color: #FF33A1;
+    background-color: ${({ hoverColor }) => hoverColor || '#FF33A1'};
   }
 `
 

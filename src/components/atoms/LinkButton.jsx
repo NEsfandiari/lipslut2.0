@@ -14,6 +14,7 @@ const LinkButton = Styled(Link)`
     letter-spacing: .1rem;
     transition: 0.3s ease;
     outline: none;
+    cursor: pointer;
 
     :hover{
     color: white;

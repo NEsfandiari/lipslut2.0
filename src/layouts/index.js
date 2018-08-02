@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
-import { navigateTo } from 'gatsby-link'
 
 import { Navbar, Footer } from '../components'
 import './index.css'
@@ -43,6 +42,7 @@ class Layout extends Component {
       cart: [],
       sidebar: false,
       styleFix: false,
+      user: null,
     }
     this.handleSidebar = this.handleSidebar.bind(this)
     this.editItem = this.editItem.bind(this)
@@ -50,10 +50,26 @@ class Layout extends Component {
     this.addItem = this.addItem.bind(this)
     this.clearCart = this.clearCart.bind(this)
   }
+  static contextTypes = {
+    firebase: PropTypes.object,
+  }
 
   componentDidMount() {
     const cartData = JSON.parse(windowGlobal.localStorage.getItem('cart')) || []
     this.setState({ cart: cartData })
+    const firebase = this.context.firebase
+    const setState = this.setState
+    firebase.auth().onAuthStateChanged(function(user) {
+      console.log('hey')
+      if (user) {
+        setState({ user: user })
+      } else {
+        setState({ user: null })
+      }
+    })
+  }
+  componentWillUnmount() {
+    this.stopAuthListener()
   }
 
   handleSidebar() {
@@ -111,6 +127,7 @@ class Layout extends Component {
           sidebar={this.state.sidebar}
           styleFix={this.state.styleFix}
           handleSidebar={this.handleSidebar}
+          user={this.state.user}
         />
         <div
           style={{

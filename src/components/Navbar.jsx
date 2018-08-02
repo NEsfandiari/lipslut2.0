@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
 import { FaShoppingBag } from 'react-icons/lib/fa'
 import { NavLink } from './atoms'
 import CartSidebar from './CartSidebar'
-import Auth from '../auth'
-
-const auth = new Auth()
 
 const NavContainer = Styled.div`
   display: flex;
@@ -60,26 +58,22 @@ class Navbar extends Component {
       authenticated: false,
     }
   }
-  login() {
-    auth.login()
 
-    this.setState({
-      authenticated: auth.isAuthenticated(),
-    })
+  static contextTypes = {
+    firebase: PropTypes.object,
   }
 
-  logout() {
-    auth.logout()
-
-    this.setState({
-      authenticated: auth.isAuthenticated(),
-    })
-  }
-
-  componentDidMount() {
-    this.setState({
-      authenticated: auth.isAuthenticated(),
-    })
+  logOut = e => {
+    const firebase = this.context.firebase
+    firebase
+      .auth()
+      .signOut()
+      .then(function() {
+        console.log('sign out worked')
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
   }
 
   render() {
@@ -112,16 +106,14 @@ class Navbar extends Component {
               </Link>
             </div>
             <div className="rightNav">
-              {!this.state.authenticated ? (
-                <NavLink to="" onClick={this.login.bind(this)}>
-                  LOG IN
-                </NavLink>
+              {!this.props.user ? (
+                <NavLink to="/signup">SIGN UP</NavLink>
               ) : (
-                <NavLink to="" onClick={this.logout.bind(this)}>
+                <NavLink to="" onClick={this.logOut}>
                   LOG OUT
                 </NavLink>
               )}
-              {this.state.authenticated ? (
+              {this.props.user ? (
                 <NavLink to="/account"> ACCOUNT </NavLink>
               ) : null}
               <FaShoppingBag
