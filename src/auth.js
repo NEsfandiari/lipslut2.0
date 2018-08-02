@@ -9,6 +9,7 @@ export default class Auth {
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
   }
+
   auth0 = new auth0.WebAuth({
     domain: process.env.GATSBY_AUTH0_DOMAIN,
     clientID: process.env.GATSBY_AUTH0_CLIENT_ID,
@@ -63,8 +64,9 @@ export default class Auth {
   }
 
   getUser() {
-    let data = JSON.parse(windowGlobal.localStorage.getItem('user'))
-    return data
+    if (windowGlobal.localStorage.getItem('user')) {
+      return JSON.parse(windowGlobal.localStorage.getItem('user'))
+    }
   }
 
   getUserName() {
