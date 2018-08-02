@@ -64,6 +64,7 @@ export default class Auth {
   }
 
   getUser() {
+    console.log(windowGlobal)
     if (windowGlobal.localStorage.getItem('user')) {
       return JSON.parse(windowGlobal.localStorage.getItem('user'))
     }

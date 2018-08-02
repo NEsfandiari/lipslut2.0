@@ -2,47 +2,68 @@ require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+// Auth0 gatsby build configurations
+const webpack = require('webpack')
+exports.modifyWebpackConfig = ({ config, stage }) => {
+  switch (stage) {
+    case 'build-html':
+      config.plugin('define', webpack.DefinePlugin, [
+        { 'global.GENTLY': false },
+      ])
+
+      break
+  }
+
+  return config
+}
+exports.modifyWebpackConfig = ({ config, stage }) => {
+  if (stage === 'build-html') {
+    config.loader('null', {
+      test: 'auth0-js',
+      loader: 'null-loader',
+    })
+  }
+}
+
 // create product pages from contentful graphql data
 const path = require('path')
 exports.createPages = async ({ boundActionCreators, graphql }) => {
   const { createPage } = boundActionCreators
-
   return new Promise((resolve, reject) => {
     const ProductPageTemplate = path.resolve(`src/templates/ProductTemplate.js`)
     // Query for contentful nodes to use in creating pages.
     resolve(
       graphql(
         `
-                {
-                    allContentfulProductPage {
-                        edges {
-                            node {
-                                title
-                                descriptors
-                                price
-                                images{
-                                    file {
-                                        url
-                                    }
-                                }
-                                mediaLogos{
-                                    file {
-                                        url
-                                      }
-                                }
-                                mediaStories
-                                sellingPoints{
-                                    data {
-                                        headline
-                                        description
-                                    }
-                                }
-                            }
-                        }
+          {
+            allContentfulProductPage {
+              edges {
+                node {
+                  title
+                  descriptors
+                  price
+                  images {
+                    file {
+                      url
                     }
+                  }
+                  mediaLogos {
+                    file {
+                      url
+                    }
+                  }
+                  mediaStories
+                  sellingPoints {
+                    data {
+                      headline
+                      description
+                    }
+                  }
                 }
-                
-                `
+              }
+            }
+          }
+        `
       ).then(result => {
         if (result.errors) {
           reject(result.errors)
@@ -64,20 +85,6 @@ exports.createPages = async ({ boundActionCreators, graphql }) => {
       })
     )
   })
-}
-// Auth0 gatsby build configurations
-const webpack = require('webpack')
-exports.modifyWebpackConfig = ({ config, stage }) => {
-  switch (stage) {
-    case 'build-html':
-      config.plugin('define', webpack.DefinePlugin, [
-        { 'global.GENTLY': false },
-      ])
-
-      break
-  }
-
-  return config
 }
 
 // =============================================================================
