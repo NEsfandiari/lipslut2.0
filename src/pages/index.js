@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
-import firebase from '../firebase'
 
 import { Featured, Mission } from '../components'
 import { StyledHr, StyledInput, StyledButton } from '../components/atoms'
@@ -22,8 +22,15 @@ class IndexPage extends Component {
     email: '',
     status: 'JOIN US',
   }
+
+  static contextTypes = {
+    firebase: PropTypes.object,
+  }
+
   handleSubmit = e => {
     e.preventDefault()
+    const { firebase } = this.context
+    debugger
     const db = firebase.store()
     db.collection('users')
       .add({

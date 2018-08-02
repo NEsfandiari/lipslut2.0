@@ -16,10 +16,6 @@ class Firebase {
     this.store = firebase.firestore
     this.auth = firebase.auth
   }
-
-  get users() {
-    return this.store().collection('users')
-  }
 }
 
 export default new Firebase()
