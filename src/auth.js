@@ -9,16 +9,15 @@ export default class Auth {
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)
   }
-  componentDidMount() {
-    auth0 = new auth0.WebAuth({
-      domain: process.env.GATSBY_AUTH0_DOMAIN,
-      clientID: process.env.GATSBY_AUTH0_CLIENT_ID,
-      redirectUri: 'http://localhost:8000/callback',
-      audience: `https://${process.env.GATSBY_AUTH0_DOMAIN}/api/v2/`,
-      responseType: 'token id_token',
-      scope: 'openid profile email',
-    })
-  }
+
+  auth0 = new auth0.WebAuth({
+    domain: process.env.GATSBY_AUTH0_DOMAIN,
+    clientID: process.env.GATSBY_AUTH0_CLIENT_ID,
+    redirectUri: 'http://localhost:8000/callback',
+    audience: `https://${process.env.GATSBY_AUTH0_DOMAIN}/api/v2/`,
+    responseType: 'token id_token',
+    scope: 'openid profile email',
+  })
 
   login() {
     this.auth0.authorize()
@@ -64,11 +63,11 @@ export default class Auth {
     })
   }
 
-  getUser() {
-    if (windowGlobal.localStorage.getItem('user')) {
-      return JSON.parse(windowGlobal.localStorage.getItem('user'))
-    }
-  }
+  // getUser() {
+  //   if (windowGlobal.localStorage.getItem('user')) {
+  //     return JSON.parse(windowGlobal.localStorage.getItem('user'))
+  //   }
+  // }
 
   getUserName() {
     if (this.getUser()) {
