@@ -115,7 +115,7 @@ class Navbar extends Component {
               )}
               {this.props.user ? (
                 <Link to="/account">
-                  <FaUser color="#FF0088" size="2.3rem" />{' '}
+                  <FaUser color="#FF0088" size="2.35rem" />{' '}
                 </Link>
               ) : null}
               <FaShoppingBag
