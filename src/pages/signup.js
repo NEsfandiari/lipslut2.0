@@ -9,6 +9,7 @@ import {
   NavLink,
   Card,
 } from '../components/atoms'
+import 'animate.css'
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const Container = styled.div`
     width: 17rem;
   }
   .checkbox {
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
     display: flex;
     justify-content: center;
     width: 17rem;
@@ -40,13 +41,18 @@ const Container = styled.div`
       margin-left: 0.5rem;
     }
   }
+  .errorMessage {
+    width: 100%;
+    text-align: center;
+    padding: .5rem;
+    border-radius: 4px
+    background-color: #FFA62C;
+    color: white;
+    font-size: .8rem;
+  }
 `
 
 class Signup extends Component {
-  //   constructor(props) {
-  //     super(props)
-  //     debugger
-  //   }
   state = {
     firstName: '',
     lastName: '',
@@ -94,10 +100,13 @@ class Signup extends Component {
     }
     return (
       <Container>
-        <Card height="33rem">
+        <Card height="35rem">
           <form onSubmit={this.handleSubmit}>
             <h2>Create Account</h2>
-            <p className="errorMessage" style={displayError}>
+            <p
+              className="errorMessage animated slideInRight"
+              style={displayError}
+            >
               {this.state.errorMessage}
             </p>
             <div className="name">

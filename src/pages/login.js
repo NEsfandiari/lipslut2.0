@@ -30,6 +30,13 @@ const Container = styled.div`
     }
   }
   .errorMessage {
+    width: 100%;
+    text-align: center;
+    padding: .5rem;
+    border-radius: 4px
+    background-color: #FFA62C;
+    color: white;
+    font-size: .8rem;
   }
 `
 
@@ -83,7 +90,10 @@ class Login extends Component {
         <Card>
           <form onSubmit={this.handleSubmit}>
             <h2>Welcome Back!</h2>
-            <p className="errorMessage" style={displayError}>
+            <p
+              className="errorMessage animated slideInRight"
+              style={displayError}
+            >
               {this.state.errorMessage}
             </p>
             <StyledInput
