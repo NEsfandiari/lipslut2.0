@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
-import { FaShoppingBag } from 'react-icons/lib/fa'
+import { FaShoppingBag, FaUser } from 'react-icons/lib/fa'
 import { NavLink } from './atoms'
 import CartSidebar from './CartSidebar'
 
@@ -38,7 +38,7 @@ const NavContainer = Styled.div`
       cursor: pointer;
     }
     a{
-      margin-right: .5rem;
+      margin-right: .7rem;
     }
     p{
       position: relative;
@@ -114,7 +114,9 @@ class Navbar extends Component {
                 </NavLink>
               )}
               {this.props.user ? (
-                <NavLink to="/account"> ACCOUNT </NavLink>
+                <Link to="/account">
+                  <FaUser color="#FF0088" size="2.3rem" />{' '}
+                </Link>
               ) : null}
               <FaShoppingBag
                 color="#FF0088"
