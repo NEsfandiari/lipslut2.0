@@ -62,6 +62,9 @@ class Login extends Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(user => {
+        debugger
+      })
       .then(() => navigateTo('/'))
       .catch(function(error) {
         let errorMessage = error.message

@@ -31,14 +31,9 @@ class IndexPage extends Component {
     e.preventDefault()
     const { firebase } = this.context
     const db = firebase.store()
-    db
-      .collection('emails')
-      .add({
-        email: this.state.email,
-      })
-      .then(docRef => {
-        console.log('Document written with ID: ', docRef.id)
-      })
+    db.collection('emails').add({
+      email: this.state.email,
+    })
     this.setState({ status: 'WELCOME!', email: '' })
   }
   handleChange = e => {

@@ -76,6 +76,23 @@ class Signup extends Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(user => {
+        const userInfo = user.additionalUserInfo
+        if (this.state.newsletter === 'on') {
+          firebase
+            .store()
+            .collection('emails')
+            .add({ email: this.state.email })
+        }
+        firebase
+          .store()
+          .collection('users')
+          .add({
+            name: this.state.firstName + ' ' + this.state.lastName,
+            email: this.state.email,
+            id: userInfo.uid,
+          })
+      })
       .then(() => navigateTo('/'))
       .catch(function(error) {
         const errorMessage = error.message
@@ -83,10 +100,28 @@ class Signup extends Component {
       })
   }
   handleGoogle = e => {
+    const { firebase } = this.context
     const { auth } = this.context.firebase
     const signup = this
     auth()
       .signInWithPopup(new auth.GoogleAuthProvider())
+      .then(user => {
+        const userInfo = user.user
+        if (this.state.newsletter === 'on') {
+          firebase
+            .store()
+            .collection('emails')
+            .add({ email: userInfo.email })
+        }
+        firebase
+          .store()
+          .collection('users')
+          .add({
+            name: userInfo.displayName,
+            email: userInfo.email,
+            id: userInfo.uid,
+          })
+      })
       .then(() => navigateTo('/'))
       .catch(error => {
         const errorMessage = error.message

@@ -52,7 +52,6 @@ class CheckoutForm extends Component {
           email: this.state.email,
         })
         .then(({ token }) => {
-          debugger
           const stripeAmount =
             parseFloat(
               (
@@ -79,6 +78,10 @@ class CheckoutForm extends Component {
               console.log(res)
               this.props.clearCart()
               this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
+            })
+            .then(() => {
+              // TODO: Find user in Firestore by uid and add Cart/Billing Info to their document
+              console.log('finish this functionality!')
             })
         })
     } catch (error) {

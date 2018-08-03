@@ -149,6 +149,7 @@ class Layout extends Component {
             removeItem: this.removeItem,
             clearCart: this.clearCart,
             cart: this.state.cart,
+            user: this.state.user,
           })}
         </div>
         <Footer />
