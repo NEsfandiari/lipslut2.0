@@ -13,7 +13,6 @@ class FirebaseProvider extends React.Component {
 
   getChildContext() {
     const { firebase } = this.props
-
     return {
       firebase,
     }

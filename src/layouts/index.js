@@ -59,12 +59,11 @@ class Layout extends Component {
     this.setState({ cart: cartData })
 
     const firebase = this.context.firebase
-    const layout = this
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        layout.signIn(user)
+        this.signIn(user)
       } else {
-        layout.signOut()
+        this.signOut()
       }
     })
   }

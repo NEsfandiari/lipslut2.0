@@ -43,13 +43,17 @@ const Container = styled.div`
 `
 
 class Signup extends Component {
+  //   constructor(props) {
+  //     super(props)
+  //     debugger
+  //   }
   state = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     newsletter: '',
-    errorMessage: '',
+    errorMessage: null,
   }
   static contextTypes = {
     firebase: PropTypes.object,
@@ -61,31 +65,41 @@ class Signup extends Component {
   }
   handleSubmit = e => {
     e.preventDefault()
-    const { auth, store } = this.context.firebase
-    auth()
+    const { firebase } = this.context
+    const signup = this
+    firebase
+      .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(function(error) {
-        var errorMessage = error.message
-        this.setState({ errorMessage: errorMessage })
-      })
       .then(() => navigateTo('/'))
+      .catch(function(error) {
+        const errorMessage = error.message
+        signup.setState({ errorMessage: errorMessage })
+      })
   }
   handleGoogle = e => {
-    const { auth, store } = this.context.firebase
-    auth()
+    const { firebase } = this.context
+    const signup = this
+    firebase
+      .auth()
       .signInWithPopup(new auth.GoogleAuthProvider())
-      .catch(error => {
-        var errorMessage = error.message
-        this.setState({ errorMessage: errorMessage })
-      })
       .then(() => navigateTo('/'))
+      .catch(error => {
+        const errorMessage = error.message
+        signup.setState({ errorMessage: errorMessage })
+      })
   }
   render() {
+    const displayError = {
+      display: typeof this.state.errorMessage !== 'string' ? 'none' : 'inherit',
+    }
     return (
       <Container>
-        <Card height="31rem">
+        <Card height="33rem">
           <form onSubmit={this.handleSubmit}>
             <h2>Create Account</h2>
+            <p className="errorMessage" style={displayError}>
+              {this.state.errorMessage}
+            </p>
             <div className="name">
               <StyledInput
                 type="text"
@@ -165,3 +179,7 @@ class Signup extends Component {
 }
 
 export default Signup
+
+Signup.childContextTypes = {
+  firebase: PropTypes.object,
+}

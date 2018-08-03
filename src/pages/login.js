@@ -50,29 +50,28 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    const { auth, store } = this.context.firebase
-    auth()
+    const { firebase } = this.context
+    firebase
+      .auth()
       .SignInWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(function(error) {
-        var errorCode = error.code
-        var errorMessage = error.message
-        this.setState({ errorMessage: errorMessage })
-        console.log(errorCode)
-      })
       .then(() => navigateTo('/'))
+      .catch(function(error) {
+        let errorMessage = error.message
+        this.setState({ errorMessage: errorMessage })
+      })
   }
   handleGoogle = e => {
-    const { auth, store } = this.context.firebase
-    auth()
+    const { firebase } = this.context
+    firebase
+      .auth()
       .signInWithPopup(new auth.GoogleAuthProvider())
+      .then(() => navigateTo('/'))
       .catch(error => {
-        var errorMessage = error.message
+        let errorMessage = error.message
         this.setState({ errorMessage: errorMessage })
-        console.error(error)
         // TODO: notify the user of the error
         return error
       })
-      .then(() => navigateTo('/'))
   }
 
   render() {
