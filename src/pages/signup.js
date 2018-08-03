@@ -83,10 +83,9 @@ class Signup extends Component {
       })
   }
   handleGoogle = e => {
-    const { firebase } = this.context
+    const { auth } = this.context.firebase
     const signup = this
-    firebase
-      .auth()
+    auth()
       .signInWithPopup(new auth.GoogleAuthProvider())
       .then(() => navigateTo('/'))
       .catch(error => {

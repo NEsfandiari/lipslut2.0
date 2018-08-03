@@ -58,24 +58,25 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { firebase } = this.context
+    const login = this
     firebase
       .auth()
-      .SignInWithEmailAndPassword(this.state.email, this.state.password)
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => navigateTo('/'))
       .catch(function(error) {
         let errorMessage = error.message
-        this.setState({ errorMessage: errorMessage })
+        login.setState({ errorMessage: errorMessage })
       })
   }
   handleGoogle = e => {
-    const { firebase } = this.context
-    firebase
-      .auth()
+    const { auth } = this.context.firebase
+    const login = this
+    auth()
       .signInWithPopup(new auth.GoogleAuthProvider())
       .then(() => navigateTo('/'))
       .catch(error => {
         let errorMessage = error.message
-        this.setState({ errorMessage: errorMessage })
+        login.setState({ errorMessage: errorMessage })
         // TODO: notify the user of the error
         return error
       })
@@ -87,7 +88,7 @@ class Login extends Component {
     }
     return (
       <Container>
-        <Card>
+        <Card height="31rem">
           <form onSubmit={this.handleSubmit}>
             <h2>Welcome Back!</h2>
             <p
