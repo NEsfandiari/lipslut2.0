@@ -87,10 +87,10 @@ class Signup extends Component {
         firebase
           .store()
           .collection('users')
-          .add({
+          .doc(userInfo.uid)
+          .set({
             name: this.state.firstName + ' ' + this.state.lastName,
             email: this.state.email,
-            id: userInfo.uid,
           })
       })
       .then(() => navigateTo('/'))
@@ -116,10 +116,10 @@ class Signup extends Component {
         firebase
           .store()
           .collection('users')
-          .add({
+          .doc(userInfo.uid)
+          .set({
             name: userInfo.displayName,
             email: userInfo.email,
-            id: userInfo.uid,
           })
       })
       .then(() => navigateTo('/'))

@@ -99,14 +99,14 @@ class Navbar extends Component {
               </Link>
             </div>
             <div className="rightNav">
-              {!this.props.user ? (
+              {!this.props.curUser ? (
                 <NavLink to="/signup">SIGN UP</NavLink>
               ) : (
                 <NavLink to="" onClick={this.logOut}>
                   LOG OUT
                 </NavLink>
               )}
-              {this.props.user ? (
+              {this.props.curUser ? (
                 <Link to="/account">
                   <FaUser color="#FF0088" size="2.35rem" />{' '}
                 </Link>

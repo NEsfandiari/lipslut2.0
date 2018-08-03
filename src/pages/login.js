@@ -62,9 +62,6 @@ class Login extends Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user => {
-        debugger
-      })
       .then(() => navigateTo('/'))
       .catch(function(error) {
         let errorMessage = error.message
@@ -80,8 +77,6 @@ class Login extends Component {
       .catch(error => {
         let errorMessage = error.message
         login.setState({ errorMessage: errorMessage })
-        // TODO: notify the user of the error
-        return error
       })
   }
 

@@ -26,15 +26,17 @@ class Checkout extends Component {
         .toFixed(2)
     )
     const tax = parseFloat((subtotal * 0.15).toFixed(2))
+    const { cart, addItem, clearCart, curUser } = this.props
     return (
       <StripeProvider stripe={this.state.stripe}>
         <Elements>
           <CheckoutForm
-            cart={this.props.cart}
-            addItem={this.props.addItem}
-            clearCart={this.props.clearCart}
+            cart={cart}
+            addItem={addItem}
+            clearCart={clearCart}
             subtotal={subtotal}
             tax={tax}
+            curUser={curUser}
           />
         </Elements>
       </StripeProvider>

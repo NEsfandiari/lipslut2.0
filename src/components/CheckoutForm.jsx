@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { Shipping, Summary, Payment } from './molecules'
 import { injectStripe } from 'react-stripe-elements'
-import { navigateTo } from 'gatsby-link'
 import axios from 'axios'
 import uuid from 'uuid/v4'
 
@@ -38,9 +38,14 @@ class CheckoutForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  static contextTypes = {
+    firebase: PropTypes.object,
+  }
+
   handleSubmit(e) {
     e.preventDefault()
     this.setState({ orderStatus: 'PROCESSING...' })
+    const { firebase } = this.context
     try {
       this.props.stripe
         .createToken({
@@ -60,6 +65,21 @@ class CheckoutForm extends Component {
                 this.state.shipping
               ).toFixed(2)
             ) * 100
+          if (this.props.curUser) {
+            firebase
+              .store()
+              .collection('users')
+              .doc(this.props.curUser.id)
+              .update({
+                billing: {
+                  card: token.id,
+                  address_city: this.state.city,
+                  address_state: this.state.state,
+                  address_line1: this.state.address,
+                  address_line2: this.state.apartment,
+                },
+              })
+          }
           axios
             .post(
               location.hostname === 'localhost'
@@ -75,13 +95,20 @@ class CheckoutForm extends Component {
               }
             )
             .then(res => {
-              console.log(res)
+              if (this.props.curUser) {
+                firebase
+                  .store()
+                  .collection('users')
+                  .doc(this.props.curUser.id)
+                  .update({
+                    orderHistory: [
+                      ...this.props.curUser.data.orderHistory,
+                      this.props.cart,
+                    ],
+                  })
+              }
               this.props.clearCart()
               this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
-            })
-            .then(() => {
-              // TODO: Find user in Firestore by uid and add Cart/Billing Info to their document
-              console.log('finish this functionality!')
             })
         })
     } catch (error) {

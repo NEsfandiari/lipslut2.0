@@ -42,7 +42,7 @@ class Layout extends Component {
       cart: [],
       sidebar: false,
       styleFix: false,
-      user: null,
+      curUser: null,
     }
     this.handleSidebar = this.handleSidebar.bind(this)
     this.editItem = this.editItem.bind(this)
@@ -55,7 +55,8 @@ class Layout extends Component {
   }
 
   componentDidMount() {
-    const cartData = JSON.parse(windowGlobal.localStorage.getItem('cart')) || []
+    let cartData = windowGlobal.localStorage.getItem('cart') || '[]'
+    cartData = JSON.parse(cartData)
     this.setState({ cart: cartData })
 
     const firebase = this.context.firebase
@@ -71,10 +72,18 @@ class Layout extends Component {
     this.stopAuthListener()
   }
   signIn = user => {
-    this.setState({ user: user })
+    const { firebase } = this.context
+    firebase
+      .store()
+      .collection('users')
+      .doc(user.uid)
+      .get()
+      .then(doc => {
+        this.setState({ curUser: { id: user.uid, data: doc.data() } })
+      })
   }
   signOut = () => {
-    this.setState({ user: null })
+    this.setState({ curUser: null })
   }
 
   handleSidebar() {
@@ -132,7 +141,7 @@ class Layout extends Component {
           sidebar={this.state.sidebar}
           styleFix={this.state.styleFix}
           handleSidebar={this.handleSidebar}
-          user={this.state.user}
+          curUser={this.state.curUser}
         />
         <div
           style={{
@@ -149,7 +158,7 @@ class Layout extends Component {
             removeItem: this.removeItem,
             clearCart: this.clearCart,
             cart: this.state.cart,
-            user: this.state.user,
+            curUser: this.state.curUser,
           })}
         </div>
         <Footer />

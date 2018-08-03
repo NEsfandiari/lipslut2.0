@@ -19,7 +19,6 @@ exports.handler = function(event, context, callback) {
 
   let data = JSON.parse(event.body)
   data = JSON.parse(data.body)
-  console.log(data)
 
   // TEST for all necessary data
   if (!data.token || !data.amount || !data.idempotency_key) {
@@ -31,33 +30,37 @@ exports.handler = function(event, context, callback) {
     })
     return
   }
-
-  // Actual function
-  stripe.charges.create(
-    {
-      currency: 'usd',
-      amount: data.amount,
+  stripe.customers
+    .create({
       source: data.token.id,
-      description: `Receipt from Lipslut LLC`,
-      receipt_email: data.token.email,
-    },
-    {
-      idempotency_key: data.idempotency_key,
-    },
-    (err, charge) => {
-      if (err !== null) {
-        console.log(err)
-      }
+      email: data.token.email,
+    })
+    .then(customer => {
+      console.log(customer)
+      stripe.charges.create(
+        {
+          currency: 'usd',
+          amount: data.amount,
+          customer: customer.id,
+        },
+        {
+          idempotency_key: data.idempotency_key,
+        },
+        (err, charge) => {
+          if (err !== null) {
+            console.log(err)
+          }
 
-      let status =
-        charge === null || charge.status !== 'succeeded'
-          ? 'failed'
-          : charge.status
-      callback(null, {
-        statusCode,
-        headers,
-        body: JSON.stringify({ status }),
-      })
-    }
-  )
+          let status =
+            charge === null || charge.status !== 'succeeded'
+              ? 'failed'
+              : charge.status
+          callback(null, {
+            statusCode,
+            headers,
+            body: JSON.stringify({ status }),
+          })
+        }
+      )
+    })
 }
