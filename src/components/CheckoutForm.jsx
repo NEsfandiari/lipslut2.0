@@ -21,16 +21,16 @@ class CheckoutForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      firstName: '',
-      lastName: '',
+      email: this.props.curUser.data.email || '',
+      firstName: this.props.curUser.data.name.split(' ')[0] || '',
+      lastName: this.props.curUser.data.name.split(' ')[0] || '',
       newsletter: '',
-      address: '',
-      apartment: '',
-      city: 'CA',
-      zip: '',
-      state: '',
-      phone: '',
+      address: this.props.curUser.data.billing.address_line1 || '',
+      apartment: this.props.curUser.data.billing.address_line2 || '',
+      city: this.props.curUser.data.billing.address_city || '',
+      zip: this.props.curUser.data.billing.zip || '',
+      state: this.props.curUser.data.billing.address_state || '',
+      phone: this.props.curUser.data.billing.phone || '',
       shipping: 4.95,
       orderStatus: 'PLACE ORDER',
     }
@@ -77,6 +77,8 @@ class CheckoutForm extends Component {
                   address_state: this.state.state,
                   address_line1: this.state.address,
                   address_line2: this.state.apartment,
+                  zip: this.state.zip,
+                  phone: this.state.phone,
                 },
               })
           }
@@ -101,10 +103,10 @@ class CheckoutForm extends Component {
                   .collection('users')
                   .doc(this.props.curUser.id)
                   .update({
-                    orderHistory: {
+                    orderHistory: [
                       ...this.props.curUser.data.orderHistory,
                       ...this.props.cart,
-                    },
+                    ],
                   })
               }
               this.props.clearCart()
