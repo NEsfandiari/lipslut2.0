@@ -70,7 +70,7 @@ class Signup extends Component {
       })
       .then(() => navigateTo('/'))
   }
-  handleGoogle = e => {
+  handleGoogle = async e => {
     const { auth, store } = this.context.firebase
     auth()
       .signInWithPopup(new auth.GoogleAuthProvider())

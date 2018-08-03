@@ -57,19 +57,25 @@ class Layout extends Component {
   componentDidMount() {
     const cartData = JSON.parse(windowGlobal.localStorage.getItem('cart')) || []
     this.setState({ cart: cartData })
+
     const firebase = this.context.firebase
-    const setState = this.setState
+    const layout = this
     firebase.auth().onAuthStateChanged(function(user) {
-      console.log('hey')
       if (user) {
-        setState({ user: user })
+        layout.signIn(user)
       } else {
-        setState({ user: null })
+        layout.signOut()
       }
     })
   }
   componentWillUnmount() {
     this.stopAuthListener()
+  }
+  signIn = user => {
+    this.setState({ user: user })
+  }
+  signOut = () => {
+    this.setState({ user: null })
   }
 
   handleSidebar() {
