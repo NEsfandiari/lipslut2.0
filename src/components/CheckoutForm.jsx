@@ -101,10 +101,10 @@ class CheckoutForm extends Component {
                   .collection('users')
                   .doc(this.props.curUser.id)
                   .update({
-                    orderHistory: [
+                    orderHistory: {
                       ...this.props.curUser.data.orderHistory,
-                      this.props.cart,
-                    ],
+                      ...this.props.cart,
+                    },
                   })
               }
               this.props.clearCart()
@@ -124,12 +124,12 @@ class CheckoutForm extends Component {
   }
 
   render() {
-    const { cart, addItem, subtotal, tax, stripe } = this.props
+    const { cart, addItem, subtotal, tax, stripe, curUser } = this.props
     const { shipping, orderStatus } = this.state
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
-        <Shipping handleChange={this.handleChange} />
+        <Shipping handleChange={this.handleChange} curUser={curUser} />
         <Summary
           cart={cart}
           addItem={addItem}

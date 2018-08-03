@@ -68,9 +68,6 @@ class Layout extends Component {
       }
     })
   }
-  componentWillUnmount() {
-    this.stopAuthListener()
-  }
   signIn = user => {
     const { firebase } = this.context
     firebase

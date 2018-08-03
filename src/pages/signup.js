@@ -88,7 +88,7 @@ class Signup extends Component {
           .store()
           .collection('users')
           .doc(userInfo.uid)
-          .set({
+          .update({
             name: this.state.firstName + ' ' + this.state.lastName,
             email: this.state.email,
           })
@@ -117,7 +117,7 @@ class Signup extends Component {
           .store()
           .collection('users')
           .doc(userInfo.uid)
-          .set({
+          .update({
             name: userInfo.displayName,
             email: userInfo.email,
           })
