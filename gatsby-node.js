@@ -24,7 +24,7 @@ require('dotenv').config({
 //       loader: 'null-loader',
 //     })
 //   }
-}
+// }
 
 // create product pages from contentful graphql data
 const path = require('path')
