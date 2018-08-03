@@ -37,7 +37,7 @@ class ProductDescription extends Component {
     this.props.addItem(
       this.props.title,
       this.props.price,
-      this.state.quantity,
+      parseInt(this.state.quantity),
       this.props.images[0]
     )
     this.setState({ status: 'ADDED!' })
