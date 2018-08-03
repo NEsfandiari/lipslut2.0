@@ -49,29 +49,18 @@ const Container = styled.div`
 
 class Shipping extends Component {
   render() {
-    const { handleChange } = this.props
-    let {
+    const {
+      handleChange,
       email,
       address_city,
       address_line1,
       address_line2,
       address_state,
-      firstName,
-      lastName,
       zip,
       phone,
-    } = ''
-    if (this.props.curUser) {
-      email = this.props.curUser.data.email || ''
-      address_city = this.props.curUser.data.billing.address_city || ''
-      address_line1 = this.props.curUser.data.billing.address_line1 || ''
-      address_line2 = this.props.curUser.data.billing.address_line2 || ''
-      address_state = this.props.curUser.data.billing.address_state || ''
-      zip = this.props.curUser.data.billing.zip || ''
-      phone = this.props.curUser.data.billing.phone || ''
-      firstName = this.props.curUser.data.name.split(' ')[0] || ''
-      lastName = this.props.curUser.data.name.split(' ')[1] || ''
-    }
+      firstName,
+      lastName,
+    } = this.props
     return (
       <Container>
         <Card>

@@ -21,16 +21,16 @@ class CheckoutForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: this.props.curUser.data.email || '',
-      firstName: this.props.curUser.data.name.split(' ')[0] || '',
-      lastName: this.props.curUser.data.name.split(' ')[0] || '',
+      email: this.props.email,
+      firstName: this.props.firstname,
+      lastName: this.props.lastname,
       newsletter: '',
-      address: this.props.curUser.data.billing.address_line1 || '',
-      apartment: this.props.curUser.data.billing.address_line2 || '',
-      city: this.props.curUser.data.billing.address_city || '',
-      zip: this.props.curUser.data.billing.zip || '',
-      state: this.props.curUser.data.billing.address_state || '',
-      phone: this.props.curUser.data.billing.phone || '',
+      address: this.props.address_line1,
+      apartment: this.props.address_line2,
+      city: this.props.address_city,
+      zip: this.props.zip,
+      state: this.props.address_state,
+      phone: this.props.phone,
       shipping: 4.95,
       orderStatus: 'PLACE ORDER',
     }
@@ -126,12 +126,38 @@ class CheckoutForm extends Component {
   }
 
   render() {
-    const { cart, addItem, subtotal, tax, stripe, curUser } = this.props
+    const {
+      cart,
+      addItem,
+      subtotal,
+      tax,
+      stripe,
+      email,
+      address_city,
+      address_line1,
+      address_line2,
+      address_state,
+      zip,
+      phone,
+      firstName,
+      lastName,
+    } = this.props
     const { shipping, orderStatus } = this.state
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
-        <Shipping handleChange={this.handleChange} curUser={curUser} />
+        <Shipping
+          handleChange={this.handleChange}
+          email={email}
+          address_city={address_city}
+          address_line1={address_line1}
+          address_line2={address_line2}
+          address_state={address_state}
+          firstName={firstName}
+          lastName={lastName}
+          zip={zip}
+          phone={phone}
+        />
         <Summary
           cart={cart}
           addItem={addItem}
