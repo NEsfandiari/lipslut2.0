@@ -92,7 +92,7 @@ class Login extends Component {
           <form onSubmit={this.handleSubmit}>
             <h2>Welcome Back!</h2>
             <p
-              className="errorMessage animated slideInRight"
+              className="errorMessage animated fadeInRight"
               style={displayError}
             >
               {this.state.errorMessage}

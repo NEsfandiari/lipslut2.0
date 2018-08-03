@@ -52,13 +52,6 @@ const NavContainer = Styled.div`
   }
 `
 class Navbar extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      authenticated: false,
-    }
-  }
-
   static contextTypes = {
     firebase: PropTypes.object,
   }

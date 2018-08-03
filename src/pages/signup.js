@@ -103,7 +103,7 @@ class Signup extends Component {
           <form onSubmit={this.handleSubmit}>
             <h2>Create Account</h2>
             <p
-              className="errorMessage animated slideInRight"
+              className="errorMessage animated fadeInRight"
               style={displayError}
             >
               {this.state.errorMessage}
