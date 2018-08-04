@@ -77,7 +77,7 @@ class Signup extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => {
-        const userInfo = user.additionalUserInfo
+        const userInfo = user.user
         if (this.state.newsletter === 'on') {
           firebase
             .store()
@@ -112,6 +112,16 @@ class Signup extends Component {
             .store()
             .collection('emails')
             .add({ email: userInfo.email })
+            .then(() => {
+              firebase
+                .store()
+                .collection('users')
+                .doc(userInfo.uid)
+                .update({
+                  name: userInfo.displayName,
+                  email: userInfo.email,
+                })
+            })
         }
         firebase
           .store()
