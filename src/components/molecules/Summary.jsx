@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Card } from '../atoms'
 import SummaryItem from './SummaryItem'
 import Financials from './Financials'
+import 'animate.css'
 
 const Container = styled.div`
   border-radius: 6px;

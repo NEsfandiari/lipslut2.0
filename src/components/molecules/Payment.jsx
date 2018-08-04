@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card, StyledButton } from '../atoms'
 import { CardElement } from 'react-stripe-elements'
+import 'animate.css'
 
 class Payment extends Component {
   render() {

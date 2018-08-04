@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Card, StyledInput } from '../atoms'
+import 'animate.css'
 
 const Container = styled.div`
   border-radius: 6px;
