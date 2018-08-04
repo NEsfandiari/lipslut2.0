@@ -30,37 +30,70 @@ exports.handler = function(event, context, callback) {
     })
     return
   }
-  stripe.customers
-    .create({
-      source: data.token.id,
-      email: data.token.email,
-    })
-    .then(customer => {
-      console.log(customer)
-      stripe.charges.create(
-        {
-          currency: 'usd',
-          amount: data.amount,
-          customer: customer.id,
-        },
-        {
-          idempotency_key: data.idempotency_key,
-        },
-        (err, charge) => {
-          if (err !== null) {
-            console.log(err)
-          }
-
-          let status =
-            charge === null || charge.status !== 'succeeded'
-              ? 'failed'
-              : charge.status
-          callback(null, {
-            statusCode,
-            headers,
-            body: JSON.stringify({ status }),
-          })
+  if (data.previousCustomer) {
+    console.log('new code')
+    stripe.charges.create(
+      {
+        currency: 'usd',
+        amount: data.amount,
+        customer: data.previousCustomer,
+      },
+      {
+        idempotency_key: data.idempotency_key,
+      },
+      (err, charge) => {
+        if (err !== null) {
+          console.log(err)
         }
-      )
-    })
+
+        let status =
+          charge === null || charge.status !== 'succeeded'
+            ? 'failed'
+            : charge.status
+        callback(null, {
+          statusCode,
+          headers,
+          body: JSON.stringify({
+            status,
+            previousCustomer: data.previousCustomer,
+            customerType: 'Old',
+          }),
+        })
+      }
+    )
+  } else {
+    console.log('old code')
+    stripe.customers
+      .create({
+        source: data.token.id,
+        email: data.token.email,
+      })
+      .then(customer => {
+        stripe.charges.create(
+          {
+            currency: 'usd',
+            amount: data.amount,
+            customer: customer.id,
+          },
+          {
+            idempotency_key: data.idempotency_key,
+          },
+          (err, charge) => {
+            if (err !== null) {
+              console.log(err)
+            }
+
+            let status =
+              charge === null || charge.status !== 'succeeded'
+                ? 'failed'
+                : charge.status
+            callback(null, {
+              statusCode,
+              headers,
+              body: JSON.stringify({ status, customer, customerType: 'New' }),
+            })
+          }
+        )
+      })
+  }
 }

@@ -64,7 +64,7 @@ class Shipping extends Component {
     } = this.props
     return (
       <Container>
-        <Card className="animated fadeInLeft">
+        <Card className="animated fadeInUp">
           <h3>Shipping</h3>
           <div className="email">
             <StyledInput

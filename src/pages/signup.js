@@ -92,7 +92,18 @@ class Signup extends Component {
             name: this.state.firstName + ' ' + this.state.lastName,
             email: this.state.email,
             orderHistory: [],
-            billing: {},
+            billing: {
+              email: '',
+              address_city: '',
+              address_line1: '',
+              address_line2: '',
+              address_state: '',
+              firstName: '',
+              lastName: '',
+              zip: '',
+              phone: '',
+              card: '',
+            },
           })
       })
       .then(() => navigateTo('/'))
@@ -119,9 +130,22 @@ class Signup extends Component {
           .store()
           .collection('users')
           .doc(userInfo.uid)
-          .update({
+          .set({
             name: userInfo.displayName,
             email: userInfo.email,
+            billing: {
+              email: '',
+              address_city: '',
+              address_line1: '',
+              address_line2: '',
+              address_state: '',
+              firstName: '',
+              lastName: '',
+              zip: '',
+              phone: '',
+              card: '',
+            },
+            orderHistory: [],
           })
       })
       .then(() => navigateTo('/'))

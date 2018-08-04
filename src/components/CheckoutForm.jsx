@@ -65,22 +65,9 @@ class CheckoutForm extends Component {
                 this.state.shipping
               ).toFixed(2)
             ) * 100
-          if (this.props.curUser) {
-            firebase
-              .store()
-              .collection('users')
-              .doc(this.props.curUser.id)
-              .update({
-                billing: {
-                  card: token.id,
-                  address_city: this.state.city,
-                  address_state: this.state.state,
-                  address_line1: this.state.address,
-                  address_line2: this.state.apartment,
-                  zip: this.state.zip,
-                  phone: this.state.phone,
-                },
-              })
+          let previousCustomer = null
+          if (this.props.curUser && this.props.curUser.data.billing.card) {
+            previousCustomer = this.props.curUser.data.billing.card
           }
           axios
             .post(
@@ -93,6 +80,7 @@ class CheckoutForm extends Component {
                   token,
                   amount: stripeAmount,
                   idempotency_key: uuid(),
+                  previousCustomer,
                 }),
               }
             )
@@ -107,6 +95,18 @@ class CheckoutForm extends Component {
                       ...this.props.curUser.data.orderHistory,
                       ...this.props.cart,
                     ],
+                    billing: {
+                      card:
+                        res.data.customerType == 'New'
+                          ? res.data.customer.id
+                          : res.data.previousCustomer,
+                      address_city: this.state.city,
+                      address_state: this.state.state,
+                      address_line1: this.state.address,
+                      address_line2: this.state.apartment,
+                      zip: this.state.zip,
+                      phone: this.state.phone,
+                    },
                   })
               }
               this.props.clearCart()
