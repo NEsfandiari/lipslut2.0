@@ -21,13 +21,15 @@ class Account extends Component {
   state = {}
   render() {
     let items
-    if (this.props.curUser.data.orderHistory.length > 0) {
-      const { curUser } = this.props
-      items = curUser.data.orderHistory.map((item, i) => (
-        <SummaryItem item={item} id={i} key={i} />
-      ))
-    } else {
-      items = 'You have not placed an order yet.'
+    if (this.props.curUser) {
+      if (this.props.curUser.data.orderHistory.length > 0) {
+        const { curUser } = this.props
+        items = curUser.data.orderHistory.map((item, i) => (
+          <SummaryItem item={item} id={i} key={i} />
+        ))
+      } else {
+        items = 'You have not placed an order yet.'
+      }
     }
     return (
       <Container>
