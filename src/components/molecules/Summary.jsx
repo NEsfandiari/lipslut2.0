@@ -26,7 +26,7 @@ class Summary extends Component {
     ))
     return (
       <Container>
-        <Card>
+        <Card className="animated fadeInUp">
           <h3>Summary</h3>
           <div className="items">{items}</div>
           <Financials

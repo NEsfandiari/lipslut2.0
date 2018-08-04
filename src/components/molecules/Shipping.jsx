@@ -63,7 +63,7 @@ class Shipping extends Component {
     } = this.props
     return (
       <Container>
-        <Card>
+        <Card className="animated fadeInLeft">
           <h3>Shipping</h3>
           <div className="email">
             <StyledInput

@@ -5,6 +5,7 @@ import { Shipping, Summary, Payment } from './molecules'
 import { injectStripe } from 'react-stripe-elements'
 import axios from 'axios'
 import uuid from 'uuid/v4'
+import 'animate.css'
 
 const ContainerForm = styled.form`
   display: flex;

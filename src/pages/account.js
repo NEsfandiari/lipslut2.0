@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { SummaryItem } from '../components/molecules'
 import { Card } from '../components/atoms'
+import 'animate.css'
 
 const Container = styled.div`
   display: flex;
@@ -28,16 +29,16 @@ class Account extends Component {
           <SummaryItem item={item} id={i} key={i} />
         ))
       } else {
-        items = 'You have not placed an order yet.'
+        items = <p>You have not placed an order yet.</p>
       }
     }
     return (
       <Container>
-        <Card classname="history">
+        <Card className="history animated fadeInUp">
           <h3>Order History</h3>
           <div className="orders">{items}</div>
         </Card>
-        <Card classname="shipping">
+        <Card className="shipping animated fadeInUp">
           <h3>Shipping Information</h3>
         </Card>
       </Container>

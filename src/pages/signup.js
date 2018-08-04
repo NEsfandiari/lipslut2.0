@@ -88,9 +88,11 @@ class Signup extends Component {
           .store()
           .collection('users')
           .doc(userInfo.uid)
-          .update({
+          .set({
             name: this.state.firstName + ' ' + this.state.lastName,
             email: this.state.email,
+            orderHistory: [],
+            billing: {},
           })
       })
       .then(() => navigateTo('/'))
@@ -112,16 +114,6 @@ class Signup extends Component {
             .store()
             .collection('emails')
             .add({ email: userInfo.email })
-            .then(() => {
-              firebase
-                .store()
-                .collection('users')
-                .doc(userInfo.uid)
-                .update({
-                  name: userInfo.displayName,
-                  email: userInfo.email,
-                })
-            })
         }
         firebase
           .store()

@@ -7,7 +7,7 @@ class Payment extends Component {
     const buttonUsability =
       this.props.orderStatus !== 'PLACE ORDER' ? 'disabled' : null
     return (
-      <Card>
+      <Card className="animated fadeInRight">
         <h3>Payment</h3>
         <CardElement />
         <StyledButton width="17rem" disabled={buttonUsability}>
