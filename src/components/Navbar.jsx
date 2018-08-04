@@ -100,7 +100,7 @@ class Navbar extends Component {
             </div>
             <div className="rightNav">
               {!this.props.curUser ? (
-                <NavLink to="/signup">SIGN UP</NavLink>
+                <NavLink to="/login">LOG IN</NavLink>
               ) : (
                 <NavLink to="" onClick={this.logOut}>
                   LOG OUT
