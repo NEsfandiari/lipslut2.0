@@ -9,6 +9,8 @@ import Financials from './Financials.jsx'
 import Shipping from './Shipping.jsx'
 import Summary from './Summary.jsx'
 import Payment from './Payment.jsx'
+import OrderHistory from './OrderHistory.jsx'
+import AccountDetails from './AccountDetails.jsx'
 
 export default {
   Statement,
@@ -22,4 +24,6 @@ export default {
   Payment,
   Shipping,
   Summary,
+  OrderHistory,
+  AccountDetails,
 }

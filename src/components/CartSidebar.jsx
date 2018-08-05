@@ -18,6 +18,9 @@ const Container = styled.div`
   background-color: #f9f7f1;
   overflow: auto;
   padding-bottom: 1rem;
+  p {
+    text-align: center;
+  }
 
   .contents {
     display: flex;
@@ -65,6 +68,8 @@ class CartSidebar extends Component {
         return accumulator + currentValue.price * currentValue.quantity
       }, 0)
       .toFixed(2)
+    const buttonUsability = this.props.cart.length == 0 ? '' : '/checkout'
+    const opacity = this.props.cart.length == 0 ? 0.3 : 1
     return (
       <Container className={animation} styleFix={styleFix}>
         <div className="contents">
@@ -74,10 +79,14 @@ class CartSidebar extends Component {
             </div>
             <h1>Items</h1>
           </div>
-          {cart.length > 0 ? items : <p>Your shopping bag is feeling empty.</p>}
+          {cart.length > 0 ? items : <p>Add Items to Checkout!</p>}
           <StyledHr />
           <h4>Subtotal: ${subtotal}</h4>
-          <LinkButton to="/checkout" onClick={this.props.handleSidebar}>
+          <LinkButton
+            to={buttonUsability}
+            onClick={this.props.handleSidebar}
+            style={{ opacity: opacity }}
+          >
             CHECKOUT
           </LinkButton>
         </div>

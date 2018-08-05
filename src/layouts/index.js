@@ -36,7 +36,7 @@ const Container = styled.div`
 `
 const windowGlobal = typeof window !== 'undefined' && window
 class Layout extends Component {
-  constructor(props) {
+  constructor(props, context) {
     super(props)
     this.state = {
       cart: [],
@@ -58,7 +58,6 @@ class Layout extends Component {
     let cartData = windowGlobal.localStorage.getItem('cart') || '[]'
     cartData = JSON.parse(cartData)
     this.setState({ cart: cartData })
-
     const firebase = this.context.firebase
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

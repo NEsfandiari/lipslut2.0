@@ -93,7 +93,7 @@ class CheckoutForm extends Component {
                   .update({
                     orderHistory: [
                       ...this.props.curUser.data.orderHistory,
-                      ...this.props.cart,
+                      { ...this.props.cart },
                     ],
                     billing: {
                       card:

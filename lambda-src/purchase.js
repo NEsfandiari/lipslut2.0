@@ -31,7 +31,7 @@ exports.handler = function(event, context, callback) {
     return
   }
   if (data.previousCustomer) {
-    console.log('new code')
+    // Charge Existing Customer
     stripe.charges.create(
       {
         currency: 'usd',
@@ -62,7 +62,7 @@ exports.handler = function(event, context, callback) {
       }
     )
   } else {
-    console.log('old code')
+    // Create A New Customer and Charge Him/her
     stripe.customers
       .create({
         source: data.token.id,
