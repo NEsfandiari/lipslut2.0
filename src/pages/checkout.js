@@ -47,7 +47,7 @@ class Checkout extends Component {
       card = curUser.data.billing.card
       ;(email = curUser.data), email
       firstName = curUser.data.name.split(' ')[0]
-      lastName = curUser.name.split(' ')[1]
+      lastName = curUser.data.name.split(' ')[1]
     }
     return (
       <StripeProvider stripe={this.state.stripe}>

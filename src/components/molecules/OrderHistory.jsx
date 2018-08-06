@@ -5,7 +5,7 @@ import Order from './Order'
 
 const Container = styled.div`
   .orders {
-    max-height: 55vh;
+    max-height: 50vh;
     overflow: auto;
   }
   h3 {
