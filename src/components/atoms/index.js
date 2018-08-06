@@ -5,6 +5,7 @@ import StyledButton from './StyledButton.jsx'
 import StyledInput from './StyledInput.jsx'
 import Card from './Card.jsx'
 import GoogleIcon from './GoogleIcon.jsx'
+import Loading from './Loading.jsx'
 
 export default {
   LinkButton,
@@ -14,4 +15,5 @@ export default {
   StyledInput,
   Card,
   GoogleIcon,
+  Loading,
 }

@@ -27,18 +27,28 @@ class Checkout extends Component {
     )
     const tax = parseFloat((subtotal * 0.15).toFixed(2))
     const { cart, addItem, clearCart, curUser } = this.props
-    const {
-      address_city,
+    let address_city,
       address_line1,
       address_line2,
       address_state,
       zip,
       phone,
       card,
-    } = curUser.data.billing
-    const { email, name } = curUser.data
-    const firstName = name.split(' ')[0]
-    const lastName = name.split(' ')[1]
+      email,
+      firstName,
+      lastName
+    if (curUser) {
+      address_city = curUser.data.billing.address_city
+      address_line1 = curUser.data.billing.address_line1
+      address_line2 = curUser.data.billing.address_line2
+      address_state = curUser.data.billing.address_state
+      zip = curUser.data.billing.zip
+      phone = curUser.data.billing.phone
+      card = curUser.data.billing.card
+      ;(email = curUser.data), email
+      firstName = curUser.data.name.split(' ')[0]
+      lastName = curUser.name.split(' ')[1]
+    }
     return (
       <StripeProvider stripe={this.state.stripe}>
         <Elements>

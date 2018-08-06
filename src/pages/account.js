@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import 'animate.css'
 import { OrderHistory, AccountDetails } from '../components/molecules'
+import { Loading } from '../components/atoms'
 
 const Container = styled.div`
   display: flex;
@@ -11,14 +12,19 @@ const Container = styled.div`
 `
 
 class Account extends Component {
-  state = {}
   render() {
     const { curUser } = this.props
     return (
-      <Container>
-        <OrderHistory curUser={curUser} />
-        <AccountDetails curUser={curUser} />
-      </Container>
+      <div>
+        {curUser ? (
+          <Container>
+            <OrderHistory curUser={curUser} />
+            <AccountDetails curUser={curUser} />
+          </Container>
+        ) : (
+          <Loading />
+        )}
+      </div>
     )
   }
 }
