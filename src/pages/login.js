@@ -49,6 +49,10 @@ class Login extends Component {
   static contextTypes = {
     firebase: PropTypes.object,
   }
+  componentDidMount() {
+    this.props.resetSidebar()
+  }
+
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value,

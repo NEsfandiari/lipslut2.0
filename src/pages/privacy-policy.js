@@ -7,11 +7,18 @@ const Container = styled.div`
   padding: 4rem;
   animation: fadein 1s;
   @keyframes fadein {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+    from {
+      opacity: 0;
     }
+    to {
+      opacity: 1;
+    }
+  }
 `
 class PrivacyPolicy extends Component {
+  componentDidMount() {
+    this.props.resetSidebar()
+  }
   render() {
     const policies = this.props.policies.map((policy, i) => (
       <p key={i}>{policy}</p>

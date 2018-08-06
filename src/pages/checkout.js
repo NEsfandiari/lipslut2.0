@@ -16,6 +16,7 @@ class Checkout extends Component {
         })
       })
     }
+    this.props.resetSidebar()
   }
   render() {
     const subtotal = parseFloat(

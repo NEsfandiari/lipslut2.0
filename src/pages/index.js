@@ -26,6 +26,9 @@ class IndexPage extends Component {
   static contextTypes = {
     firebase: PropTypes.object,
   }
+  componentDidMount() {
+    this.props.resetSidebar()
+  }
 
   handleSubmit = e => {
     e.preventDefault()

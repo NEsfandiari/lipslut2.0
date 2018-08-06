@@ -6,7 +6,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 70vh;
+  height: 81vh;
 `
 
 const Loading = () => (

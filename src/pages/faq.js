@@ -10,18 +10,25 @@ const Container = styled.div`
   padding: 4rem;
   animation: fadein 1s;
   @keyframes fadein {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+    from {
+      opacity: 0;
     }
-    .questions{
-        margin-top: 1rem;
+    to {
+      opacity: 1;
     }
-    hr{
-        margin-left: 0;
-    }
+  }
+  .questions {
+    margin-top: 1rem;
+  }
+  hr {
+    margin-left: 0;
+  }
 `
 
 class Faq extends Component {
+  componentDidMount() {
+    this.props.resetSidebar()
+  }
   render() {
     return (
       <Container>

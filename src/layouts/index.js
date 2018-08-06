@@ -49,6 +49,7 @@ class Layout extends Component {
     this.removeItem = this.removeItem.bind(this)
     this.addItem = this.addItem.bind(this)
     this.clearCart = this.clearCart.bind(this)
+    this.resetSidebar = this.resetSidebar.bind(this)
   }
 
   static contextTypes = {
@@ -88,6 +89,10 @@ class Layout extends Component {
       sidebar: !this.state.sidebar,
       styleFix: true,
     })
+  }
+
+  resetSidebar() {
+    this.setState({ sidebar: false })
   }
 
   editItem(name, value, i) {
@@ -156,6 +161,7 @@ class Layout extends Component {
             clearCart: this.clearCart,
             cart: this.state.cart,
             curUser: this.state.curUser,
+            resetSidebar: this.resetSidebar,
           })}
         </div>
         <Footer />

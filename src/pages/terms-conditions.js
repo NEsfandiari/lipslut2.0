@@ -7,11 +7,18 @@ const Container = styled.div`
   padding: 4rem;
   animation: fadein 1s;
   @keyframes fadein {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+    from {
+      opacity: 0;
     }
+    to {
+      opacity: 1;
+    }
+  }
 `
 class TermsConditions extends Component {
+  componentDidMount() {
+    this.props.resetSidebar()
+  }
   render() {
     const terms = this.props.terms.map((term, i) => <p key={i}>{term}</p>)
     return <Container>{terms}</Container>

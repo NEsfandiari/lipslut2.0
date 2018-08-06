@@ -12,6 +12,9 @@ const Container = styled.div`
 `
 
 class Account extends Component {
+  componentDidMount() {
+    this.props.resetSidebar()
+  }
   render() {
     const { curUser } = this.props
     return (

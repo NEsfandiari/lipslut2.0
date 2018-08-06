@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { Card, StyledButton, StyledHr, StyledInput, NavLink } from '../atoms'
 
 const Container = styled.div`
@@ -26,15 +27,48 @@ const Container = styled.div`
 class AccountDetails extends Component {
   state = {
     editing: false,
+    firstName: this.props.curUser.data.name.split(' ')[0] || '',
+    lastName: this.props.curUser.data.name.split(' ')[1] || '',
+    email: this.props.curUser.data.email || '',
+    address: this.props.curUser.data.billing.address_line1 || '',
+    apartment: this.props.curUser.data.billing.address_line2 || '',
+    city: this.props.curUser.data.billing.address_city || '',
+    zip: this.props.curUser.data.billing.zip || '',
+    phone: this.props.curUser.data.billing.phone || '',
   }
+
+  static contextTypes = {
+    firebase: PropTypes.object,
+  }
+
   showEdit = e => {
     this.setState({ editing: true })
   }
-  handleUpdate = e => {}
+  handleUpdate = e => {
+    const firebase = this.context.firebase
+    firebase
+      .store()
+      .collection('users')
+      .doc(this.props.curUser.id)
+      .update({
+        billing: {
+          card: this.props.curUser.data.billing.card,
+          address_city: this.state.city,
+          address_state: this.props.curUser.data.billing.address_state,
+          address_line1: this.state.address,
+          address_line2: this.state.apartment,
+          zip: this.state.zip,
+          phone: this.state.phone,
+        },
+        email: this.state.email,
+        name: this.state.firstName + ' ' + this.state.lastName,
+      })
+    this.setState({ editing: false })
+  }
   cancel = e => {
     this.setState({ editing: false })
   }
-  handleChange(e) {
+  handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value,
     })
@@ -50,28 +84,27 @@ class AccountDetails extends Component {
           {!this.state.editing ? (
             <div className="details">
               <p>
-                <span className="labels">Name:</span> {curUser.name}
+                <span className="labels">Name:</span>{' '}
+                {this.state.firstName + ' ' + this.state.lastName}
               </p>
               <p>
-                <span className="labels">Email:</span> {curUser.email}
+                <span className="labels">Email:</span> {this.state.email}
               </p>
               <p>
-                <span className="labels">Address:</span>{' '}
-                {curUser.billing.address_line1}
+                <span className="labels">Address:</span> {this.state.address}
               </p>
               <p>
-                <span className="labels">City:</span>{' '}
-                {curUser.billing.address_city}
+                <span className="labels">City:</span> {this.state.city}
               </p>
               <p style={{ display: apartmentDisplay }}>
                 <span className="labels">Apt/Suite:</span>{' '}
-                {curUser.billing.address_line2}
+                {this.state.apartment}
               </p>
               <p>
-                <span className="labels">Zip:</span> {curUser.billing.zip}
+                <span className="labels">Zip:</span> {this.state.zip}
               </p>
               <p>
-                <span className="labels">Phone:</span> {curUser.billing.phone}
+                <span className="labels">Phone:</span> {this.state.phone}
               </p>
             </div>
           ) : (
@@ -84,7 +117,7 @@ class AccountDetails extends Component {
                   onChange={this.handleChange}
                   name="firstName"
                   required
-                  defaultValue={curUser.name.split(' ')[0]}
+                  value={this.state.firstName}
                 />
               </div>
               <div className="field">
@@ -95,7 +128,7 @@ class AccountDetails extends Component {
                   onChange={this.handleChange}
                   name="lastName"
                   required
-                  defaultValue={curUser.name.split(' ')[1]}
+                  value={this.state.lastName}
                 />
               </div>
               <div className="field">
@@ -106,7 +139,7 @@ class AccountDetails extends Component {
                   onChange={this.handleChange}
                   name="email"
                   required
-                  defaultValue={curUser.email}
+                  value={this.state.email}
                 />
               </div>
               <div className="field">
@@ -117,7 +150,7 @@ class AccountDetails extends Component {
                   onChange={this.handleChange}
                   name="address"
                   required
-                  defaultValue={curUser.billing.address_line1}
+                  value={this.state.address}
                 />
               </div>
               <div className="field" style={{ display: apartmentDisplay }}>
@@ -127,7 +160,7 @@ class AccountDetails extends Component {
                   placeholder="Apt/Floor/Suite"
                   onChange={this.handleChange}
                   name="apartment"
-                  defaultValue={curUser.billing.address_line2}
+                  value={this.state.apartment}
                 />
               </div>
               <div className="field">
@@ -136,8 +169,8 @@ class AccountDetails extends Component {
                   type="text"
                   placeholder="City"
                   onChange={this.handleChange}
-                  name="apartment"
-                  defaultValue={curUser.billing.address_city}
+                  name="city"
+                  value={this.state.city}
                 />
               </div>
               <div className="field">
@@ -146,8 +179,8 @@ class AccountDetails extends Component {
                   type="text"
                   placeholder="Zip"
                   onChange={this.handleChange}
-                  name="apartment"
-                  defaultValue={curUser.billing.zip}
+                  name="zip"
+                  value={this.state.zip}
                 />
               </div>
               <div className="field">
@@ -160,7 +193,7 @@ class AccountDetails extends Component {
                   pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
                   required
                   name="phone"
-                  defaultValue={curUser.billing.phone}
+                  value={this.state.phone}
                 />
               </div>
             </form>

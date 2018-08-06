@@ -9,6 +9,9 @@ const Container = styled.div`
   align-items: center;
 `
 class ProductTemplate extends Component {
+  componentDidMount() {
+    this.props.resetSidebar()
+  }
   render() {
     const data = this.props.pathContext.node
     const images = data.images.map(img => img.file.url)
