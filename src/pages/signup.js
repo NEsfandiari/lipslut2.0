@@ -61,6 +61,9 @@ class Signup extends Component {
     newsletter: '',
     errorMessage: null,
   }
+  static contextTypes = {
+    firebase: PropTypes.object,
+  }
   componentDidMount() {
     this.props.resetSidebar()
   }
