@@ -31,7 +31,7 @@ const Container = styled.div`
     text-decoration: none;
   }
   img {
-    border-radius: 9px;
+    border-radius: 5px;
   }
 `
 const windowGlobal = typeof window !== 'undefined' && window
@@ -50,6 +50,7 @@ class Layout extends Component {
     this.addItem = this.addItem.bind(this)
     this.clearCart = this.clearCart.bind(this)
   }
+
   static contextTypes = {
     firebase: PropTypes.object,
   }

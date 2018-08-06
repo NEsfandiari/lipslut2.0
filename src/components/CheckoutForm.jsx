@@ -5,6 +5,7 @@ import { Shipping, Summary, Payment } from './molecules'
 import { injectStripe } from 'react-stripe-elements'
 import axios from 'axios'
 import uuid from 'uuid/v4'
+import moment from 'moment'
 
 const ContainerForm = styled.form`
   display: flex;
@@ -93,7 +94,16 @@ class CheckoutForm extends Component {
                   .update({
                     orderHistory: [
                       ...this.props.curUser.data.orderHistory,
-                      { ...this.props.cart },
+                      {
+                        cart: [...this.props.cart],
+                        placed: moment().format('MMMM Do YYYY'),
+                        total: parseFloat(
+                          this.props.tax +
+                            this.props.subtotal +
+                            this.state.shipping
+                        ).toFixed(2),
+                        orderNumber: parseInt(Math.random() * 1000),
+                      },
                     ],
                     billing: {
                       card:

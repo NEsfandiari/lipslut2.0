@@ -10,6 +10,7 @@ import Shipping from './Shipping.jsx'
 import Summary from './Summary.jsx'
 import Payment from './Payment.jsx'
 import OrderHistory from './OrderHistory.jsx'
+import Order from './Order.jsx'
 import AccountDetails from './AccountDetails.jsx'
 
 export default {
@@ -25,5 +26,6 @@ export default {
   Shipping,
   Summary,
   OrderHistory,
+  Order,
   AccountDetails,
 }
