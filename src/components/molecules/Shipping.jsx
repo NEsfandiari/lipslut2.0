@@ -61,6 +61,7 @@ class Shipping extends Component {
       phone,
       firstName,
       lastName,
+      newsletter,
     } = this.props
     return (
       <Container>
@@ -81,6 +82,7 @@ class Shipping extends Component {
                 id="checkbox"
                 onChange={handleChange}
                 name="newsletter"
+                defaultValue={newsletter ? 'on' : ''}
               />
               <label> I'd like to hear from Lipslut</label>
             </div>

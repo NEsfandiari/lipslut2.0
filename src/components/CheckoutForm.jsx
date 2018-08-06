@@ -25,7 +25,7 @@ class CheckoutForm extends Component {
       email: this.props.email,
       firstName: this.props.firstname,
       lastName: this.props.lastname,
-      newsletter: '',
+      newsletter: this.props.newsletter,
       address: this.props.address_line1,
       apartment: this.props.address_line2,
       city: this.props.address_city,
@@ -152,6 +152,7 @@ class CheckoutForm extends Component {
       phone,
       firstName,
       lastName,
+      newsletter,
     } = this.props
     const { shipping, orderStatus } = this.state
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
@@ -168,6 +169,7 @@ class CheckoutForm extends Component {
           lastName={lastName}
           zip={zip}
           phone={phone}
+          newsletter={newsletter}
         />
         <Summary
           cart={cart}

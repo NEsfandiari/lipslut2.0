@@ -37,7 +37,8 @@ class Checkout extends Component {
       card,
       email,
       firstName,
-      lastName
+      lastName,
+      newsletter
     if (curUser) {
       address_city = curUser.data.billing.address_city
       address_line1 = curUser.data.billing.address_line1
@@ -49,6 +50,7 @@ class Checkout extends Component {
       email = curUser.data.email
       firstName = curUser.data.name.split(' ')[0]
       lastName = curUser.data.name.split(' ')[1]
+      newsletter = curUser.data.newsletter
     }
     return (
       <StripeProvider stripe={this.state.stripe}>
@@ -69,6 +71,7 @@ class Checkout extends Component {
             zip={zip || ''}
             phone={phone || ''}
             curUser={curUser || ''}
+            newsletter={newsletter || ''}
           />
         </Elements>
       </StripeProvider>
