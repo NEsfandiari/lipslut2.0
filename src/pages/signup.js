@@ -91,6 +91,7 @@ class Signup extends Component {
           .set({
             name: this.state.firstName + ' ' + this.state.lastName,
             email: this.state.email,
+            newsletter: false,
             orderHistory: [],
             billing: {
               email: '',

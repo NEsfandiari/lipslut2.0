@@ -117,6 +117,7 @@ class CheckoutForm extends Component {
                       zip: this.state.zip,
                       phone: this.state.phone,
                     },
+                    newsletter: this.state.newsletter == 'on' ? true : false,
                   })
               }
               this.props.clearCart()

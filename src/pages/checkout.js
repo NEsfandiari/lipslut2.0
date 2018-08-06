@@ -45,7 +45,7 @@ class Checkout extends Component {
       zip = curUser.data.billing.zip
       phone = curUser.data.billing.phone
       card = curUser.data.billing.card
-      ;(email = curUser.data), email
+      email = curUser.data.email
       firstName = curUser.data.name.split(' ')[0]
       lastName = curUser.data.name.split(' ')[1]
     }
