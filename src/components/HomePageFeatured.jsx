@@ -8,7 +8,7 @@ const Container = Styled.div`
     justify-content: space-between;
 `
 
-const Featured = () => (
+const HomePageFeatured = () => (
   <Container>
     <FeaturedProduct
       title="F*ck Trump."
@@ -23,4 +23,4 @@ const Featured = () => (
   </Container>
 )
 
-export default Featured
+export default HomePageFeatured

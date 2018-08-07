@@ -9,9 +9,13 @@ import Financials from './Financials.jsx'
 import Shipping from './Shipping.jsx'
 import Summary from './Summary.jsx'
 import Payment from './Payment.jsx'
-import OrderHistory from './OrderHistory.jsx'
 import Order from './Order.jsx'
-import AccountDetails from './AccountDetails.jsx'
+import AccountDetailsList from './AccountDetailsList.jsx'
+import AccountDetailsForm from './AccountDetailsForm.jsx'
+import LoginEmailPassword from './LoginEmailPassword.jsx'
+import LoginGoogle from './LoginGoogle.jsx'
+import SignupEmailPassword from './SignupEmailPassword.jsx'
+import SignupGoogle from './SignupGoogle.jsx'
 
 export default {
   Statement,
@@ -25,7 +29,11 @@ export default {
   Payment,
   Shipping,
   Summary,
-  OrderHistory,
   Order,
-  AccountDetails,
+  AccountDetailsForm,
+  AccountDetailsList,
+  LoginEmailPassword,
+  LoginGoogle,
+  SignupEmailPassword,
+  SignupGoogle,
 }

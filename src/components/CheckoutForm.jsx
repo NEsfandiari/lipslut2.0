@@ -34,6 +34,7 @@ class CheckoutForm extends Component {
       phone: this.props.phone,
       shipping: 4.95,
       orderStatus: 'PLACE ORDER',
+      profileLoad: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -41,6 +42,23 @@ class CheckoutForm extends Component {
 
   static contextTypes = {
     firebase: PropTypes.object,
+  }
+  componentDidUpdate() {
+    if (!this.state.profileLoad && this.props.curUser) {
+      this.setState({
+        profileLoad: true,
+        email: this.props.email,
+        city: this.props.address_city,
+        address: this.props.address_line1,
+        apartment: this.props.address_line2,
+        state: this.props.address_state,
+        zip: this.props.zip,
+        phone: this.props.phone,
+        firstName: this.props.firstName,
+        lastName: this.props.lastName,
+        newsletter: this.props.newsletter,
+      })
+    }
   }
 
   handleSubmit(e) {
@@ -117,7 +135,7 @@ class CheckoutForm extends Component {
                       zip: this.state.zip,
                       phone: this.state.phone,
                     },
-                    newsletter: this.state.newsletter == 'on' ? true : false,
+                    newsletter: this.state.newsletter,
                   })
               }
               this.props.clearCart()
@@ -131,9 +149,15 @@ class CheckoutForm extends Component {
   }
 
   handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    })
+    if (e.target.type == 'checkbox') {
+      this.setState({
+        [e.target.name]: e.target.checked,
+      })
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value,
+      })
+    }
   }
 
   render() {

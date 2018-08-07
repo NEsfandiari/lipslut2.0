@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Card, StyledHr } from '../atoms'
-import Order from './Order'
+import { Card, StyledHr } from './atoms'
+import { Order } from './molecules'
 
 const Container = styled.div`
   .orders {

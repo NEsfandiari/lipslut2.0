@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
 
-import { Featured, Mission } from '../components'
+import { HomePageFeatured, HomePageMission } from '../components'
 import { StyledHr, StyledInput, StyledButton } from '../components/atoms'
 
 const Container = Styled.div`
@@ -47,9 +47,9 @@ class IndexPage extends Component {
   render() {
     return (
       <Container>
-        <Featured />
+        <HomePageFeatured />
         <StyledHr />
-        <Mission />
+        <HomePageMission />
         <StyledHr width="65%" />
         <form onSubmit={this.handleSubmit}>
           <StyledInput

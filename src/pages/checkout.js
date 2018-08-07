@@ -61,17 +61,17 @@ class Checkout extends Component {
             clearCart={clearCart}
             subtotal={subtotal}
             tax={tax}
-            email={email || ''}
-            address_city={address_city || ''}
-            address_line1={address_line1 || ''}
-            address_line2={address_line2 || ''}
-            address_state={address_state || ''}
-            firstName={firstName || ''}
-            lastName={lastName || ''}
-            zip={zip || ''}
-            phone={phone || ''}
-            curUser={curUser || ''}
-            newsletter={newsletter || ''}
+            email={email}
+            address_city={address_city}
+            address_line1={address_line1}
+            address_line2={address_line2}
+            address_state={address_state}
+            firstName={firstName}
+            lastName={lastName}
+            zip={zip}
+            phone={phone}
+            curUser={curUser}
+            newsletter={newsletter}
           />
         </Elements>
       </StripeProvider>

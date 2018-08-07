@@ -74,15 +74,15 @@ class Shipping extends Component {
               onChange={handleChange}
               name="email"
               required
-              defaultValue={email}
+              value={email}
             />
             <div>
               <StyledInput
                 type="checkbox"
                 id="checkbox"
-                onChange={handleChange}
+                onClick={handleChange}
                 name="newsletter"
-                defaultValue={newsletter ? 'on' : ''}
+                defaultChecked={newsletter}
               />
               <label> I'd like to hear from Lipslut</label>
             </div>
@@ -96,7 +96,7 @@ class Shipping extends Component {
                 onChange={handleChange}
                 name="firstName"
                 required
-                defaultValue={firstName}
+                value={firstName}
               />
               <StyledInput
                 type="text"
@@ -104,7 +104,7 @@ class Shipping extends Component {
                 onChange={handleChange}
                 name="lastName"
                 required
-                defaultValue={lastName}
+                value={lastName}
               />
             </div>
             <StyledInput
@@ -113,14 +113,14 @@ class Shipping extends Component {
               onChange={handleChange}
               name="address"
               required
-              defaultValue={address_line1}
+              value={address_line1}
             />
             <StyledInput
               type="text"
               placeholder="Apt/Floor/Suite"
               onChange={handleChange}
               name="apartment"
-              defaultValue={address_line2}
+              value={address_line2}
             />
             <div className="half">
               <StyledInput
@@ -129,7 +129,7 @@ class Shipping extends Component {
                 onChange={handleChange}
                 name="city"
                 required
-                defaultValue={address_city}
+                value={address_city}
               />
               <StyledInput
                 type="text"
@@ -137,7 +137,7 @@ class Shipping extends Component {
                 onChange={handleChange}
                 name="zip"
                 required
-                defaultValue={zip}
+                value={zip}
               />
             </div>
             <div className="half">
@@ -149,7 +149,7 @@ class Shipping extends Component {
                 pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
                 required
                 name="phone"
-                defaultValue={phone}
+                value={phone}
               />
               <select name="state" onChange={handleChange} required>
                 <option

@@ -1,14 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { navigateTo } from 'gatsby-link'
-import {
-  StyledInput,
-  StyledButton,
-  GoogleIcon,
-  NavLink,
-  Card,
-} from '../components/atoms'
+import { LoginEmailPassword, LoginGoogle } from '../components/molecules'
+import { NavLink, Card } from '../components/atoms'
 
 const Container = styled.div`
   display: flex;
@@ -16,19 +9,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .google {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    svg {
-      margin-left: 0.5rem;
-    }
-  }
+  
   .errorMessage {
     width: 100%;
     text-align: center;
@@ -42,46 +23,13 @@ const Container = styled.div`
 
 class Login extends Component {
   state = {
-    email: '',
-    password: '',
     errorMessage: null,
-  }
-  static contextTypes = {
-    firebase: PropTypes.object,
   }
   componentDidMount() {
     this.props.resetSidebar()
   }
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    const { firebase } = this.context
-    const login = this
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => navigateTo('/'))
-      .catch(function(error) {
-        let errorMessage = error.message
-        login.setState({ errorMessage: errorMessage })
-      })
-  }
-  handleGoogle = e => {
-    const { auth } = this.context.firebase
-    const login = this
-    auth()
-      .signInWithPopup(new auth.GoogleAuthProvider())
-      .then(() => navigateTo('/'))
-      .catch(error => {
-        let errorMessage = error.message
-        login.setState({ errorMessage: errorMessage })
-      })
+  handleError = errorMessage => {
+    this.setState({ errorMessage: errorMessage })
   }
 
   render() {
@@ -91,46 +39,13 @@ class Login extends Component {
     return (
       <Container>
         <Card height="31rem">
-          <form onSubmit={this.handleSubmit}>
-            <h2>Welcome Back!</h2>
-            <p
-              className="errorMessage animated fadeInRight"
-              style={displayError}
-            >
-              {this.state.errorMessage}
-            </p>
-            <StyledInput
-              placeholder="Email"
-              name="email"
-              onChange={this.handleChange}
-              value={this.state.email}
-            />
-            <StyledInput
-              placeholder="Password"
-              name="password"
-              onChange={this.handleChange}
-              value={this.state.password}
-            />
-            <StyledButton width="17rem" height="2rem" margin="0">
-              LOG IN
-            </StyledButton>
-          </form>
+          <h2>Welcome Back!</h2>
+          <p className="errorMessage animated fadeInRight" style={displayError}>
+            {this.state.errorMessage}
+          </p>
+          <LoginEmailPassword handleError={this.handleError} />
           <p>or</p>
-          <StyledButton
-            onClick={this.handleGoogle}
-            width="17rem"
-            height="2.5rem"
-            color="black"
-            backgroundColor="white"
-            borderColor="#FF0086"
-            borderWidth="2px"
-            margin=".5rem"
-            hoverColor="#F9F7F1"
-            letterSpacing="0"
-            className="google"
-          >
-            LOG IN WITH <GoogleIcon />
-          </StyledButton>
+          <LoginGoogle handleError={this.handleError} />
           <p>
             Don't have an account?{' '}
             <NavLink

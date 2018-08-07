@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import 'animate.css'
-import { OrderHistory, AccountDetails } from '../components/molecules'
+import { OrderHistory, AccountDetails } from '../components'
 import { Loading } from '../components/atoms'
 
 const Container = styled.div`

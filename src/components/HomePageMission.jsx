@@ -17,7 +17,7 @@ const Container = Styled.div`
   }
 `
 
-const Misson = () => (
+const HomePageMisson = () => (
   <Container>
     <h2>What we're about.</h2>
     <div className="statements">
@@ -51,4 +51,4 @@ const Misson = () => (
   </Container>
 )
 
-export default Misson
+export default HomePageMisson
