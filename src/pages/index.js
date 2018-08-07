@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
 
-import { HomePageFeatured, HomePageMission } from '../components'
-import { StyledHr, StyledInput, StyledButton } from '../components/atoms'
+import {
+  HomePageFeatured,
+  HomePageMission,
+  HomePageEmailForm,
+} from '../components'
+import { StyledHr } from '../components/atoms'
 
 const Container = Styled.div`
   display: flex;
@@ -18,32 +21,10 @@ const Container = Styled.div`
 `
 
 class IndexPage extends Component {
-  state = {
-    email: '',
-    status: 'JOIN US',
-  }
-
-  static contextTypes = {
-    firebase: PropTypes.object,
-  }
   componentDidMount() {
     this.props.resetSidebar()
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
-    const { firebase } = this.context
-    const db = firebase.store()
-    db.collection('emails').add({
-      email: this.state.email,
-    })
-    this.setState({ status: 'WELCOME!', email: '' })
-  }
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    })
-  }
   render() {
     return (
       <Container>
@@ -51,20 +32,7 @@ class IndexPage extends Component {
         <StyledHr />
         <HomePageMission />
         <StyledHr width="65%" />
-        <form onSubmit={this.handleSubmit}>
-          <StyledInput
-            width="13rem"
-            height="3rem"
-            borderRadius="3px"
-            marginBottom="0"
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-          <StyledButton>{this.state.status}</StyledButton>
-        </form>
+        <HomePageEmailForm />
       </Container>
     )
   }
