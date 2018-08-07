@@ -6,6 +6,7 @@ import StyledInput from './StyledInput.jsx'
 import Card from './Card.jsx'
 import GoogleIcon from './GoogleIcon.jsx'
 import Loading from './Loading.jsx'
+import FiftyStateDropdownInput from './FiftyStateDropdownInput'
 
 export default {
   LinkButton,
@@ -16,4 +17,5 @@ export default {
   Card,
   GoogleIcon,
   Loading,
+  FiftyStateDropdownInput,
 }

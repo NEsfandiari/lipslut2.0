@@ -5,6 +5,7 @@ import { Elements, StripeProvider } from 'react-stripe-elements'
 class Checkout extends Component {
   state = { stripe: null }
   componentDidMount() {
+    // Stripe Setup
     if (window.Stripe) {
       this.setState({
         stripe: window.Stripe(process.env.GATSBY_STRIPE_PUBLISHABLE_KEY),
@@ -28,6 +29,7 @@ class Checkout extends Component {
     )
     const tax = parseFloat((subtotal * 0.15).toFixed(2))
     const { cart, addItem, clearCart, curUser } = this.props
+    // TODO: Figure out a way to not use this Gross pattern
     let address_city,
       address_line1,
       address_line2,

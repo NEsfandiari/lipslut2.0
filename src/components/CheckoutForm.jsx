@@ -66,6 +66,7 @@ class CheckoutForm extends Component {
     this.setState({ orderStatus: 'PROCESSING...' })
     const { firebase } = this.context
     try {
+      // ProcessPayment
       this.props.stripe
         .createToken({
           name: this.state.firstName + ' ' + this.state.lastName,
@@ -88,6 +89,7 @@ class CheckoutForm extends Component {
           if (this.props.curUser && this.props.curUser.data.billing.card) {
             previousCustomer = this.props.curUser.data.billing.card
           }
+          // Post to Stripe Lambda Function to process payments
           axios
             .post(
               location.hostname === 'localhost'
@@ -103,6 +105,7 @@ class CheckoutForm extends Component {
                 }),
               }
             )
+            // Store Stripe Information in the Firebase Database
             .then(res => {
               if (this.props.curUser) {
                 firebase
@@ -161,34 +164,31 @@ class CheckoutForm extends Component {
   }
 
   render() {
+    const { cart, addItem, subtotal, tax, stripe } = this.props
     const {
-      cart,
-      addItem,
-      subtotal,
-      tax,
-      stripe,
+      shipping,
+      orderStatus,
       email,
-      address_city,
-      address_line1,
-      address_line2,
-      address_state,
+      city,
+      address,
+      apartment,
+      state,
       zip,
       phone,
       firstName,
       lastName,
       newsletter,
-    } = this.props
-    const { shipping, orderStatus } = this.state
+    } = this.state
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
         <Shipping
           handleChange={this.handleChange}
           email={email}
-          address_city={address_city}
-          address_line1={address_line1}
-          address_line2={address_line2}
-          address_state={address_state}
+          city={city}
+          address={address}
+          apartment={apartment}
+          state={state}
           firstName={firstName}
           lastName={lastName}
           zip={zip}
