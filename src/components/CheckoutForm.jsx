@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Shipping, Summary, Payment } from './molecules'
+import { CheckoutShipping, CheckoutSummary, CheckoutPayment } from './molecules'
 import { injectStripe } from 'react-stripe-elements'
 import axios from 'axios'
 import uuid from 'uuid/v4'
@@ -44,6 +44,7 @@ class CheckoutForm extends Component {
     firebase: PropTypes.object,
   }
   componentDidUpdate() {
+    // SetState to user data if user lands on this page
     if (!this.state.profileLoad && this.props.curUser) {
       this.setState({
         profileLoad: true,
@@ -66,6 +67,7 @@ class CheckoutForm extends Component {
     this.setState({ orderStatus: 'PROCESSING...' })
     const { firebase } = this.context
     try {
+      // TODO: Move this functionality to a seperate file and refer here
       // ProcessPayment
       this.props.stripe
         .createToken({
@@ -182,7 +184,7 @@ class CheckoutForm extends Component {
     const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
-        <Shipping
+        <CheckoutShipping
           handleChange={this.handleChange}
           email={email}
           city={city}
@@ -195,14 +197,18 @@ class CheckoutForm extends Component {
           phone={phone}
           newsletter={newsletter}
         />
-        <Summary
+        <CheckoutSummary
           cart={cart}
           addItem={addItem}
           subtotal={subtotal}
           tax={tax}
           shipping={shipping}
         />
-        <Payment stripe={stripe} total={total} orderStatus={orderStatus} />
+        <CheckoutPayment
+          stripe={stripe}
+          total={total}
+          orderStatus={orderStatus}
+        />
       </ContainerForm>
     )
   }

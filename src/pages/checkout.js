@@ -5,6 +5,7 @@ import { Elements, StripeProvider } from 'react-stripe-elements'
 class Checkout extends Component {
   state = { stripe: null }
   componentDidMount() {
+    this.props.resetSidebar()
     // Stripe Setup
     if (window.Stripe) {
       this.setState({
@@ -17,7 +18,6 @@ class Checkout extends Component {
         })
       })
     }
-    this.props.resetSidebar()
   }
   render() {
     const subtotal = parseFloat(
@@ -36,7 +36,6 @@ class Checkout extends Component {
       address_state,
       zip,
       phone,
-      card,
       email,
       firstName,
       lastName,
@@ -48,7 +47,6 @@ class Checkout extends Component {
       address_state = curUser.data.billing.address_state
       zip = curUser.data.billing.zip
       phone = curUser.data.billing.phone
-      card = curUser.data.billing.card
       email = curUser.data.email
       firstName = curUser.data.name.split(' ')[0]
       lastName = curUser.data.name.split(' ')[1]

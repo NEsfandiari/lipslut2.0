@@ -15,7 +15,7 @@ const Container = styled.div`
   }
 `
 
-const Financials = ({ subtotal, tax, shipping }) => (
+const SummaryFinancials = ({ subtotal, tax, shipping }) => (
   <Container>
     <div className="number">
       <p>Subtotal</p>
@@ -32,4 +32,4 @@ const Financials = ({ subtotal, tax, shipping }) => (
   </Container>
 )
 
-export default Financials
+export default SummaryFinancials

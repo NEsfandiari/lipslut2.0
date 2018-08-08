@@ -27,7 +27,7 @@ const Container = Styled.div`
   }
 `
 
-const Philosophy = () => (
+const MissionPhilosophy = () => (
   <Container>
     <div className="slogans">
       <h1>Do Good.</h1>
@@ -45,4 +45,4 @@ const Philosophy = () => (
   </Container>
 )
 
-export default Philosophy
+export default MissionPhilosophy

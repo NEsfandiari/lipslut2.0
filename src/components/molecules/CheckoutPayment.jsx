@@ -3,7 +3,7 @@ import { Card, StyledButton } from '../atoms'
 import { CardElement } from 'react-stripe-elements'
 import 'animate.css'
 
-class Payment extends Component {
+class CheckoutPayment extends Component {
   render() {
     const buttonUsability =
       this.props.orderStatus !== 'PLACE ORDER' ? 'disabled' : null
@@ -19,4 +19,4 @@ class Payment extends Component {
   }
 }
 
-export default Payment
+export default CheckoutPayment

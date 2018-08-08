@@ -36,7 +36,7 @@ const Container = styled.div`
   }
 `
 
-class Shipping extends Component {
+class CheckoutShipping extends Component {
   render() {
     const {
       handleChange,
@@ -151,4 +151,4 @@ class Shipping extends Component {
   }
 }
 
-export default Shipping
+export default CheckoutShipping

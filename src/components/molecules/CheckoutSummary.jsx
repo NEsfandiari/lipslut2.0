@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Card } from '../atoms'
 import SummaryItem from './SummaryItem'
-import Financials from './Financials'
+import SummaryFinancials from './SummaryFinancials'
 import 'animate.css'
 
 const Container = styled.div`
@@ -30,7 +30,7 @@ class Summary extends Component {
         <Card className="animated fadeInUp">
           <h3>Summary</h3>
           <div className="items">{items}</div>
-          <Financials
+          <SummaryFinancials
             subtotal={subtotal}
             tax={tax}
             shipping={shipping}

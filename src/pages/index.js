@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
-
 import {
   HomePageFeatured,
   HomePageMission,

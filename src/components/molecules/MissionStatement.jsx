@@ -16,7 +16,7 @@ const Container = Styled.div`
     }
 `
 
-const Statement = ({ title, text, image }) => (
+const MissionStatement = ({ title, text, image }) => (
   <Container>
     <img src={image} alt="" />
     <h3>{title}</h3>
@@ -24,4 +24,4 @@ const Statement = ({ title, text, image }) => (
   </Container>
 )
 
-export default Statement
+export default MissionStatement
