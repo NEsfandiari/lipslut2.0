@@ -60,6 +60,7 @@ class Layout extends Component {
     let cartData = windowGlobal.localStorage.getItem('cart') || '[]'
     cartData = JSON.parse(cartData)
     this.setState({ cart: cartData })
+
     const firebase = this.context.firebase
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -69,6 +70,7 @@ class Layout extends Component {
       }
     })
   }
+
   signIn = user => {
     const { firebase } = this.context
     firebase
