@@ -27,12 +27,6 @@ class SignupEmailPassword extends Component {
       .signInWithPopup(new auth.GoogleAuthProvider())
       .then(user => {
         const userInfo = user.user
-        if (this.state.newsletter === 'on') {
-          firebase
-            .store()
-            .collection('emails')
-            .add({ email: userInfo.email })
-        }
         firebase
           .store()
           .collection('users')

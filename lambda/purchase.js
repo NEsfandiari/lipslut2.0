@@ -1474,29 +1474,51 @@ exports.handler = function (event, context, callback) {
     return;
   }
   if (data.previousCustomer) {
-    // Charge Existing Customer
-    stripe.charges.create({
+    // Create Order
+    stripe.orders.create({
       currency: 'usd',
-      amount: data.amount,
-      customer: data.previousCustomer
-    }, {
-      idempotency_key: data.idempotency_key
-    }, (err, charge) => {
-      if (err !== null) {
-        console.log(err);
+      email: data.token.email,
+      items: [{
+        type: 'sku',
+        parent: 'sku_DOW0toLrcYwVDG',
+        quantity: 1
+      }],
+      shipping: {
+        name: data.token.card.name,
+        address: {
+          line1: data.token.card.address_line1,
+          city: data.token.card.address_city,
+          state: data.token.card.address_state,
+          postal_code: data.token.card.address_zip,
+          country: 'US'
+        }
       }
+    }).then(() => {
+      stripe.charges.create({
+        currency: 'usd',
+        amount: data.amount,
+        customer: data.previousCustomer
+      }, {
+        idempotency_key: data.idempotency_key
+      }, (err, charge) => {
+        if (err !== null) {
+          console.log(err);
+        }
 
-      let status = charge === null || charge.status !== 'succeeded' ? 'failed' : charge.status;
-      callback(null, {
-        statusCode,
-        headers,
-        body: JSON.stringify({
-          status,
-          previousCustomer: data.previousCustomer,
-          customerType: 'Old'
-        })
+        let status = charge === null || charge.status !== 'succeeded' ? 'failed' : charge.status;
+        // TODO Figure Out WHy this is not responding to checkoutForm with data
+        callback(null, {
+          statusCode,
+          headers,
+          body: JSON.stringify({
+            status,
+            previousCustomer: data.previousCustomer,
+            customerType: 'Old'
+          })
+        });
       });
     });
+    // Charge Existing Customer
   } else {
     // Create A New Customer and Charge Him/her
     stripe.customers.create({

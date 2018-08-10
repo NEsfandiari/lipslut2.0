@@ -65,10 +65,20 @@ class CheckoutForm extends Component {
   handleSubmit(e) {
     e.preventDefault()
     this.setState({ orderStatus: 'PROCESSING...' })
+    // setup
     const { firebase } = this.context
+    const stripeAmount =
+      parseFloat(
+        (this.props.tax + this.props.subtotal + this.state.shipping).toFixed(2)
+      ) * 100
+    let previousCustomer = null
+    if (this.props.curUser && this.props.curUser.data.billing.card) {
+      previousCustomer = this.props.curUser.data.billing.card
+    }
+
     try {
       // TODO: Move this functionality to a seperate file and refer here
-      // ProcessPayment
+      // Create Stripe Token from Stripe React elements
       this.props.stripe
         .createToken({
           name: this.state.firstName + ' ' + this.state.lastName,
@@ -78,74 +88,59 @@ class CheckoutForm extends Component {
           address_line2: this.state.apartment,
           email: this.state.email,
         })
+        // Post to lambda Function
         .then(({ token }) => {
-          const stripeAmount =
-            parseFloat(
-              (
-                this.props.tax +
-                this.props.subtotal +
-                this.state.shipping
-              ).toFixed(2)
-            ) * 100
-          let previousCustomer = null
-          if (this.props.curUser && this.props.curUser.data.billing.card) {
-            previousCustomer = this.props.curUser.data.billing.card
+          axios.post(
+            location.hostname === 'localhost'
+              ? 'http://localhost:9000/purchase'
+              : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
+            {
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                token,
+                amount: stripeAmount,
+                idempotency_key: uuid(),
+                previousCustomer,
+              }),
+            }
+          )
+        })
+        // Store Stripe Information in the Firebase Database
+        .then(res => {
+          if (this.props.curUser) {
+            firebase
+              .store()
+              .collection('users')
+              .doc(this.props.curUser.id)
+              .update({
+                orderHistory: [
+                  ...this.props.curUser.data.orderHistory,
+                  {
+                    cart: [...this.props.cart],
+                    placed: moment().format('MMMM Do YYYY'),
+                    total: parseFloat(
+                      this.props.tax + this.props.subtotal + this.state.shipping
+                    ).toFixed(2),
+                    orderNumber: parseInt(Math.random() * 1000),
+                  },
+                ],
+                billing: {
+                  card:
+                    res.data.customerType == 'New'
+                      ? res.data.customer.id
+                      : res.data.previousCustomer,
+                  address_city: this.state.city,
+                  address_state: this.state.state,
+                  address_line1: this.state.address,
+                  address_line2: this.state.apartment,
+                  zip: this.state.zip,
+                  phone: this.state.phone,
+                },
+                newsletter: this.state.newsletter,
+              })
           }
-          // Post to Stripe Lambda Function to process payments
-          axios
-            .post(
-              location.hostname === 'localhost'
-                ? 'http://localhost:9000/purchase'
-                : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
-              {
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  token,
-                  amount: stripeAmount,
-                  idempotency_key: uuid(),
-                  previousCustomer,
-                }),
-              }
-            )
-            // Store Stripe Information in the Firebase Database
-            .then(res => {
-              if (this.props.curUser) {
-                firebase
-                  .store()
-                  .collection('users')
-                  .doc(this.props.curUser.id)
-                  .update({
-                    orderHistory: [
-                      ...this.props.curUser.data.orderHistory,
-                      {
-                        cart: [...this.props.cart],
-                        placed: moment().format('MMMM Do YYYY'),
-                        total: parseFloat(
-                          this.props.tax +
-                            this.props.subtotal +
-                            this.state.shipping
-                        ).toFixed(2),
-                        orderNumber: parseInt(Math.random() * 1000),
-                      },
-                    ],
-                    billing: {
-                      card:
-                        res.data.customerType == 'New'
-                          ? res.data.customer.id
-                          : res.data.previousCustomer,
-                      address_city: this.state.city,
-                      address_state: this.state.state,
-                      address_line1: this.state.address,
-                      address_line2: this.state.apartment,
-                      zip: this.state.zip,
-                      phone: this.state.phone,
-                    },
-                    newsletter: this.state.newsletter,
-                  })
-              }
-              this.props.clearCart()
-              this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
-            })
+          this.props.clearCart()
+          this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
         })
     } catch (error) {
       console.log(error)
