@@ -74,10 +74,6 @@ class CheckoutForm extends Component {
     this.setState({ orderStatus: 'PROCESSING...' })
     // setup
     const { firebase } = this.context
-    const stripeAmount =
-      parseFloat(
-        (this.props.tax + this.props.subtotal + this.state.shipping).toFixed(2)
-      ) * 100
     let previousCustomer = null
     if (this.props.curUser && this.props.curUser.data.billing.card) {
       previousCustomer = this.props.curUser.data.billing.card
@@ -101,10 +97,13 @@ class CheckoutForm extends Component {
             ? 'http://localhost:9000/purchase'
             : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
           {
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers': 'Content-Type',
+            },
             body: JSON.stringify({
               token,
-              amount: stripeAmount,
               idempotency_key: uuid(),
               previousCustomer,
             }),
@@ -113,6 +112,7 @@ class CheckoutForm extends Component {
       })
       // Store Stripe Information in the Firebase Database
       .then(res => {
+        console.log(res)
         if (this.props.curUser) {
           firebase
             .store()
@@ -182,7 +182,6 @@ class CheckoutForm extends Component {
       lastName,
       newsletter,
     } = this.state
-    const total = parseFloat((tax + subtotal + this.state.shipping).toFixed(2))
     return (
       <ContainerForm onSubmit={this.handleSubmit}>
         <CheckoutShipping
@@ -205,11 +204,7 @@ class CheckoutForm extends Component {
           tax={tax}
           shipping={shipping}
         />
-        <CheckoutPayment
-          stripe={stripe}
-          total={total}
-          orderStatus={orderStatus}
-        />
+        <CheckoutPayment stripe={stripe} orderStatus={orderStatus} />
       </ContainerForm>
     )
   }

@@ -48,6 +48,7 @@ class SignupEmailPassword extends Component {
               card: '',
             },
             orderHistory: [],
+            newsletter: false,
           })
       })
       .then(() => navigateTo('/'))
