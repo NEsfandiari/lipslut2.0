@@ -18,9 +18,7 @@ class FiftyStateDropdownInput extends Component {
     const { handleChange, state } = this.props
     return (
       <Container name="state" onChange={handleChange} required>
-        <option selected={state === '' ? 'selected' : ''} disabled>
-          State
-        </option>
+        <option>State</option>
         <option selected={state === 'AL' ? 'selected' : ''} value="AL">
           Alabama
         </option>

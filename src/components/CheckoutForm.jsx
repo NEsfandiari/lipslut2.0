@@ -83,77 +83,75 @@ class CheckoutForm extends Component {
       previousCustomer = this.props.curUser.data.billing.card
     }
 
-    try {
-      // TODO: Move this functionality to a seperate file and refer here
-      // Create Stripe Token from Stripe React elements
-      this.props.stripe
-        .createToken({
-          name: this.state.firstName + ' ' + this.state.lastName,
-          address_city: this.state.city,
-          address_state: this.state.state,
-          address_line1: this.state.address,
-          address_line2: this.state.apartment,
-          email: this.state.email,
-        })
-        // Post to lambda Function
-        .then(({ token }) => {
-          axios.post(
-            location.hostname === 'localhost'
-              ? 'http://localhost:9000/purchase'
-              : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
-            {
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                token,
-                amount: stripeAmount,
-                idempotency_key: uuid(),
-                previousCustomer,
-              }),
-            }
-          )
-        })
-        // Store Stripe Information in the Firebase Database
-        .then(res => {
-          debugger
-          if (this.props.curUser) {
-            firebase
-              .store()
-              .collection('users')
-              .doc(this.props.curUser.id)
-              .update({
-                orderHistory: [
-                  ...this.props.curUser.data.orderHistory,
-                  {
-                    cart: [...this.props.cart],
-                    placed: moment().format('MMMM Do YYYY'),
-                    total: parseFloat(
-                      this.props.tax + this.props.subtotal + this.state.shipping
-                    ).toFixed(2),
-                    orderNumber: parseInt(Math.random() * 1000),
-                  },
-                ],
-                billing: {
-                  card:
-                    res.data.customerType == 'New'
-                      ? res.data.customer.id
-                      : res.data.previousCustomer,
-                  address_city: this.state.city,
-                  address_state: this.state.state,
-                  address_line1: this.state.address,
-                  address_line2: this.state.apartment,
-                  zip: this.state.zip,
-                  phone: this.state.phone,
-                },
-                newsletter: this.state.newsletter,
-              })
+    // TODO: Move this functionality to a seperate file and refer here
+    // Create Stripe Token from Stripe React elements
+    this.props.stripe
+      .createToken({
+        name: this.state.firstName + ' ' + this.state.lastName,
+        address_city: this.state.city,
+        address_state: this.state.state,
+        address_line1: this.state.address,
+        address_line2: this.state.apartment,
+        email: this.state.email,
+      })
+      // Post to lambda Function
+      .then(({ token }) => {
+        axios.post(
+          location.hostname === 'localhost'
+            ? 'http://localhost:9000/purchase'
+            : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
+          {
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token,
+              amount: stripeAmount,
+              idempotency_key: uuid(),
+              previousCustomer,
+            }),
           }
-          this.props.clearCart()
-          this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
-        })
-    } catch (error) {
-      console.log(error)
-      this.setState({ orderStatus: 'TRANSACTION DECLINED' })
-    }
+        )
+      })
+      // Store Stripe Information in the Firebase Database
+      .then(res => {
+        if (this.props.curUser) {
+          firebase
+            .store()
+            .collection('users')
+            .doc(this.props.curUser.id)
+            .update({
+              orderHistory: [
+                ...this.props.curUser.data.orderHistory,
+                {
+                  cart: [...this.props.cart],
+                  placed: moment().format('MMMM Do YYYY'),
+                  total: parseFloat(
+                    this.props.tax + this.props.subtotal + this.state.shipping
+                  ).toFixed(2),
+                  orderNumber: parseInt(Math.random() * 1000),
+                },
+              ],
+              billing: {
+                card:
+                  res.data.customerType == 'New'
+                    ? res.data.customer.id
+                    : res.data.previousCustomer,
+                address_city: this.state.city,
+                address_state: this.state.state,
+                address_line1: this.state.address,
+                address_line2: this.state.apartment,
+                zip: this.state.zip,
+                phone: this.state.phone,
+              },
+              newsletter: this.state.newsletter,
+            })
+        }
+        this.props.clearCart()
+        this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
+      })
+      .catch(error => {
+        console.log(error)
+        this.setState({ orderStatus: 'TRANSACTION DECLINED' })
+      })
   }
 
   handleChange(e) {

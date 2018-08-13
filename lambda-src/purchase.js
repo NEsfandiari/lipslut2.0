@@ -1,16 +1,16 @@
 require('dotenv').config({ path: '.env.development' })
-
 const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-}
 
-exports.handler = function(event, context, callback) {
+exports.handler = async function purchase(event, context, callback) {
+  const statusCode = 200
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  }
   // TEST for post request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
-      statusCode: 200,
+      statusCode,
       headers,
       body: '',
     })
@@ -24,26 +24,47 @@ exports.handler = function(event, context, callback) {
   if (!data.token || !data.amount || !data.idempotency_key) {
     console.error('Required information is missing.')
     callback(null, {
-      statusCode: 200,
+      statusCode,
       headers,
       body: JSON.stringify({ status: 'missing-information' }),
     })
     return
   }
-
-  // Create Order
   try {
-    stripe.orders
-      .create({
-        currency: 'usd',
+    if (data.previousCustomer) {
+      // Charge Existing Customer
+      let order = await stripe.orders.create(
+        {
+          currency: 'usd',
+          items: [
+            {
+              type: 'sku',
+              parent: 'sku_DOW0toLrcYwVDG',
+              quantity: 1,
+            },
+          ],
+          customer: data.previousCustomer,
+        },
+        {
+          idempotency_key: data.idempotency_key,
+        }
+      )
+      let status =
+        order === null || order.status !== 'created' ? 'failed' : order.status
+      callback('Its Broken', {
+        statusCode,
+        headers,
+        body: JSON.stringify({
+          status,
+          previousCustomer: data.previousCustomer,
+          customerType: 'Old',
+        }),
+      })
+    } else {
+      // Create A New Customer
+      let customer = await stripe.customers.create({
+        source: data.token.id,
         email: data.token.email,
-        items: [
-          {
-            type: 'sku',
-            parent: 'sku_DOW0toLrcYwVDG',
-            quantity: 1,
-          },
-        ],
         shipping: {
           name: data.token.card.name,
           address: {
@@ -55,82 +76,37 @@ exports.handler = function(event, context, callback) {
           },
         },
       })
-      .then(order => {
-        if (data.previousCustomer) {
-          // Charge Existing Customer
-          stripe.charges.create(
+      // Create Order with New Customer
+      let order = await stripe.orders.create(
+        {
+          currency: 'usd',
+          items: [
             {
-              currency: 'usd',
-              amount: data.amount,
-              customer: data.previousCustomer,
+              type: 'sku',
+              parent: 'sku_DOW0toLrcYwVDG',
+              quantity: 1,
             },
-            {
-              idempotency_key: data.idempotency_key,
-            },
-            (err, charge) => {
-              if (err !== null) {
-                console.log(err)
-              }
-
-              let status =
-                charge === null || charge.status !== 'succeeded'
-                  ? 'failed'
-                  : charge.status
-              console.log(event, context)
-              callback('Its Broken', {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({
-                  status,
-                  previousCustomer: data.previousCustomer,
-                  customerType: 'Old',
-                }),
-              })
-              return
-            }
-          )
-        } else {
-          // Create A New Customer and Charge Him/her
-          stripe.customers
-            .create({
-              source: data.token.id,
-              email: data.token.email,
-            })
-            .then(customer => {
-              stripe.charges.create(
-                {
-                  currency: 'usd',
-                  amount: data.amount,
-                  customer: customer.id,
-                },
-                {
-                  idempotency_key: data.idempotency_key,
-                },
-                (err, charge) => {
-                  if (err !== null) {
-                    console.log(err)
-                  }
-
-                  let status =
-                    charge === null || charge.status !== 'succeeded'
-                      ? 'failed'
-                      : charge.status
-                  callback(null, {
-                    statusCode: 200,
-                    headers,
-                    body: JSON.stringify({
-                      status,
-                      customer,
-                      customerType: 'New',
-                    }),
-                  })
-                  return
-                }
-              )
-            })
+          ],
+          customer: customer.id,
+        },
+        {
+          idempotency_key: data.idempotency_key,
         }
+      )
+
+      let status =
+        order === null || order.status !== 'created' ? 'failed' : order.status
+      callback('Its Broken', {
+        statusCode,
+        headers,
+        body: JSON.stringify({
+          status,
+          previousCustomer: data.previousCustomer,
+          customerType: 'New',
+        }),
       })
-  } catch (e) {
-    console.log(e)
+    }
+  } catch (err) {
+    console.log(err)
   }
 }
