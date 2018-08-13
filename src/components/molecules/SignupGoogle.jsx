@@ -20,6 +20,7 @@ class SignupEmailPassword extends Component {
     firebase: PropTypes.object,
   }
   handleGoogle = e => {
+    // TODO move to seperate file structure
     const { firebase } = this.context
     const { auth } = this.context.firebase
     const signup = this

@@ -22,16 +22,22 @@ class CheckoutForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: this.props.email,
-      firstName: this.props.firstname,
-      lastName: this.props.lastname,
-      newsletter: this.props.newsletter,
-      address: this.props.address_line1,
-      apartment: this.props.address_line2,
-      city: this.props.address_city,
-      zip: this.props.zip,
-      state: this.props.address_state,
-      phone: this.props.phone,
+      email: props.curUser ? this.props.curUser.data.email : '',
+      city: props.curUser ? this.props.curUser.data.billing.address_city : '',
+      address: props.curUser
+        ? this.props.curUser.data.billing.address_line1
+        : '',
+      apartment: props.curUser
+        ? this.props.curUser.data.billing.address_line2
+        : '',
+      state: props.curUser ? this.props.curUser.data.billing.address_state : '',
+      zip: props.curUser ? this.props.curUser.data.billing.zip : '',
+      phone: props.curUser ? this.props.curUser.data.billing.phone : '',
+      firstName: props.curUser
+        ? this.props.curUser.data.name.split(' ')[0]
+        : '',
+      lastName: props.curUser ? this.props.curUser.data.name.split(' ')[1] : '',
+      newsletter: props.curUser ? this.props.curUser.data.newsletter : false,
       shipping: 4.95,
       orderStatus: 'PLACE ORDER',
       profileLoad: false,
@@ -43,21 +49,22 @@ class CheckoutForm extends Component {
   static contextTypes = {
     firebase: PropTypes.object,
   }
+
   componentDidUpdate() {
     // SetState to user data if user lands on this page
     if (!this.state.profileLoad && this.props.curUser) {
       this.setState({
         profileLoad: true,
-        email: this.props.email,
-        city: this.props.address_city,
-        address: this.props.address_line1,
-        apartment: this.props.address_line2,
-        state: this.props.address_state,
-        zip: this.props.zip,
-        phone: this.props.phone,
-        firstName: this.props.firstName,
-        lastName: this.props.lastName,
-        newsletter: this.props.newsletter,
+        email: this.props.curUser.data.email,
+        city: this.props.curUser.data.billing.address_city,
+        address: this.props.curUser.data.billing.address_line1,
+        apartment: this.props.curUser.data.billing.address_line2,
+        state: this.props.curUser.data.billing.address_state,
+        zip: this.props.curUser.data.billing.zip,
+        phone: this.props.curUser.data.billing.phone,
+        firstName: this.props.curUser.data.name.split(' ')[0],
+        lastName: this.props.curUser.data.name.split(' ')[1],
+        newsletter: this.props.curUser.data.newsletter,
       })
     }
   }
@@ -107,6 +114,7 @@ class CheckoutForm extends Component {
         })
         // Store Stripe Information in the Firebase Database
         .then(res => {
+          debugger
           if (this.props.curUser) {
             firebase
               .store()

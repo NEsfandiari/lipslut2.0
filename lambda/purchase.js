@@ -1444,7 +1444,6 @@ module.exports = stripeMethod;
 __webpack_require__(14).config({ path: '.env.development' });
 
 const stripe = __webpack_require__(16)(process.env.GATSBY_STRIPE_SECRET_KEY);
-let statusCode = 200;
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type'
@@ -1454,10 +1453,11 @@ exports.handler = function (event, context, callback) {
   // TEST for post request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
-      statusCode,
+      statusCode: 200,
       headers,
       body: ''
     });
+    return;
   }
 
   let data = JSON.parse(event.body);
@@ -1467,14 +1467,15 @@ exports.handler = function (event, context, callback) {
   if (!data.token || !data.amount || !data.idempotency_key) {
     console.error('Required information is missing.');
     callback(null, {
-      statusCode,
+      statusCode: 200,
       headers,
       body: JSON.stringify({ status: 'missing-information' })
     });
     return;
   }
-  if (data.previousCustomer) {
-    // Create Order
+
+  // Create Order
+  try {
     stripe.orders.create({
       currency: 'usd',
       email: data.token.email,
@@ -1493,57 +1494,67 @@ exports.handler = function (event, context, callback) {
           country: 'US'
         }
       }
-    }).then(() => {
-      stripe.charges.create({
-        currency: 'usd',
-        amount: data.amount,
-        customer: data.previousCustomer
-      }, {
-        idempotency_key: data.idempotency_key
-      }, (err, charge) => {
-        if (err !== null) {
-          console.log(err);
-        }
+    }).then(order => {
+      if (data.previousCustomer) {
+        // Charge Existing Customer
+        stripe.charges.create({
+          currency: 'usd',
+          amount: data.amount,
+          customer: data.previousCustomer
+        }, {
+          idempotency_key: data.idempotency_key
+        }, (err, charge) => {
+          if (err !== null) {
+            console.log(err);
+          }
 
-        let status = charge === null || charge.status !== 'succeeded' ? 'failed' : charge.status;
-        // TODO Figure Out WHy this is not responding to checkoutForm with data
-        callback(null, {
-          statusCode,
-          headers,
-          body: JSON.stringify({
-            status,
-            previousCustomer: data.previousCustomer,
-            customerType: 'Old'
-          })
+          let status = charge === null || charge.status !== 'succeeded' ? 'failed' : charge.status;
+          console.log(event, context);
+          callback('Its Broken', {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+              status,
+              previousCustomer: data.previousCustomer,
+              customerType: 'Old'
+            })
+          });
+          return;
         });
-      });
-    });
-    // Charge Existing Customer
-  } else {
-    // Create A New Customer and Charge Him/her
-    stripe.customers.create({
-      source: data.token.id,
-      email: data.token.email
-    }).then(customer => {
-      stripe.charges.create({
-        currency: 'usd',
-        amount: data.amount,
-        customer: customer.id
-      }, {
-        idempotency_key: data.idempotency_key
-      }, (err, charge) => {
-        if (err !== null) {
-          console.log(err);
-        }
+      } else {
+        // Create A New Customer and Charge Him/her
+        stripe.customers.create({
+          source: data.token.id,
+          email: data.token.email
+        }).then(customer => {
+          stripe.charges.create({
+            currency: 'usd',
+            amount: data.amount,
+            customer: customer.id
+          }, {
+            idempotency_key: data.idempotency_key
+          }, (err, charge) => {
+            if (err !== null) {
+              console.log(err);
+            }
 
-        let status = charge === null || charge.status !== 'succeeded' ? 'failed' : charge.status;
-        callback(null, {
-          statusCode,
-          headers,
-          body: JSON.stringify({ status, customer, customerType: 'New' })
+            let status = charge === null || charge.status !== 'succeeded' ? 'failed' : charge.status;
+            callback(null, {
+              statusCode: 200,
+              headers,
+              body: JSON.stringify({
+                status,
+                customer,
+                customerType: 'New'
+              })
+            });
+            return;
+          });
         });
-      });
+      }
     });
+  } catch (e) {
+    console.log(e);
   }
 };
 
