@@ -99,8 +99,6 @@ class CheckoutForm extends Component {
           {
             headers: {
               'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers': 'Content-Type',
             },
             body: JSON.stringify({
               token,
@@ -110,9 +108,9 @@ class CheckoutForm extends Component {
           }
         )
       })
-      // Store Stripe Information in the Firebase Database
       .then(res => {
         console.log(res)
+        // Store Stripe Information in the Firebase Database
         if (this.props.curUser) {
           firebase
             .store()
@@ -149,7 +147,7 @@ class CheckoutForm extends Component {
         this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
       })
       .catch(error => {
-        console.log(error)
+        console.error(error)
         this.setState({ orderStatus: 'TRANSACTION DECLINED' })
       })
   }

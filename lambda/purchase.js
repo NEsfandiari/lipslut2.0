@@ -1441,8 +1441,6 @@ module.exports = stripeMethod;
 "use strict";
 
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 __webpack_require__(14).config({ path: '.env.development' });
 const stripe = __webpack_require__(16)(process.env.GATSBY_STRIPE_SECRET_KEY);
 const statusCode = 200;
@@ -1451,17 +1449,17 @@ const headers = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
-exports.handler = (() => {
-  var _ref = _asyncToGenerator(function* (event, context, callback) {
-    // TEST for post request
-    if (event.httpMethod !== 'POST' || !event.body) {
-      callback(null, {
-        statusCode,
-        headers,
-        body: ''
-      });
-    }
-
+exports.handler = function (event, context, callback) {
+  context.callbackWaitsForEmptyEventLoop = false;
+  // TEST for post request
+  if (event.httpMethod !== 'POST' || !event.body) {
+    callback(null, {
+      statusCode,
+      headers,
+      body: ''
+    });
+  }
+  if (event.body[0] == '{') {
     let data = JSON.parse(event.body);
     data = JSON.parse(data.body);
 
@@ -1474,9 +1472,10 @@ exports.handler = (() => {
         body: JSON.stringify({ status: 'missing-information' })
       });
     }
+
     if (data.previousCustomer) {
       // Charge Existing Customer
-      let order = yield stripe.orders.create({
+      stripe.orders.create({
         currency: 'usd',
         items: [{
           type: 'sku',
@@ -1484,31 +1483,32 @@ exports.handler = (() => {
           quantity: 1
         }],
         customer: data.previousCustomer
-      }, {
-        idempotency_key: data.idempotency_key
-      }).catch(function (err) {
+      }).then(order => {
+        stripe.orders.pay(order.id, {
+          customer: data.previousCustomer
+        }, {
+          idempotency_key: data.idempotency_key
+        }, (err, order) => {
+          if (err !== null) {
+            console.log(err);
+          }
+          let status = order === null || order.status !== 'paid' ? 'failed' : order.status;
+          callback(null, {
+            statusCode,
+            headers,
+            body: JSON.stringify({
+              status,
+              previousCustomer: data.previousCustomer,
+              customerType: 'Old'
+            })
+          });
+        });
+      }).catch(err => {
         console.log(err);
-      });
-
-      yield stripe.orders.pay(order.id, {
-        customer: data.previousCustomer
-      }).catch(function (err) {
-        console.log(err);
-      });
-
-      let status = order === null || order.status !== 'created' ? 'failed' : order.status;
-      callback(null, {
-        statusCode,
-        headers,
-        body: JSON.stringify({
-          status,
-          previousCustomer: data.previousCustomer,
-          customerType: 'Old'
-        })
       });
     } else {
       // Create A New Customer
-      let customer = yield stripe.customers.create({
+      stripe.customers.create({
         source: data.token.id,
         email: data.token.email,
         shipping: {
@@ -1521,45 +1521,43 @@ exports.handler = (() => {
             country: 'US'
           }
         }
-      }).catch(function (err) {
+      }).then(customer => {
+        // Create Order with New Customer
+        stripe.orders.create({
+          currency: 'usd',
+          items: [{
+            type: 'sku',
+            parent: 'sku_DOW0toLrcYwVDG',
+            quantity: 1
+          }],
+          customer: customer.id
+        }).then(order => {
+          stripe.orders.pay(order.id, {
+            customer: customer.id
+          }, {
+            idempotency_key: data.idempotency_key
+          }, (err, order) => {
+            if (err !== null) {
+              console.log(err);
+            }
+            let status = order === null || order.status !== 'paid' ? 'failed' : order.status;
+            callback(null, {
+              statusCode,
+              headers,
+              body: JSON.stringify({
+                status,
+                customerType: 'New'
+              })
+            });
+            return;
+          });
+        });
+      }).catch(err => {
         console.log(err);
-      });
-      // Create Order with New Customer
-      let order = yield stripe.orders.create({
-        currency: 'usd',
-        items: [{
-          type: 'sku',
-          parent: 'sku_DOW0toLrcYwVDG',
-          quantity: 1
-        }],
-        customer: customer.id
-      }, {
-        idempotency_key: data.idempotency_key
-      }).catch(function (err) {
-        console.log(err);
-      });
-      yield stripe.orders.pay(order.id, {
-        customer: customer.id
-      }).catch(function (err) {
-        console.log(err);
-      });
-      let status = order === null || order.status !== 'created' ? 'failed' : order.status;
-      callback(null, {
-        statusCode,
-        headers,
-        body: JSON.stringify({
-          status,
-          previousCustomer: data.previousCustomer,
-          customerType: 'New'
-        })
       });
     }
-  });
-
-  return function (_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-})();
+  }
+};
 
 /***/ }),
 /* 14 */
