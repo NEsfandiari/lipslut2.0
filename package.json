@@ -14,6 +14,7 @@
     "futura-font": "^1.0.0",
     "gatsby": "^1.9.247",
     "gatsby-link": "^1.6.40",
+    "gatsby-plugin-google-analytics": "^1.0.31",
     "gatsby-plugin-mailchimp": "^2.2.3",
     "gatsby-plugin-netlify": "^1.0.21",
     "gatsby-plugin-react-helmet": "^2.0.10",

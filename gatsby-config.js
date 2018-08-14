@@ -15,6 +15,15 @@ module.exports = {
     `gatsby-plugin-stripe-checkout`,
     `gatsby-plugin-stripe-elements`,
     {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: process.env.GATSBY_GOOGLE_ANALYTICS_TRACKING_ID,
+        head: false,
+        anonymize: true,
+        respectDNT: true,
+      },
+    },
+    {
       resolve: `gatsby-source-contentful`,
       options: {
         spaceId: process.env.GATSBY_CONTENTFUL_SPACE_ID,
