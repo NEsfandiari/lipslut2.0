@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { navigateTo } from 'gatsby-link'
+
 import { StyledButton, GoogleIcon } from '../atoms'
 
 const Container = styled.div`
@@ -22,40 +22,7 @@ class SignupEmailPassword extends Component {
   handleGoogle = e => {
     // TODO move to seperate file structure
     const { firebase } = this.context
-    const { auth } = this.context.firebase
-    const signup = this
-    auth()
-      .signInWithPopup(new auth.GoogleAuthProvider())
-      .then(user => {
-        const userInfo = user.user
-        firebase
-          .store()
-          .collection('users')
-          .doc(userInfo.uid)
-          .set({
-            name: userInfo.displayName,
-            email: userInfo.email,
-            billing: {
-              email: '',
-              address_city: '',
-              address_line1: '',
-              address_line2: '',
-              address_state: '',
-              firstName: '',
-              lastName: '',
-              zip: '',
-              phone: '',
-              card: '',
-            },
-            orderHistory: [],
-            newsletter: false,
-          })
-      })
-      .then(() => navigateTo('/'))
-      .catch(error => {
-        const errorMessage = error.message
-        signup.props.handleError(errorMessage)
-      })
+    firebase.signUpGoogle(this)
   }
   render() {
     return (

@@ -20,15 +20,8 @@ class LoginGoogle extends Component {
   }
 
   handleGoogle = e => {
-    const { auth } = this.context.firebase
-    const login = this
-    auth()
-      .signInWithPopup(new auth.GoogleAuthProvider())
-      .then(() => navigateTo('/'))
-      .catch(error => {
-        let errorMessage = error.message
-        login.props.handleError(errorMessage)
-      })
+    const { firebase } = this.context
+    firebase.login(this, 'google')
   }
 
   render() {

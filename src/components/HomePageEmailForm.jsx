@@ -16,10 +16,7 @@ class HomePageEmailForm extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { firebase } = this.context
-    const db = firebase.store()
-    db.collection('emails').add({
-      email: this.state.email,
-    })
+    firebase.addEmail(this.state.email)
     this.setState({ status: 'WELCOME!', email: '' })
   }
   handleChange = e => {

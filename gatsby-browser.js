@@ -1,7 +1,7 @@
 import React from 'react'
 import { Router } from 'react-router-dom'
 import FirebaseProvider from './src/containers/FirebaseProvider'
-import firebase from './src/firebase'
+import firebase from './src/utilities/firebase'
 
 exports.replaceRouterComponent = ({ history }) => {
   const ConnectedRouterWrapper = ({ children }) => (

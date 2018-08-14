@@ -38,7 +38,6 @@ class SignupEmailPassword extends Component {
         [e.target.name]: e.target.checked,
       })
     } else {
-      debugger
       this.setState({
         [e.target.name]: e.target.value,
       })
@@ -47,46 +46,15 @@ class SignupEmailPassword extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { firebase } = this.context
-    const signup = this
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user => {
-        const userInfo = user.user
-        if (this.state.newsletter) {
-          firebase
-            .store()
-            .collection('emails')
-            .add({ email: this.state.email })
-        }
-        firebase
-          .store()
-          .collection('users')
-          .doc(userInfo.uid)
-          .set({
-            name: this.state.firstName + ' ' + this.state.lastName,
-            email: this.state.email,
-            newsletter: this.state.newsletter,
-            orderHistory: [],
-            billing: {
-              email: '',
-              address_city: '',
-              address_line1: '',
-              address_line2: '',
-              address_state: '',
-              firstName: '',
-              lastName: '',
-              zip: '',
-              phone: '',
-              card: '',
-            },
-          })
-      })
-      .then(() => navigateTo('/'))
-      .catch(function(error) {
-        const errorMessage = error.message
-        signup.props.handleError(errorMessage)
-      })
+    const { firstName, lastName, email, password, newsletter } = this.state
+    firebase.signupEmailPassword(
+      this,
+      firstName,
+      lastName,
+      email,
+      password,
+      newsletter
+    )
   }
   render() {
     return (

@@ -5,7 +5,6 @@ import { CheckoutShipping, CheckoutSummary, CheckoutPayment } from './molecules'
 import { injectStripe } from 'react-stripe-elements'
 import axios from 'axios'
 import uuid from 'uuid/v4'
-import moment from 'moment'
 
 const ContainerForm = styled.form`
   display: flex;
@@ -72,14 +71,10 @@ class CheckoutForm extends Component {
   handleSubmit(e) {
     e.preventDefault()
     this.setState({ orderStatus: 'PROCESSING...' })
-    // setup
-    const { firebase } = this.context
     let previousCustomer = null
     if (this.props.curUser && this.props.curUser.data.billing.card) {
       previousCustomer = this.props.curUser.data.billing.card
     }
-
-    // TODO: Move this functionality to a seperate file and refer here
     // Create Stripe Token from Stripe React elements
     this.props.stripe
       .createToken({
@@ -110,38 +105,34 @@ class CheckoutForm extends Component {
       })
       .then(res => {
         console.log(res)
+        const { firebase } = this.context
+        const { curUser, cart, subtotal, tax } = this.props
+        const {
+          city,
+          address,
+          state,
+          apartment,
+          zip,
+          phone,
+          newsletter,
+          shipping,
+        } = this.state
+        const total = parseFloat(tax + subtotal + shipping).toFixed(2)
         // Store Stripe Information in the Firebase Database
-        if (this.props.curUser) {
-          firebase
-            .store()
-            .collection('users')
-            .doc(this.props.curUser.id)
-            .update({
-              orderHistory: [
-                ...this.props.curUser.data.orderHistory,
-                {
-                  cart: [...this.props.cart],
-                  placed: moment().format('MMMM Do YYYY'),
-                  total: parseFloat(
-                    this.props.tax + this.props.subtotal + this.state.shipping
-                  ).toFixed(2),
-                  orderNumber: parseInt(Math.random() * 1000),
-                },
-              ],
-              billing: {
-                card:
-                  res.data.customerType == 'New'
-                    ? res.data.customer.id
-                    : res.data.previousCustomer,
-                address_city: this.state.city,
-                address_state: this.state.state,
-                address_line1: this.state.address,
-                address_line2: this.state.apartment,
-                zip: this.state.zip,
-                phone: this.state.phone,
-              },
-              newsletter: this.state.newsletter,
-            })
+        if (curUser) {
+          firebase.updatePayment(
+            res,
+            curUser,
+            cart,
+            total,
+            city,
+            state,
+            address,
+            apartment,
+            zip,
+            phone,
+            newsletter
+          )
         }
         this.props.clearCart()
         this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })

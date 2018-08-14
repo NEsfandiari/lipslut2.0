@@ -40,23 +40,27 @@ class AccountDetails extends Component {
   }
   handleUpdate = e => {
     const firebase = this.context.firebase
-    firebase
-      .store()
-      .collection('users')
-      .doc(this.props.curUser.id)
-      .update({
-        billing: {
-          card: this.props.curUser.data.billing.card,
-          address_city: this.state.city,
-          address_state: this.props.curUser.data.billing.address_state,
-          address_line1: this.state.address,
-          address_line2: this.state.apartment,
-          zip: this.state.zip,
-          phone: this.state.phone,
-        },
-        email: this.state.email,
-        name: this.state.firstName + ' ' + this.state.lastName,
-      })
+    const {
+      firstName,
+      lastName,
+      email,
+      address,
+      apartment,
+      city,
+      zip,
+      phone,
+    } = this.state
+    firebase.updateAccount(
+      this.props.curUser,
+      firstName,
+      lastName,
+      email,
+      address,
+      apartment,
+      city,
+      zip,
+      phone
+    )
     this.setState({ editing: false })
   }
   render() {

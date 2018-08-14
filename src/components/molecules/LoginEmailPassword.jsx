@@ -21,15 +21,8 @@ class LoginEmailPassword extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { firebase } = this.context
-    const login = this
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => navigateTo('/'))
-      .catch(function(error) {
-        let errorMessage = error.message
-        login.props.handleError(errorMessage)
-      })
+    const { email, password } = this.state
+    firebase.login(this, 'emailPassword', email, password)
   }
   handleChange = e => {
     this.setState({
