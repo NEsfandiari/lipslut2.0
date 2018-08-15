@@ -1472,7 +1472,7 @@ exports.handler = function (event, context, callback) {
         body: JSON.stringify({ status: 'missing-information' })
       });
     }
-    // hey
+
     if (data.previousCustomer) {
       // Charge Existing Customer
       stripe.orders.create({

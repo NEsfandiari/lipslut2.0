@@ -31,7 +31,7 @@ const Container = styled.div`
     text-decoration: none;
   }
   img {
-    border-radius: 4px;
+    border-radius: 2.5px;
   }
 `
 const windowGlobal = typeof window !== 'undefined' && window
