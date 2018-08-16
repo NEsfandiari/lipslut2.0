@@ -113,9 +113,9 @@ class Layout extends Component {
     })
     windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
-  addItem(title, price, quantity, image) {
+  addItem(title, price, quantity, image, sku) {
     let newCart = this.state.cart
-    newCart.push({ title, price, quantity, image })
+    newCart.push({ title, price, quantity, image, sku })
     this.setState({
       cart: newCart,
       sidebar: true,

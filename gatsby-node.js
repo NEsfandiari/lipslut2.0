@@ -19,6 +19,7 @@ exports.createPages = async ({ boundActionCreators, graphql }) => {
                   title
                   descriptors
                   price
+                  sku
                   images {
                     file {
                       url

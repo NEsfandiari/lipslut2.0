@@ -18,7 +18,7 @@ const Container = styled.div`
 
 class Product extends Component {
   render() {
-    const { images, addItem, descriptors, title, price } = this.props
+    const { images, addItem, descriptors, title, price, sku } = this.props
     return (
       <Container>
         <ProductPhotos images={images} />
@@ -28,6 +28,7 @@ class Product extends Component {
           title={title}
           price={price}
           images={images}
+          sku={sku}
         />
       </Container>
     )

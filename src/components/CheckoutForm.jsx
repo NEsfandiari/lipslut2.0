@@ -68,6 +68,18 @@ class CheckoutForm extends Component {
     }
   }
 
+  handleChange(e) {
+    if (e.target.type == 'checkbox') {
+      this.setState({
+        [e.target.name]: e.target.checked,
+      })
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value,
+      })
+    }
+  }
+
   handleSubmit(e) {
     e.preventDefault()
     this.setState({ orderStatus: 'PROCESSING...' })
@@ -75,6 +87,9 @@ class CheckoutForm extends Component {
     if (this.props.curUser && this.props.curUser.data.billing.card) {
       previousCustomer = this.props.curUser.data.billing.card
     }
+    const items = this.props.cart.map(item => {
+      return { type: 'sku', parent: item.sku, quantity: item.quantity }
+    })
     // Create Stripe Token from Stripe React elements
     this.props.stripe
       .createToken({
@@ -87,72 +102,62 @@ class CheckoutForm extends Component {
       })
       // Post to lambda Function
       .then(({ token }) => {
-        axios.post(
-          location.hostname === 'localhost'
-            ? 'http://localhost:9000/purchase'
-            : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              token,
-              idempotency_key: uuid(),
-              previousCustomer,
-            }),
-          }
-        )
-      })
-      .then(res => {
-        console.log(res)
-        const { firebase } = this.context
-        const { curUser, cart, subtotal, tax } = this.props
-        const {
-          city,
-          address,
-          state,
-          apartment,
-          zip,
-          phone,
-          newsletter,
-          shipping,
-        } = this.state
-        const total = parseFloat(tax + subtotal + shipping).toFixed(2)
-        // Store Stripe Information in the Firebase Database
-        if (curUser) {
-          firebase.updatePayment(
-            res,
-            curUser,
-            cart,
-            total,
-            city,
-            state,
-            address,
-            apartment,
-            zip,
-            phone,
-            newsletter
+        debugger
+        axios
+          .post(
+            location.hostname === 'localhost'
+              ? 'http://localhost:9000/purchase'
+              : `${process.env.GATSBY_LAMBDA_ENDPOINT}purchase`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                token,
+                idempotency_key: uuid(),
+                previousCustomer,
+                items,
+              }),
+            }
           )
-        }
-        this.props.clearCart()
-        this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
+          .then(res => {
+            const { firebase } = this.context
+            const { curUser, cart, subtotal, tax } = this.props
+            const {
+              city,
+              address,
+              state,
+              apartment,
+              zip,
+              phone,
+              newsletter,
+              shipping,
+            } = this.state
+            const total = parseFloat(tax + subtotal + shipping).toFixed(2)
+            // Store Stripe Information in the Firebase Database
+            if (curUser) {
+              firebase.updatePayment(
+                res,
+                curUser,
+                cart,
+                total,
+                city,
+                state,
+                address,
+                apartment,
+                zip,
+                phone,
+                newsletter
+              )
+            }
+            this.props.clearCart()
+            this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
+          })
       })
       .catch(error => {
         console.error(error)
         this.setState({ orderStatus: 'TRANSACTION DECLINED' })
       })
-  }
-
-  handleChange(e) {
-    if (e.target.type == 'checkbox') {
-      this.setState({
-        [e.target.name]: e.target.checked,
-      })
-    } else {
-      this.setState({
-        [e.target.name]: e.target.value,
-      })
-    }
   }
 
   render() {

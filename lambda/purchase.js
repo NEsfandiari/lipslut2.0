@@ -1459,6 +1459,7 @@ exports.handler = function (event, context, callback) {
       body: ''
     });
   }
+  // TEST if the event body has data relevant to be parsed
   if (event.body[0] == '{') {
     let data = JSON.parse(event.body);
     data = JSON.parse(data.body);
@@ -1477,23 +1478,16 @@ exports.handler = function (event, context, callback) {
       // Charge Existing Customer
       stripe.orders.create({
         currency: 'usd',
-        items: [{
-          type: 'sku',
-          parent: 'sku_DOW0toLrcYwVDG',
-          quantity: 1
-        }],
+        items: data.items,
         customer: data.previousCustomer
       }).then(order => {
         stripe.orders.pay(order.id, {
           customer: data.previousCustomer
         }, {
           idempotency_key: data.idempotency_key
-        }, (err, order) => {
-          if (err !== null) {
-            console.log(err);
-          }
+        }).then(order => {
           let status = order === null || order.status !== 'paid' ? 'failed' : order.status;
-          callback(null, {
+          let response = {
             statusCode,
             headers,
             body: JSON.stringify({
@@ -1501,13 +1495,22 @@ exports.handler = function (event, context, callback) {
               previousCustomer: data.previousCustomer,
               customerType: 'Old'
             })
-          });
+          };
+          callback(null, response);
+        }).catch(err => {
+          let response = {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              error: err.message
+            })
+          };
+          callback(null, response);
         });
       }).catch(err => {
         console.log(err);
       });
     } else {
-      // Create A New Customer
       stripe.customers.create({
         source: data.token.id,
         email: data.token.email,
@@ -1525,31 +1528,34 @@ exports.handler = function (event, context, callback) {
         // Create Order with New Customer
         stripe.orders.create({
           currency: 'usd',
-          items: [{
-            type: 'sku',
-            parent: 'sku_DOW0toLrcYwVDG',
-            quantity: 1
-          }],
+          items: data.items,
           customer: customer.id
         }).then(order => {
           stripe.orders.pay(order.id, {
             customer: customer.id
           }, {
             idempotency_key: data.idempotency_key
-          }, (err, order) => {
-            if (err !== null) {
-              console.log(err);
-            }
+          }).then(order => {
             let status = order === null || order.status !== 'paid' ? 'failed' : order.status;
-            callback(null, {
+            let response = {
               statusCode,
               headers,
               body: JSON.stringify({
                 status,
+                customer: customer.id,
                 customerType: 'New'
               })
-            });
-            return;
+            };
+            callback(null, response);
+          }).catch(err => {
+            let response = {
+              statusCode: 500,
+              headers,
+              body: JSON.stringify({
+                error: err.message
+              })
+            };
+            callback(null, response);
           });
         });
       }).catch(err => {

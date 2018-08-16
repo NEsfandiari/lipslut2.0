@@ -186,7 +186,7 @@ class Firebase {
         billing: {
           card:
             res.data.customerType == 'New'
-              ? res.data.customer.id
+              ? res.data.customer
               : res.data.previousCustomer,
           address_city: city,
           address_state: state,
