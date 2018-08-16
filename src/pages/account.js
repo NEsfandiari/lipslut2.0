@@ -16,12 +16,12 @@ class Account extends Component {
     this.props.resetSidebar()
   }
   render() {
-    const { curUser } = this.props
+    const { curUser, signIn } = this.props
     return (
       <div>
         {curUser ? (
           <Container>
-            <OrderHistory curUser={curUser} />
+            <OrderHistory curUser={curUser} signIn={signIn} />
             <AccountDetails curUser={curUser} />
           </Container>
         ) : (

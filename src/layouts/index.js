@@ -79,7 +79,7 @@ class Layout extends Component {
       .doc(user.uid)
       .get()
       .then(doc => {
-        this.setState({ curUser: { id: user.uid, data: doc.data() } })
+        this.setState({ curUser: { uid: user.uid, data: doc.data() } })
       })
   }
   signOut = () => {
@@ -164,6 +164,7 @@ class Layout extends Component {
             cart: this.state.cart,
             curUser: this.state.curUser,
             resetSidebar: this.resetSidebar,
+            signIn: this.signIn,
           })}
         </div>
         <Footer />

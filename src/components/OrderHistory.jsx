@@ -14,7 +14,9 @@ const Container = styled.div`
 `
 
 class OrderHistory extends Component {
-  state = {}
+  componentDidMount() {
+    this.props.signIn(this.props.curUser)
+  }
   render() {
     let orders
     if (this.props.curUser) {

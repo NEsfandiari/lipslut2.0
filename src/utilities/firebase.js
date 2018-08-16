@@ -142,7 +142,7 @@ class Firebase {
   ) => {
     this.store()
       .collection('users')
-      .doc(user.id)
+      .doc(user.uid)
       .update({
         billing: {
           card: user.data.billing.card,
@@ -172,7 +172,7 @@ class Firebase {
   ) => {
     this.store()
       .collection('users')
-      .doc(user.id)
+      .doc(user.uid)
       .update({
         orderHistory: [
           ...user.data.orderHistory,
