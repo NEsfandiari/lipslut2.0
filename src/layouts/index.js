@@ -31,7 +31,7 @@ const Container = styled.div`
     text-decoration: none;
   }
   img {
-    border-radius: 2.5px;
+    border-radius: 3px;
   }
 `
 const windowGlobal = typeof window !== 'undefined' && window
@@ -72,6 +72,7 @@ class Layout extends Component {
   }
 
   signIn = user => {
+    // TODO: Seperate database schema into more react friendly schema
     const { firebase } = this.context
     firebase
       .store()

@@ -61,6 +61,7 @@ class AccountDetails extends Component {
       zip,
       phone
     )
+    this.props.signIn(this.props.curUser)
     this.setState({ editing: false })
   }
   render() {

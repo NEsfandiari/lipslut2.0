@@ -22,7 +22,7 @@ class Account extends Component {
         {curUser ? (
           <Container>
             <OrderHistory curUser={curUser} signIn={signIn} />
-            <AccountDetails curUser={curUser} />
+            <AccountDetails curUser={curUser} signIn={signIn} />
           </Container>
         ) : (
           <Loading />

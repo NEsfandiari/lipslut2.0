@@ -7,6 +7,7 @@ import Product from './Product.jsx'
 import ProductMedia from './ProductMedia.jsx'
 import CheckoutForm from './CheckoutForm.jsx'
 import CartSidebar from './CartSidebar.jsx'
+import MobileSidebar from './MobileSidebar'
 import AccountDetails from './AccountDetails.jsx'
 import OrderHistory from './OrderHistory.jsx'
 
@@ -20,6 +21,7 @@ export default {
   ProductMedia,
   CheckoutForm,
   CartSidebar,
+  MobileSidebar,
   AccountDetails,
   OrderHistory,
 }

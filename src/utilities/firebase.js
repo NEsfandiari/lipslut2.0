@@ -12,7 +12,16 @@ const config = {
   messagingSenderId: '973290593236',
 }
 
+export const addEmail = email => {
+  this.store()
+    .collection('emails')
+    .add({
+      email: email,
+    })
+}
+
 class Firebase {
+  // TODO move functions into seprate modules
   constructor() {
     firebase.initializeApp(config)
     this.store = firebase.firestore

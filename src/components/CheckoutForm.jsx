@@ -21,22 +21,16 @@ class CheckoutForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: props.curUser ? this.props.curUser.data.email : '',
-      city: props.curUser ? this.props.curUser.data.billing.address_city : '',
-      address: props.curUser
-        ? this.props.curUser.data.billing.address_line1
-        : '',
-      apartment: props.curUser
-        ? this.props.curUser.data.billing.address_line2
-        : '',
-      state: props.curUser ? this.props.curUser.data.billing.address_state : '',
-      zip: props.curUser ? this.props.curUser.data.billing.zip : '',
-      phone: props.curUser ? this.props.curUser.data.billing.phone : '',
-      firstName: props.curUser
-        ? this.props.curUser.data.name.split(' ')[0]
-        : '',
-      lastName: props.curUser ? this.props.curUser.data.name.split(' ')[1] : '',
-      newsletter: props.curUser ? this.props.curUser.data.newsletter : false,
+      email: props.curUser ? props.curUser.data.email : '',
+      city: props.curUser ? props.curUser.data.billing.address_city : '',
+      address: props.curUser ? props.curUser.data.billing.address_line1 : '',
+      apartment: props.curUser ? props.curUser.data.billing.address_line2 : '',
+      state: props.curUser ? props.curUser.data.billing.address_state : '',
+      zip: props.curUser ? props.curUser.data.billing.zip : '',
+      phone: props.curUser ? props.curUser.data.billing.phone : '',
+      firstName: props.curUser ? props.curUser.data.name.split(' ')[0] : '',
+      lastName: props.curUser ? props.curUser.data.name.split(' ')[1] : '',
+      newsletter: props.curUser ? props.curUser.data.newsletter : false,
       shipping: 4.95,
       orderStatus: 'PLACE ORDER',
       profileLoad: false,

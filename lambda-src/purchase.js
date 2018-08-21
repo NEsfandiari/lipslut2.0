@@ -6,6 +6,8 @@ const headers = {
   'Access-Control-Allow-Headers': 'Content-Type',
 }
 
+// convert handler to switch statement that calls seperate function
+
 exports.handler = function(event, context, callback) {
   context.callbackWaitsForEmptyEventLoop = false
   // TEST for post request
@@ -16,7 +18,9 @@ exports.handler = function(event, context, callback) {
       body: '',
     })
   }
-  // TEST if the event body has data relevant to be parsed
+  // 1. what type, 2. validate reuqest 3. handle request
+  // TEST if the event body has data relevant to be parsed. Is valid post request
+  // test the actual http request
   if (event.body[0] == '{') {
     let data = JSON.parse(event.body)
     data = JSON.parse(data.body)
@@ -30,7 +34,7 @@ exports.handler = function(event, context, callback) {
         body: JSON.stringify({ status: 'missing-information' }),
       })
     }
-
+    //  use async await for readibility
     if (data.previousCustomer) {
       // Charge Existing Customer
       stripe.orders
@@ -40,6 +44,7 @@ exports.handler = function(event, context, callback) {
           customer: data.previousCustomer,
         })
         .then(order => {
+          // return promise to use .then's at the sane
           stripe.orders
             .pay(
               order.id,

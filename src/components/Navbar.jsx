@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
-import { FaShoppingBag, FaUser } from 'react-icons/lib/fa'
+import { FaShoppingBag, FaUser, FaBars } from 'react-icons/lib/fa'
 import { NavLink } from './atoms'
-import CartSidebar from './CartSidebar'
+import CartSidebar from './CartSidebar.jsx'
+import MobileSidebar from './MobileSidebar.jsx'
 
 const NavContainer = Styled.div`
   display: flex;
@@ -50,8 +51,24 @@ const NavContainer = Styled.div`
   }
     width: 85vw;
   }
+  .hamburger{
+    display: none;
+  }
+  @media(max-width: 420px) {
+    .leftNav{
+      a{
+        display: none;
+      }
+      .hamburger{
+        display: initial;
+      }
+    }
+  }
 `
 class Navbar extends Component {
+  state = {
+    mobileSidebar: false,
+  }
   static contextTypes = {
     firebase: PropTypes.object,
   }
@@ -69,6 +86,10 @@ class Navbar extends Component {
       })
   }
 
+  handleMobileSidebar = () => {
+    this.setState({ mobileSidebar: !this.state.mobileSidebar })
+  }
+
   render() {
     const {
       cart,
@@ -80,9 +101,17 @@ class Navbar extends Component {
     } = this.props
     return (
       <div>
+        <MobileSidebar
+          display={this.state.mobileSidebar}
+          handleMobileSidebar={this.handleMobileSidebar}
+        />
         <NavContainer>
           <div className="nav">
             <div className="leftNav">
+              <FaBars
+                className="hamburger"
+                onClick={this.handleMobileSidebar}
+              />
               <NavLink to="/Fck-Trump">F*CK TRUMP</NavLink>
               <NavLink to="/Fck-Hollywood">F*CK HOLLYWOOD</NavLink>
               <NavLink to="/Lipslut-Hat">MORE</NavLink>
