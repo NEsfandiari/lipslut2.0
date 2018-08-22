@@ -16,7 +16,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   a {
-    font-size: 1.5rem;
+    font-size: 2rem;
     margin-bottom: 0.5rem;
   }
   .header {
@@ -24,8 +24,11 @@ const Container = styled.div`
     justify-content: space-between;
   }
   .links {
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 30vh;
   }
   @media (min-width: 420px) {
     display: none;

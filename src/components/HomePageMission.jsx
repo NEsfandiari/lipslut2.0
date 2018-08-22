@@ -15,6 +15,11 @@ const Container = Styled.div`
   h2{
     font-size: 2rem;
   }
+  @media (max-width: 420px) {
+    .statements{
+      flex-direction: column;
+    }
+  }
 `
 
 const HomePageMisson = () => (

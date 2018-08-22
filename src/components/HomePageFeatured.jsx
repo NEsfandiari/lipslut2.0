@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Styled from 'styled-components'
 
 import { FeaturedProduct } from './molecules'
@@ -6,7 +6,9 @@ import { FeaturedProduct } from './molecules'
 const Container = Styled.div`
     display: flex;
     justify-content: space-between;
-    
+  @media (max-width: 420px) {
+    flex-direction: column;
+  }
 `
 
 const HomePageFeatured = () => (

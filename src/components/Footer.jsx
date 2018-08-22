@@ -21,9 +21,14 @@ const Container = Styled.div`
     svg:hover{
         opacity: 1 !important;
     }
-  .copyright{
-      color: #C4C4C4
-  }
+    .copyright{
+        color: #C4C4C4
+    }
+    .links{
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 `
 
 class Footer extends Component {

@@ -25,6 +25,12 @@ const Container = Styled.div`
     padding-right: 1.5rem;
     flex-basis: 60%;
   }
+  @media (max-width: 420px) {
+    h1{
+      font-size: 2rem;
+    }
+    flex-direction: column;
+  }
 `
 
 const MissionPhilosophy = () => (

@@ -3,7 +3,13 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { StyledButton, StyledInput } from './atoms'
 
-const Container = styled.form``
+const Container = styled.form`
+  @media (max-width: 420px) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+`
 
 class HomePageEmailForm extends Component {
   state = {

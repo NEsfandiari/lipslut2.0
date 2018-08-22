@@ -35,8 +35,15 @@ const Container = styled.div`
   }
   @media (max-width: 420px) {
     width: 100%;
+    padding: 1rem;
+    img {
+      width: 8rem;
+    }
+    div {
+      padding: 0rem;
+    }
     .leftNav {
-      flex-basis: 20%;
+      flex-basis: 25%;
       a {
         display: none;
       }
@@ -44,15 +51,13 @@ const Container = styled.div`
         display: initial;
       }
     }
-    img {
-      width: 8rem;
-    }
-    div {
-      padding: 0.5rem;
+    .logo {
+      flex-basis: 60%;
     }
     .rightNav a {
       display: none;
       flex-basis: 20%;
+      padding-top: 0.5rem;
     }
   }
 `
