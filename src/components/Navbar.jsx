@@ -13,6 +13,9 @@ const NavContainer = Styled.div`
   .hamburger{
     display: none;
   }
+  @media (max-width: 420px) {
+    position: sticky;
+  }
 `
 class Navbar extends Component {
   state = {
