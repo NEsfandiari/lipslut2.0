@@ -16,6 +16,9 @@ const Container = styled.div`
     justify-content: space-between;
     width: 80%;
   }
+  @media (min-width: 420px) {
+    display: none;
+  }
 `
 
 class MobileSidebar extends Component {

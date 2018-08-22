@@ -16,6 +16,7 @@ import LoginEmailPassword from './LoginEmailPassword.jsx'
 import LoginGoogle from './LoginGoogle.jsx'
 import SignupEmailPassword from './SignupEmailPassword.jsx'
 import SignupGoogle from './SignupGoogle.jsx'
+import NavButtons from './NavButtons.jsx'
 
 export default {
   MissionStatement,
@@ -36,4 +37,5 @@ export default {
   LoginGoogle,
   SignupEmailPassword,
   SignupGoogle,
+  NavButtons,
 }
