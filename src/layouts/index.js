@@ -33,6 +33,9 @@ const Container = styled.div`
   img {
     border-radius: 3px;
   }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 const windowGlobal = typeof window !== 'undefined' && window
 class Layout extends Component {

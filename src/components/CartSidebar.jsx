@@ -21,7 +21,9 @@ const Container = styled.div`
   p {
     text-align: center;
   }
-
+  h1 {
+    margin: 0;
+  }
   .contents {
     display: flex;
     flex-direction: column;
@@ -30,10 +32,15 @@ const Container = styled.div`
   .header {
     display: flex;
     width: 90%;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
     svg {
       margin-right: 6rem;
       cursor: pointer;
     }
+  }
+  @media (max-width: 420px) {
+    width: 100%;
   }
 `
 
@@ -75,7 +82,7 @@ class CartSidebar extends Component {
         <div className="contents">
           <div className="header">
             <div>
-              <FaClose onClick={this.props.handleSidebar} />
+              <FaClose onClick={this.props.handleSidebar} size={'2rem'} />
             </div>
             <h1>Items</h1>
           </div>

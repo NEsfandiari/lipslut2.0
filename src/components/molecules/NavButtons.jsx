@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { FaShoppingBag, FaUser, FaBars } from 'react-icons/lib/fa'
-import { NavLink } from '../atoms'
+import { NavLink, ShoppingBagIcon } from '../atoms'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
 
@@ -9,40 +8,35 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 85vw;
+  width: 100%;
+  max-width: 1220px;
+  margin: 0;
   div {
-    padding: 1rem;
+    padding: 0.5rem;
+  }
+  a {
+    margin-right: 0.7rem;
   }
   .leftNav {
     display: flex;
-    flex-basis: 30%;
+    flex-basis: 33%;
+    align-items: center;
   }
   .logo {
-    flex-basis: 40%;
+    flex-basis: 33%;
     display: flex;
     justify-content: center;
   }
   .rightNav {
-    flex-basis: 30%;
+    flex-basis: 33%;
     display: flex;
     justify-content: flex-end;
-    svg {
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    a {
-      margin-right: 0.7rem;
-    }
-    p {
-      position: relative;
-      top: 0.8rem;
-      right: 1.5rem;
-      cursor: pointer;
-      font-size: 1.3rem;
-    }
+    align-items: center;
   }
   @media (max-width: 420px) {
+    width: 100%;
     .leftNav {
+      flex-basis: 20%;
       a {
         display: none;
       }
@@ -51,40 +45,31 @@ const Container = styled.div`
       }
     }
     img {
-      width: 7rem;
+      width: 8rem;
+    }
+    div {
+      padding: 0.5rem;
     }
     .rightNav a {
       display: none;
+      flex-basis: 20%;
     }
   }
 `
 
 class NavButtons extends Component {
-  state = {}
-  static contextTypes = {
-    firebase: PropTypes.object,
-  }
-
-  logOut = e => {
-    const firebase = this.context.firebase
-    firebase
-      .auth()
-      .signOut()
-      .then(function() {
-        console.log('sign out worked')
-      })
-      .catch(function(error) {
-        console.log(error)
-      })
-  }
   render() {
+    const {
+      handleMobileSidebar,
+      handleSidebar,
+      cart,
+      curUser,
+      logOut,
+    } = this.props
     return (
       <Container>
         <div className="leftNav">
-          <FaBars
-            className="hamburger"
-            onClick={this.props.handleMobileSidebar}
-          />
+          <FaBars className="hamburger" onClick={handleMobileSidebar} />
           <NavLink to="/Fck-Trump">F*CK TRUMP</NavLink>
           <NavLink to="/Fck-Hollywood">F*CK HOLLYWOOD</NavLink>
           <NavLink to="/Lipslut-Hat">MORE</NavLink>
@@ -101,24 +86,19 @@ class NavButtons extends Component {
           </Link>
         </div>
         <div className="rightNav">
-          {!this.props.curUser ? (
+          {!curUser ? (
             <NavLink to="/login">LOG IN</NavLink>
           ) : (
-            <NavLink to="" onClick={this.logOut}>
+            <NavLink to="" onClick={logOut}>
               LOG OUT
             </NavLink>
           )}
-          {this.props.curUser ? (
+          {curUser ? (
             <Link to="/account">
-              <FaUser color="#FF0088" size="2.35rem" />{' '}
+              <FaUser color="#FF0088" size="2.35rem" />
             </Link>
           ) : null}
-          <FaShoppingBag
-            color="#FF0088"
-            size="2.2rem"
-            onClick={handleSidebar}
-          />
-          <p onClick={handleSidebar}>{cart.length}</p>
+          <ShoppingBagIcon click={handleSidebar} cart={cart} />
         </div>
       </Container>
     )
