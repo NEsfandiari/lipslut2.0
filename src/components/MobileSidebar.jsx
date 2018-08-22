@@ -16,7 +16,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   a {
-    font-size: 2rem;
+    font-size: 1.9rem;
     margin-bottom: 0.5rem;
   }
   .header {

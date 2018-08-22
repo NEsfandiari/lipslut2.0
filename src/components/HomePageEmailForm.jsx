@@ -9,6 +9,10 @@ const Container = styled.form`
     align-items: center;
     flex-direction: column;
   }
+  input {
+    text-align: center;
+    padding-left: 0;
+  }
 `
 
 class HomePageEmailForm extends Component {
