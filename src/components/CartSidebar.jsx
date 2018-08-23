@@ -6,7 +6,7 @@ import { SidebarItem } from './molecules'
 import 'animate.css'
 
 const Container = styled.div`
-  display: ${({ styleFix }) => styleFix || 'none'};
+  display: ${({ displayFix }) => displayFix || 'none'};
   position: fixed;
   top: 0;
   right: 0;
@@ -60,7 +60,7 @@ class CartSidebar extends Component {
     const { cart, removeItem } = this.props
     const animation =
       'animated ' + (this.props.display ? 'slideInRight' : 'slideOutRight')
-    const styleFix = this.props.styleFix ? 'inital' : 'none'
+    const displayFix = this.props.displayFix ? 'inital' : 'none'
     const items = cart.map((item, i) => (
       <SidebarItem
         item={item}
@@ -78,7 +78,7 @@ class CartSidebar extends Component {
     const buttonUsability = this.props.cart.length == 0 ? '' : '/checkout'
     const opacity = this.props.cart.length == 0 ? 0.3 : 1
     return (
-      <Container className={animation} styleFix={styleFix}>
+      <Container className={animation} displayFix={displayFix}>
         <div className="contents">
           <div className="header">
             <div>

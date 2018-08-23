@@ -22,7 +22,7 @@ class ShoppingBagIcon extends Component {
     const { click, cart } = this.props
     return (
       <Container>
-        <FaShoppingBag color="#FF0088" size="2rem" onClick={click} />
+        <FaShoppingBag color="#FF0088" size="1.9rem" onClick={click} />
         <p onClick={click}>{cart.length}</p>
       </Container>
     )

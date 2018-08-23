@@ -31,9 +31,11 @@ const Container = styled.div`
   }
   @media (max-width: 420px) {
     flex-direction: column;
-    padding: 1.5rem;
+    padding: 0.5rem;
+    width: 90vw;
     a {
-      margin: 0.5rem;
+      margin: 0.3rem;
+      max-width: 8rem;
     }
     .media {
       padding: 0;

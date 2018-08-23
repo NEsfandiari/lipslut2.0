@@ -6,6 +6,8 @@ import { LinkButton, StyledHr, NavLink, ShoppingBagIcon } from './atoms'
 import 'animate.css'
 
 const Container = styled.div`
+  /* display: ${({ mobileDisplayFix }) => mobileDisplayFix || 'none'}; */
+  display: none;
   position: fixed;
   top: 0;
   right: 0.0001rem;
@@ -44,8 +46,13 @@ class MobileSidebar extends Component {
   render() {
     const { handleMobileSidebar, display, logOut, curUser, cart } = this.props
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
+    const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
     return (
-      <Container display={display} className={animation}>
+      <Container
+        display={display}
+        className={animation}
+        mobileDisplayFix={mobileDisplayFix}
+      >
         <div className="header">
           <FaClose onClick={handleMobileSidebar} size={'2rem'} />
           {curUser ? (

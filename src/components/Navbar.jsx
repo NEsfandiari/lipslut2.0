@@ -9,9 +9,6 @@ import 'futura-font/styles.css'
 const NavContainer = Styled.div`
   display: flex;
   justify-content: flex-end;
-  .hamburger{
-    display: none;
-  }
   @media (max-width: 420px) {
     position: sticky;
     top: 0
@@ -20,6 +17,7 @@ const NavContainer = Styled.div`
 class Navbar extends Component {
   state = {
     mobileSidebar: false,
+    mobileDisplayFix: false,
   }
 
   static contextTypes = {
@@ -40,7 +38,10 @@ class Navbar extends Component {
   }
 
   handleMobileSidebar = () => {
-    this.setState({ mobileSidebar: !this.state.mobileSidebar })
+    this.setState({
+      mobileSidebar: !this.state.mobileSidebar,
+      mobileDisplayFix: true,
+    })
   }
 
   render() {
@@ -49,19 +50,21 @@ class Navbar extends Component {
       editItem,
       removeItem,
       sidebar,
-      styleFix,
+      displayFix,
       handleSidebar,
       curUser,
     } = this.props
+    const { mobileSidebar, mobileDisplayFix } = this.state
     return (
       <div>
         <MobileSidebar
-          display={this.state.mobileSidebar}
+          display={mobileSidebar}
           handleMobileSidebar={this.handleMobileSidebar}
           logOut={this.logOut}
           curUser={curUser}
           handleSidebar={handleSidebar}
           cart={cart}
+          mobileDisplayFix={mobileDisplayFix}
         />
         <NavContainer>
           <NavButtons
@@ -78,7 +81,7 @@ class Navbar extends Component {
           cart={cart}
           editItem={editItem}
           removeItem={removeItem}
-          styleFix={styleFix}
+          displayFix={displayFix}
         />
       </div>
     )

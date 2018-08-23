@@ -44,7 +44,7 @@ class Layout extends Component {
     this.state = {
       cart: [],
       sidebar: false,
-      styleFix: false,
+      displayFix: false,
       curUser: null,
     }
     this.handleSidebar = this.handleSidebar.bind(this)
@@ -93,7 +93,7 @@ class Layout extends Component {
   handleSidebar() {
     this.setState({
       sidebar: !this.state.sidebar,
-      styleFix: true,
+      displayFix: true,
     })
   }
 
@@ -123,7 +123,7 @@ class Layout extends Component {
     this.setState({
       cart: newCart,
       sidebar: true,
-      styleFix: true,
+      displayFix: true,
     })
     windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
@@ -155,7 +155,7 @@ class Layout extends Component {
             editItem={this.editItem}
             removeItem={this.removeItem}
             sidebar={this.state.sidebar}
-            styleFix={this.state.styleFix}
+            displayFix={this.state.displayFix}
             handleSidebar={this.handleSidebar}
             curUser={this.state.curUser}
           />

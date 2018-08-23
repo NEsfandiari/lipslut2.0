@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FaShoppingBag, FaUser, FaBars } from 'react-icons/lib/fa'
+import { FaUser, FaBars } from 'react-icons/lib/fa'
 import { NavLink, ShoppingBagIcon } from '../atoms'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
@@ -10,12 +10,17 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   max-width: 1220px;
+  min-width: 1220px;
+  padding-top: 0.5rem;
   margin: 0;
   div {
     padding: 0.5rem;
   }
   a {
     margin-right: 0.7rem;
+  }
+  .hamburger {
+    display: none;
   }
   .leftNav {
     display: flex;
@@ -36,6 +41,7 @@ const Container = styled.div`
   @media (max-width: 420px) {
     width: 100%;
     padding: 1rem;
+    min-width: 0px;
     img {
       width: 9rem;
     }
@@ -111,7 +117,7 @@ class NavButtons extends Component {
           )}
           {curUser ? (
             <Link to="/account">
-              <FaUser color="#FF0088" size="2.1rem" />
+              <FaUser color="#FF0088" size="2.2rem" />
             </Link>
           ) : null}
           <ShoppingBagIcon click={handleSidebar} cart={cart} />
