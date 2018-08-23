@@ -12,6 +12,13 @@ const Container = styled.div`
     margin-bottom: 0.7rem;
     margin-right: 3rem;
   }
+  p {
+    margin: 0;
+    text-align: center;
+  }
+  .item-details {
+    margin: 0.5rem;
+  }
   img {
     flex-basis: 20%;
     height: 3rem;
