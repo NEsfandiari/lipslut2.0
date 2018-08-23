@@ -6,7 +6,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   background-color: #e9f7f8;
-  width: 100vw;
+  width: 100%;
   padding: 5rem;
   a {
     margin-left: 1rem;
@@ -31,8 +31,7 @@ const Container = styled.div`
   }
   @media (max-width: 420px) {
     flex-direction: column;
-    padding: 0.5rem;
-    width: 90vw;
+    padding: 1rem;
     a {
       margin: 0.3rem;
       max-width: 8rem;
