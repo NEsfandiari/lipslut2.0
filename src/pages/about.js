@@ -23,6 +23,12 @@ const Container = styled.div`
         from { opacity: 0; }
         to   { opacity: 1; }
     }
+  @media (max-width: 420px) {
+    flex-direction: column;
+    h1{
+      text-align:center;
+    }
+  }
 `
 class About extends Component {
   componentDidMount() {

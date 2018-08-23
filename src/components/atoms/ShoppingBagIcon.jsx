@@ -4,13 +4,15 @@ import { FaShoppingBag } from 'react-icons/lib/fa'
 
 const Container = styled.div`
   cursor: pointer;
-  max-height: 3.3rem;
+  max-height: 2.5rem;
+  display: flex;
+  align-items: center;
   p {
     position: relative;
-    bottom: 1.5rem;
-    left: 0.8rem;
     cursor: pointer;
     margin: 0;
+    right: 1.25rem;
+    top: 0.3rem;
     width: 0.5rem;
   }
 `
@@ -20,7 +22,7 @@ class ShoppingBagIcon extends Component {
     const { click, cart } = this.props
     return (
       <Container>
-        <FaShoppingBag color="#FF0088" size="2.2rem" onClick={click} />
+        <FaShoppingBag color="#FF0088" size="2rem" onClick={click} />
         <p onClick={click}>{cart.length}</p>
       </Container>
     )

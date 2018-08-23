@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Styled from 'styled-components'
 
 const Container = Styled.div`

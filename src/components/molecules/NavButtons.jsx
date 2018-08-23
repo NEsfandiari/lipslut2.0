@@ -37,10 +37,13 @@ const Container = styled.div`
     width: 100%;
     padding: 1rem;
     img {
-      width: 8rem;
+      width: 9rem;
     }
     div {
       padding: 0rem;
+    }
+    svg {
+      height: 2rem;
     }
     .leftNav {
       flex-basis: 25%;
@@ -54,10 +57,12 @@ const Container = styled.div`
     .logo {
       flex-basis: 60%;
     }
-    .rightNav a {
-      display: none;
+    .rightNav {
       flex-basis: 20%;
-      padding-top: 0.5rem;
+    }
+    .logout,
+    .login {
+      display: none;
     }
   }
 `
@@ -74,7 +79,11 @@ class NavButtons extends Component {
     return (
       <Container>
         <div className="leftNav">
-          <FaBars className="hamburger" onClick={handleMobileSidebar} />
+          <FaBars
+            className="hamburger"
+            onClick={handleMobileSidebar}
+            size="1.5rem"
+          />
           <NavLink to="/Fck-Trump">F*CK TRUMP</NavLink>
           <NavLink to="/Fck-Hollywood">F*CK HOLLYWOOD</NavLink>
           <NavLink to="/Lipslut-Hat">MORE</NavLink>
@@ -92,15 +101,17 @@ class NavButtons extends Component {
         </div>
         <div className="rightNav">
           {!curUser ? (
-            <NavLink to="/login">LOG IN</NavLink>
+            <NavLink className="login" to="/login">
+              LOG IN
+            </NavLink>
           ) : (
-            <NavLink to="" onClick={logOut}>
+            <NavLink className="logout" to="" onClick={logOut}>
               LOG OUT
             </NavLink>
           )}
           {curUser ? (
             <Link to="/account">
-              <FaUser color="#FF0088" size="2.35rem" />
+              <FaUser color="#FF0088" size="2.1rem" />
             </Link>
           ) : null}
           <ShoppingBagIcon click={handleSidebar} cart={cart} />

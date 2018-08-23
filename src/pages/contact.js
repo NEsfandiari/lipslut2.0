@@ -28,6 +28,12 @@ const Container = styled.div`
       opacity: 1;
     }
   }
+  @media (max-width: 420px) {
+    padding: 1rem;
+    h1 {
+      text-align: center;
+    }
+  }
 `
 
 class Contact extends Component {

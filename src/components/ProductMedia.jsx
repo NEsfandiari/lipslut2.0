@@ -4,27 +4,40 @@ import 'animate.css'
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
-  background-color: #E9F7F8;
-  width:100vw;
+  justify-content: center;
+  background-color: #e9f7f8;
+  width: 100vw;
   padding: 5rem;
-  a{
-      margin-left: 1rem;
-      max-width: 10rem;
+  a {
+    margin-left: 1rem;
+    max-width: 9rem;
   }
-  img{
-      padding: .5rem;
-      margin: 0;
+  img {
+    padding: 0.5rem;
+    margin: 0;
   }
-  .sellingPoints{
-      flex-basis: 50%
-  }
-  .media{
+  .sellingPoints {
     flex-basis: 50%;
+    max-width: 600px;
+  }
+  .media {
+    flex-basis: 50%;
+    justify-content: center;
     padding-left: 1rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    max-width: 600px;
+  }
+  @media (max-width: 420px) {
+    flex-direction: column;
+    padding: 1.5rem;
+    a {
+      margin: 0.5rem;
+    }
+    .media {
+      padding: 0;
+    }
   }
 `
 class ProductMedia extends Component {

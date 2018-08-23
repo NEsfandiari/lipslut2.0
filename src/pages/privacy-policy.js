@@ -14,6 +14,9 @@ const Container = styled.div`
       opacity: 1;
     }
   }
+  @media (max-width: 420px) {
+    padding: 1rem;
+  }
 `
 class PrivacyPolicy extends Component {
   componentDidMount() {

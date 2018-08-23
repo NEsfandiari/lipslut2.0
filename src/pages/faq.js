@@ -23,6 +23,12 @@ const Container = styled.div`
   hr {
     margin-left: 0;
   }
+  @media (max-width: 420px) {
+    padding: 1rem;
+    h1 {
+      text-align: center;
+    }
+  }
 `
 
 class Faq extends Component {

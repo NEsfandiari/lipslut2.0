@@ -3,20 +3,31 @@ import styled from 'styled-components'
 import 'animate.css'
 
 const Container = styled.div`
-    flex-basis: 50%
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    img {
+  flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  img {
     transition: 0.5s;
   }
-    .photoCarousel img{
-        max-height: 20vh; 
-        opacity: .5;
+  .photoCarousel {
+    img {
+      max-height: 18vh;
+      opacity: 0.5;
     }
-    .highlight{
-    margin-bottom: .6rem;
+    display: flex;
+    overflow: auto;
+  }
+
+  .highlight {
+    margin-bottom: 0.6rem;
+  }
+
+  @media (max-width: 420px) {
+    .photoCarousel {
+      overflow: auto;
+    }
   }
 `
 

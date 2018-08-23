@@ -8,13 +8,13 @@ import 'futura-font/styles.css'
 
 const NavContainer = Styled.div`
   display: flex;
-  justify-content: center;
-  padding: .5rem;
+  justify-content: flex-end;
   .hamburger{
     display: none;
   }
   @media (max-width: 420px) {
     position: sticky;
+    top: 0
   }
 `
 class Navbar extends Component {

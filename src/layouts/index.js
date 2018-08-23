@@ -142,15 +142,6 @@ class Layout extends Component {
             { name: 'keywords', content: 'sample, something' },
           ]}
         />
-        <Navbar
-          cart={this.state.cart}
-          editItem={this.editItem}
-          removeItem={this.removeItem}
-          sidebar={this.state.sidebar}
-          styleFix={this.state.styleFix}
-          handleSidebar={this.handleSidebar}
-          curUser={this.state.curUser}
-        />
         <div
           style={{
             margin: '0 auto',
@@ -159,6 +150,16 @@ class Layout extends Component {
             paddingTop: 0,
           }}
         >
+          <Navbar
+            cart={this.state.cart}
+            editItem={this.editItem}
+            removeItem={this.removeItem}
+            sidebar={this.state.sidebar}
+            styleFix={this.state.styleFix}
+            handleSidebar={this.handleSidebar}
+            curUser={this.state.curUser}
+          />
+
           {children({
             ...this.props,
             addItem: this.addItem,
@@ -170,8 +171,8 @@ class Layout extends Component {
             resetSidebar: this.resetSidebar,
             signIn: this.signIn,
           })}
+          <Footer />
         </div>
-        <Footer />
       </Container>
     )
   }
