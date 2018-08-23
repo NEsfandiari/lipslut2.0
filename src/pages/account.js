@@ -9,6 +9,9 @@ const Container = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-top: 2rem;
+  @media (max-width: 420px) {
+    flex-direction: column;
+  }
 `
 
 class Account extends Component {

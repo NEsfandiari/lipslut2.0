@@ -4,6 +4,7 @@ import { Card, StyledHr } from './atoms'
 import { Order } from './molecules'
 
 const Container = styled.div`
+  margin: 1rem;
   .orders {
     max-height: 50vh;
     overflow: auto;

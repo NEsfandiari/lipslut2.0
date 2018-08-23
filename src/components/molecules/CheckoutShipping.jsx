@@ -4,6 +4,7 @@ import { Card, StyledInput, FiftyStateDropdownInput } from '../atoms'
 import 'animate.css'
 const Container = styled.div`
   border-radius: 6px;
+  margin: 1rem;
   label {
     font-size: 0.8rem;
   }

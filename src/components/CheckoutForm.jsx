@@ -12,9 +12,8 @@ const ContainerForm = styled.form`
   width: 100%;
   margin-top: 2rem;
   @media (max-width: 1200px) {
-    align-items:center
+    align-items: center;
     flex-direction: column;
-    height: 215vh
   }
 `
 class CheckoutForm extends Component {

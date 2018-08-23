@@ -7,6 +7,7 @@ import 'animate.css'
 
 const Container = styled.div`
   border-radius: 6px;
+  margin: 1rem;
   .items {
     display: flex;
     flex-direction: column;
