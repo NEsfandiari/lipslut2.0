@@ -6,8 +6,7 @@ import { LinkButton, StyledHr, NavLink, ShoppingBagIcon } from './atoms'
 import 'animate.css'
 
 const Container = styled.div`
-  /* display: ${({ mobileDisplayFix }) => mobileDisplayFix || 'none'}; */
-  display: none;
+  display: ${({ mobileDisplayFix }) => mobileDisplayFix || 'none'} !important;
   position: fixed;
   top: 0;
   right: 0.0001rem;

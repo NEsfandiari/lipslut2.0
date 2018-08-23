@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { LoginEmailPassword, LoginGoogle } from '../components/molecules'
 import { NavLink, Card } from '../components/atoms'
+import 'animate.css'
 
 const Container = styled.div`
   display: flex;
@@ -18,6 +19,9 @@ const Container = styled.div`
     background-color: #FFA62C;
     color: white;
     font-size: .8rem;
+  }
+  @media (max-width: 420px) {
+    margin-top: 1rem;
   }
 `
 
@@ -37,7 +41,7 @@ class Login extends Component {
       display: typeof this.state.errorMessage !== 'string' ? 'none' : 'inherit',
     }
     return (
-      <Container>
+      <Container className="animated fadeInUp">
         <Card height="31rem">
           <h2>Welcome Back!</h2>
           <p className="errorMessage animated fadeInRight" style={displayError}>

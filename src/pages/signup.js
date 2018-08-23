@@ -36,7 +36,7 @@ class Signup extends Component {
       display: typeof this.state.errorMessage !== 'string' ? 'none' : 'inherit',
     }
     return (
-      <Container>
+      <Container className="animated fadeInUp">
         <Card height="35rem">
           <h2>Create Account</h2>
           <p className="errorMessage animated fadeInRight" style={displayError}>

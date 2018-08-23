@@ -42,6 +42,8 @@ const Container = styled.div`
     width: 100%;
     padding: 1rem;
     min-width: 0px;
+    position: sticky;
+    top: 0;
     img {
       width: 9rem;
     }
@@ -52,7 +54,7 @@ const Container = styled.div`
       height: 2rem;
     }
     .leftNav {
-      flex-basis: 25%;
+      flex-basis: 20%;
       a {
         display: none;
       }
