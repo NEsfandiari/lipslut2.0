@@ -8,7 +8,7 @@ import 'animate.css'
 const Container = styled.div`
   position: fixed;
   top: 0;
-  right: 0.2rem;
+  right: 0.0001rem;
   z-index: 2;
   width: 100%;
   height: 100%;
