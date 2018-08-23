@@ -25,6 +25,10 @@ const Container = styled.div`
     }
   @media (max-width: 420px) {
     flex-direction: column;
+    padding-top: 1rem;
+    img{
+      width:100%
+    }
     h1{
       text-align:center;
     }
