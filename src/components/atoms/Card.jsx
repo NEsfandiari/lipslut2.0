@@ -14,7 +14,7 @@ const Card = styled.div`
     width: 85vw;
   }
   @media (max-width: 420px) {
-    height: 27rem;
+    height: 31rem;
   }
   .StripeElement {
     width: 17rem;

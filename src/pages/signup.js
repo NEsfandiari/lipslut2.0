@@ -19,6 +19,9 @@ const Container = styled.div`
     color: white;
     font-size: .8rem;
   }
+  @media (max-width: 420px) {
+    margin-top: 1rem;
+  }
 `
 
 class Signup extends Component {
@@ -37,7 +40,7 @@ class Signup extends Component {
     }
     return (
       <Container className="animated fadeInUp">
-        <Card height="35rem">
+        <Card height="32rem">
           <h2>Create Account</h2>
           <p className="errorMessage animated fadeInRight" style={displayError}>
             {this.state.errorMessage}
