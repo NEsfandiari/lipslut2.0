@@ -10,8 +10,11 @@ const NavContainer = Styled.div`
   display: flex;
   justify-content: flex-end;
   @media (max-width: 420px) {
-    position: sticky;
-    top: 0
+    position: relative;
+    top: 0;
+    right: 5%;  
+    background-color: #F7F7F7;
+    width: 110%;
   }
 `
 class Navbar extends Component {

@@ -10,7 +10,6 @@ const Container = Styled.div`
     flex-direction: column;
     align-items: center;
     font-family: 'futura';
-
     div{
         margin: 1.5rem;
     }

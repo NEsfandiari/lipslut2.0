@@ -53,6 +53,14 @@ class Firebase {
             let errorMessage = error.message
             componentThis.props.handleError(errorMessage)
           })
+      case 'facebook':
+        this.auth()
+          .signInWithPopup(new this.auth.FacebookAuthProvider())
+          .then(() => navigateTo('/'))
+          .catch(error => {
+            let errorMessage = error.message
+            componentThis.props.handleError(errorMessage)
+          })
       default:
         console.error('incorrect usage')
         break
@@ -63,6 +71,40 @@ class Firebase {
       .signInWithPopup(new this.auth.GoogleAuthProvider())
       .then(user => {
         const userInfo = user.user
+        this.store()
+          .collection('users')
+          .doc(userInfo.uid)
+          .set({
+            name: userInfo.displayName,
+            email: userInfo.email,
+            billing: {
+              email: '',
+              address_city: '',
+              address_line1: '',
+              address_line2: '',
+              address_state: '',
+              firstName: '',
+              lastName: '',
+              zip: '',
+              phone: '',
+              card: '',
+            },
+            orderHistory: [],
+            newsletter: false,
+          })
+      })
+      .then(() => navigateTo('/'))
+      .catch(error => {
+        const errorMessage = error.message
+        componentThis.props.handleError(errorMessage)
+      })
+  }
+  signUpFacebook = componentThis => {
+    this.auth()
+      .signInWithPopup(new firebase.auth.FacebookAuthProvider())
+      .then(user => {
+        const userInfo = user.user
+        debugger
         this.store()
           .collection('users')
           .doc(userInfo.uid)

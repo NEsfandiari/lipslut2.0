@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { NavLink, Card } from '../components/atoms'
-import { SignupEmailPassword, SignupGoogle } from '../components/molecules'
+import {
+  SignupEmailPassword,
+  SignupGoogle,
+  SignupFacebook,
+} from '../components/molecules'
 import 'animate.css'
 
 const Container = styled.div`
@@ -10,6 +14,9 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
+  p{
+    margin-bottom: .5rem;
+  }
   .errorMessage {
     width: 100%;
     text-align: center;
@@ -48,6 +55,7 @@ class Signup extends Component {
           <SignupEmailPassword handleError={this.handleError} />
           <p>or</p>
           <SignupGoogle handleError={this.handleError} />
+          <SignupFacebook handleError={this.handleError} />
           <p>
             Already have an account?{' '}
             <NavLink

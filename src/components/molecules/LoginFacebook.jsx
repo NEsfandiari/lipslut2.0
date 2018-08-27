@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { StyledButton, GoogleIcon } from '../atoms'
+import { StyledButton } from '../atoms'
+import { FaFacebookSquare } from 'react-icons/lib/fa'
 
 const Container = styled.div`
   .google {
@@ -13,21 +14,21 @@ const Container = styled.div`
     }
   }
 `
-class LoginGoogle extends Component {
+class LoginFacebook extends Component {
   static contextTypes = {
     firebase: PropTypes.object,
   }
 
-  handleGoogle = e => {
+  handleFacebook = e => {
     const { firebase } = this.context
-    firebase.login(this, 'google')
+    firebase.login(this, 'facebook')
   }
 
   render() {
     return (
       <Container>
         <StyledButton
-          onClick={this.handleGoogle}
+          onClick={this.handleFacebook}
           width="17rem"
           height="2.5rem"
           color="black"
@@ -39,11 +40,11 @@ class LoginGoogle extends Component {
           letterSpacing="0"
           className="google"
         >
-          LOG IN WITH <GoogleIcon />
+          LOG IN WITH <FaFacebookSquare color="#3B539A" size="1.3rem" />
         </StyledButton>
       </Container>
     )
   }
 }
 
-export default LoginGoogle
+export default LoginFacebook

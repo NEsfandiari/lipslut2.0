@@ -14,8 +14,10 @@ import AccountDetailsList from './AccountDetailsList.jsx'
 import AccountDetailsForm from './AccountDetailsForm.jsx'
 import LoginEmailPassword from './LoginEmailPassword.jsx'
 import LoginGoogle from './LoginGoogle.jsx'
+import LoginFacebook from './LoginFacebook.jsx'
 import SignupEmailPassword from './SignupEmailPassword.jsx'
 import SignupGoogle from './SignupGoogle.jsx'
+import SignupFacebook from './SignupFacebook.jsx'
 import NavButtons from './NavButtons.jsx'
 
 export default {
@@ -35,7 +37,9 @@ export default {
   AccountDetailsList,
   LoginEmailPassword,
   LoginGoogle,
+  LoginFacebook,
   SignupEmailPassword,
   SignupGoogle,
+  SignupFacebook,
   NavButtons,
 }

@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { LoginEmailPassword, LoginGoogle } from '../components/molecules'
+import {
+  LoginEmailPassword,
+  LoginGoogle,
+  LoginFacebook,
+} from '../components/molecules'
 import { NavLink, Card } from '../components/atoms'
 import 'animate.css'
 
@@ -11,6 +15,9 @@ const Container = styled.div`
   align-items: center;
   margin-top: 2rem;
   
+  p{
+    margin-bottom: .5rem;
+  }
   .errorMessage {
     width: 100%;
     text-align: center;
@@ -50,6 +57,7 @@ class Login extends Component {
           <LoginEmailPassword handleError={this.handleError} />
           <p>or</p>
           <LoginGoogle handleError={this.handleError} />
+          <LoginFacebook handleError={this.handleError} />
           <p>
             Don't have an account?{' '}
             <NavLink
