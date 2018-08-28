@@ -12,6 +12,9 @@ const Container = styled.div`
   h3 {
     margin-bottom: 0;
   }
+  p {
+    text-align: center;
+  }
 `
 
 class OrderHistory extends Component {
@@ -21,9 +24,9 @@ class OrderHistory extends Component {
   render() {
     let orders
     if (this.props.curUser) {
-      if (this.props.curUser.data.orderHistory.length > 0) {
+      if (this.props.curUser.orderHistory.length > 0) {
         const { curUser } = this.props
-        orders = curUser.data.orderHistory.map((order, i) => (
+        orders = curUser.orderHistory.map((order, i) => (
           <Order order={order} id={i} key={i} />
         ))
       } else {

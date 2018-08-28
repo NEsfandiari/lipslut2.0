@@ -22,7 +22,7 @@ class SignupEmailPassword extends Component {
   handleGoogle = e => {
     // TODO move to seperate file structure
     const { firebase } = this.context
-    firebase.signUpGoogle(this)
+    firebase.signupGoogle(this)
   }
   render() {
     return (

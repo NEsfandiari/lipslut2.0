@@ -21,16 +21,16 @@ class CheckoutForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: props.curUser ? props.curUser.data.email : '',
-      city: props.curUser ? props.curUser.data.billing.address_city : '',
-      address: props.curUser ? props.curUser.data.billing.address_line1 : '',
-      apartment: props.curUser ? props.curUser.data.billing.address_line2 : '',
-      state: props.curUser ? props.curUser.data.billing.address_state : '',
-      zip: props.curUser ? props.curUser.data.billing.zip : '',
-      phone: props.curUser ? props.curUser.data.billing.phone : '',
-      firstName: props.curUser ? props.curUser.data.name.split(' ')[0] : '',
-      lastName: props.curUser ? props.curUser.data.name.split(' ')[1] : '',
-      newsletter: props.curUser ? props.curUser.data.newsletter : false,
+      email: props.curUser ? props.curUser.email : '',
+      city: props.curUser ? props.curUser.billing.address_city : '',
+      address: props.curUser ? props.curUser.billing.address_line1 : '',
+      apartment: props.curUser ? props.curUser.billing.address_line2 : '',
+      state: props.curUser ? props.curUser.billing.address_state : '',
+      zip: props.curUser ? props.curUser.billing.zip : '',
+      phone: props.curUser ? props.curUser.billing.phone : '',
+      firstName: props.curUser ? props.curUser.name.split(' ')[0] : '',
+      lastName: props.curUser ? props.curUser.name.split(' ')[1] : '',
+      newsletter: props.curUser ? props.curUser.newsletter : false,
       shipping: 4.95,
       orderStatus: 'PLACE ORDER',
       profileLoad: false,
@@ -48,16 +48,16 @@ class CheckoutForm extends Component {
     if (!this.state.profileLoad && this.props.curUser) {
       this.setState({
         profileLoad: true,
-        email: this.props.curUser.data.email,
-        city: this.props.curUser.data.billing.address_city,
-        address: this.props.curUser.data.billing.address_line1,
-        apartment: this.props.curUser.data.billing.address_line2,
-        state: this.props.curUser.data.billing.address_state,
-        zip: this.props.curUser.data.billing.zip,
-        phone: this.props.curUser.data.billing.phone,
-        firstName: this.props.curUser.data.name.split(' ')[0],
-        lastName: this.props.curUser.data.name.split(' ')[1],
-        newsletter: this.props.curUser.data.newsletter,
+        email: this.props.curUser.email,
+        city: this.props.curUser.billing.address_city,
+        address: this.props.curUser.billing.address_line1,
+        apartment: this.props.curUser.billing.address_line2,
+        state: this.props.curUser.billing.address_state,
+        zip: this.props.curUser.billing.zip,
+        phone: this.props.curUser.billing.phone,
+        firstName: this.props.curUser.name.split(' ')[0],
+        lastName: this.props.curUser.name.split(' ')[1],
+        newsletter: this.props.curUser.newsletter,
       })
     }
   }
@@ -78,8 +78,8 @@ class CheckoutForm extends Component {
     e.preventDefault()
     this.setState({ orderStatus: 'PROCESSING...' })
     let previousCustomer = null
-    if (this.props.curUser && this.props.curUser.data.billing.card) {
-      previousCustomer = this.props.curUser.data.billing.card
+    if (this.props.curUser && this.props.curUser.billing.card) {
+      previousCustomer = this.props.curUser.billing.card
     }
     const items = this.props.cart.map(item => {
       return { type: 'sku', parent: item.sku, quantity: item.quantity }

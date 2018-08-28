@@ -13,14 +13,14 @@ const Container = styled.div`
 class AccountDetails extends Component {
   state = {
     editing: false,
-    firstName: this.props.curUser.data.name.split(' ')[0] || '',
-    lastName: this.props.curUser.data.name.split(' ')[1] || '',
-    email: this.props.curUser.data.email || '',
-    address: this.props.curUser.data.billing.address_line1 || '',
-    apartment: this.props.curUser.data.billing.address_line2 || '',
-    city: this.props.curUser.data.billing.address_city || '',
-    zip: this.props.curUser.data.billing.zip || '',
-    phone: this.props.curUser.data.billing.phone || '',
+    firstName: this.props.curUser.name.split(' ')[0] || '',
+    lastName: this.props.curUser.name.split(' ')[1] || '',
+    email: this.props.curUser.email || '',
+    address: this.props.curUser.billing.address_line1 || '',
+    apartment: this.props.curUser.billing.address_line2 || '',
+    city: this.props.curUser.billing.address_city || '',
+    zip: this.props.curUser.billing.zip || '',
+    phone: this.props.curUser.billing.phone || '',
   }
 
   static contextTypes = {
@@ -65,7 +65,7 @@ class AccountDetails extends Component {
     this.setState({ editing: false })
   }
   render() {
-    const curUser = this.props.curUser.data
+    const curUser = this.props.curUser
     const {
       firstName,
       lastName,

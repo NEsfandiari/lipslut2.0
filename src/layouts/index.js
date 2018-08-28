@@ -83,7 +83,8 @@ class Layout extends Component {
       .doc(user.uid)
       .get()
       .then(doc => {
-        this.setState({ curUser: { uid: user.uid, data: doc.data() } })
+        this.setState({ curUser: { uid: user.uid, ...doc.data() } })
+        console.log(this.state)
       })
   }
   signOut = () => {

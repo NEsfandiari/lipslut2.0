@@ -12,6 +12,7 @@ const config = {
   messagingSenderId: '973290593236',
 }
 
+// TODO move functions into seprate modules Like this
 export const addEmail = email => {
   this.store()
     .collection('emails')
@@ -21,12 +22,12 @@ export const addEmail = email => {
 }
 
 class Firebase {
-  // TODO move functions into seprate modules
   constructor() {
     firebase.initializeApp(config)
     this.store = firebase.firestore
     this.auth = firebase.auth
   }
+
   addEmail = email => {
     this.store()
       .collection('emails')
@@ -34,6 +35,7 @@ class Firebase {
         email: email,
       })
   }
+
   login = (componentThis, signInMethod, email, password) => {
     switch (signInMethod) {
       case 'google':
@@ -67,81 +69,10 @@ class Firebase {
     }
   }
 
-  signUp = (componentThis, signUpMethod, email, password) => {
-    let userInfo
-    switch (signUpMethod) {
-      case 'google':
-        this.auth()
-          .signInWithPopup(new this.auth.GoogleAuthProvider())
-          .then(user => (userInfo = user.user))
-        break
-      case 'facebook':
-        this.auth()
-          .signInWithPopup(new this.auth.FacebookAuthProvider())
-          .then(user => (userInfo = user.user))
-        break
-      case 'emailPassword':
-        this.auth()
-          .createUserWithEmailAndPassword(email, password)
-          .then(user => (userInfo = user.user))
-        break
-    }
-    this.store()
-      .collection('users')
-      .doc(userInfo.uid)
-      .set({
-        name: firstName + ' ' + lastName,
-        email: email,
-        newsletter: newsletter,
-        orderHistory: [],
-        billing: {
-          email: '',
-          address_city: '',
-          address_line1: '',
-          address_line2: '',
-          address_state: '',
-          firstName: '',
-          lastName: '',
-          zip: '',
-          phone: '',
-          card: '',
-        },
-      })
-      .then(() => navigateTo('/'))
-      .catch(function(error) {
-        const errorMessage = error.message
-        componentThis.props.handleError(errorMessage)
-      })
-  }
-
-  signUpGoogle = componentThis => {
+  signupGoogle = componentThis => {
     this.auth()
       .signInWithPopup(new this.auth.GoogleAuthProvider())
-      .then(user => {
-        const userInfo = user.user
-        this.store()
-          .collection('users')
-          .doc(userInfo.uid)
-          .set({
-            name: userInfo.displayName,
-            email: userInfo.email,
-            billing: {
-              email: '',
-              address_city: '',
-              address_line1: '',
-              address_line2: '',
-              address_state: '',
-              firstName: '',
-              lastName: '',
-              zip: '',
-              phone: '',
-              card: '',
-            },
-            orderHistory: [],
-            newsletter: false,
-          })
-      })
-      .then(() => navigateTo('/'))
+      .then(user => this.storeUser(user.user))
       .catch(error => {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
@@ -150,32 +81,7 @@ class Firebase {
   signupFacebook = componentThis => {
     this.auth()
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then(user => {
-        const userInfo = user.user
-        debugger
-        this.store()
-          .collection('users')
-          .doc(userInfo.uid)
-          .set({
-            name: userInfo.displayName,
-            email: userInfo.email,
-            billing: {
-              email: '',
-              address_city: '',
-              address_line1: '',
-              address_line2: '',
-              address_state: '',
-              firstName: '',
-              lastName: '',
-              zip: '',
-              phone: '',
-              card: '',
-            },
-            orderHistory: [],
-            newsletter: false,
-          })
-      })
-      .then(() => navigateTo('/'))
+      .then(user => this.storeUser(user.user))
       .catch(error => {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
@@ -192,40 +98,44 @@ class Firebase {
     this.auth()
       .createUserWithEmailAndPassword(email, password)
       .then(user => {
-        const userInfo = user.user
-        if (newsletter) {
-          firebase
-            .store()
-            .collection('emails')
-            .add({ email: email })
+        let userInfo = {
+          uid: user.user.uid,
+          email: user.user.email,
+          displayName: firstName + ' ' + lastName,
         }
-        this.store()
-          .collection('users')
-          .doc(userInfo.uid)
-          .set({
-            name: firstName + ' ' + lastName,
-            email: email,
-            newsletter: newsletter,
-            orderHistory: [],
-            billing: {
-              email: '',
-              address_city: '',
-              address_line1: '',
-              address_line2: '',
-              address_state: '',
-              firstName: '',
-              lastName: '',
-              zip: '',
-              phone: '',
-              card: '',
-            },
-          })
+        if (newsletter) {
+          this.addEmail(userInfo.email)
+        }
+        this.storeUser(userInfo)
       })
-      .then(() => navigateTo('/'))
       .catch(function(error) {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
       })
+  }
+  storeUser = user => {
+    this.store()
+      .collection('users')
+      .doc(user.uid)
+      .set({
+        name: user.displayName,
+        email: user.email,
+        newsletter: false,
+        orderHistory: [],
+        billing: {
+          email: '',
+          address_city: '',
+          address_line1: '',
+          address_line2: '',
+          address_state: '',
+          firstName: '',
+          lastName: '',
+          zip: '',
+          phone: '',
+          card: '',
+        },
+      })
+      .then(() => navigateTo('/'))
   }
 
   updateAccount = (
