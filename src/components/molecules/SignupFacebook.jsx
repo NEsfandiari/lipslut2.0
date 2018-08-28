@@ -5,7 +5,7 @@ import { StyledButton } from '../atoms'
 import { FaFacebookSquare } from 'react-icons/lib/fa'
 
 const Container = styled.div`
-  .google {
+  .facebook {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,7 +21,7 @@ class SignupFacebook extends Component {
 
   handleFacebook = e => {
     const { firebase } = this.context
-    firebase.SignupFacebook(this, 'facebook')
+    firebase.signupFacebook(this, 'facebook')
   }
 
   render() {
@@ -36,9 +36,9 @@ class SignupFacebook extends Component {
           borderColor="#FF0086"
           borderWidth="2px"
           margin=".5rem"
-          hoverColor="#F9F7F1"
+          hoverColor="#E9F6FF"
           letterSpacing="0"
-          className="google"
+          className="facebook"
         >
           SIGN UP WITH <FaFacebookSquare color="#3B539A" size="1.3rem" />
         </StyledButton>

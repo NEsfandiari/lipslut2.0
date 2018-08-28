@@ -5,7 +5,7 @@ import { StyledButton } from '../atoms'
 import { FaFacebookSquare } from 'react-icons/lib/fa'
 
 const Container = styled.div`
-  .google {
+  .facebook {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,9 +36,9 @@ class LoginFacebook extends Component {
           borderColor="#FF0086"
           borderWidth="2px"
           margin=".5rem"
-          hoverColor="#F9F7F1"
+          hoverColor="#E9F6FF"
           letterSpacing="0"
-          className="google"
+          className="facebook"
         >
           LOG IN WITH <FaFacebookSquare color="#3B539A" size="1.3rem" />
         </StyledButton>

@@ -66,6 +66,54 @@ class Firebase {
         break
     }
   }
+
+  signUp = (componentThis, signUpMethod, email, password) => {
+    let userInfo
+    switch (signUpMethod) {
+      case 'google':
+        this.auth()
+          .signInWithPopup(new this.auth.GoogleAuthProvider())
+          .then(user => (userInfo = user.user))
+        break
+      case 'facebook':
+        this.auth()
+          .signInWithPopup(new this.auth.FacebookAuthProvider())
+          .then(user => (userInfo = user.user))
+        break
+      case 'emailPassword':
+        this.auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(user => (userInfo = user.user))
+        break
+    }
+    this.store()
+      .collection('users')
+      .doc(userInfo.uid)
+      .set({
+        name: firstName + ' ' + lastName,
+        email: email,
+        newsletter: newsletter,
+        orderHistory: [],
+        billing: {
+          email: '',
+          address_city: '',
+          address_line1: '',
+          address_line2: '',
+          address_state: '',
+          firstName: '',
+          lastName: '',
+          zip: '',
+          phone: '',
+          card: '',
+        },
+      })
+      .then(() => navigateTo('/'))
+      .catch(function(error) {
+        const errorMessage = error.message
+        componentThis.props.handleError(errorMessage)
+      })
+  }
+
   signUpGoogle = componentThis => {
     this.auth()
       .signInWithPopup(new this.auth.GoogleAuthProvider())
