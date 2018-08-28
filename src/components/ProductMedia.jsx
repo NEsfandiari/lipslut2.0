@@ -38,7 +38,7 @@ const Container = styled.div`
     }
     .media {
       padding: 0;
-      justify-content: space-around;
+      justify-content: space-between;
     }
   }
 `

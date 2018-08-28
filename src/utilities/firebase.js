@@ -36,6 +36,22 @@ class Firebase {
       })
   }
 
+  signIn = uid => {
+    return this.store()
+      .collection('users')
+      .doc(uid)
+      .get()
+  }
+
+  checkDb = email => {
+    this.store()
+      .collection('users')
+      .doc(uid)
+      .get()
+      ? true
+      : false
+  }
+
   login = (componentThis, signInMethod, email, password) => {
     switch (signInMethod) {
       case 'google':
