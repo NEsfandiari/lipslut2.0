@@ -27,6 +27,7 @@
     "netlify-lambda": "^0.4.0",
     "react-helmet": "^5.2.0",
     "react-icons": "^2.2.7",
+    "react-scroll": "^1.7.10",
     "react-spinkit": "^3.0.0",
     "react-stripe-elements": "^2.0.1",
     "stripe": "^6.3.0",

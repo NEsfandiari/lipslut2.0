@@ -34,9 +34,17 @@ const Container = styled.div`
 class ProductPhotos extends Component {
   state = {
     highlight: 0,
+    animation: false,
   }
   hadnlePhoto = e => {
-    this.setState({ highlight: parseInt(e.target.name) })
+    this.setState({
+      highlight: parseInt(e.target.name),
+    })
+    e.target.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    })
   }
 
   render() {
