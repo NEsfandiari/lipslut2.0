@@ -147,7 +147,7 @@ class Firebase {
         componentThis.props.handleError(errorMessage)
       })
   }
-  signUpFacebook = componentThis => {
+  signupFacebook = componentThis => {
     this.auth()
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
       .then(user => {
