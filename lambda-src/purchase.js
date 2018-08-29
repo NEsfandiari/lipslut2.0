@@ -1,11 +1,12 @@
 require('dotenv').config({ path: '.env.development' })
-const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
+const axios = require('axios')
 const statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
 }
 
+// 1. what type, 2. validate reuqest 3. handle request
 // convert handler to switch statement that calls seperate function
 
 exports.handler = function(event, context, callback) {
@@ -18,9 +19,7 @@ exports.handler = function(event, context, callback) {
       body: '',
     })
   }
-  // 1. what type, 2. validate reuqest 3. handle request
   // TEST if the event body has data relevant to be parsed. Is valid post request
-  // test the actual http request
   if (event.body[0] == '{') {
     let data = JSON.parse(event.body)
     data = JSON.parse(data.body)
@@ -34,122 +33,45 @@ exports.handler = function(event, context, callback) {
         body: JSON.stringify({ status: 'missing-information' }),
       })
     }
-    //  use async await for readibility
+
     if (data.previousCustomer) {
       // Charge Existing Customer
-      stripe.orders
-        .create({
-          currency: 'usd',
-          items: data.items,
-          customer: data.previousCustomer,
-        })
-        .then(order => {
-          // return promise to use .then's at the sane
-          stripe.orders
-            .pay(
-              order.id,
-              {
-                customer: data.previousCustomer,
-              },
-              {
-                idempotency_key: data.idempotency_key,
-              }
-            )
-            .then(order => {
-              let status =
-                order === null || order.status !== 'paid'
-                  ? 'failed'
-                  : order.status
-              let response = {
-                statusCode,
-                headers,
-                body: JSON.stringify({
-                  status,
-                  previousCustomer: data.previousCustomer,
-                  customerType: 'Old',
-                }),
-              }
-              callback(null, response)
-            })
-            .catch(err => {
-              let response = {
-                statusCode: 500,
-                headers,
-                body: JSON.stringify({
-                  error: err.message,
-                }),
-              }
-              callback(null, response)
-            })
-        })
-        .catch(err => {
-          console.log(err)
+      axios
+        .post(
+          process.env.GATSBY_NODE_ENV === 'development'
+            ? 'http://localhost:9000/previousCustomer'
+            : `${process.env.GATSBY_LAMBDA_ENDPOINT}previousCustomer`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: event.body,
+          }
+        )
+        .then(res => {
+          console.log(res, '    yo    ')
         })
     } else {
-      stripe.customers
-        .create({
-          source: data.token.id,
-          email: data.token.email,
-          shipping: {
-            name: data.token.card.name,
-            address: {
-              line1: data.token.card.address_line1,
-              city: data.token.card.address_city,
-              state: data.token.card.address_state,
-              postal_code: data.token.card.address_zip,
-              country: 'US',
+      axios
+        .post(
+          process.env.GATSBY_NODE_ENV === 'development'
+            ? 'http://localhost:9000/newCustomer'
+            : `${process.env.GATSBY_LAMBDA_ENDPOINT}newCustomer`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
             },
-          },
-        })
-        .then(customer => {
-          // Create Order with New Customer
-          stripe.orders
-            .create({
-              currency: 'usd',
-              items: data.items,
-              customer: customer.id,
-            })
-            .then(order => {
-              stripe.orders
-                .pay(
-                  order.id,
-                  {
-                    customer: customer.id,
-                  },
-                  {
-                    idempotency_key: data.idempotency_key,
-                  }
-                )
-                .then(order => {
-                  let status =
-                    order === null || order.status !== 'paid'
-                      ? 'failed'
-                      : order.status
-                  let response = {
-                    statusCode,
-                    headers,
-                    body: JSON.stringify({
-                      status,
-                      customer: customer.id,
-                      customerType: 'New',
-                    }),
-                  }
-                  callback(null, response)
-                })
-                .catch(err => {
-                  let response = {
-                    statusCode: 500,
-                    headers,
-                    body: JSON.stringify({
-                      error: err.message,
-                    }),
-                  }
-                  callback(null, response)
-                })
-            })
-        })
-        .catch(err => {
-          console.log(err)
+            body: event.body,
+          }
+        )
+        .then(res => {
+          let response = {
+            statusCode,
+            headers,
+            body: JSON.stringify(res.data),
+          }
+          console.log(response)
+          callback(null, response)
         })
     }
   }

@@ -33,7 +33,7 @@ class CheckoutForm extends Component {
       newsletter: props.curUser ? props.curUser.newsletter : false,
       shipping: 4.95,
       orderStatus: 'PLACE ORDER',
-      profileLoad: false,
+      profileLoad: props.curUser ? true : false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -96,7 +96,6 @@ class CheckoutForm extends Component {
       })
       // Post to lambda Function
       .then(({ token }) => {
-        debugger
         axios
           .post(
             location.hostname === 'localhost'

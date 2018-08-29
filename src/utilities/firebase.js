@@ -170,9 +170,9 @@ class Firebase {
       .doc(user.uid)
       .update({
         billing: {
-          card: user.data.billing.card,
+          card: user.billing.card || '',
           address_city: city,
-          address_state: user.data.billing.address_state,
+          address_state: user.billing.address_state || '',
           address_line1: address,
           address_line2: apartment,
           zip: zip,
@@ -200,7 +200,7 @@ class Firebase {
       .doc(user.uid)
       .update({
         orderHistory: [
-          ...user.data.orderHistory,
+          ...user.orderHistory,
           {
             cart: [...cart],
             placed: moment().format('MMMM Do YYYY'),
