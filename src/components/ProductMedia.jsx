@@ -7,7 +7,7 @@ const Container = styled.div`
   justify-content: center;
   background-color: #e9f7f8;
   width: 100%;
-  padding: 5rem;
+  padding: 4.5rem;
   a {
     margin-left: 1rem;
     max-width: 9rem;

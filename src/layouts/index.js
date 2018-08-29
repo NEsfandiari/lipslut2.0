@@ -115,7 +115,15 @@ class Layout extends Component {
   }
   addItem(title, price, quantity, image, sku) {
     let newCart = this.state.cart
-    newCart.push({ title, price, quantity, image, sku })
+    // test if sku is in cart
+    let cartI = null
+    this.state.cart.forEach((item, i) => {
+      item.sku == sku ? (cartI = i) : (cartI = null)
+    })
+    cartI !== null
+      ? newCart[cartI].quantity++
+      : newCart.push({ title, price, quantity, image, sku })
+
     this.setState({
       cart: newCart,
       sidebar: true,
