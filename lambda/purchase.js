@@ -1420,7 +1420,6 @@ const headers = {
     let data = JSON.parse(event.body);
     data = JSON.parse(data.body);
 
-    // TEST for all necessary data
     if (!data.token || !data.idempotency_key) {
       console.error('Required information is missing.');
       callback(null, {
@@ -1430,15 +1429,20 @@ const headers = {
       });
     }
 
+    // Handler Logic
     if (data.previousCustomer) {
-      // Charge Existing Customer
       axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/previousCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}previousCustomer`, {
         headers: {
           'Content-Type': 'application/json'
         },
         body: event.body
       }).then(res => {
-        console.log(res, '    yo    ');
+        let response = {
+          statusCode,
+          headers,
+          body: JSON.stringify(res.data)
+        };
+        callback(null, response);
       });
     } else {
       axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/newCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}newCustomer`, {
@@ -1452,7 +1456,6 @@ const headers = {
           headers,
           body: JSON.stringify(res.data)
         };
-        console.log(response);
         callback(null, response);
       });
     }

@@ -35,55 +35,48 @@ exports.handler = function(event, context, callback) {
           },
         },
       })
+      // Create Order with New Customer
       .then(customer => {
-        // Create Order with New Customer
-        stripe.orders
-          .create({
-            currency: 'usd',
-            items: data.items,
+        return stripe.orders.create({
+          currency: 'usd',
+          items: data.items,
+          customer: customer.id,
+        })
+      })
+      .then(order => {
+        return stripe.orders.pay(
+          order.id,
+          {
             customer: customer.id,
-          })
-          .then(order => {
-            stripe.orders
-              .pay(
-                order.id,
-                {
-                  customer: customer.id,
-                },
-                {
-                  idempotency_key: data.idempotency_key,
-                }
-              )
-              .then(order => {
-                let status =
-                  order === null || order.status !== 'paid'
-                    ? 'failed'
-                    : order.status
-                let response = {
-                  statusCode,
-                  headers,
-                  body: JSON.stringify({
-                    status,
-                    customer: customer.id,
-                    customerType: 'New',
-                  }),
-                }
-                callback(null, response)
-              })
-              .catch(err => {
-                let response = {
-                  statusCode: 500,
-                  headers,
-                  body: JSON.stringify({
-                    error: err.message,
-                  }),
-                }
-                callback(null, response)
-              })
-          })
+          },
+          {
+            idempotency_key: data.idempotency_key,
+          }
+        )
+      })
+      .then(order => {
+        let status =
+          order === null || order.status !== 'paid' ? 'failed' : order.status
+        let response = {
+          statusCode,
+          headers,
+          body: JSON.stringify({
+            status,
+            customer: customer.id,
+            customerType: 'New',
+          }),
+        }
+        callback(null, response)
       })
       .catch(err => {
-        console.log(err)
+        let response = {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            error: err.message,
+          }),
+        }
+        callback(null, response)
       })
   }
 }

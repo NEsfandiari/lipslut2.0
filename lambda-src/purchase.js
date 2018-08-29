@@ -24,7 +24,6 @@ exports.handler = function(event, context, callback) {
     let data = JSON.parse(event.body)
     data = JSON.parse(data.body)
 
-    // TEST for all necessary data
     if (!data.token || !data.idempotency_key) {
       console.error('Required information is missing.')
       callback(null, {
@@ -34,8 +33,8 @@ exports.handler = function(event, context, callback) {
       })
     }
 
+    // Handler Logic
     if (data.previousCustomer) {
-      // Charge Existing Customer
       axios
         .post(
           process.env.GATSBY_NODE_ENV === 'development'
@@ -49,7 +48,12 @@ exports.handler = function(event, context, callback) {
           }
         )
         .then(res => {
-          console.log(res, '    yo    ')
+          let response = {
+            statusCode,
+            headers,
+            body: JSON.stringify(res.data),
+          }
+          callback(null, response)
         })
     } else {
       axios
@@ -70,7 +74,6 @@ exports.handler = function(event, context, callback) {
             headers,
             body: JSON.stringify(res.data),
           }
-          console.log(response)
           callback(null, response)
         })
     }
