@@ -109,8 +109,8 @@ class NavButtons extends Component {
         </div>
         <div className="rightNav">
           {!curUser ? (
-            <NavLink className="login" to="/login">
-              LOG IN
+            <NavLink className="login" to="/signup">
+              SIGN UP
             </NavLink>
           ) : (
             <NavLink className="logout" to="" onClick={logOut}>

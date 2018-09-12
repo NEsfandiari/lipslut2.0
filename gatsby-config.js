@@ -14,6 +14,7 @@ module.exports = {
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-stripe-checkout`,
     `gatsby-plugin-stripe-elements`,
+    'gatsby-plugin-offline',
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {

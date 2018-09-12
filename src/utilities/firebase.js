@@ -44,6 +44,7 @@ class Firebase {
   }
 
   checkDb = email => {
+    // TODO Learn to query db for email string and see if user exists to avoid login no write issue
     this.store()
       .collection('users')
       .doc(uid)

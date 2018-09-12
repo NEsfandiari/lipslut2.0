@@ -19,6 +19,7 @@ class LoginGoogle extends Component {
   }
 
   handleGoogle = e => {
+    // TODO: query db to check if user email exists so we save user info
     const { firebase } = this.context
     firebase.login(this, 'google')
   }
