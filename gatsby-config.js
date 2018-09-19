@@ -14,6 +14,18 @@ module.exports = {
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-stripe-checkout`,
     `gatsby-plugin-stripe-elements`,
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Lipslut`,
+        short_name: `Lipslut`,
+        start_url: `/`,
+        background_color: `#f7f0eb`,
+        theme_color: `#a2466c`,
+        display: `standalone`,
+        icon: `src/images/icon.png`, // This path is relative to the root of the site.
+      },
+    },
     'gatsby-plugin-offline',
     {
       resolve: `gatsby-plugin-google-analytics`,
