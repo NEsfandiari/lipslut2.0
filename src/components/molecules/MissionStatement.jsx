@@ -18,7 +18,7 @@ const Container = Styled.div`
 
 const MissionStatement = ({ title, text, image }) => (
   <Container>
-    <img src={image} alt="" />
+    <img src={image} alt="Mission Image" />
     <h3>{title}</h3>
     <p>{text}</p>
   </Container>

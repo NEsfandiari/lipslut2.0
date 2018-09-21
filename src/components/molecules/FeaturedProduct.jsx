@@ -20,7 +20,7 @@ class Product extends Component {
     return (
       <Container className="product">
         <Link to={route}>
-          <img src={image} />
+          <img src={image} alt="Featured product image" />
         </Link>
         <h2>{title}</h2>
         <LinkButton to={route}>

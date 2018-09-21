@@ -37,7 +37,7 @@ class SummaryItem extends Component {
     return (
       <Container>
         <div className="contents">
-          <img src={item.image} alt="" />
+          <img src={item.image} alt="Checkout Product Icon" />
           <div className="item-details">
             <p>{item.title}</p>
           </div>

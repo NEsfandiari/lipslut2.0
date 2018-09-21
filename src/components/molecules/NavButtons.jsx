@@ -104,6 +104,7 @@ class NavButtons extends Component {
                 maxWidth: 175,
               }}
               src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a0f8b654192028235394491/1531257223005/?format=1500w"
+              alt="Lipslut Logo"
             />
           </Link>
         </div>

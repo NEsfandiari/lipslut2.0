@@ -47,7 +47,7 @@ class SidebarItem extends Component {
     const { item, handleAdjust, id } = this.props
     return (
       <Container>
-        <img src={item.image} alt="" />
+        <img src={item.image} alt="Cart Product Icon" />
         <div className="item-details">
           <p>{item.title}</p>
           <div className="adjust">

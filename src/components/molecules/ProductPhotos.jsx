@@ -51,6 +51,7 @@ class ProductPhotos extends Component {
     const images = this.props.images.map((image, i) => (
       <img
         src={image}
+        alt={'Product Page Image' + i}
         key={i}
         name={i}
         onClick={this.hadnlePhoto}
@@ -60,6 +61,7 @@ class ProductPhotos extends Component {
     const highlight = (
       <img
         src={this.props.images[this.state.highlight]}
+        alt="Highlighted Image"
         className="highlight animated fadeIn"
       />
     )

@@ -52,7 +52,11 @@ class Footer extends Component {
     return (
       <Container>
         <div className="social">
-          <a href="https://www.instagram.com/hello.lipslut/" target="_blank">
+          <a
+            href="https://www.instagram.com/hello.lipslut/"
+            target="_blank"
+            title="Lipslut Instagram Account"
+          >
             <FaInstagram
               size="2.2rem"
               color="#FB4883"
@@ -61,7 +65,11 @@ class Footer extends Component {
               onMouseLeave={this.hoverExit}
             />
           </a>
-          <a href="https://twitter.com/Hello_Lipslut" target="_blank">
+          <a
+            href="https://twitter.com/Hello_Lipslut"
+            target="_blank"
+            title="Lipslut Twitter Account"
+          >
             <FaTwitter
               size="2.2rem"
               color="#39A9F2"
@@ -70,7 +78,11 @@ class Footer extends Component {
               onMouseLeave={this.hoverExit}
             />
           </a>
-          <a href="https://www.facebook.com/Lipslut/" target="_blank">
+          <a
+            href="https://www.facebook.com/Lipslut/"
+            target="_blank"
+            title="Lipslut Facebook Account"
+          >
             <FaFacebook
               size="2.2rem"
               color="#3B539A"

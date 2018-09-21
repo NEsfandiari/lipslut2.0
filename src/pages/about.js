@@ -41,7 +41,10 @@ class About extends Component {
   render() {
     return (
       <Container>
-        <img src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a126c2b0d92977795831e25/1511156798314/?format=750w" />
+        <img
+          src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a126c2b0d92977795831e25/1511156798314/?format=750w"
+          alt="2017 Women's March"
+        />
         <div>
           <h1>About Us</h1>
           <p>Welcome to Lipslut.</p>
