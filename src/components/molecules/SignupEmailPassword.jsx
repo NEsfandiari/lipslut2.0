@@ -61,6 +61,7 @@ class SignupEmailPassword extends Component {
       <Container onSubmit={this.handleSubmit}>
         <div className="name">
           <StyledInput
+            aria-label="First Name"
             type="text"
             width="8rem"
             placeholder="First Name"
@@ -69,6 +70,7 @@ class SignupEmailPassword extends Component {
             onChange={this.handleChange}
           />
           <StyledInput
+            aria-label="Last Name"
             type="text"
             width="8rem"
             placeholder="Last Name"
@@ -79,6 +81,7 @@ class SignupEmailPassword extends Component {
         </div>
         <StyledInput
           type="email"
+          aria-label="Email Address"
           placeholder="Email"
           name="email"
           onChange={this.handleChange}
@@ -86,6 +89,7 @@ class SignupEmailPassword extends Component {
         />
         <StyledInput
           placeholder="Password"
+          aria-label="Password"
           name="password"
           onChange={this.handleChange}
           value={this.state.password}
@@ -95,6 +99,7 @@ class SignupEmailPassword extends Component {
         </StyledButton>
         <div className="checkbox">
           <StyledInput
+            aria-label="Newsletter"
             width="2rem"
             type="checkbox"
             onClick={this.handleChange}

@@ -38,6 +38,7 @@ class HomePageEmailForm extends Component {
     return (
       <Container onSubmit={this.handleSubmit}>
         <StyledInput
+          aria-label="Email Form"
           width="13rem"
           height="3rem"
           borderRadius="3px"

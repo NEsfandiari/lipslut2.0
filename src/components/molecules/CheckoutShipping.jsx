@@ -58,6 +58,7 @@ class CheckoutShipping extends Component {
           <h3>Shipping</h3>
           <div className="email">
             <StyledInput
+              aria-label="Email"
               type="text"
               placeholder="Email"
               onChange={handleChange}
@@ -67,6 +68,7 @@ class CheckoutShipping extends Component {
             />
             <div>
               <StyledInput
+                aria-label="Newsletter"
                 type="checkbox"
                 id="checkbox"
                 onClick={handleChange}
@@ -81,6 +83,7 @@ class CheckoutShipping extends Component {
             <div className="half">
               <StyledInput
                 type="text"
+                aria-label="First Name"
                 placeholder="First Name"
                 onChange={handleChange}
                 name="firstName"
@@ -88,6 +91,7 @@ class CheckoutShipping extends Component {
                 value={firstName}
               />
               <StyledInput
+                aria-label="Last Name"
                 type="text"
                 placeholder="Last Name"
                 onChange={handleChange}
@@ -98,6 +102,7 @@ class CheckoutShipping extends Component {
             </div>
             <StyledInput
               type="text"
+              aria-label="Address"
               placeholder="Address"
               onChange={handleChange}
               name="address"
@@ -106,6 +111,7 @@ class CheckoutShipping extends Component {
             />
             <StyledInput
               type="text"
+              aria-label="Address Line 2"
               placeholder="Apt/Floor/Suite"
               onChange={handleChange}
               name="apartment"
@@ -114,6 +120,7 @@ class CheckoutShipping extends Component {
             <div className="half">
               <StyledInput
                 type="text"
+                aria-label="City"
                 placeholder="City"
                 onChange={handleChange}
                 name="city"
@@ -122,6 +129,7 @@ class CheckoutShipping extends Component {
               />
               <StyledInput
                 type="text"
+                aria-label="Zip"
                 placeholder="Zip Code"
                 onChange={handleChange}
                 name="zip"
@@ -132,6 +140,7 @@ class CheckoutShipping extends Component {
             <div className="half">
               <StyledInput
                 type="tel"
+                aria-label="Telephone Number"
                 placeholder="Phone"
                 onChange={handleChange}
                 placeholder="Phone #"

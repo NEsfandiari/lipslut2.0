@@ -33,12 +33,14 @@ class LoginEmailPassword extends Component {
     return (
       <Container onSubmit={this.handleSubmit}>
         <StyledInput
+          aria-label="Email Address"
           placeholder="Email"
           name="email"
           onChange={this.handleChange}
           value={this.state.email}
         />
         <StyledInput
+          aria-label="Email Address"
           placeholder="Password"
           name="password"
           onChange={this.handleChange}
