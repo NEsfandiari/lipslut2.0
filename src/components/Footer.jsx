@@ -54,7 +54,7 @@ class Footer extends Component {
         <div className="social">
           <a
             href="https://www.instagram.com/hello.lipslut/"
-            target="_blank"
+            rel="noopener"
             title="Lipslut Instagram Account"
           >
             <FaInstagram
@@ -67,7 +67,7 @@ class Footer extends Component {
           </a>
           <a
             href="https://twitter.com/Hello_Lipslut"
-            target="_blank"
+            rel="noopener"
             title="Lipslut Twitter Account"
           >
             <FaTwitter
@@ -80,7 +80,7 @@ class Footer extends Component {
           </a>
           <a
             href="https://www.facebook.com/Lipslut/"
-            target="_blank"
+            rel="noopener"
             title="Lipslut Facebook Account"
           >
             <FaFacebook
