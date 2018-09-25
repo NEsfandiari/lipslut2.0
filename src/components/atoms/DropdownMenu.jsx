@@ -16,6 +16,7 @@ const Container = styled.div`
     border-radius: 2px;
     box-shadow: 1px 1px 10px 0 rgba(46, 61, 73, 0.2);
     margin-top: 2rem;
+    animation-duration: 0.5s;
     z-index: 3;
     div {
       display: flex;
@@ -46,7 +47,7 @@ class DropdownMenu extends Component {
           MORE<FaCaretDown />
         </NavLink>
         <div
-          className="dropdown-content animated fadeInDown faster"
+          className="dropdown-content animated fadeInUp"
           style={{ display: display }}
         >
           <div>{links}</div>
