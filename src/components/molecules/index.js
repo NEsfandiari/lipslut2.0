@@ -10,6 +10,7 @@ import CheckoutShipping from './CheckoutShipping.jsx'
 import CheckoutSummary from './CheckoutSummary.jsx'
 import CheckoutPayment from './CheckoutPayment.jsx'
 import Order from './Order.jsx'
+import OrderConfirmationSummary from './OrderConfirmationSummary'
 import AccountDetailsList from './AccountDetailsList.jsx'
 import AccountDetailsForm from './AccountDetailsForm.jsx'
 import LoginEmailPassword from './LoginEmailPassword.jsx'
@@ -33,6 +34,7 @@ export default {
   CheckoutShipping,
   CheckoutSummary,
   Order,
+  OrderConfirmationSummary,
   AccountDetailsForm,
   AccountDetailsList,
   LoginEmailPassword,

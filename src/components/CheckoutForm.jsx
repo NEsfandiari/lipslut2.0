@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { navigateTo } from 'gatsby-link'
 import { CheckoutShipping, CheckoutSummary, CheckoutPayment } from './molecules'
 import { injectStripe } from 'react-stripe-elements'
 import axios from 'axios'
@@ -143,8 +144,7 @@ class CheckoutForm extends Component {
                 newsletter
               )
             }
-            this.props.clearCart()
-            this.setState({ orderStatus: 'TRANSACTION SUCCESSFUL!' })
+            navigateTo('/order-confirmation')
           })
       })
       .catch(error => {
