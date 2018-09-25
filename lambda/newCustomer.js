@@ -3927,7 +3927,7 @@ exports.handler = function (event, context, callback) {
       });
     }).then(order => {
       return stripe.orders.pay(order.id, {
-        customer: customer.id
+        customer: order.customer.id
       }, {
         idempotency_key: data.idempotency_key
       });
@@ -3938,7 +3938,7 @@ exports.handler = function (event, context, callback) {
         headers,
         body: JSON.stringify({
           status,
-          customer: customer.id,
+          customer: order.customer,
           customerType: 'New'
         })
       };

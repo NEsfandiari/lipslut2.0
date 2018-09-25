@@ -130,19 +130,23 @@ class CheckoutForm extends Component {
             const total = parseFloat(tax + subtotal + shipping).toFixed(2)
             // Store Stripe Information in the Firebase Database
             if (curUser) {
-              firebase.updatePayment(
-                res,
-                curUser,
-                cart,
-                total,
-                city,
-                state,
-                address,
-                apartment,
-                zip,
-                phone,
-                newsletter
-              )
+              try {
+                firebase.updatePayment(
+                  res,
+                  curUser,
+                  cart,
+                  total,
+                  city,
+                  state,
+                  address,
+                  apartment,
+                  zip,
+                  phone,
+                  newsletter
+                )
+              } catch (err) {
+                console.error('FAILED TO SAVE ACCOUNT INFO')
+              }
             }
             navigateTo('/order-confirmation')
           })

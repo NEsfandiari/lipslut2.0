@@ -29,19 +29,23 @@ class OrderConfirmation extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      updated: false,
       cart: [],
     }
   }
 
-  componentDidUpdate() {
-    if (!this.state.updated) {
-      this.setState({ cart: this.props.cart, updated: true })
-      this.props.clearCart()
-    }
+  componentDidMount() {
+    this.setState({ cart: this.props.cart })
+    this.props.clearCart()
   }
   render() {
-    const { addItem, subtotal, tax } = this.props
+    const subtotal = parseFloat(
+      this.state.cart
+        .reduce((accumulator, currentValue) => {
+          return accumulator + currentValue.price * currentValue.quantity
+        }, 0)
+        .toFixed(2)
+    )
+    const tax = parseFloat((subtotal * 0.15).toFixed(2))
     const cart = this.state.cart
     const shipping = 4.95
     return (
@@ -55,7 +59,6 @@ class OrderConfirmation extends Component {
         </p>
         <OrderConfirmationSummary
           cart={cart}
-          addItem={addItem}
           subtotal={subtotal}
           tax={tax}
           shipping={shipping}
