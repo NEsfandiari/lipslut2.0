@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FaUser, FaBars } from 'react-icons/lib/fa'
-import { NavLink, ShoppingBagIcon } from '../atoms'
+import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
 
@@ -24,7 +24,7 @@ const Container = styled.div`
   }
   .leftNav {
     display: flex;
-    flex-basis: 33%;
+    flex-basis: 34%;
     align-items: center;
   }
   .logo {
@@ -84,6 +84,13 @@ class NavButtons extends Component {
       curUser,
       logOut,
     } = this.props
+    const links = [
+      { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
+      {
+        text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
+        page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
+      },
+    ]
     return (
       <Container>
         <div className="leftNav">
@@ -94,7 +101,7 @@ class NavButtons extends Component {
           />
           <NavLink to="/Fck-Trump">F*CK TRUMP</NavLink>
           <NavLink to="/Fck-Hollywood">F*CK HOLLYWOOD</NavLink>
-          <NavLink to="/Lipslut-Hat">MORE</NavLink>
+          <DropdownMenu links={links} />
         </div>
         <div className="logo">
           <Link to="/">

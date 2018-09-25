@@ -7,7 +7,8 @@ import Card from './Card.jsx'
 import GoogleIcon from './GoogleIcon.jsx'
 import ShoppingBagIcon from './ShoppingBagIcon.jsx'
 import Loading from './Loading.jsx'
-import FiftyStateDropdownInput from './FiftyStateDropdownInput'
+import FiftyStateDropdownInput from './FiftyStateDropdownInput.jsx'
+import DropdownMenu from './DropdownMenu.jsx'
 
 export default {
   LinkButton,
@@ -20,4 +21,5 @@ export default {
   ShoppingBagIcon,
   Loading,
   FiftyStateDropdownInput,
+  DropdownMenu,
 }
