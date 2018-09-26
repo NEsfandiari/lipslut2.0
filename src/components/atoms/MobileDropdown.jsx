@@ -53,7 +53,7 @@ class DropdownMenu extends Component {
     ))
     return (
       <Container>
-        <NavLink className="dropdown" onClick={this.handleMenu}>
+        <NavLink className="dropdown" onClick={this.handleMenu} to="">
           {this.props.dropdownText}
           {this.state.display ? (
             <FaChevronUp className="animated rotateInDownLeft" color="black" />
