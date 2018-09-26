@@ -23,12 +23,13 @@ const Container = styled.div`
   background-color: #f9f7f1;
   display: flex;
   flex-direction: column;
+  overflow: auto;
   svg:hover {
     cursor: pointer;
     color: dimgray;
   }
   a {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     margin-bottom: 0.5rem;
   }
   .header {
@@ -39,6 +40,7 @@ const Container = styled.div`
     margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
+    height: 100%;
     a {
       margin: 0.5rem;
     }

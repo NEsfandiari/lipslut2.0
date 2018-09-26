@@ -24,6 +24,7 @@ const Container = styled.div`
     animation-duration: 0.5s;
     width: 110%;
     right: 5%;
+    height: 100%;
   }
   .links {
     display: flex;
