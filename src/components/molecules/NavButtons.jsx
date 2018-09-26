@@ -24,16 +24,16 @@ const Container = styled.div`
   }
   .leftNav {
     display: flex;
-    flex-basis: 34%;
+    flex-basis: 45%;
     align-items: center;
   }
   .logo {
-    flex-basis: 33%;
+    flex-basis: 10%;
     display: flex;
     justify-content: center;
   }
   .rightNav {
-    flex-basis: 33%;
+    flex-basis: 45%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -91,6 +91,11 @@ class NavButtons extends Component {
         page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
       },
     ]
+    const labLinks = [
+      { text: 'BATCH—001: "02"', page: 'BATCH—001:-"02"' },
+      { text: 'BATCH—001: "04"', page: 'BATCH—001:-"04"' },
+      { text: 'BATCH—001: "05"', page: 'BATCH—001:-"05"' },
+    ]
     return (
       <Container>
         <div className="leftNav">
@@ -101,7 +106,8 @@ class NavButtons extends Component {
           />
           <NavLink to="/Fck-Trump">F*CK TRUMP</NavLink>
           <NavLink to="/Fck-Hollywood">F*CK HOLLYWOOD</NavLink>
-          <DropdownMenu links={links} />
+          <DropdownMenu links={labLinks} dropdownText={'LIPSLUT LAB'} />
+          <DropdownMenu links={links} dropdownText={'MORE'} />
         </div>
         <div className="logo">
           <Link to="/">

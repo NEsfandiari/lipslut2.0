@@ -8,6 +8,11 @@ const Container = styled.div`
   align-items: center;
   background-color: #e6f8f9;
   padding: 0.5rem;
+  position: relative;
+  text-align: center;
+  width: 110%;
+  right: 5%;
+  top: 0;
   :hover {
     background-color: #d9f3fc;
   }

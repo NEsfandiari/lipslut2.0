@@ -3,8 +3,8 @@ import Link from 'gatsby-link'
 
 const NavLink = Styled(Link)`
     color: black;
-    font-size: ${({ fontSize }) => fontSize || '.7rem'};
-    padding: .3rem
+    font-size: ${({ fontSize }) => fontSize || '.64rem'};
+    padding: .2rem
     letter-spacing: ${({ letterSpacing }) => letterSpacing || '.1rem'};
     transition: 0.2s ease;
     cursor: pointer;

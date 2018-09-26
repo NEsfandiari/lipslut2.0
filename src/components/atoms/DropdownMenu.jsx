@@ -44,7 +44,8 @@ class DropdownMenu extends Component {
     return (
       <Container onMouseLeave={this.hideMenu}>
         <NavLink className="dropdown" onMouseEnter={this.showMenu}>
-          MORE<FaCaretDown />
+          {this.props.dropdownText}
+          <FaCaretDown />
         </NavLink>
         <div
           className="dropdown-content animated fadeInUp"
