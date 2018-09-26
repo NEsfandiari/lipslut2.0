@@ -2,7 +2,13 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Link from 'gatsby-link'
 import { FaClose, FaUser } from 'react-icons/lib/fa'
-import { LinkButton, StyledHr, NavLink, ShoppingBagIcon } from './atoms'
+import {
+  LinkButton,
+  StyledHr,
+  NavLink,
+  ShoppingBagIcon,
+  MobileDropdown,
+} from './atoms'
 import 'animate.css'
 
 const Container = styled.div`
@@ -33,8 +39,9 @@ const Container = styled.div`
     margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 32vh;
+    a {
+      margin: 0.5rem;
+    }
   }
   @media (min-width: 420px) {
     display: none;
@@ -50,6 +57,18 @@ class MobileSidebar extends Component {
     const { handleMobileSidebar, display, logOut, curUser, cart } = this.props
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
+    const links = [
+      { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
+      {
+        text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
+        page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
+      },
+    ]
+    const labLinks = [
+      { text: 'BATCH—001: "02"', page: 'BATCH—001:-"02"' },
+      { text: 'BATCH—001: "04"', page: 'BATCH—001:-"04"' },
+      { text: 'BATCH—001: "05"', page: 'BATCH—001:-"05"' },
+    ]
     return (
       <Container
         display={display}
@@ -81,9 +100,16 @@ class MobileSidebar extends Component {
           <NavLink onClick={handleMobileSidebar} to="/Fck-Hollywood">
             F*CK HOLLYWOOD
           </NavLink>
-          <NavLink onClick={handleMobileSidebar} to="/Lipslut-Hat">
-            MORE
-          </NavLink>
+          <MobileDropdown
+            handleMobileSidebar={handleMobileSidebar}
+            dropdownText="LIPSLUT LAB"
+            links={labLinks}
+          />
+          <MobileDropdown
+            handleMobileSidebar={handleMobileSidebar}
+            dropdownText="MORE"
+            links={links}
+          />
         </div>
       </Container>
     )

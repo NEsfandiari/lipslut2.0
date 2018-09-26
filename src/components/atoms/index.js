@@ -4,6 +4,7 @@ import FiftyStateDropdownInput from './FiftyStateDropdownInput.jsx'
 import GoogleIcon from './GoogleIcon.jsx'
 import LinkButton from './LinkButton.jsx'
 import Loading from './Loading.jsx'
+import MobileDropdown from './MobileDropdown.jsx'
 import NavLink from './NavLink.jsx'
 import ShoppingBagIcon from './ShoppingBagIcon.jsx'
 import StyledButton from './StyledButton.jsx'
@@ -17,6 +18,7 @@ export default {
   GoogleIcon,
   LinkButton,
   Loading,
+  MobileDropdown,
   NavLink,
   ShoppingBagIcon,
   StyledButton,

@@ -18,10 +18,10 @@ const Container = styled.div`
     margin-top: 2rem;
     animation-duration: 0.5s;
     z-index: 3;
-    div {
-      display: flex;
-      flex-direction: column;
-    }
+  }
+  .links {
+    display: flex;
+    flex-direction: column;
   }
 `
 
@@ -51,7 +51,7 @@ class DropdownMenu extends Component {
           className="dropdown-content animated fadeInUp"
           style={{ display: display }}
         >
-          <div>{links}</div>
+          <div className="links">{links}</div>
         </div>
       </Container>
     )
