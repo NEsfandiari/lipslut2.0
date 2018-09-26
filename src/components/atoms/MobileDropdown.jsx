@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   svg {
-    animation-duration: 0.25s;
+    animation-duration: 0.35s;
   }
   .dropdown {
     display: flex;
