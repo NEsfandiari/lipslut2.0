@@ -17,6 +17,10 @@ const Container = styled.div`
   background-color: #f9f7f1;
   display: flex;
   flex-direction: column;
+  svg:hover {
+    cursor: pointer;
+    color: dimgray;
+  }
   a {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;

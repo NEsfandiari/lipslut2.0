@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import './index.css'
+import { BannerPromo } from '../components/molecules'
 
 const Container = styled.div`
   h1,
@@ -153,6 +154,7 @@ class Layout extends Component {
             paddingTop: 0,
           }}
         >
+          <BannerPromo />
           <Navbar
             cart={this.state.cart}
             editItem={this.editItem}

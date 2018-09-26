@@ -1,27 +1,27 @@
+import AccountDetails from './AccountDetails.jsx'
+import CartSidebar from './CartSidebar.jsx'
+import CheckoutForm from './CheckoutForm.jsx'
+import Footer from './Footer.jsx'
+import HomePageEmailForm from './HomePageEmailForm.jsx'
 import HomePageFeatured from './HomePageFeatured.jsx'
 import HomePageMission from './HomePageMission.jsx'
-import HomePageEmailForm from './HomePageEmailForm.jsx'
-import Footer from './Footer.jsx'
+import MobileSidebar from './MobileSidebar'
 import Navbar from './Navbar.jsx'
+import OrderHistory from './OrderHistory.jsx'
 import Product from './Product.jsx'
 import ProductMedia from './ProductMedia.jsx'
-import CheckoutForm from './CheckoutForm.jsx'
-import CartSidebar from './CartSidebar.jsx'
-import MobileSidebar from './MobileSidebar'
-import AccountDetails from './AccountDetails.jsx'
-import OrderHistory from './OrderHistory.jsx'
 
 export default {
+  AccountDetails,
+  CartSidebar,
+  CheckoutForm,
+  Footer,
+  HomePageEmailForm,
   HomePageFeatured,
   HomePageMission,
-  HomePageEmailForm,
-  Footer,
+  MobileSidebar,
   Navbar,
+  OrderHistory,
   Product,
   ProductMedia,
-  CheckoutForm,
-  CartSidebar,
-  MobileSidebar,
-  AccountDetails,
-  OrderHistory,
 }

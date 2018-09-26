@@ -1,47 +1,49 @@
-import MissionStatement from './MissionStatement.jsx'
-import FeaturedProduct from './FeaturedProduct.jsx'
-import ProductPhotos from './ProductPhotos.jsx'
-import ProductDescription from './ProductDescription.jsx'
-import MissionPhilosophy from './MissionPhilosophy.jsx'
-import SidebarItem from './SidebarItem.jsx'
-import SummaryItem from './SummaryItem.jsx'
-import SummaryFinancials from './SummaryFinancials.jsx'
+import AccountDetailsForm from './AccountDetailsForm.jsx'
+import AccountDetailsList from './AccountDetailsList.jsx'
+import BannerPromo from './BannerPromo.jsx'
+import CheckoutPayment from './CheckoutPayment.jsx'
 import CheckoutShipping from './CheckoutShipping.jsx'
 import CheckoutSummary from './CheckoutSummary.jsx'
-import CheckoutPayment from './CheckoutPayment.jsx'
+import FeaturedProduct from './FeaturedProduct.jsx'
+import LoginEmailPassword from './LoginEmailPassword.jsx'
+import LoginFacebook from './LoginFacebook.jsx'
+import LoginGoogle from './LoginGoogle.jsx'
+import MissionPhilosophy from './MissionPhilosophy.jsx'
+import MissionStatement from './MissionStatement.jsx'
+import NavButtons from './NavButtons.jsx'
 import Order from './Order.jsx'
 import OrderConfirmationSummary from './OrderConfirmationSummary'
-import AccountDetailsList from './AccountDetailsList.jsx'
-import AccountDetailsForm from './AccountDetailsForm.jsx'
-import LoginEmailPassword from './LoginEmailPassword.jsx'
-import LoginGoogle from './LoginGoogle.jsx'
-import LoginFacebook from './LoginFacebook.jsx'
+import ProductDescription from './ProductDescription.jsx'
+import ProductPhotos from './ProductPhotos.jsx'
+import SidebarItem from './SidebarItem.jsx'
 import SignupEmailPassword from './SignupEmailPassword.jsx'
-import SignupGoogle from './SignupGoogle.jsx'
 import SignupFacebook from './SignupFacebook.jsx'
-import NavButtons from './NavButtons.jsx'
+import SignupGoogle from './SignupGoogle.jsx'
+import SummaryFinancials from './SummaryFinancials.jsx'
+import SummaryItem from './SummaryItem.jsx'
 
 export default {
-  MissionStatement,
-  FeaturedProduct,
-  ProductPhotos,
-  ProductDescription,
-  MissionPhilosophy,
-  SidebarItem,
-  SummaryItem,
-  SummaryFinancials,
+  AccountDetailsForm,
+  AccountDetailsList,
+  BannerPromo,
   CheckoutPayment,
   CheckoutShipping,
   CheckoutSummary,
+  FeaturedProduct,
+  LoginEmailPassword,
+  LoginFacebook,
+  LoginGoogle,
+  MissionPhilosophy,
+  MissionStatement,
+  NavButtons,
   Order,
   OrderConfirmationSummary,
-  AccountDetailsForm,
-  AccountDetailsList,
-  LoginEmailPassword,
-  LoginGoogle,
-  LoginFacebook,
+  ProductDescription,
+  ProductPhotos,
+  SidebarItem,
   SignupEmailPassword,
-  SignupGoogle,
   SignupFacebook,
-  NavButtons,
+  SignupGoogle,
+  SummaryFinancials,
+  SummaryItem,
 }

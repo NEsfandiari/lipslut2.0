@@ -38,6 +38,9 @@ const Container = styled.div`
       margin-right: 6rem;
       cursor: pointer;
     }
+    svg:hover {
+      color: dimgray;
+    }
   }
   @media (max-width: 420px) {
     width: 100%;
