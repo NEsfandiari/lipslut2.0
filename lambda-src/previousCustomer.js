@@ -1,5 +1,6 @@
 require('dotenv').config({ path: '.env.development' })
 const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
+const axios = require('axios')
 const statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -19,26 +20,68 @@ exports.handler = function(event, context, callback) {
     let data = JSON.parse(event.body)
     data = JSON.parse(data.body)
     data = JSON.parse(data.body)
+
+    const shopifyConfig = {
+      'Content-Type': 'application/graphql',
+      'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY,
+    }
     //  TODO: use async await for readibility
-    stripe.orders
-      .create({
-        currency: 'usd',
-        items: data.items,
-        customer: data.previousCustomer,
-      })
-      .then(order => {
-        // return promise to use .then's at the same nesting lvl
-        return stripe.orders.pay(
-          order.id,
-          {
-            customer: data.previousCustomer,
-          },
-          {
-            idempotency_key: data.idempotency_key,
+    console.log(data.items)
+    axios({
+      url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+      method: 'post',
+      headers: shopifyConfig,
+      data: `
+        mutation {
+        draftOrderCreate(
+          input: {
+            customerId: "${data.previousCustomer}",
+            lineItems: [{
+              variantId: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8xNTU2MTk2ODYxNTQ4Mw==",
+              quantity: 1
+            }],
+            useCustomerDefaultAddress: true
           }
         )
+        {
+          userErrors {
+            field
+            message
+          }
+          draftOrder {
+            id
+          }
+        }
+      }
+    `,
+    })
+      .then(order => {
+        order = order.data.data.draftOrderCreate
+        return axios({
+          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+          method: 'post',
+          headers: shopifyConfig,
+          data: `
+          mutation {
+            draftOrderComplete(id: "${order.draftOrder.id}"){
+              userErrors {
+                field
+                message
+              }
+              draftOrder {
+                id
+                status
+                customer {
+                  id
+                }
+              }
+            }
+          }
+        `,
+        })
       })
       .then(order => {
+        order = order.data.data.draftOrderComplete
         let status =
           order === null || order.status !== 'paid' ? 'failed' : order.status
         let response = {

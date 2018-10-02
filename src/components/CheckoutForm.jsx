@@ -83,8 +83,14 @@ class CheckoutForm extends Component {
       previousCustomer = this.props.curUser.billing.card
     }
     const items = this.props.cart.map(item => {
-      return { type: 'sku', parent: item.sku, quantity: item.quantity }
+      return {
+        variantId: item.sku,
+        quantity: item.quantity,
+      }
     })
+    const firstName = this.state.firstName
+    const lastName = this.state.lastName
+    const phoneNumber = this.state.phone
     // Create Stripe Token from Stripe React elements
     this.props.stripe
       .createToken({
@@ -110,6 +116,9 @@ class CheckoutForm extends Component {
                 token,
                 idempotency_key: uuid(),
                 previousCustomer,
+                firstName,
+                lastName,
+                phoneNumber,
                 items,
               }),
             }
@@ -128,7 +137,7 @@ class CheckoutForm extends Component {
               shipping,
             } = this.state
             const total = parseFloat(tax + subtotal + shipping).toFixed(2)
-            // Store Stripe Information in the Firebase Database
+            // Store Billing Information in Firestore
             if (curUser) {
               try {
                 firebase.updatePayment(

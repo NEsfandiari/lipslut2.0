@@ -42,9 +42,9 @@ exports.handler = function(event, context, callback) {
                 zip: "${data.token.card.address_zip}",
               }, 
               email: "${data.token.email}", 
-              firstName: "Niki", 
-              lastName: "Esfandiari", 
-              phone:"925-286-2521"
+              firstName: "${data.firstName}", 
+              lastName: "${data.lastName}", 
+              phone:"${data.phoneNumber}"
             }
           )
           {
@@ -62,7 +62,8 @@ exports.handler = function(event, context, callback) {
       `,
     })
       .then(customer => {
-        console.log(customer.data.data.customerCreate)
+        customer = customer.data.data
+        console.log(customer.data.data.customer)
         return axios({
           url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
           method: 'post',
@@ -72,11 +73,7 @@ exports.handler = function(event, context, callback) {
             draftOrderCreate(
               input: {
                 customerId: "${customer.data}",
-                lineItems: [{
-                    quantity: 1,
-                    variantId: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8xNTU2MjEwODMzODIzNQ=="
-                  }
-                ],
+                lineItems: ${data.items},
                 useCustomerDefaultAddress: true
               }
             )
@@ -94,13 +91,14 @@ exports.handler = function(event, context, callback) {
         })
       })
       .then(order => {
+        order = order.data.data.draftOrderCreate
         return axios({
           url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
           method: 'post',
           headers: shopifyConfig,
           data: `
             mutation {
-              draftOrderComplete(id: ${order.id}){
+              draftOrderComplete(id: ${order.data.data.draftOrder.id}){
                 userErrors {
                   field
                   message
@@ -118,6 +116,7 @@ exports.handler = function(event, context, callback) {
         })
       })
       .then(order => {
+        order = order.data.data.draftOrderComplete
         let status =
           order === null || order.status !== 'paid' ? 'failed' : order.status
         let response = {
