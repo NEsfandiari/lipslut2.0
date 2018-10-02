@@ -44,6 +44,14 @@ module.exports = {
         host: `cdn.contentful.com`,
       },
     },
+    {
+      resolve: 'gatsby-source-shopify',
+      options: {
+        shopName: 'lipslut2-0',
+        accessToken: '68c81bce2d7868af2bf51cb7fd99066a',
+        verbose: true,
+      },
+    },
     `gatsby-plugin-netlify`,
   ],
 }

@@ -1,5 +1,6 @@
 require('dotenv').config({ path: '.env.development' })
 const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
+const axios = require('axios')
 const statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -20,39 +21,101 @@ exports.handler = function(event, context, callback) {
     data = JSON.parse(data.body)
     data = JSON.parse(data.body)
 
-    stripe.customers
-      .create({
-        source: data.token.id,
-        email: data.token.email,
-        shipping: {
-          name: data.token.card.name,
-          address: {
-            line1: data.token.card.address_line1,
-            city: data.token.card.address_city,
-            state: data.token.card.address_state,
-            postal_code: data.token.card.address_zip,
-            country: 'US',
-          },
-        },
-      })
-      // Create Order with New Customer
+    const shopifyConfig = {
+      'Content-Type': 'application/graphql',
+      'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY,
+    }
+
+    axios({
+      url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+      method: 'post',
+      headers: shopifyConfig,
+      data: `
+        mutation {
+          customerCreate(
+            input: {
+              acceptsMarketing: true, 
+              addresses: {
+                address1: "${data.token.card.address_line1}",
+                city: "${data.token.card.address_city}",
+                country: "${data.token.card.country}",
+                zip: "${data.token.card.address_zip}",
+              }, 
+              email: "${data.token.email}", 
+              firstName: "Niki", 
+              lastName: "Esfandiari", 
+              phone:"925-286-2521"
+            }
+          )
+          {
+            userErrors {
+              field
+              message
+            }
+            customer {
+              id
+              firstName
+              lastName
+            }
+          }
+        }
+      `,
+    })
       .then(customer => {
-        return stripe.orders.create({
-          currency: 'usd',
-          items: data.items,
-          customer: customer.id,
+        console.log(customer.data.data.customerCreate)
+        return axios({
+          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+          method: 'post',
+          headers: shopifyConfig,
+          data: `
+            mutation {
+            draftOrderCreate(
+              input: {
+                customerId: "${customer.data}",
+                lineItems: [{
+                    quantity: 1,
+                    variantId: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8xNTU2MjEwODMzODIzNQ=="
+                  }
+                ],
+                useCustomerDefaultAddress: true
+              }
+            )
+            {
+              userErrors {
+                field
+                message
+              }
+              draftOrder {
+                id
+              }
+            }
+          }
+        `,
         })
       })
       .then(order => {
-        return stripe.orders.pay(
-          order.id,
-          {
-            customer: order.customer.id,
-          },
-          {
-            idempotency_key: data.idempotency_key,
-          }
-        )
+        return axios({
+          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+          method: 'post',
+          headers: shopifyConfig,
+          data: `
+            mutation {
+              draftOrderComplete(id: ${order.id}){
+                userErrors {
+                  field
+                  message
+                }
+                draftOrder {
+                  id
+                  status
+                  customer {
+                    id
+                  }
+                }
+              }
+            }
+          `,
+        })
       })
       .then(order => {
         let status =
