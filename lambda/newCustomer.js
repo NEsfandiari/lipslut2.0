@@ -71,11 +71,11 @@
 
 
 var http = __webpack_require__(3);
-var https = __webpack_require__(5);
-var path = __webpack_require__(6);
+var https = __webpack_require__(6);
+var path = __webpack_require__(17);
 
 var utils = __webpack_require__(2);
-var Error = __webpack_require__(4);
+var Error = __webpack_require__(7);
 
 var hasOwn = {}.hasOwnProperty;
 
@@ -83,8 +83,8 @@ var hasOwn = {}.hasOwnProperty;
 StripeResource.extend = utils.protoExtend;
 
 // Expose method-creator & prepared (basic) methods
-StripeResource.method = __webpack_require__(18);
-StripeResource.BASIC_METHODS = __webpack_require__(35);
+StripeResource.method = __webpack_require__(27);
+StripeResource.BASIC_METHODS = __webpack_require__(64);
 
 /**
  * Encapsulates request logic for a Stripe Resource
@@ -404,8 +404,8 @@ module.exports = StripeResource;
 "use strict";
 
 
-var bind = __webpack_require__(19);
-var isBuffer = __webpack_require__(80);
+var bind = __webpack_require__(8);
+var isBuffer = __webpack_require__(30);
 
 /*global toString:true*/
 
@@ -714,13 +714,13 @@ module.exports = {
 "use strict";
 
 
-var Buffer = __webpack_require__(7).Buffer;
-var EventEmitter = __webpack_require__(12).EventEmitter;
-var qs = __webpack_require__(32);
-var crypto = __webpack_require__(16);
+var Buffer = __webpack_require__(18).Buffer;
+var EventEmitter = __webpack_require__(21).EventEmitter;
+var qs = __webpack_require__(61);
+var crypto = __webpack_require__(25);
 
 var hasOwn = {}.hasOwnProperty;
-var isPlainObject = __webpack_require__(17);
+var isPlainObject = __webpack_require__(26);
 
 var OPTIONS_KEYS = ['api_key', 'idempotency_key', 'stripe_account', 'stripe_version'];
 
@@ -965,170 +965,8 @@ module.exports = require("http");
 "use strict";
 
 
-var utils = __webpack_require__(2);
-
-module.exports = _Error;
-
-/**
- * Generic Error klass to wrap any errors returned by stripe-node
- */
-function _Error(raw) {
-  this.populate.apply(this, arguments);
-  this.stack = (new Error(this.message)).stack;
-}
-
-// Extend Native Error
-_Error.prototype = Object.create(Error.prototype);
-
-_Error.prototype.type = 'GenericError';
-_Error.prototype.populate = function(type, message) {
-  this.type = type;
-  this.message = message;
-};
-
-_Error.extend = utils.protoExtend;
-
-/**
- * Create subclass of internal Error klass
- * (Specifically for errors returned from Stripe's REST API)
- */
-var StripeError = _Error.StripeError = _Error.extend({
-  type: 'StripeError',
-  populate: function(raw) {
-    // Move from prototype def (so it appears in stringified obj)
-    this.type = this.type;
-
-    this.stack = (new Error(raw.message)).stack;
-    this.rawType = raw.type;
-    this.code = raw.code;
-    this.param = raw.param;
-    this.message = raw.message;
-    this.detail = raw.detail;
-    this.raw = raw;
-    this.headers = raw.headers;
-    this.requestId = raw.requestId;
-    this.statusCode = raw.statusCode;
-  },
-});
-
-/**
- * Helper factory which takes raw stripe errors and outputs wrapping instances
- */
-StripeError.generate = function(rawStripeError) {
-  switch (rawStripeError.type) {
-  case 'card_error':
-    return new _Error.StripeCardError(rawStripeError);
-  case 'invalid_request_error':
-    return new _Error.StripeInvalidRequestError(rawStripeError);
-  case 'api_error':
-    return new _Error.StripeAPIError(rawStripeError);
-  case 'idempotency_error':
-    return new _Error.StripeIdempotencyError(rawStripeError);
-  }
-  return new _Error('Generic', 'Unknown Error');
-};
-
-// Specific Stripe Error types:
-_Error.StripeCardError = StripeError.extend({type: 'StripeCardError'});
-_Error.StripeInvalidRequestError = StripeError.extend({type: 'StripeInvalidRequestError'});
-_Error.StripeAPIError = StripeError.extend({type: 'StripeAPIError'});
-_Error.StripeAuthenticationError = StripeError.extend({type: 'StripeAuthenticationError'});
-_Error.StripePermissionError = StripeError.extend({type: 'StripePermissionError'});
-_Error.StripeRateLimitError = StripeError.extend({type: 'StripeRateLimitError'});
-_Error.StripeConnectionError = StripeError.extend({type: 'StripeConnectionError'});
-_Error.StripeSignatureVerificationError = StripeError.extend({type: 'StripeSignatureVerificationError'});
-_Error.StripeIdempotencyError = StripeError.extend({type: 'StripeIdempotencyError'});
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = require("https");
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* eslint-disable node/no-deprecated-api */
-var buffer = __webpack_require__(31)
-var Buffer = buffer.Buffer
-
-// alternative to using Object.keys for old browsers
-function copyProps (src, dst) {
-  for (var key in src) {
-    dst[key] = src[key]
-  }
-}
-if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
-  module.exports = buffer
-} else {
-  // Copy properties from require('buffer')
-  copyProps(buffer, exports)
-  exports.Buffer = SafeBuffer
-}
-
-function SafeBuffer (arg, encodingOrOffset, length) {
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-// Copy static methods from Buffer
-copyProps(Buffer, SafeBuffer)
-
-SafeBuffer.from = function (arg, encodingOrOffset, length) {
-  if (typeof arg === 'number') {
-    throw new TypeError('Argument must not be a number')
-  }
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-SafeBuffer.alloc = function (size, fill, encoding) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  var buf = Buffer(size)
-  if (fill !== undefined) {
-    if (typeof encoding === 'string') {
-      buf.fill(fill, encoding)
-    } else {
-      buf.fill(fill)
-    }
-  } else {
-    buf.fill(0)
-  }
-  return buf
-}
-
-SafeBuffer.allocUnsafe = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return Buffer(size)
-}
-
-SafeBuffer.allocUnsafeSlow = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return buffer.SlowBuffer(size)
-}
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(82);
+var normalizeHeaderName = __webpack_require__(32);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -1144,10 +982,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(83);
+    adapter = __webpack_require__(33);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(88);
+    adapter = __webpack_require__(38);
   }
   return adapter;
 }
@@ -1224,13 +1062,13 @@ module.exports = defaults;
 
 
 /***/ }),
-/* 9 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(21);
+var enhanceError = __webpack_require__(10);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -1249,726 +1087,95 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const fs = __webpack_require__(11)
-const path = __webpack_require__(6)
-
-/*
- * Parses a string or buffer into an object
- * @param {(string|Buffer)} src - source to be parsed
- * @returns {Object} keys and values from src
-*/
-function parse (src) {
-  const obj = {}
-
-  // convert Buffers before splitting into lines and processing
-  src.toString().split('\n').forEach(function (line) {
-    // matching "KEY' and 'VAL' in 'KEY=VAL'
-    const keyValueArr = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/)
-    // matched?
-    if (keyValueArr != null) {
-      const key = keyValueArr[1]
-
-      // default undefined or missing values to empty string
-      let value = keyValueArr[2] || ''
-
-      // expand newlines in quoted values
-      const len = value ? value.length : 0
-      if (len > 0 && value.charAt(0) === '"' && value.charAt(len - 1) === '"') {
-        value = value.replace(/\\n/gm, '\n')
-      }
-
-      // remove any surrounding quotes and extra spaces
-      value = value.replace(/(^['"]|['"]$)/g, '').trim()
-
-      obj[key] = value
-    }
-  })
-
-  return obj
-}
-
-/*
- * Main entry point into dotenv. Allows configuration before loading .env
- * @param {Object} options - options for parsing .env file
- * @param {string} [options.path=.env] - path to .env file
- * @param {string} [options.encoding=utf8] - encoding of .env file
- * @returns {Object} parsed object or error
-*/
-function config (options) {
-  let dotenvPath = path.resolve(process.cwd(), '.env')
-  let encoding = 'utf8'
-
-  if (options) {
-    if (options.path) {
-      dotenvPath = options.path
-    }
-    if (options.encoding) {
-      encoding = options.encoding
-    }
-  }
-
-  try {
-    // specifying an encoding returns a string instead of a buffer
-    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }))
-
-    Object.keys(parsed).forEach(function (key) {
-      if (!process.env.hasOwnProperty(key)) {
-        process.env[key] = parsed[key]
-      }
-    })
-
-    return { parsed }
-  } catch (e) {
-    return { error: e }
-  }
-}
-
-module.exports.config = config
-module.exports.load = config
-module.exports.parse = parse
-
-
-/***/ }),
-/* 11 */
+/* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("fs");
+module.exports = require("https");
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-module.exports = require("events");
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-  // Since path can either be `account` or `accounts`, support both through stripeMethod path
-
-  create: stripeMethod({
-    method: 'POST',
-    path: 'accounts',
-  }),
-
-  list: stripeMethod({
-    method: 'GET',
-    path: 'accounts',
-  }),
-
-  update: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{id}',
-    urlParams: ['id'],
-  }),
-
-  // Avoid 'delete' keyword in JS
-  del: stripeMethod({
-    method: 'DELETE',
-    path: 'accounts/{id}',
-    urlParams: ['id'],
-  }),
-
-  reject: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{id}/reject',
-    urlParams: ['id'],
-  }),
-
-  retrieve: function(id) {
-    // No longer allow an api key to be passed as the first string to this function due to ambiguity between
-    // old account ids and api keys. To request the account for an api key, send null as the id
-    if (typeof id === 'string') {
-      return stripeMethod({
-        method: 'GET',
-        path: 'accounts/{id}',
-        urlParams: ['id'],
-      }).apply(this, arguments);
-    } else {
-      if (id === null || id === undefined) {
-        // Remove id as stripeMethod would complain of unexpected argument
-        [].shift.apply(arguments);
-      }
-      return stripeMethod({
-        method: 'GET',
-        path: 'account',
-      }).apply(this, arguments);
-    }
-  },
-
-  /**
-   * Accounts: External account methods
-   */
-
-  createExternalAccount: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{accountId}/external_accounts',
-    urlParams: ['accountId'],
-  }),
-
-  listExternalAccounts: stripeMethod({
-    method: 'GET',
-    path: 'accounts/{accountId}/external_accounts',
-    urlParams: ['accountId'],
-  }),
-
-  retrieveExternalAccount: stripeMethod({
-    method: 'GET',
-    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
-    urlParams: ['accountId', 'externalAccountId'],
-  }),
-
-  updateExternalAccount: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
-    urlParams: ['accountId', 'externalAccountId'],
-  }),
-
-  deleteExternalAccount: stripeMethod({
-    method: 'DELETE',
-    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
-    urlParams: ['accountId', 'externalAccountId'],
-  }),
-
-  /**
-  * Accounts: LoginLink methods
-  */
-
-  createLoginLink: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{accountId}/login_links',
-    urlParams: ['accountId'],
-  }),
-});
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var has = Object.prototype.hasOwnProperty;
-
-var hexTable = (function () {
-    var array = [];
-    for (var i = 0; i < 256; ++i) {
-        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
-    }
-
-    return array;
-}());
-
-var compactQueue = function compactQueue(queue) {
-    var obj;
-
-    while (queue.length) {
-        var item = queue.pop();
-        obj = item.obj[item.prop];
-
-        if (Array.isArray(obj)) {
-            var compacted = [];
-
-            for (var j = 0; j < obj.length; ++j) {
-                if (typeof obj[j] !== 'undefined') {
-                    compacted.push(obj[j]);
-                }
-            }
-
-            item.obj[item.prop] = compacted;
-        }
-    }
-
-    return obj;
-};
-
-exports.arrayToObject = function arrayToObject(source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
-    for (var i = 0; i < source.length; ++i) {
-        if (typeof source[i] !== 'undefined') {
-            obj[i] = source[i];
-        }
-    }
-
-    return obj;
-};
-
-exports.merge = function merge(target, source, options) {
-    if (!source) {
-        return target;
-    }
-
-    if (typeof source !== 'object') {
-        if (Array.isArray(target)) {
-            target.push(source);
-        } else if (typeof target === 'object') {
-            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
-                target[source] = true;
-            }
-        } else {
-            return [target, source];
-        }
-
-        return target;
-    }
-
-    if (typeof target !== 'object') {
-        return [target].concat(source);
-    }
-
-    var mergeTarget = target;
-    if (Array.isArray(target) && !Array.isArray(source)) {
-        mergeTarget = exports.arrayToObject(target, options);
-    }
-
-    if (Array.isArray(target) && Array.isArray(source)) {
-        source.forEach(function (item, i) {
-            if (has.call(target, i)) {
-                if (target[i] && typeof target[i] === 'object') {
-                    target[i] = exports.merge(target[i], item, options);
-                } else {
-                    target.push(item);
-                }
-            } else {
-                target[i] = item;
-            }
-        });
-        return target;
-    }
-
-    return Object.keys(source).reduce(function (acc, key) {
-        var value = source[key];
-
-        if (has.call(acc, key)) {
-            acc[key] = exports.merge(acc[key], value, options);
-        } else {
-            acc[key] = value;
-        }
-        return acc;
-    }, mergeTarget);
-};
-
-exports.assign = function assignSingleSource(target, source) {
-    return Object.keys(source).reduce(function (acc, key) {
-        acc[key] = source[key];
-        return acc;
-    }, target);
-};
-
-exports.decode = function (str) {
-    try {
-        return decodeURIComponent(str.replace(/\+/g, ' '));
-    } catch (e) {
-        return str;
-    }
-};
-
-exports.encode = function encode(str) {
-    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-    // It has been adapted here for stricter adherence to RFC 3986
-    if (str.length === 0) {
-        return str;
-    }
-
-    var string = typeof str === 'string' ? str : String(str);
-
-    var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
-
-        if (
-            c === 0x2D // -
-            || c === 0x2E // .
-            || c === 0x5F // _
-            || c === 0x7E // ~
-            || (c >= 0x30 && c <= 0x39) // 0-9
-            || (c >= 0x41 && c <= 0x5A) // a-z
-            || (c >= 0x61 && c <= 0x7A) // A-Z
-        ) {
-            out += string.charAt(i);
-            continue;
-        }
-
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        out += hexTable[0xF0 | (c >> 18)]
-            + hexTable[0x80 | ((c >> 12) & 0x3F)]
-            + hexTable[0x80 | ((c >> 6) & 0x3F)]
-            + hexTable[0x80 | (c & 0x3F)];
-    }
-
-    return out;
-};
-
-exports.compact = function compact(value) {
-    var queue = [{ obj: { o: value }, prop: 'o' }];
-    var refs = [];
-
-    for (var i = 0; i < queue.length; ++i) {
-        var item = queue[i];
-        var obj = item.obj[item.prop];
-
-        var keys = Object.keys(obj);
-        for (var j = 0; j < keys.length; ++j) {
-            var key = keys[j];
-            var val = obj[key];
-            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
-                queue.push({ obj: obj, prop: key });
-                refs.push(val);
-            }
-        }
-    }
-
-    return compactQueue(queue);
-};
-
-exports.isRegExp = function isRegExp(obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-exports.isBuffer = function isBuffer(obj) {
-    if (obj === null || typeof obj === 'undefined') {
-        return false;
-    }
-
-    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
-};
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var replace = String.prototype.replace;
-var percentTwenties = /%20/g;
-
-module.exports = {
-    'default': 'RFC3986',
-    formatters: {
-        RFC1738: function (value) {
-            return replace.call(value, percentTwenties, '+');
-        },
-        RFC3986: function (value) {
-            return value;
-        }
-    },
-    RFC1738: 'RFC1738',
-    RFC3986: 'RFC3986'
-};
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = require("crypto");
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/** `Object#toString` result references. */
-var objectTag = '[object Object]';
-
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-/**
- * Creates a unary function that invokes `func` with its argument transformed.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {Function} transform The argument transform.
- * @returns {Function} Returns the new function.
- */
-function overArg(func, transform) {
-  return function(arg) {
-    return func(transform(arg));
-  };
-}
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype,
-    objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to infer the `Object` constructor. */
-var objectCtorString = funcToString.call(Object);
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var getPrototype = overArg(Object.getPrototypeOf, Object);
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * @static
- * @memberOf _
- * @since 0.8.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */
-function isPlainObject(value) {
-  if (!isObjectLike(value) ||
-      objectToString.call(value) != objectTag || isHostObject(value)) {
-    return false;
-  }
-  var proto = getPrototype(value);
-  if (proto === null) {
-    return true;
-  }
-  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-  return (typeof Ctor == 'function' &&
-    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
-}
-
-module.exports = isPlainObject;
-
-
-/***/ }),
-/* 18 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(2);
-var OPTIONAL_REGEX = /^optional!/;
+
+module.exports = _Error;
 
 /**
- * Create an API method from the declared spec.
- *
- * @param [spec.method='GET'] Request Method (POST, GET, DELETE, PUT)
- * @param [spec.path=''] Path to be appended to the API BASE_PATH, joined with
- *  the instance's path (e.g. 'charges' or 'customers')
- * @param [spec.required=[]] Array of required arguments in the order that they
- *  must be passed by the consumer of the API. Subsequent optional arguments are
- *  optionally passed through a hash (Object) as the penultimate argument
- *  (preceding the also-optional callback argument
-  * @param [spec.encode] Function for mutating input parameters to a method.
- *  Usefully for applying transforms to data on a per-method basis.
+ * Generic Error klass to wrap any errors returned by stripe-node
  */
-function stripeMethod(spec) {
-  var commandPath = typeof spec.path == 'function' ? spec.path
-    : utils.makeURLInterpolator(spec.path || '');
-  var requestMethod = (spec.method || 'GET').toUpperCase();
-  var urlParams = spec.urlParams || [];
-  var encode = spec.encode || function(data) {return data;};
-
-  return function() {
-    var self = this;
-    var args = [].slice.call(arguments);
-
-    var callback = typeof args[args.length - 1] == 'function' && args.pop();
-    var urlData = this.createUrlData();
-
-    return this.wrapTimeout(new Promise((function(resolve, reject) {
-      for (var i = 0, l = urlParams.length; i < l; ++i) {
-        var path
-        var err;
-
-        // Note that we shift the args array after every iteration so this just
-        // grabs the "next" argument for use as a URL parameter.
-        var arg = args[0];
-
-        var param = urlParams[i];
-
-        var isOptional = OPTIONAL_REGEX.test(param);
-        param = param.replace(OPTIONAL_REGEX, '');
-
-        if (param == 'id' && typeof arg !== 'string') {
-          path = this.createResourcePathWithSymbols(spec.path);
-          err = new Error(
-            'Stripe: "id" must be a string, but got: ' + typeof arg +
-            ' (on API request to `' + requestMethod + ' ' + path + '`)'
-          );
-          reject(err);
-          return;
-        }
-
-        if (!arg) {
-          if (isOptional) {
-            urlData[param] = '';
-            continue;
-          }
-
-          path = this.createResourcePathWithSymbols(spec.path);
-          err = new Error(
-            'Stripe: Argument "' + urlParams[i] + '" required, but got: ' + arg +
-            ' (on API request to `' + requestMethod + ' ' + path + '`)'
-          );
-          reject(err);
-          return;
-        }
-
-        urlData[param] = args.shift();
-      }
-
-      var data;
-      try {
-        data = encode(utils.getDataFromArgs(args));
-      } catch (e) {
-        reject(e);
-      }
-      var opts = utils.getOptionsFromArgs(args);
-
-      if (args.length) {
-        path = this.createResourcePathWithSymbols(spec.path);
-        err = new Error(
-          'Stripe: Unknown arguments (' + args + '). Did you mean to pass an options ' +
-          'object? See https://github.com/stripe/stripe-node/wiki/Passing-Options.' +
-          ' (on API request to ' + requestMethod + ' `' + path + '`)'
-        );
-        reject(err);
-        return;
-      }
-
-      var requestPath = this.createFullPath(commandPath, urlData);
-      var options = {headers: Object.assign(opts.headers, spec.headers)};
-
-      if (spec.validator) {
-        try {
-          spec.validator(data, options);
-        } catch (err) {
-          reject(err);
-          return;
-        }
-      }
-
-      function requestCallback(err, response) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(
-            spec.transformResponseData ?
-              spec.transformResponseData(response) :
-              response
-          );
-        }
-      }
-
-      self._request(requestMethod, requestPath, data, opts.auth, options, requestCallback);
-    }).bind(this)), callback);
-  };
+function _Error(raw) {
+  this.populate.apply(this, arguments);
+  this.stack = (new Error(this.message)).stack;
 }
 
-module.exports = stripeMethod;
+// Extend Native Error
+_Error.prototype = Object.create(Error.prototype);
+
+_Error.prototype.type = 'GenericError';
+_Error.prototype.populate = function(type, message) {
+  this.type = type;
+  this.message = message;
+};
+
+_Error.extend = utils.protoExtend;
+
+/**
+ * Create subclass of internal Error klass
+ * (Specifically for errors returned from Stripe's REST API)
+ */
+var StripeError = _Error.StripeError = _Error.extend({
+  type: 'StripeError',
+  populate: function(raw) {
+    // Move from prototype def (so it appears in stringified obj)
+    this.type = this.type;
+
+    this.stack = (new Error(raw.message)).stack;
+    this.rawType = raw.type;
+    this.code = raw.code;
+    this.param = raw.param;
+    this.message = raw.message;
+    this.detail = raw.detail;
+    this.raw = raw;
+    this.headers = raw.headers;
+    this.requestId = raw.requestId;
+    this.statusCode = raw.statusCode;
+  },
+});
+
+/**
+ * Helper factory which takes raw stripe errors and outputs wrapping instances
+ */
+StripeError.generate = function(rawStripeError) {
+  switch (rawStripeError.type) {
+  case 'card_error':
+    return new _Error.StripeCardError(rawStripeError);
+  case 'invalid_request_error':
+    return new _Error.StripeInvalidRequestError(rawStripeError);
+  case 'api_error':
+    return new _Error.StripeAPIError(rawStripeError);
+  case 'idempotency_error':
+    return new _Error.StripeIdempotencyError(rawStripeError);
+  }
+  return new _Error('Generic', 'Unknown Error');
+};
+
+// Specific Stripe Error types:
+_Error.StripeCardError = StripeError.extend({type: 'StripeCardError'});
+_Error.StripeInvalidRequestError = StripeError.extend({type: 'StripeInvalidRequestError'});
+_Error.StripeAPIError = StripeError.extend({type: 'StripeAPIError'});
+_Error.StripeAuthenticationError = StripeError.extend({type: 'StripeAuthenticationError'});
+_Error.StripePermissionError = StripeError.extend({type: 'StripePermissionError'});
+_Error.StripeRateLimitError = StripeError.extend({type: 'StripeRateLimitError'});
+_Error.StripeConnectionError = StripeError.extend({type: 'StripeConnectionError'});
+_Error.StripeSignatureVerificationError = StripeError.extend({type: 'StripeSignatureVerificationError'});
+_Error.StripeIdempotencyError = StripeError.extend({type: 'StripeIdempotencyError'});
 
 
 /***/ }),
-/* 19 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1986,13 +1193,13 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 20 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(5);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -2019,7 +1226,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 21 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2047,7 +1254,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 22 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2120,15 +1327,15 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 23 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var url = __webpack_require__(24);
+var url = __webpack_require__(13);
 var http = __webpack_require__(3);
-var https = __webpack_require__(5);
-var assert = __webpack_require__(89);
-var Writable = __webpack_require__(90).Writable;
-var debug = __webpack_require__(91)("follow-redirects");
+var https = __webpack_require__(6);
+var assert = __webpack_require__(39);
+var Writable = __webpack_require__(40).Writable;
+var debug = __webpack_require__(41)("follow-redirects");
 
 // RFC7231§4.2.1: Of the request methods defined by this specification,
 // the GET, HEAD, OPTIONS, and TRACE methods are defined to be safe.
@@ -2410,13 +1617,13 @@ module.exports.wrap = wrap;
 
 
 /***/ }),
-/* 24 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 25 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2432,7 +1639,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(93);
+exports.humanize = __webpack_require__(43);
 
 /**
  * Active `debug` instances.
@@ -2647,7 +1854,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 26 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2659,7 +1866,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 27 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2685,2356 +1892,815 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 28 */
+/* 17 */
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/* eslint-disable node/no-deprecated-api */
+var buffer = __webpack_require__(60)
+var Buffer = buffer.Buffer
 
-
-Stripe.DEFAULT_HOST = 'api.stripe.com';
-Stripe.DEFAULT_PORT = '443';
-Stripe.DEFAULT_BASE_PATH = '/v1/';
-Stripe.DEFAULT_API_VERSION = null;
-
-// Use node's default timeout:
-Stripe.DEFAULT_TIMEOUT = __webpack_require__(3).createServer().timeout;
-
-Stripe.PACKAGE_VERSION = __webpack_require__(29).version;
-
-Stripe.USER_AGENT = {
-  bindings_version: Stripe.PACKAGE_VERSION,
-  lang: 'node',
-  lang_version: process.version,
-  platform: process.platform,
-  publisher: 'stripe',
-  uname: null,
-};
-
-Stripe.USER_AGENT_SERIALIZED = null;
-
-var APP_INFO_PROPERTIES = ['name', 'version', 'url'];
-
-var EventEmitter = __webpack_require__(12).EventEmitter;
-var exec = __webpack_require__(30).exec;
-
-var resources = {
-  // Support Accounts for consistency, Account for backwards compat
-  Account: __webpack_require__(13),
-  Accounts: __webpack_require__(13),
-  ApplePayDomains: __webpack_require__(36),
-  Balance: __webpack_require__(37),
-  Charges: __webpack_require__(38),
-  CountrySpecs: __webpack_require__(39),
-  Coupons: __webpack_require__(40),
-  Customers: __webpack_require__(41),
-  Disputes: __webpack_require__(42),
-  EphemeralKeys: __webpack_require__(43),
-  Events: __webpack_require__(44),
-  ExchangeRates: __webpack_require__(45),
-  Invoices: __webpack_require__(46),
-  InvoiceItems: __webpack_require__(47),
-  IssuerFraudRecords: __webpack_require__(48),
-  LoginLinks: __webpack_require__(49),
-  PaymentIntents: __webpack_require__(50),
-  Payouts: __webpack_require__(51),
-  Plans: __webpack_require__(52),
-  RecipientCards: __webpack_require__(53),
-  Recipients: __webpack_require__(54),
-  Refunds: __webpack_require__(55),
-  Tokens: __webpack_require__(56),
-  Topups: __webpack_require__(57),
-  Transfers: __webpack_require__(58),
-  ApplicationFees: __webpack_require__(59),
-  FileUploads: __webpack_require__(60),
-  BitcoinReceivers: __webpack_require__(62),
-  Products: __webpack_require__(63),
-  Skus: __webpack_require__(64),
-  Orders: __webpack_require__(65),
-  OrderReturns: __webpack_require__(66),
-  Subscriptions: __webpack_require__(67),
-  SubscriptionItems: __webpack_require__(68),
-  ThreeDSecure: __webpack_require__(69),
-  Sources: __webpack_require__(70),
-  UsageRecords: __webpack_require__(71),
-
-  // The following rely on pre-filled IDs:
-  CustomerCards: __webpack_require__(72),
-  CustomerSubscriptions: __webpack_require__(73),
-  ChargeRefunds: __webpack_require__(74),
-  ApplicationFeeRefunds: __webpack_require__(75),
-  TransferReversals: __webpack_require__(76),
-
-};
-
-Stripe.StripeResource = __webpack_require__(0);
-Stripe.resources = resources;
-
-function Stripe(key, version) {
-  if (!(this instanceof Stripe)) {
-    return new Stripe(key, version);
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key]
   }
-
-  Object.defineProperty(this, '_emitter', {
-    value: new EventEmitter(),
-    enumerable: false,
-    configurable: false,
-    writeable: false,
-  });
-
-  this.on = this._emitter.on.bind(this._emitter);
-  this.off = this._emitter.removeListener.bind(this._emitter);
-
-  this._api = {
-    auth: null,
-    host: Stripe.DEFAULT_HOST,
-    port: Stripe.DEFAULT_PORT,
-    basePath: Stripe.DEFAULT_BASE_PATH,
-    version: Stripe.DEFAULT_API_VERSION,
-    timeout: Stripe.DEFAULT_TIMEOUT,
-    agent: null,
-    dev: false,
-  };
-
-  this._prepResources();
-  this.setApiKey(key);
-  this.setApiVersion(version);
-
-  this.errors = __webpack_require__(4);
-  this.webhooks = __webpack_require__(77);
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports)
+  exports.Buffer = SafeBuffer
 }
 
-Stripe.prototype = {
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
 
-  setHost: function(host, port, protocol) {
-    this._setApiField('host', host);
-    if (port) {
-      this.setPort(port);
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer)
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size)
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding)
+    } else {
+      buf.fill(fill)
     }
-    if (protocol) {
-      this.setProtocol(protocol);
-    }
-  },
+  } else {
+    buf.fill(0)
+  }
+  return buf
+}
 
-  setProtocol: function(protocol) {
-    this._setApiField('protocol', protocol.toLowerCase());
-  },
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+}
 
-  setPort: function(port) {
-    this._setApiField('port', port);
-  },
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+}
 
-  setApiVersion: function(version) {
-    if (version) {
-      this._setApiField('version', version);
-    }
-  },
 
-  setApiKey: function(key) {
-    if (key) {
-      this._setApiField(
-        'auth',
-        'Bearer ' + key
-      );
-    }
-  },
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
 
-  setTimeout: function(timeout) {
-    this._setApiField(
-      'timeout',
-      timeout == null ? Stripe.DEFAULT_TIMEOUT : timeout
-    );
-  },
+const fs = __webpack_require__(20)
+const path = __webpack_require__(17)
 
-  setAppInfo: function(info) {
-    if (info && typeof info !== 'object') {
-      throw new Error('AppInfo must be an object.');
-    }
+/*
+ * Parses a string or buffer into an object
+ * @param {(string|Buffer)} src - source to be parsed
+ * @returns {Object} keys and values from src
+*/
+function parse (src) {
+  const obj = {}
 
-    if (info && !info.name) {
-      throw new Error('AppInfo.name is required');
-    }
+  // convert Buffers before splitting into lines and processing
+  src.toString().split('\n').forEach(function (line) {
+    // matching "KEY' and 'VAL' in 'KEY=VAL'
+    const keyValueArr = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/)
+    // matched?
+    if (keyValueArr != null) {
+      const key = keyValueArr[1]
 
-    info = info || {};
+      // default undefined or missing values to empty string
+      let value = keyValueArr[2] || ''
 
-    var appInfo = APP_INFO_PROPERTIES.reduce(function(accum, prop) {
-      if (typeof info[prop] == 'string') {
-        accum = accum || {};
-
-        accum[prop] = info[prop];
+      // expand newlines in quoted values
+      const len = value ? value.length : 0
+      if (len > 0 && value.charAt(0) === '"' && value.charAt(len - 1) === '"') {
+        value = value.replace(/\\n/gm, '\n')
       }
 
-      return accum;
-    }, undefined);
+      // remove any surrounding quotes and extra spaces
+      value = value.replace(/(^['"]|['"]$)/g, '').trim()
 
-    // Kill the cached UA string because it may no longer be valid
-    Stripe.USER_AGENT_SERIALIZED = undefined;
-
-    this._appInfo = appInfo;
-  },
-
-  setHttpAgent: function(agent) {
-    this._setApiField('agent', agent);
-  },
-
-  _setApiField: function(key, value) {
-    this._api[key] = value;
-  },
-
-  getApiField: function(key) {
-    return this._api[key];
-  },
-
-  getConstant: function(c) {
-    return Stripe[c];
-  },
-
-  // Gets a JSON version of a User-Agent and uses a cached version for a slight
-  // speed advantage.
-  getClientUserAgent: function(cb) {
-    if (Stripe.USER_AGENT_SERIALIZED) {
-      return cb(Stripe.USER_AGENT_SERIALIZED);
+      obj[key] = value
     }
-    this.getClientUserAgentSeeded(Stripe.USER_AGENT, function(cua) {
-      Stripe.USER_AGENT_SERIALIZED = cua;
-      cb(Stripe.USER_AGENT_SERIALIZED);
+  })
+
+  return obj
+}
+
+/*
+ * Main entry point into dotenv. Allows configuration before loading .env
+ * @param {Object} options - options for parsing .env file
+ * @param {string} [options.path=.env] - path to .env file
+ * @param {string} [options.encoding=utf8] - encoding of .env file
+ * @returns {Object} parsed object or error
+*/
+function config (options) {
+  let dotenvPath = path.resolve(process.cwd(), '.env')
+  let encoding = 'utf8'
+
+  if (options) {
+    if (options.path) {
+      dotenvPath = options.path
+    }
+    if (options.encoding) {
+      encoding = options.encoding
+    }
+  }
+
+  try {
+    // specifying an encoding returns a string instead of a buffer
+    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }))
+
+    Object.keys(parsed).forEach(function (key) {
+      if (!process.env.hasOwnProperty(key)) {
+        process.env[key] = parsed[key]
+      }
     })
-  },
 
-  // Gets a JSON version of a User-Agent by encoding a seeded object and
-  // fetching a uname from the system.
-  getClientUserAgentSeeded: function(seed, cb) {
-    var self = this;
+    return { parsed }
+  } catch (e) {
+    return { error: e }
+  }
+}
 
-    exec('uname -a', function(err, uname) {
-      var userAgent = {};
-      for (var field in seed) {
-        userAgent[field] = encodeURIComponent(seed[field]);
-      }
-
-      // URI-encode in case there are unusual characters in the system's uname.
-      userAgent.uname = encodeURIComponent(uname) || 'UNKNOWN';
-
-      if (self._appInfo) {
-        userAgent.application = self._appInfo;
-      }
-
-      cb(JSON.stringify(userAgent));
-    });
-  },
-
-  getAppInfoAsString: function() {
-    if (!this._appInfo) {
-      return '';
-    }
-
-    var formatted = this._appInfo.name;
-
-    if (this._appInfo.version) {
-      formatted += '/' + this._appInfo.version;
-    }
-
-    if (this._appInfo.url) {
-      formatted += ' (' + this._appInfo.url + ')';
-    }
-
-    return formatted;
-  },
-
-  _prepResources: function() {
-    for (var name in resources) {
-      this[
-        name[0].toLowerCase() + name.substring(1)
-      ] = new resources[name](this);
-    }
-  },
-
-};
-
-module.exports = Stripe;
-// expose constructor as a named property to enable mocking with Sinon.JS
-module.exports.Stripe = Stripe;
+module.exports.config = config
+module.exports.load = config
+module.exports.parse = parse
 
 
 /***/ }),
-/* 29 */
+/* 20 */
 /***/ (function(module, exports) {
 
-module.exports = {"_args":[["stripe@6.3.0","/Users/nikiesfandiari/Desktop/lipslut"]],"_from":"stripe@6.3.0","_id":"stripe@6.3.0","_inBundle":false,"_integrity":"sha512-f2GtsoqGLdAZe1mrtFBthpbvM9uHr6IEusyqZymJgj/Nx0xvHkzRkO/h2sePbk/4lhCjfprr4+hbhui7RMPCsw==","_location":"/stripe","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"stripe@6.3.0","name":"stripe","escapedName":"stripe","rawSpec":"6.3.0","saveSpec":null,"fetchSpec":"6.3.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/stripe/-/stripe-6.3.0.tgz","_spec":"6.3.0","_where":"/Users/nikiesfandiari/Desktop/lipslut","author":{"name":"Stripe","email":"support@stripe.com","url":"https://stripe.com/"},"bugs":{"url":"https://github.com/stripe/stripe-node/issues"},"bugs:":"https://github.com/stripe/stripe-node/issues","contributors":[{"name":"Ask Bjørn Hansen","email":"ask@develooper.com","url":"http://www.askask.com/"},{"name":"Michelle Bu","email":"michelle@stripe.com"},{"name":"Alex Sexton","email":"alex@stripe.com"},{"name":"James Padolsey"}],"dependencies":{"lodash.isplainobject":"^4.0.6","qs":"~6.5.1","safe-buffer":"^5.1.1"},"description":"Stripe API wrapper","devDependencies":{"chai":"~4.1.2","chai-as-promised":"~7.1.1","coveralls":"^3.0.0","eslint":"^4.19.1","eslint-plugin-chai-friendly":"^0.4.0","mocha":"~5.0.5","nyc":"^11.3.0"},"engines":{"node":">=4"},"homepage":"https://github.com/stripe/stripe-node","keywords":["stripe","payment processing","credit cards","api"],"license":"MIT","main":"lib/stripe.js","name":"stripe","repository":{"type":"git","url":"git://github.com/stripe/stripe-node.git"},"scripts":{"clean":"rm -rf ./.nyc_output ./node_modules/.cache ./coverage","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","lint":"eslint .","mocha":"nyc mocha","report":"nyc -r text -r lcov report","test":"npm run lint && npm run mocha"},"version":"6.3.0"}
+module.exports = require("fs");
 
 /***/ }),
-/* 30 */
+/* 21 */
 /***/ (function(module, exports) {
 
-module.exports = require("child_process");
+module.exports = require("events");
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-module.exports = require("buffer");
-
-/***/ }),
-/* 32 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(33);
-var parse = __webpack_require__(34);
-var formats = __webpack_require__(15);
-
-module.exports = {
-    formats: formats,
-    parse: parse,
-    stringify: stringify
-};
-
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(14);
-var formats = __webpack_require__(15);
-
-var arrayPrefixGenerators = {
-    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
-        return prefix + '[]';
-    },
-    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
-        return prefix + '[' + key + ']';
-    },
-    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
-        return prefix;
-    }
-};
-
-var toISO = Date.prototype.toISOString;
-
-var defaults = {
-    delimiter: '&',
-    encode: true,
-    encoder: utils.encode,
-    encodeValuesOnly: false,
-    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
-        return toISO.call(date);
-    },
-    skipNulls: false,
-    strictNullHandling: false
-};
-
-var stringify = function stringify( // eslint-disable-line func-name-matching
-    object,
-    prefix,
-    generateArrayPrefix,
-    strictNullHandling,
-    skipNulls,
-    encoder,
-    filter,
-    sort,
-    allowDots,
-    serializeDate,
-    formatter,
-    encodeValuesOnly
-) {
-    var obj = object;
-    if (typeof filter === 'function') {
-        obj = filter(prefix, obj);
-    } else if (obj instanceof Date) {
-        obj = serializeDate(obj);
-    } else if (obj === null) {
-        if (strictNullHandling) {
-            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
-        }
-
-        obj = '';
-    }
-
-    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
-        if (encoder) {
-            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
-            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
-        }
-        return [formatter(prefix) + '=' + formatter(String(obj))];
-    }
-
-    var values = [];
-
-    if (typeof obj === 'undefined') {
-        return values;
-    }
-
-    var objKeys;
-    if (Array.isArray(filter)) {
-        objKeys = filter;
-    } else {
-        var keys = Object.keys(obj);
-        objKeys = sort ? keys.sort(sort) : keys;
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        if (Array.isArray(obj)) {
-            values = values.concat(stringify(
-                obj[key],
-                generateArrayPrefix(prefix, key),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly
-            ));
-        } else {
-            values = values.concat(stringify(
-                obj[key],
-                prefix + (allowDots ? '.' + key : '[' + key + ']'),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly
-            ));
-        }
-    }
-
-    return values;
-};
-
-module.exports = function (object, opts) {
-    var obj = object;
-    var options = opts ? utils.assign({}, opts) : {};
-
-    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
-        throw new TypeError('Encoder has to be a function.');
-    }
-
-    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
-    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
-    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
-    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
-    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
-    var sort = typeof options.sort === 'function' ? options.sort : null;
-    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
-    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
-    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
-    if (typeof options.format === 'undefined') {
-        options.format = formats['default'];
-    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
-        throw new TypeError('Unknown format option provided.');
-    }
-    var formatter = formats.formatters[options.format];
-    var objKeys;
-    var filter;
-
-    if (typeof options.filter === 'function') {
-        filter = options.filter;
-        obj = filter('', obj);
-    } else if (Array.isArray(options.filter)) {
-        filter = options.filter;
-        objKeys = filter;
-    }
-
-    var keys = [];
-
-    if (typeof obj !== 'object' || obj === null) {
-        return '';
-    }
-
-    var arrayFormat;
-    if (options.arrayFormat in arrayPrefixGenerators) {
-        arrayFormat = options.arrayFormat;
-    } else if ('indices' in options) {
-        arrayFormat = options.indices ? 'indices' : 'repeat';
-    } else {
-        arrayFormat = 'indices';
-    }
-
-    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
-
-    if (!objKeys) {
-        objKeys = Object.keys(obj);
-    }
-
-    if (sort) {
-        objKeys.sort(sort);
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        keys = keys.concat(stringify(
-            obj[key],
-            key,
-            generateArrayPrefix,
-            strictNullHandling,
-            skipNulls,
-            encode ? encoder : null,
-            filter,
-            sort,
-            allowDots,
-            serializeDate,
-            formatter,
-            encodeValuesOnly
-        ));
-    }
-
-    var joined = keys.join(delimiter);
-    var prefix = options.addQueryPrefix === true ? '?' : '';
-
-    return joined.length > 0 ? prefix + joined : '';
-};
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(14);
-
-var has = Object.prototype.hasOwnProperty;
-
-var defaults = {
-    allowDots: false,
-    allowPrototypes: false,
-    arrayLimit: 20,
-    decoder: utils.decode,
-    delimiter: '&',
-    depth: 5,
-    parameterLimit: 1000,
-    plainObjects: false,
-    strictNullHandling: false
-};
-
-var parseValues = function parseQueryStringValues(str, options) {
-    var obj = {};
-    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
-    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
-    var parts = cleanStr.split(options.delimiter, limit);
-
-    for (var i = 0; i < parts.length; ++i) {
-        var part = parts[i];
-
-        var bracketEqualsPos = part.indexOf(']=');
-        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
-
-        var key, val;
-        if (pos === -1) {
-            key = options.decoder(part, defaults.decoder);
-            val = options.strictNullHandling ? null : '';
-        } else {
-            key = options.decoder(part.slice(0, pos), defaults.decoder);
-            val = options.decoder(part.slice(pos + 1), defaults.decoder);
-        }
-        if (has.call(obj, key)) {
-            obj[key] = [].concat(obj[key]).concat(val);
-        } else {
-            obj[key] = val;
-        }
-    }
-
-    return obj;
-};
-
-var parseObject = function (chain, val, options) {
-    var leaf = val;
-
-    for (var i = chain.length - 1; i >= 0; --i) {
-        var obj;
-        var root = chain[i];
-
-        if (root === '[]') {
-            obj = [];
-            obj = obj.concat(leaf);
-        } else {
-            obj = options.plainObjects ? Object.create(null) : {};
-            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
-            var index = parseInt(cleanRoot, 10);
-            if (
-                !isNaN(index)
-                && root !== cleanRoot
-                && String(index) === cleanRoot
-                && index >= 0
-                && (options.parseArrays && index <= options.arrayLimit)
-            ) {
-                obj = [];
-                obj[index] = leaf;
-            } else {
-                obj[cleanRoot] = leaf;
-            }
-        }
-
-        leaf = obj;
-    }
-
-    return leaf;
-};
-
-var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
-    if (!givenKey) {
-        return;
-    }
-
-    // Transform dot notation to bracket notation
-    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
-
-    // The regex chunks
-
-    var brackets = /(\[[^[\]]*])/;
-    var child = /(\[[^[\]]*])/g;
-
-    // Get the parent
-
-    var segment = brackets.exec(key);
-    var parent = segment ? key.slice(0, segment.index) : key;
-
-    // Stash the parent if it exists
-
-    var keys = [];
-    if (parent) {
-        // If we aren't using plain objects, optionally prefix keys
-        // that would overwrite object prototype properties
-        if (!options.plainObjects && has.call(Object.prototype, parent)) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-
-        keys.push(parent);
-    }
-
-    // Loop through children appending to the array until we hit depth
-
-    var i = 0;
-    while ((segment = child.exec(key)) !== null && i < options.depth) {
-        i += 1;
-        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-        keys.push(segment[1]);
-    }
-
-    // If there's a remainder, just add whatever is left
-
-    if (segment) {
-        keys.push('[' + key.slice(segment.index) + ']');
-    }
-
-    return parseObject(keys, val, options);
-};
-
-module.exports = function (str, opts) {
-    var options = opts ? utils.assign({}, opts) : {};
-
-    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
-        throw new TypeError('Decoder has to be a function.');
-    }
-
-    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
-    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
-    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
-    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
-    options.parseArrays = options.parseArrays !== false;
-    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
-    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
-    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
-    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
-    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
-    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
-
-    if (str === '' || str === null || typeof str === 'undefined') {
-        return options.plainObjects ? Object.create(null) : {};
-    }
-
-    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
-    var obj = options.plainObjects ? Object.create(null) : {};
-
-    // Iterate over the keys and setup the new object
-
-    var keys = Object.keys(tempObj);
-    for (var i = 0; i < keys.length; ++i) {
-        var key = keys[i];
-        var newObj = parseKeys(key, tempObj[key], options);
-        obj = utils.merge(obj, newObj, options);
-    }
-
-    return utils.compact(obj);
-};
-
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var isPlainObject = __webpack_require__(17);
-var stripeMethod = __webpack_require__(18);
-
-module.exports = {
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  // Since path can either be `account` or `accounts`, support both through stripeMethod path
 
   create: stripeMethod({
     method: 'POST',
+    path: 'accounts',
   }),
 
   list: stripeMethod({
     method: 'GET',
-  }),
-
-  retrieve: stripeMethod({
-    method: 'GET',
-    path: '/{id}',
-    urlParams: ['id'],
+    path: 'accounts',
   }),
 
   update: stripeMethod({
     method: 'POST',
-    path: '{id}',
+    path: 'accounts/{id}',
     urlParams: ['id'],
   }),
 
   // Avoid 'delete' keyword in JS
   del: stripeMethod({
     method: 'DELETE',
-    path: '{id}',
+    path: 'accounts/{id}',
     urlParams: ['id'],
   }),
 
-  setMetadata: function(id, key, value, auth, cb) {
-    var self = this;
-    var data = key;
-    var isObject = isPlainObject(key);
-    // We assume null for an empty object
-    var isNull = data === null || (isObject && !Object.keys(data).length);
+  reject: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{id}/reject',
+    urlParams: ['id'],
+  }),
 
-    // Allow optional passing of auth & cb:
-    if ((isNull || isObject) && typeof value == 'string') {
-      auth = value;
-    } else if (typeof auth != 'string') {
-      if (!cb && typeof auth == 'function') {
-        cb = auth;
+  retrieve: function(id) {
+    // No longer allow an api key to be passed as the first string to this function due to ambiguity between
+    // old account ids and api keys. To request the account for an api key, send null as the id
+    if (typeof id === 'string') {
+      return stripeMethod({
+        method: 'GET',
+        path: 'accounts/{id}',
+        urlParams: ['id'],
+      }).apply(this, arguments);
+    } else {
+      if (id === null || id === undefined) {
+        // Remove id as stripeMethod would complain of unexpected argument
+        [].shift.apply(arguments);
       }
-      auth = null;
+      return stripeMethod({
+        method: 'GET',
+        path: 'account',
+      }).apply(this, arguments);
     }
-
-    var urlData = this.createUrlData();
-    var path = this.createFullPath('/' + id, urlData);
-
-    return this.wrapTimeout(new Promise((function(resolve, reject) {
-      if (isNull) {
-        // Reset metadata:
-        sendMetadata(null, auth);
-      } else if (!isObject) {
-        // Set individual metadata property:
-        var metadata = {};
-        metadata[key] = value;
-        sendMetadata(metadata, auth);
-      } else {
-        // Set entire metadata object after resetting it:
-        this._request('POST', path, {
-          metadata: null,
-        }, auth, {}, function(err, response) {
-          if (err) {
-            return reject(err);
-          }
-          sendMetadata(data, auth);
-        });
-      }
-
-      function sendMetadata(metadata, auth) {
-        self._request('POST', path, {
-          metadata: metadata,
-        }, auth, {}, function(err, response) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(response.metadata);
-          }
-        });
-      }
-    }).bind(this)), cb);
   },
 
-  getMetadata: function(id, auth, cb) {
-    if (!cb && typeof auth == 'function') {
-      cb = auth;
-      auth = null;
+  /**
+   * Accounts: External account methods
+   */
+
+  createExternalAccount: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/external_accounts',
+    urlParams: ['accountId'],
+  }),
+
+  listExternalAccounts: stripeMethod({
+    method: 'GET',
+    path: 'accounts/{accountId}/external_accounts',
+    urlParams: ['accountId'],
+  }),
+
+  retrieveExternalAccount: stripeMethod({
+    method: 'GET',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  updateExternalAccount: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  deleteExternalAccount: stripeMethod({
+    method: 'DELETE',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  /**
+  * Accounts: LoginLink methods
+  */
+
+  createLoginLink: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/login_links',
+    urlParams: ['accountId'],
+  }),
+});
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
     }
 
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    var obj;
+
+    while (queue.length) {
+        var item = queue.pop();
+        obj = item.obj[item.prop];
+
+        if (Array.isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+
+    return obj;
+};
+
+exports.arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+exports.merge = function merge(target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = exports.arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = exports.merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = exports.merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+exports.assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+exports.decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+exports.encode = function encode(str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+exports.compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    return compactQueue(queue);
+};
+
+exports.isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+exports.isBuffer = function isBuffer(obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+module.exports = require("crypto");
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var getPrototype = overArg(Object.getPrototypeOf, Object);
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) ||
+      objectToString.call(value) != objectTag || isHostObject(value)) {
+    return false;
+  }
+  var proto = getPrototype(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return (typeof Ctor == 'function' &&
+    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+}
+
+module.exports = isPlainObject;
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(2);
+var OPTIONAL_REGEX = /^optional!/;
+
+/**
+ * Create an API method from the declared spec.
+ *
+ * @param [spec.method='GET'] Request Method (POST, GET, DELETE, PUT)
+ * @param [spec.path=''] Path to be appended to the API BASE_PATH, joined with
+ *  the instance's path (e.g. 'charges' or 'customers')
+ * @param [spec.required=[]] Array of required arguments in the order that they
+ *  must be passed by the consumer of the API. Subsequent optional arguments are
+ *  optionally passed through a hash (Object) as the penultimate argument
+ *  (preceding the also-optional callback argument
+  * @param [spec.encode] Function for mutating input parameters to a method.
+ *  Usefully for applying transforms to data on a per-method basis.
+ */
+function stripeMethod(spec) {
+  var commandPath = typeof spec.path == 'function' ? spec.path
+    : utils.makeURLInterpolator(spec.path || '');
+  var requestMethod = (spec.method || 'GET').toUpperCase();
+  var urlParams = spec.urlParams || [];
+  var encode = spec.encode || function(data) {return data;};
+
+  return function() {
+    var self = this;
+    var args = [].slice.call(arguments);
+
+    var callback = typeof args[args.length - 1] == 'function' && args.pop();
     var urlData = this.createUrlData();
-    var path = this.createFullPath('/' + id, urlData);
 
     return this.wrapTimeout(new Promise((function(resolve, reject) {
-      this._request('GET', path, {}, auth, {}, function(err, response) {
+      for (var i = 0, l = urlParams.length; i < l; ++i) {
+        var path
+        var err;
+
+        // Note that we shift the args array after every iteration so this just
+        // grabs the "next" argument for use as a URL parameter.
+        var arg = args[0];
+
+        var param = urlParams[i];
+
+        var isOptional = OPTIONAL_REGEX.test(param);
+        param = param.replace(OPTIONAL_REGEX, '');
+
+        if (param == 'id' && typeof arg !== 'string') {
+          path = this.createResourcePathWithSymbols(spec.path);
+          err = new Error(
+            'Stripe: "id" must be a string, but got: ' + typeof arg +
+            ' (on API request to `' + requestMethod + ' ' + path + '`)'
+          );
+          reject(err);
+          return;
+        }
+
+        if (!arg) {
+          if (isOptional) {
+            urlData[param] = '';
+            continue;
+          }
+
+          path = this.createResourcePathWithSymbols(spec.path);
+          err = new Error(
+            'Stripe: Argument "' + urlParams[i] + '" required, but got: ' + arg +
+            ' (on API request to `' + requestMethod + ' ' + path + '`)'
+          );
+          reject(err);
+          return;
+        }
+
+        urlData[param] = args.shift();
+      }
+
+      var data;
+      try {
+        data = encode(utils.getDataFromArgs(args));
+      } catch (e) {
+        reject(e);
+      }
+      var opts = utils.getOptionsFromArgs(args);
+
+      if (args.length) {
+        path = this.createResourcePathWithSymbols(spec.path);
+        err = new Error(
+          'Stripe: Unknown arguments (' + args + '). Did you mean to pass an options ' +
+          'object? See https://github.com/stripe/stripe-node/wiki/Passing-Options.' +
+          ' (on API request to ' + requestMethod + ' `' + path + '`)'
+        );
+        reject(err);
+        return;
+      }
+
+      var requestPath = this.createFullPath(commandPath, urlData);
+      var options = {headers: Object.assign(opts.headers, spec.headers)};
+
+      if (spec.validator) {
+        try {
+          spec.validator(data, options);
+        } catch (err) {
+          reject(err);
+          return;
+        }
+      }
+
+      function requestCallback(err, response) {
         if (err) {
           reject(err);
         } else {
-          resolve(response.metadata);
+          resolve(
+            spec.transformResponseData ?
+              spec.transformResponseData(response) :
+              response
+          );
         }
-      });
-    }).bind(this)), cb);
-  },
-
-};
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(0).extend({
-  path: 'apple_pay/domains',
-  includeBasic: ['create', 'list', 'retrieve', 'del'],
-});
-
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'balance',
-
-  retrieve: stripeMethod({
-    method: 'GET',
-  }),
-
-  listTransactions: stripeMethod({
-    method: 'GET',
-    path: 'history',
-  }),
-
-  retrieveTransaction: stripeMethod({
-    method: 'GET',
-    path: 'history/{transactionId}',
-    urlParams: ['transactionId'],
-  }),
-
-});
-
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'charges',
-
-  includeBasic: [
-    'create', 'list', 'retrieve', 'update',
-    'setMetadata', 'getMetadata',
-  ],
-
-  capture: stripeMethod({
-    method: 'POST',
-    path: '/{id}/capture',
-    urlParams: ['id'],
-  }),
-
-  refund: stripeMethod({
-    method: 'POST',
-    path: '/{id}/refund',
-    urlParams: ['id'],
-  }),
-
-  updateDispute: stripeMethod({
-    method: 'POST',
-    path: '/{id}/dispute',
-    urlParams: ['id'],
-  }),
-
-  closeDispute: stripeMethod({
-    method: 'POST',
-    path: '/{id}/dispute/close',
-    urlParams: ['id'],
-  }),
-
-  /**
-   * Charge: Refund methods
-   * (Deprecated)
-   */
-  createRefund: stripeMethod({
-    method: 'POST',
-    path: '/{chargeId}/refunds',
-    urlParams: ['chargeId'],
-  }),
-
-  listRefunds: stripeMethod({
-    method: 'GET',
-    path: '/{chargeId}/refunds',
-    urlParams: ['chargeId'],
-  }),
-
-  retrieveRefund: stripeMethod({
-    method: 'GET',
-    path: '/{chargeId}/refunds/{refundId}',
-    urlParams: ['chargeId', 'refundId'],
-  }),
-
-  updateRefund: stripeMethod({
-    method: 'POST',
-    path: '/{chargeId}/refunds/{refundId}',
-    urlParams: ['chargeId', 'refundId'],
-  }),
-
-  markAsSafe: function(chargeId) {
-    return this.update(chargeId, {'fraud_details': {'user_report': 'safe'}})
-  },
-
-  markAsFraudulent: function(chargeId) {
-    return this.update(chargeId, {'fraud_details': {'user_report': 'fraudulent'}})
-  },
-});
-
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-
-  path: 'country_specs',
-
-  includeBasic: [
-    'list', 'retrieve',
-  ],
-});
-
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(0).extend({
-  path: 'coupons',
-  includeBasic: ['create', 'list', 'update', 'retrieve', 'del'],
-});
-
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var utils = __webpack_require__(2);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'customers',
-  includeBasic: [
-    'create', 'list', 'retrieve', 'update', 'del',
-    'setMetadata', 'getMetadata',
-  ],
-
-  /**
-   * Customer: Subscription methods
-   */
-
-  _legacyUpdateSubscription: stripeMethod({
-    method: 'POST',
-    path: '{customerId}/subscription',
-    urlParams: ['customerId'],
-  }),
-
-  _newstyleUpdateSubscription: stripeMethod({
-    method: 'POST',
-    path: '/{customerId}/subscriptions/{subscriptionId}',
-    urlParams: ['customerId', 'subscriptionId'],
-  }),
-
-  _legacyCancelSubscription: stripeMethod({
-    method: 'DELETE',
-    path: '{customerId}/subscription',
-    urlParams: ['customerId'],
-  }),
-
-  _newstyleCancelSubscription: stripeMethod({
-    method: 'DELETE',
-    path: '/{customerId}/subscriptions/{subscriptionId}',
-    urlParams: ['customerId', 'subscriptionId'],
-  }),
-
-  createSubscription: stripeMethod({
-    method: 'POST',
-    path: '/{customerId}/subscriptions',
-    urlParams: ['customerId'],
-  }),
-
-  listSubscriptions: stripeMethod({
-    method: 'GET',
-    path: '/{customerId}/subscriptions',
-    urlParams: ['customerId'],
-  }),
-
-  retrieveSubscription: stripeMethod({
-    method: 'GET',
-    path: '/{customerId}/subscriptions/{subscriptionId}',
-    urlParams: ['customerId', 'subscriptionId'],
-  }),
-
-  updateSubscription: function(customerId, subscriptionId) {
-    if (typeof subscriptionId == 'string') {
-      return this._newstyleUpdateSubscription.apply(this, arguments);
-    } else {
-      return this._legacyUpdateSubscription.apply(this, arguments);
-    }
-  },
-
-  cancelSubscription: function(customerId, subscriptionId) {
-    // This is a hack, but it lets us maximize our overloading.
-    // Precarious assumption: If it's not an auth key it _could_ be a sub id:
-    if (typeof subscriptionId == 'string' && !utils.isAuthKey(subscriptionId)) {
-      return this._newstyleCancelSubscription.apply(this, arguments);
-    } else {
-      return this._legacyCancelSubscription.apply(this, arguments);
-    }
-  },
-
-  /**
-   * Customer: Card methods
-   */
-
-  createCard: stripeMethod({
-    method: 'POST',
-    path: '/{customerId}/cards',
-    urlParams: ['customerId'],
-  }),
-
-  listCards: stripeMethod({
-    method: 'GET',
-    path: '/{customerId}/cards',
-    urlParams: ['customerId'],
-  }),
-
-  retrieveCard: stripeMethod({
-    method: 'GET',
-    path: '/{customerId}/cards/{cardId}',
-    urlParams: ['customerId', 'cardId'],
-  }),
-
-  updateCard: stripeMethod({
-    method: 'POST',
-    path: '/{customerId}/cards/{cardId}',
-    urlParams: ['customerId', 'cardId'],
-  }),
-
-  deleteCard: stripeMethod({
-    method: 'DELETE',
-    path: '/{customerId}/cards/{cardId}',
-    urlParams: ['customerId', 'cardId'],
-  }),
-
-  /**
-   * Customer: Source methods
-   */
-
-  createSource: stripeMethod({
-    method: 'POST',
-    path: '/{customerId}/sources',
-    urlParams: ['customerId'],
-  }),
-
-  listSources: stripeMethod({
-    method: 'GET',
-    path: '/{customerId}/sources',
-    urlParams: ['customerId'],
-  }),
-
-  retrieveSource: stripeMethod({
-    method: 'GET',
-    path: '/{customerId}/sources/{sourceId}',
-    urlParams: ['customerId', 'sourceId'],
-  }),
-
-  updateSource: stripeMethod({
-    method: 'POST',
-    path: '/{customerId}/sources/{sourceId}',
-    urlParams: ['customerId', 'sourceId'],
-  }),
-
-  deleteSource: stripeMethod({
-    method: 'DELETE',
-    path: '/{customerId}/sources/{sourceId}',
-    urlParams: ['customerId', 'sourceId'],
-  }),
-
-  verifySource: stripeMethod({
-    method: 'POST',
-    path: '/{customerId}/sources/{sourceId}/verify',
-    urlParams: ['customerId', 'sourceId'],
-  }),
-
-  /**
-   * Customer: Discount methods
-   */
-
-  deleteDiscount: stripeMethod({
-    method: 'DELETE',
-    path: '/{customerId}/discount',
-    urlParams: ['customerId'],
-  }),
-
-  deleteSubscriptionDiscount: stripeMethod({
-    method: 'DELETE',
-    path: '/{customerId}/subscriptions/{subscriptionId}/discount',
-    urlParams: ['customerId', 'subscriptionId'],
-  }),
-
-});
-
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'disputes',
-
-  includeBasic: [
-    'list', 'retrieve', 'update', 'setMetadata', 'getMetadata',
-  ],
-
-  close: stripeMethod({
-    method: 'POST',
-    path: '/{id}/close',
-    urlParams: ['id'],
-  }),
-
-});
-
-
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-  create: stripeMethod({
-    method: 'POST',
-    validator: function(data, options) {
-      if (!options.headers || !options.headers['Stripe-Version']) {
-        throw new Error('stripe_version must be specified to create an ephemeral key');
       }
-    },
-  }),
 
-  path: 'ephemeral_keys',
-
-  includeBasic: ['del'],
-});
-
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(0).extend({
-  path: 'events',
-  includeBasic: ['list', 'retrieve'],
-});
-
-
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-
-  path: 'exchange_rates',
-
-  includeBasic: [
-    'list', 'retrieve',
-  ],
-});
-
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-var utils = __webpack_require__(2);
-
-module.exports = StripeResource.extend({
-
-  path: 'invoices',
-  includeBasic: ['create', 'list', 'retrieve', 'update'],
-
-  retrieveLines: stripeMethod({
-    method: 'GET',
-    path: '{invoiceId}/lines',
-    urlParams: ['invoiceId'],
-  }),
-
-  pay: stripeMethod({
-    method: 'POST',
-    path: '{invoiceId}/pay',
-    urlParams: ['invoiceId'],
-  }),
-
-  retrieveUpcoming: stripeMethod({
-    method: 'GET',
-    path: function(urlData) {
-      var url = 'upcoming?customer=' + urlData.customerId;
-      // Legacy support where second argument is the subscription id
-      if (urlData.invoiceOptions && typeof urlData.invoiceOptions === 'string') {
-        return url + '&subscription=' + urlData.invoiceOptions;
-      } else if (urlData.invoiceOptions && typeof urlData.invoiceOptions === 'object') {
-        if (urlData.invoiceOptions.subscription_items !== undefined) {
-          urlData.invoiceOptions.subscription_items = utils.arrayToObject(urlData.invoiceOptions.subscription_items);
-        }
-        return url + '&' + utils.stringifyRequestData(urlData.invoiceOptions);
-      }
-      return url;
-    },
-    urlParams: ['customerId', 'optional!invoiceOptions'],
-    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'subscription_items'),
-  }),
-
-});
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(0).extend({
-  path: 'invoiceitems',
-  includeBasic: [
-    'create', 'list', 'retrieve', 'update', 'del',
-    'setMetadata', 'getMetadata',
-  ],
-});
-
-
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-  path: 'issuer_fraud_records',
-
-  includeBasic: ['list', 'retrieve'],
-});
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-  path: 'accounts/{accountId}/login_links',
-  includeBasic: ['create'],
-});
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-  path: 'payment_intents',
-  includeBasic: ['create', 'list', 'retrieve', 'update'],
-
-  cancel: stripeMethod({
-    method: 'POST',
-    path: '{paymentIntentId}/cancel',
-    urlParams: ['paymentIntentId'],
-  }),
-
-  capture: stripeMethod({
-    method: 'POST',
-    path: '{paymentIntentId}/capture',
-    urlParams: ['paymentIntentId'],
-  }),
-
-  confirm: stripeMethod({
-    method: 'POST',
-    path: '{paymentIntentId}/confirm',
-    urlParams: ['paymentIntentId'],
-  }),
-});
-
-
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'payouts',
-
-  includeBasic: [
-    'create', 'list', 'retrieve', 'update',
-    'setMetadata', 'getMetadata',
-  ],
-
-  cancel: stripeMethod({
-    method: 'POST',
-    path: '{payoutId}/cancel',
-    urlParams: ['payoutId'],
-  }),
-
-  listTransactions: stripeMethod({
-    method: 'GET',
-    path: '{payoutId}/transactions',
-    urlParams: ['payoutId'],
-  }),
-});
-
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(0).extend({
-  path: 'plans',
-  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
-});
-
-
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-/**
- * RecipientCard is similar to CustomerCard in that, upon instantiation, it
- * requires a recipientId, and therefore each of its methods only
- * require the cardId argument.
- *
- * This streamlines the API specifically for the case of accessing cards
- * on a returned recipient object.
- *
- * E.g. recipientObject.cards.retrieve(cardId)
- * (As opposed to the also-supported stripe.recipients.retrieveCard(recipientId, cardId))
- */
-module.exports = StripeResource.extend({
-  path: 'recipients/{recipientId}/cards',
-  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
-});
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'recipients',
-  includeBasic: [
-    'create', 'list', 'retrieve', 'update', 'del',
-    'setMetadata', 'getMetadata',
-  ],
-
-  createCard: stripeMethod({
-    method: 'POST',
-    path: '/{recipientId}/cards',
-    urlParams: ['recipientId'],
-  }),
-
-  listCards: stripeMethod({
-    method: 'GET',
-    path: '/{recipientId}/cards',
-    urlParams: ['recipientId'],
-  }),
-
-  retrieveCard: stripeMethod({
-    method: 'GET',
-    path: '/{recipientId}/cards/{cardId}',
-    urlParams: ['recipientId', 'cardId'],
-  }),
-
-  updateCard: stripeMethod({
-    method: 'POST',
-    path: '/{recipientId}/cards/{cardId}',
-    urlParams: ['recipientId', 'cardId'],
-  }),
-
-  deleteCard: stripeMethod({
-    method: 'DELETE',
-    path: '/{recipientId}/cards/{cardId}',
-    urlParams: ['recipientId', 'cardId'],
-  }),
-
-});
-
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-
-  path: 'refunds',
-
-  includeBasic: [
-    'create', 'list', 'retrieve', 'update',
-  ],
-});
-
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(0).extend({
-  path: 'tokens',
-  includeBasic: ['create', 'retrieve'],
-});
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-  path: 'topups',
-  includeBasic: ['create', 'list', 'retrieve', 'update', 'setMetadata', 'getMetadata'],
-});
-
-
-/***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'transfers',
-
-  includeBasic: [
-    'create', 'list', 'retrieve', 'update',
-    'setMetadata', 'getMetadata',
-  ],
-
-  reverse: stripeMethod({
-    method: 'POST',
-    path: '/{transferId}/reversals',
-    urlParams: ['transferId'],
-  }),
-
-  cancel: stripeMethod({
-    method: 'POST',
-    path: '{transferId}/cancel',
-    urlParams: ['transferId'],
-  }),
-
-  listTransactions: stripeMethod({
-    method: 'GET',
-    path: '{transferId}/transactions',
-    urlParams: ['transferId'],
-  }),
-
-  /**
-   * Transfer: Reversal methods
-   */
-  createReversal: stripeMethod({
-    method: 'POST',
-    path: '/{transferId}/reversals',
-    urlParams: ['transferId'],
-  }),
-
-  listReversals: stripeMethod({
-    method: 'GET',
-    path: '/{transferId}/reversals',
-    urlParams: ['transferId'],
-  }),
-
-  retrieveReversal: stripeMethod({
-    method: 'GET',
-    path: '/{transferId}/reversals/{reversalId}',
-    urlParams: ['transferId', 'reversalId'],
-  }),
-
-  updateReversal: stripeMethod({
-    method: 'POST',
-    path: '/{transferId}/reversals/{reversalId}',
-    urlParams: ['transferId', 'reversalId'],
-  }),
-});
-
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'application_fees',
-
-  includeBasic: [
-    'list', 'retrieve',
-  ],
-
-  refund: stripeMethod({
-    method: 'POST',
-    path: '/{id}/refund',
-    urlParams: ['id'],
-  }),
-
-  createRefund: stripeMethod({
-    method: 'POST',
-    path: '/{feeId}/refunds',
-    urlParams: ['feeId'],
-  }),
-
-  listRefunds: stripeMethod({
-    method: 'GET',
-    path: '/{feeId}/refunds',
-    urlParams: ['feeId'],
-  }),
-
-  retrieveRefund: stripeMethod({
-    method: 'GET',
-    path: '/{feeId}/refunds/{refundId}',
-    urlParams: ['feeId', 'refundId'],
-  }),
-
-  updateRefund: stripeMethod({
-    method: 'POST',
-    path: '/{feeId}/refunds/{refundId}',
-    urlParams: ['feeId', 'refundId'],
-  }),
-});
-
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Buffer = __webpack_require__(7).Buffer;
-var utils = __webpack_require__(2);
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-var multipartDataGenerator = __webpack_require__(61);
-var Error = __webpack_require__(4);
-
-module.exports = StripeResource.extend({
-
-  overrideHost: 'uploads.stripe.com',
-
-  requestDataProcessor: function(method, data, headers, callback) {
-    data = data || {};
-
-    if (method === 'POST') {
-      return getProcessorForSourceType(data);
-    } else {
-      return callback(null, utils.stringifyRequestData(data));
-    }
-
-    function getProcessorForSourceType(data) {
-      var isStream = utils.checkForStream(data);
-      if (isStream) {
-        return streamProcessor(multipartDataGenerator);
-      } else {
-        var buffer = multipartDataGenerator(method, data, headers);
-        return callback(null, buffer);
-      }
-    }
-
-    function streamProcessor (fn) {
-      var bufferArray = [];
-      data.file.data.on('data', function(line) {
-        bufferArray.push(line);
-      }).on('end', function() {
-        var bufferData = Object.assign({}, data);
-        bufferData.file.data = Buffer.concat(bufferArray);
-        var buffer = fn(method, bufferData, headers);
-        callback(null, buffer);
-      }).on('error', function(err) {
-        var errorHandler = streamError(callback);
-        errorHandler(err, null);
-      });
-    }
-
-    function streamError(callback) {
-      var StreamProcessingError = Error.extend({
-        type: 'StreamProcessingError',
-        populate: function(raw) {
-          this.type = this.type;
-          this.message = raw.message;
-          this.detail = raw.detail;
-        }
-      });
-      return function(error) {
-        callback(
-          new StreamProcessingError({
-            message: 'An error occurred while attempting to process the file for upload.',
-            detail: error,
-          }),
-          null
-        );
-      }
-    }
-  },
-
-  path: 'files',
-
-  includeBasic: [
-    'retrieve',
-    'list',
-  ],
-
-  create: stripeMethod({
-    method: 'POST',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  }),
-});
-
-
-/***/ }),
-/* 61 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Buffer = __webpack_require__(7).Buffer;
-
-// Method for formatting HTTP body for the multipart/form-data specification
-// Mostly taken from Fermata.js
-// https://github.com/natevw/fermata/blob/5d9732a33d776ce925013a265935facd1626cc88/fermata.js#L315-L343
-function multipartDataGenerator(method, data, headers) {
-  var segno = (Math.round(Math.random() * 1e16) + Math.round(Math.random() * 1e16)).toString();
-  headers['Content-Type'] = ('multipart/form-data; boundary=' + segno);
-  var buffer = new Buffer(0);
-
-  function push(l) {
-    var prevBuffer = buffer;
-    var newBuffer = (l instanceof Buffer) ? l : new Buffer(l);
-    buffer = new Buffer(prevBuffer.length + newBuffer.length + 2);
-    prevBuffer.copy(buffer);
-    newBuffer.copy(buffer, prevBuffer.length);
-    buffer.write('\r\n', buffer.length - 2);
-  }
-
-  function q(s) {
-    return '"' + s.replace(/"|"/g, '%22').replace(/\r\n|\r|\n/g, ' ') + '"';
-  }
-
-  for (var k in data) {
-    var v = data[k];
-    push('--' + segno);
-    if (v.hasOwnProperty('data')) {
-      push('Content-Disposition: form-data; name=' + q(k) + '; filename=' + q(v.name || 'blob'));
-      push('Content-Type: ' + (v.type || 'application/octet-stream'));
-      push('');
-      push(v.data);
-    } else {
-      push('Content-Disposition: form-data; name=' + q(k));
-      push('');
-      push(v);
-    }
-  }
-  push('--' + segno + '--');
-
-  return buffer;
+      self._request(requestMethod, requestPath, data, opts.auth, options, requestCallback);
+    }).bind(this)), callback);
+  };
 }
 
-module.exports = multipartDataGenerator;
+module.exports = stripeMethod;
 
 
 /***/ }),
-/* 62 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'bitcoin/receivers',
-
-  includeBasic: [
-    'create', 'list', 'retrieve',
-    'update', 'setMetadata', 'getMetadata',
-  ],
-
-  listTransactions: stripeMethod({
-    method: 'GET',
-    path: '/{receiverId}/transactions',
-    urlParams: ['receiverId'],
-  }),
-});
-
+module.exports = __webpack_require__(29);
 
 /***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'products',
-
-  includeBasic: [
-    'list', 'retrieve', 'update', 'del',
-  ],
-
-  create: stripeMethod({
-    method: 'POST',
-    required: ['name'],
-  }),
-
-});
-
-
-/***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'skus',
-
-  includeBasic: [
-    'list', 'retrieve', 'update', 'del',
-  ],
-
-  create: stripeMethod({
-    method: 'POST',
-    required: ['currency', 'inventory', 'price', 'product'],
-  }),
-
-});
-
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'orders',
-
-  includeBasic: [
-    'list', 'retrieve', 'update',
-  ],
-
-  create: stripeMethod({
-    method: 'POST',
-    required: ['currency'],
-  }),
-
-  pay: stripeMethod({
-    method: 'POST',
-    path: '/{orderId}/pay',
-    urlParams: ['orderId'],
-  }),
-
-  returnOrder: stripeMethod({
-    method: 'POST',
-    path: '/{orderId}/returns',
-    urlParams: ['orderId'],
-  }),
-
-});
-
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-
-  path: 'order_returns',
-
-  includeBasic: [
-    'list', 'retrieve',
-  ],
-});
-
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var utils = __webpack_require__(2);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'subscriptions',
-  includeBasic: ['list', 'retrieve', 'del',],
-
-  create: stripeMethod({
-    method: 'POST',
-    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'items'),
-  }),
-
-  update: stripeMethod({
-    method: 'POST',
-    path: '{id}',
-    urlParams: ['id'],
-    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'items'),
-  }),
-
-  /**
-   * Subscription: Discount methods
-   */
-  deleteDiscount: stripeMethod({
-    method: 'DELETE',
-    path: '/{subscriptionId}/discount',
-    urlParams: ['subscriptionId'],
-  }),
-});
-
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-  path: 'subscription_items',
-  includeBasic: ['create', 'list', 'retrieve', 'update', 'del',],
-});
-
-
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-module.exports = StripeResource.extend({
-
-  path: '3d_secure',
-
-  includeBasic: [
-    'create',
-    'retrieve',
-  ],
-});
-
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-
-  path: 'sources',
-
-  includeBasic: [
-    'create', 'retrieve', 'update', 'setMetadata', 'getMetadata',
-  ],
-
-  listSourceTransactions: stripeMethod({
-    method: 'GET',
-    path: '/{id}/source_transactions',
-    urlParams: ['id'],
-  }),
-
-  verify: stripeMethod({
-    method: 'POST',
-    path: '/{id}/verify',
-    urlParams: ['id'],
-  }),
-
-});
-
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-  path: 'subscription_items',
-
-  create: stripeMethod({
-    method: 'POST',
-    path: '{subscriptionItem}/usage_records',
-    urlParams: ['subscriptionItem'],
-  }),
-});
-
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-/**
- * CustomerCard is a unique resource in that, upon instantiation,
- * requires a customerId, and therefore each of its methods only
- * require the cardId argument.
- *
- * This streamlines the API specifically for the case of accessing cards
- * on a returned customer object.
- *
- * E.g. customerObject.cards.retrieve(cardId)
- * (As opposed to the also-supported stripe.customers.retrieveCard(custId, cardId))
- */
-module.exports = StripeResource.extend({
-  path: 'customers/{customerId}/cards',
-  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
-});
-
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-/**
- * CustomerSubscription is a unique resource in that, upon instantiation,
- * requires a customerId, and therefore each of its methods only
- * require the subscriptionId argument.
- *
- * This streamlines the API specifically for the case of accessing cards
- * on a returned customer object.
- *
- * E.g. customerObject.cards.retrieve(cardId)
- * (As opposed to the also-supported stripe.customers.retrieveCard(custId, cardId))
- */
-module.exports = StripeResource.extend({
-  path: 'customers/{customerId}/subscriptions',
-  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
-
-  /**
-   * Customer: Discount methods
-   */
-
-  deleteDiscount: stripeMethod({
-    method: 'DELETE',
-    path: '/{subscriptionId}/discount',
-    urlParams: ['customerId', 'subscriptionId'],
-  }),
-});
-
-
-/***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-/**
- * ChargeRefunds is a unique resource in that, upon instantiation,
- * requires a chargeId, and therefore each of its methods only
- * require the refundId argument.
- *
- * This streamlines the API specifically for the case of accessing refunds
- * on a returned charge object.
- *
- * E.g. chargeObject.refunds.retrieve(refundId)
- * (As opposed to the also-supported stripe.charges.retrieveRefund(chargeId,
- * refundId))
- */
-module.exports = StripeResource.extend({
-  path: 'charges/{chargeId}/refunds',
-  includeBasic: ['create', 'list', 'retrieve', 'update'],
-});
-
-
-/***/ }),
-/* 75 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-/**
- * ApplicationFeeRefunds is a unique resource in that, upon instantiation,
- * requires an application fee id , and therefore each of its methods only
- * require the refundId argument.
- *
- * This streamlines the API specifically for the case of accessing refunds
- * on a returned application fee object.
- *
- * E.g. applicationFeeObject.refunds.retrieve(refundId)
- * (As opposed to the also-supported stripe.applicationFees.retrieveRefund(chargeId,
- * refundId))
- */
-module.exports = StripeResource.extend({
-  path: 'application_fees/{feeId}/refunds',
-  includeBasic: ['create', 'list', 'retrieve', 'update'],
-});
-
-
-/***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-
-/**
- * TransferReversals is a unique resource in that, upon instantiation,
- * requires a transferId, and therefore each of its methods only
- * require the reversalId argument.
- *
- * This streamlines the API specifically for the case of accessing reversals
- * on a returned transfer object.
- *
- * E.g. transferObject.reversals.retrieve(reversalId)
- * (As opposed to the also-supported stripe.transfers.retrieveReversal(transferId,
- * reversalId))
- */
-module.exports = StripeResource.extend({
-  path: 'transfers/{transferId}/reversals',
-  includeBasic: ['create', 'list', 'retrieve', 'update'],
-});
-
-
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var crypto = __webpack_require__(16);
-
-var utils = __webpack_require__(2);
-var Error = __webpack_require__(4);
-
-var Webhook = {
-  DEFAULT_TOLERANCE: 300,
-
-  constructEvent: function(payload, header, secret, tolerance) {
-    var jsonPayload = JSON.parse(payload);
-
-    this.signature.verifyHeader(payload, header, secret, tolerance || Webhook.DEFAULT_TOLERANCE);
-
-    return jsonPayload;
-  },
-};
-
-var signature = {
-  EXPECTED_SCHEME: 'v1',
-
-  _computeSignature: function(payload, secret) {
-    return crypto.createHmac('sha256', secret)
-      .update(payload, 'utf8')
-      .digest('hex');
-  },
-
-  verifyHeader: function(payload, header, secret, tolerance) {
-    var details = parseHeader(header, this.EXPECTED_SCHEME);
-
-    if (!details || details.timestamp === -1) {
-      throw new Error.StripeSignatureVerificationError({
-        message: 'Unable to extract timestamp and signatures from header',
-        detail: {
-          header: header,
-          payload: payload,
-        },
-      });
-    }
-
-    if (!details.signatures.length) {
-      throw new Error.StripeSignatureVerificationError({
-        message: 'No signatures found with expected scheme',
-        detail: {
-          header: header,
-          payload: payload,
-        },
-      });
-    }
-
-    var expectedSignature = this._computeSignature(details.timestamp + '.' + payload, secret);
-
-    var signatureFound = !!details.signatures
-      .filter(utils.secureCompare.bind(utils, expectedSignature))
-      .length;
-
-    if (!signatureFound) {
-      throw new Error.StripeSignatureVerificationError({
-        message: 'No signatures found matching the expected signature for payload.' +
-          ' Are you passing the raw request body you received from Stripe?' +
-          ' https://github.com/stripe/stripe-node#webhook-signing',
-        detail: {
-          header: header,
-          payload: payload,
-        },
-      });
-    }
-
-    var timestampAge = Math.floor(Date.now() / 1000) - details.timestamp;
-
-    if (tolerance > 0 && timestampAge > tolerance) {
-      throw new Error.StripeSignatureVerificationError({
-        message: 'Timestamp outside the tolerance zone',
-        detail: {
-          header: header,
-          payload: payload,
-        },
-      });
-    }
-
-    return true;
-  },
-};
-
-function parseHeader(header, scheme) {
-  if (typeof header !== 'string') {
-    return null;
-  }
-
-  return header.split(',').reduce(function(accum, item) {
-    var kv = item.split('=');
-
-    if (kv[0] === 't') {
-      accum.timestamp = kv[1];
-    }
-
-    if (kv[0] === scheme) {
-      accum.signatures.push(kv[1]);
-    }
-
-    return accum;
-  }, {
-    timestamp: -1,
-    signatures: [],
-  });
-}
-
-Webhook.signature = signature;
-
-module.exports = Webhook;
-
-
-/***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(79);
-
-/***/ }),
-/* 79 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var bind = __webpack_require__(19);
-var Axios = __webpack_require__(81);
-var defaults = __webpack_require__(8);
+var bind = __webpack_require__(8);
+var Axios = __webpack_require__(31);
+var defaults = __webpack_require__(4);
 
 /**
  * Create an instance of Axios
@@ -5067,15 +2733,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(27);
-axios.CancelToken = __webpack_require__(105);
-axios.isCancel = __webpack_require__(26);
+axios.Cancel = __webpack_require__(16);
+axios.CancelToken = __webpack_require__(55);
+axios.isCancel = __webpack_require__(15);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(106);
+axios.spread = __webpack_require__(56);
 
 module.exports = axios;
 
@@ -5084,7 +2750,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 80 */
+/* 30 */
 /***/ (function(module, exports) {
 
 /*!
@@ -5111,16 +2777,16 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 81 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(8);
+var defaults = __webpack_require__(4);
 var utils = __webpack_require__(1);
-var InterceptorManager = __webpack_require__(100);
-var dispatchRequest = __webpack_require__(101);
+var InterceptorManager = __webpack_require__(50);
+var dispatchRequest = __webpack_require__(51);
 
 /**
  * Create a new instance of Axios
@@ -5197,7 +2863,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 82 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5216,19 +2882,19 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 83 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(20);
-var buildURL = __webpack_require__(22);
-var parseHeaders = __webpack_require__(84);
-var isURLSameOrigin = __webpack_require__(85);
-var createError = __webpack_require__(9);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(86);
+var settle = __webpack_require__(9);
+var buildURL = __webpack_require__(11);
+var parseHeaders = __webpack_require__(34);
+var isURLSameOrigin = __webpack_require__(35);
+var createError = __webpack_require__(5);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(36);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -5325,7 +2991,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(87);
+      var cookies = __webpack_require__(37);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -5403,7 +3069,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 84 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5463,7 +3129,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 85 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5538,7 +3204,7 @@ module.exports = (
 
 
 /***/ }),
-/* 86 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5581,7 +3247,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 87 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5641,24 +3307,24 @@ module.exports = (
 
 
 /***/ }),
-/* 88 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(20);
-var buildURL = __webpack_require__(22);
+var settle = __webpack_require__(9);
+var buildURL = __webpack_require__(11);
 var http = __webpack_require__(3);
-var https = __webpack_require__(5);
-var httpFollow = __webpack_require__(23).http;
-var httpsFollow = __webpack_require__(23).https;
-var url = __webpack_require__(24);
-var zlib = __webpack_require__(98);
-var pkg = __webpack_require__(99);
-var createError = __webpack_require__(9);
-var enhanceError = __webpack_require__(21);
+var https = __webpack_require__(6);
+var httpFollow = __webpack_require__(12).http;
+var httpsFollow = __webpack_require__(12).https;
+var url = __webpack_require__(13);
+var zlib = __webpack_require__(48);
+var pkg = __webpack_require__(49);
+var createError = __webpack_require__(5);
+var enhanceError = __webpack_require__(10);
 
 /*eslint consistent-return:0*/
 module.exports = function httpAdapter(config) {
@@ -5885,19 +3551,19 @@ module.exports = function httpAdapter(config) {
 
 
 /***/ }),
-/* 89 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
-/* 90 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("stream");
 
 /***/ }),
-/* 91 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -5906,14 +3572,14 @@ module.exports = require("stream");
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer') {
-  module.exports = __webpack_require__(92);
+  module.exports = __webpack_require__(42);
 } else {
-  module.exports = __webpack_require__(94);
+  module.exports = __webpack_require__(44);
 }
 
 
 /***/ }),
-/* 92 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -5922,7 +3588,7 @@ if (typeof process === 'undefined' || process.type === 'renderer') {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(25);
+exports = module.exports = __webpack_require__(14);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -6114,7 +3780,7 @@ function localstorage() {
 
 
 /***/ }),
-/* 93 */
+/* 43 */
 /***/ (function(module, exports) {
 
 /**
@@ -6272,15 +3938,15 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 94 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var tty = __webpack_require__(95);
-var util = __webpack_require__(96);
+var tty = __webpack_require__(45);
+var util = __webpack_require__(46);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -6288,7 +3954,7 @@ var util = __webpack_require__(96);
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(25);
+exports = module.exports = __webpack_require__(14);
 exports.init = init;
 exports.log = log;
 exports.formatArgs = formatArgs;
@@ -6303,7 +3969,7 @@ exports.useColors = useColors;
 exports.colors = [ 6, 2, 3, 4, 5, 1 ];
 
 try {
-  var supportsColor = __webpack_require__(97);
+  var supportsColor = __webpack_require__(47);
   if (supportsColor && supportsColor.level >= 2) {
     exports.colors = [
       20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68,
@@ -6464,19 +4130,19 @@ exports.enable(load());
 
 
 /***/ }),
-/* 95 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 96 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
-/* 97 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6533,19 +4199,19 @@ module.exports = (function () {
 
 
 /***/ }),
-/* 98 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ }),
-/* 99 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = {"_args":[["axios@0.18.0","/Users/nikiesfandiari/Desktop/lipslut"]],"_from":"axios@0.18.0","_id":"axios@0.18.0","_inBundle":false,"_integrity":"sha1-MtU+SFHv3AoRmTts0AB4nXDAUQI=","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.18.0","name":"axios","escapedName":"axios","rawSpec":"0.18.0","saveSpec":null,"fetchSpec":"0.18.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.18.0.tgz","_spec":"0.18.0","_where":"/Users/nikiesfandiari/Desktop/lipslut","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.3.0","is-buffer":"^1.1.5"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"bundlesize":"^0.5.7","coveralls":"^2.11.9","es6-promise":"^4.0.5","grunt":"^1.0.1","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.0.0","grunt-contrib-nodeunit":"^1.0.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^19.0.0","grunt-karma":"^2.0.0","grunt-ts":"^6.0.0-beta.3","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.0.0","karma-coverage":"^1.0.0","karma-firefox-launcher":"^1.0.0","karma-jasmine":"^1.0.2","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.1.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","sinon":"^1.17.4","typescript":"^2.0.3","url-search-params":"^0.6.1","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"homepage":"https://github.com/axios/axios","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test && bundlesize","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","version":"0.18.0"}
 
 /***/ }),
-/* 100 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6604,18 +4270,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 101 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var transformData = __webpack_require__(102);
-var isCancel = __webpack_require__(26);
-var defaults = __webpack_require__(8);
-var isAbsoluteURL = __webpack_require__(103);
-var combineURLs = __webpack_require__(104);
+var transformData = __webpack_require__(52);
+var isCancel = __webpack_require__(15);
+var defaults = __webpack_require__(4);
+var isAbsoluteURL = __webpack_require__(53);
+var combineURLs = __webpack_require__(54);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -6697,7 +4363,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 102 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6724,7 +4390,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 103 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6745,7 +4411,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 104 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6766,13 +4432,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 105 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(27);
+var Cancel = __webpack_require__(16);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -6830,7 +4496,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 106 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6864,45 +4530,2382 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Stripe.DEFAULT_HOST = 'api.stripe.com';
+Stripe.DEFAULT_PORT = '443';
+Stripe.DEFAULT_BASE_PATH = '/v1/';
+Stripe.DEFAULT_API_VERSION = null;
+
+// Use node's default timeout:
+Stripe.DEFAULT_TIMEOUT = __webpack_require__(3).createServer().timeout;
+
+Stripe.PACKAGE_VERSION = __webpack_require__(58).version;
+
+Stripe.USER_AGENT = {
+  bindings_version: Stripe.PACKAGE_VERSION,
+  lang: 'node',
+  lang_version: process.version,
+  platform: process.platform,
+  publisher: 'stripe',
+  uname: null,
+};
+
+Stripe.USER_AGENT_SERIALIZED = null;
+
+var APP_INFO_PROPERTIES = ['name', 'version', 'url'];
+
+var EventEmitter = __webpack_require__(21).EventEmitter;
+var exec = __webpack_require__(59).exec;
+
+var resources = {
+  // Support Accounts for consistency, Account for backwards compat
+  Account: __webpack_require__(22),
+  Accounts: __webpack_require__(22),
+  ApplePayDomains: __webpack_require__(65),
+  Balance: __webpack_require__(66),
+  Charges: __webpack_require__(67),
+  CountrySpecs: __webpack_require__(68),
+  Coupons: __webpack_require__(69),
+  Customers: __webpack_require__(70),
+  Disputes: __webpack_require__(71),
+  EphemeralKeys: __webpack_require__(72),
+  Events: __webpack_require__(73),
+  ExchangeRates: __webpack_require__(74),
+  Invoices: __webpack_require__(75),
+  InvoiceItems: __webpack_require__(76),
+  IssuerFraudRecords: __webpack_require__(77),
+  LoginLinks: __webpack_require__(78),
+  PaymentIntents: __webpack_require__(79),
+  Payouts: __webpack_require__(80),
+  Plans: __webpack_require__(81),
+  RecipientCards: __webpack_require__(82),
+  Recipients: __webpack_require__(83),
+  Refunds: __webpack_require__(84),
+  Tokens: __webpack_require__(85),
+  Topups: __webpack_require__(86),
+  Transfers: __webpack_require__(87),
+  ApplicationFees: __webpack_require__(88),
+  FileUploads: __webpack_require__(89),
+  BitcoinReceivers: __webpack_require__(91),
+  Products: __webpack_require__(92),
+  Skus: __webpack_require__(93),
+  Orders: __webpack_require__(94),
+  OrderReturns: __webpack_require__(95),
+  Subscriptions: __webpack_require__(96),
+  SubscriptionItems: __webpack_require__(97),
+  ThreeDSecure: __webpack_require__(98),
+  Sources: __webpack_require__(99),
+  UsageRecords: __webpack_require__(100),
+
+  // The following rely on pre-filled IDs:
+  CustomerCards: __webpack_require__(101),
+  CustomerSubscriptions: __webpack_require__(102),
+  ChargeRefunds: __webpack_require__(103),
+  ApplicationFeeRefunds: __webpack_require__(104),
+  TransferReversals: __webpack_require__(105),
+
+};
+
+Stripe.StripeResource = __webpack_require__(0);
+Stripe.resources = resources;
+
+function Stripe(key, version) {
+  if (!(this instanceof Stripe)) {
+    return new Stripe(key, version);
+  }
+
+  Object.defineProperty(this, '_emitter', {
+    value: new EventEmitter(),
+    enumerable: false,
+    configurable: false,
+    writeable: false,
+  });
+
+  this.on = this._emitter.on.bind(this._emitter);
+  this.off = this._emitter.removeListener.bind(this._emitter);
+
+  this._api = {
+    auth: null,
+    host: Stripe.DEFAULT_HOST,
+    port: Stripe.DEFAULT_PORT,
+    basePath: Stripe.DEFAULT_BASE_PATH,
+    version: Stripe.DEFAULT_API_VERSION,
+    timeout: Stripe.DEFAULT_TIMEOUT,
+    agent: null,
+    dev: false,
+  };
+
+  this._prepResources();
+  this.setApiKey(key);
+  this.setApiVersion(version);
+
+  this.errors = __webpack_require__(7);
+  this.webhooks = __webpack_require__(106);
+}
+
+Stripe.prototype = {
+
+  setHost: function(host, port, protocol) {
+    this._setApiField('host', host);
+    if (port) {
+      this.setPort(port);
+    }
+    if (protocol) {
+      this.setProtocol(protocol);
+    }
+  },
+
+  setProtocol: function(protocol) {
+    this._setApiField('protocol', protocol.toLowerCase());
+  },
+
+  setPort: function(port) {
+    this._setApiField('port', port);
+  },
+
+  setApiVersion: function(version) {
+    if (version) {
+      this._setApiField('version', version);
+    }
+  },
+
+  setApiKey: function(key) {
+    if (key) {
+      this._setApiField(
+        'auth',
+        'Bearer ' + key
+      );
+    }
+  },
+
+  setTimeout: function(timeout) {
+    this._setApiField(
+      'timeout',
+      timeout == null ? Stripe.DEFAULT_TIMEOUT : timeout
+    );
+  },
+
+  setAppInfo: function(info) {
+    if (info && typeof info !== 'object') {
+      throw new Error('AppInfo must be an object.');
+    }
+
+    if (info && !info.name) {
+      throw new Error('AppInfo.name is required');
+    }
+
+    info = info || {};
+
+    var appInfo = APP_INFO_PROPERTIES.reduce(function(accum, prop) {
+      if (typeof info[prop] == 'string') {
+        accum = accum || {};
+
+        accum[prop] = info[prop];
+      }
+
+      return accum;
+    }, undefined);
+
+    // Kill the cached UA string because it may no longer be valid
+    Stripe.USER_AGENT_SERIALIZED = undefined;
+
+    this._appInfo = appInfo;
+  },
+
+  setHttpAgent: function(agent) {
+    this._setApiField('agent', agent);
+  },
+
+  _setApiField: function(key, value) {
+    this._api[key] = value;
+  },
+
+  getApiField: function(key) {
+    return this._api[key];
+  },
+
+  getConstant: function(c) {
+    return Stripe[c];
+  },
+
+  // Gets a JSON version of a User-Agent and uses a cached version for a slight
+  // speed advantage.
+  getClientUserAgent: function(cb) {
+    if (Stripe.USER_AGENT_SERIALIZED) {
+      return cb(Stripe.USER_AGENT_SERIALIZED);
+    }
+    this.getClientUserAgentSeeded(Stripe.USER_AGENT, function(cua) {
+      Stripe.USER_AGENT_SERIALIZED = cua;
+      cb(Stripe.USER_AGENT_SERIALIZED);
+    })
+  },
+
+  // Gets a JSON version of a User-Agent by encoding a seeded object and
+  // fetching a uname from the system.
+  getClientUserAgentSeeded: function(seed, cb) {
+    var self = this;
+
+    exec('uname -a', function(err, uname) {
+      var userAgent = {};
+      for (var field in seed) {
+        userAgent[field] = encodeURIComponent(seed[field]);
+      }
+
+      // URI-encode in case there are unusual characters in the system's uname.
+      userAgent.uname = encodeURIComponent(uname) || 'UNKNOWN';
+
+      if (self._appInfo) {
+        userAgent.application = self._appInfo;
+      }
+
+      cb(JSON.stringify(userAgent));
+    });
+  },
+
+  getAppInfoAsString: function() {
+    if (!this._appInfo) {
+      return '';
+    }
+
+    var formatted = this._appInfo.name;
+
+    if (this._appInfo.version) {
+      formatted += '/' + this._appInfo.version;
+    }
+
+    if (this._appInfo.url) {
+      formatted += ' (' + this._appInfo.url + ')';
+    }
+
+    return formatted;
+  },
+
+  _prepResources: function() {
+    for (var name in resources) {
+      this[
+        name[0].toLowerCase() + name.substring(1)
+      ] = new resources[name](this);
+    }
+  },
+
+};
+
+module.exports = Stripe;
+// expose constructor as a named property to enable mocking with Sinon.JS
+module.exports.Stripe = Stripe;
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports) {
+
+module.exports = {"_args":[["stripe@6.3.0","/Users/nikiesfandiari/Desktop/lipslut"]],"_from":"stripe@6.3.0","_id":"stripe@6.3.0","_inBundle":false,"_integrity":"sha512-f2GtsoqGLdAZe1mrtFBthpbvM9uHr6IEusyqZymJgj/Nx0xvHkzRkO/h2sePbk/4lhCjfprr4+hbhui7RMPCsw==","_location":"/stripe","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"stripe@6.3.0","name":"stripe","escapedName":"stripe","rawSpec":"6.3.0","saveSpec":null,"fetchSpec":"6.3.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/stripe/-/stripe-6.3.0.tgz","_spec":"6.3.0","_where":"/Users/nikiesfandiari/Desktop/lipslut","author":{"name":"Stripe","email":"support@stripe.com","url":"https://stripe.com/"},"bugs":{"url":"https://github.com/stripe/stripe-node/issues"},"bugs:":"https://github.com/stripe/stripe-node/issues","contributors":[{"name":"Ask Bjørn Hansen","email":"ask@develooper.com","url":"http://www.askask.com/"},{"name":"Michelle Bu","email":"michelle@stripe.com"},{"name":"Alex Sexton","email":"alex@stripe.com"},{"name":"James Padolsey"}],"dependencies":{"lodash.isplainobject":"^4.0.6","qs":"~6.5.1","safe-buffer":"^5.1.1"},"description":"Stripe API wrapper","devDependencies":{"chai":"~4.1.2","chai-as-promised":"~7.1.1","coveralls":"^3.0.0","eslint":"^4.19.1","eslint-plugin-chai-friendly":"^0.4.0","mocha":"~5.0.5","nyc":"^11.3.0"},"engines":{"node":">=4"},"homepage":"https://github.com/stripe/stripe-node","keywords":["stripe","payment processing","credit cards","api"],"license":"MIT","main":"lib/stripe.js","name":"stripe","repository":{"type":"git","url":"git://github.com/stripe/stripe-node.git"},"scripts":{"clean":"rm -rf ./.nyc_output ./node_modules/.cache ./coverage","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","lint":"eslint .","mocha":"nyc mocha","report":"nyc -r text -r lcov report","test":"npm run lint && npm run mocha"},"version":"6.3.0"}
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports) {
+
+module.exports = require("child_process");
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports) {
+
+module.exports = require("buffer");
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(62);
+var parse = __webpack_require__(63);
+var formats = __webpack_require__(24);
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(23);
+var formats = __webpack_require__(24);
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
+        return prefix + '[]';
+    },
+    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
+        return prefix;
+    }
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaults = {
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var stringify = function stringify( // eslint-disable-line func-name-matching
+    object,
+    prefix,
+    generateArrayPrefix,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    formatter,
+    encodeValuesOnly
+) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (Array.isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        if (Array.isArray(obj)) {
+            values = values.concat(stringify(
+                obj[key],
+                generateArrayPrefix(prefix, key),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        } else {
+            values = values.concat(stringify(
+                obj[key],
+                prefix + (allowDots ? '.' + key : '[' + key + ']'),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        }
+    }
+
+    return values;
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
+    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
+    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
+    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
+    var sort = typeof options.sort === 'function' ? options.sort : null;
+    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
+    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
+    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
+    if (typeof options.format === 'undefined') {
+        options.format = formats['default'];
+    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
+        throw new TypeError('Unknown format option provided.');
+    }
+    var formatter = formats.formatters[options.format];
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (Array.isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (options.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = options.arrayFormat;
+    } else if ('indices' in options) {
+        arrayFormat = options.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (sort) {
+        objKeys.sort(sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        keys = keys.concat(stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encode ? encoder : null,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            formatter,
+            encodeValuesOnly
+        ));
+    }
+
+    var joined = keys.join(delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(23);
+
+var has = Object.prototype.hasOwnProperty;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    parameterLimit: 1000,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+
+    for (var i = 0; i < parts.length; ++i) {
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder);
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder);
+            val = options.decoder(part.slice(pos + 1), defaults.decoder);
+        }
+        if (has.call(obj, key)) {
+            obj[key] = [].concat(obj[key]).concat(val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options) {
+    var leaf = val;
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]') {
+            obj = [];
+            obj = obj.concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj;
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys
+        // that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while ((segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options);
+};
+
+module.exports = function (str, opts) {
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
+    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
+    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
+    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
+    options.parseArrays = options.parseArrays !== false;
+    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
+    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
+    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
+    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
+    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
+    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options);
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isPlainObject = __webpack_require__(26);
+var stripeMethod = __webpack_require__(27);
+
+module.exports = {
+
+  create: stripeMethod({
+    method: 'POST',
+  }),
+
+  list: stripeMethod({
+    method: 'GET',
+  }),
+
+  retrieve: stripeMethod({
+    method: 'GET',
+    path: '/{id}',
+    urlParams: ['id'],
+  }),
+
+  update: stripeMethod({
+    method: 'POST',
+    path: '{id}',
+    urlParams: ['id'],
+  }),
+
+  // Avoid 'delete' keyword in JS
+  del: stripeMethod({
+    method: 'DELETE',
+    path: '{id}',
+    urlParams: ['id'],
+  }),
+
+  setMetadata: function(id, key, value, auth, cb) {
+    var self = this;
+    var data = key;
+    var isObject = isPlainObject(key);
+    // We assume null for an empty object
+    var isNull = data === null || (isObject && !Object.keys(data).length);
+
+    // Allow optional passing of auth & cb:
+    if ((isNull || isObject) && typeof value == 'string') {
+      auth = value;
+    } else if (typeof auth != 'string') {
+      if (!cb && typeof auth == 'function') {
+        cb = auth;
+      }
+      auth = null;
+    }
+
+    var urlData = this.createUrlData();
+    var path = this.createFullPath('/' + id, urlData);
+
+    return this.wrapTimeout(new Promise((function(resolve, reject) {
+      if (isNull) {
+        // Reset metadata:
+        sendMetadata(null, auth);
+      } else if (!isObject) {
+        // Set individual metadata property:
+        var metadata = {};
+        metadata[key] = value;
+        sendMetadata(metadata, auth);
+      } else {
+        // Set entire metadata object after resetting it:
+        this._request('POST', path, {
+          metadata: null,
+        }, auth, {}, function(err, response) {
+          if (err) {
+            return reject(err);
+          }
+          sendMetadata(data, auth);
+        });
+      }
+
+      function sendMetadata(metadata, auth) {
+        self._request('POST', path, {
+          metadata: metadata,
+        }, auth, {}, function(err, response) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(response.metadata);
+          }
+        });
+      }
+    }).bind(this)), cb);
+  },
+
+  getMetadata: function(id, auth, cb) {
+    if (!cb && typeof auth == 'function') {
+      cb = auth;
+      auth = null;
+    }
+
+    var urlData = this.createUrlData();
+    var path = this.createFullPath('/' + id, urlData);
+
+    return this.wrapTimeout(new Promise((function(resolve, reject) {
+      this._request('GET', path, {}, auth, {}, function(err, response) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(response.metadata);
+        }
+      });
+    }).bind(this)), cb);
+  },
+
+};
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'apple_pay/domains',
+  includeBasic: ['create', 'list', 'retrieve', 'del'],
+});
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'balance',
+
+  retrieve: stripeMethod({
+    method: 'GET',
+  }),
+
+  listTransactions: stripeMethod({
+    method: 'GET',
+    path: 'history',
+  }),
+
+  retrieveTransaction: stripeMethod({
+    method: 'GET',
+    path: 'history/{transactionId}',
+    urlParams: ['transactionId'],
+  }),
+
+});
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'charges',
+
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update',
+    'setMetadata', 'getMetadata',
+  ],
+
+  capture: stripeMethod({
+    method: 'POST',
+    path: '/{id}/capture',
+    urlParams: ['id'],
+  }),
+
+  refund: stripeMethod({
+    method: 'POST',
+    path: '/{id}/refund',
+    urlParams: ['id'],
+  }),
+
+  updateDispute: stripeMethod({
+    method: 'POST',
+    path: '/{id}/dispute',
+    urlParams: ['id'],
+  }),
+
+  closeDispute: stripeMethod({
+    method: 'POST',
+    path: '/{id}/dispute/close',
+    urlParams: ['id'],
+  }),
+
+  /**
+   * Charge: Refund methods
+   * (Deprecated)
+   */
+  createRefund: stripeMethod({
+    method: 'POST',
+    path: '/{chargeId}/refunds',
+    urlParams: ['chargeId'],
+  }),
+
+  listRefunds: stripeMethod({
+    method: 'GET',
+    path: '/{chargeId}/refunds',
+    urlParams: ['chargeId'],
+  }),
+
+  retrieveRefund: stripeMethod({
+    method: 'GET',
+    path: '/{chargeId}/refunds/{refundId}',
+    urlParams: ['chargeId', 'refundId'],
+  }),
+
+  updateRefund: stripeMethod({
+    method: 'POST',
+    path: '/{chargeId}/refunds/{refundId}',
+    urlParams: ['chargeId', 'refundId'],
+  }),
+
+  markAsSafe: function(chargeId) {
+    return this.update(chargeId, {'fraud_details': {'user_report': 'safe'}})
+  },
+
+  markAsFraudulent: function(chargeId) {
+    return this.update(chargeId, {'fraud_details': {'user_report': 'fraudulent'}})
+  },
+});
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: 'country_specs',
+
+  includeBasic: [
+    'list', 'retrieve',
+  ],
+});
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'coupons',
+  includeBasic: ['create', 'list', 'update', 'retrieve', 'del'],
+});
+
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var utils = __webpack_require__(2);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'customers',
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update', 'del',
+    'setMetadata', 'getMetadata',
+  ],
+
+  /**
+   * Customer: Subscription methods
+   */
+
+  _legacyUpdateSubscription: stripeMethod({
+    method: 'POST',
+    path: '{customerId}/subscription',
+    urlParams: ['customerId'],
+  }),
+
+  _newstyleUpdateSubscription: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/subscriptions/{subscriptionId}',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+
+  _legacyCancelSubscription: stripeMethod({
+    method: 'DELETE',
+    path: '{customerId}/subscription',
+    urlParams: ['customerId'],
+  }),
+
+  _newstyleCancelSubscription: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/subscriptions/{subscriptionId}',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+
+  createSubscription: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/subscriptions',
+    urlParams: ['customerId'],
+  }),
+
+  listSubscriptions: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/subscriptions',
+    urlParams: ['customerId'],
+  }),
+
+  retrieveSubscription: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/subscriptions/{subscriptionId}',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+
+  updateSubscription: function(customerId, subscriptionId) {
+    if (typeof subscriptionId == 'string') {
+      return this._newstyleUpdateSubscription.apply(this, arguments);
+    } else {
+      return this._legacyUpdateSubscription.apply(this, arguments);
+    }
+  },
+
+  cancelSubscription: function(customerId, subscriptionId) {
+    // This is a hack, but it lets us maximize our overloading.
+    // Precarious assumption: If it's not an auth key it _could_ be a sub id:
+    if (typeof subscriptionId == 'string' && !utils.isAuthKey(subscriptionId)) {
+      return this._newstyleCancelSubscription.apply(this, arguments);
+    } else {
+      return this._legacyCancelSubscription.apply(this, arguments);
+    }
+  },
+
+  /**
+   * Customer: Card methods
+   */
+
+  createCard: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/cards',
+    urlParams: ['customerId'],
+  }),
+
+  listCards: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/cards',
+    urlParams: ['customerId'],
+  }),
+
+  retrieveCard: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/cards/{cardId}',
+    urlParams: ['customerId', 'cardId'],
+  }),
+
+  updateCard: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/cards/{cardId}',
+    urlParams: ['customerId', 'cardId'],
+  }),
+
+  deleteCard: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/cards/{cardId}',
+    urlParams: ['customerId', 'cardId'],
+  }),
+
+  /**
+   * Customer: Source methods
+   */
+
+  createSource: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/sources',
+    urlParams: ['customerId'],
+  }),
+
+  listSources: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/sources',
+    urlParams: ['customerId'],
+  }),
+
+  retrieveSource: stripeMethod({
+    method: 'GET',
+    path: '/{customerId}/sources/{sourceId}',
+    urlParams: ['customerId', 'sourceId'],
+  }),
+
+  updateSource: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/sources/{sourceId}',
+    urlParams: ['customerId', 'sourceId'],
+  }),
+
+  deleteSource: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/sources/{sourceId}',
+    urlParams: ['customerId', 'sourceId'],
+  }),
+
+  verifySource: stripeMethod({
+    method: 'POST',
+    path: '/{customerId}/sources/{sourceId}/verify',
+    urlParams: ['customerId', 'sourceId'],
+  }),
+
+  /**
+   * Customer: Discount methods
+   */
+
+  deleteDiscount: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/discount',
+    urlParams: ['customerId'],
+  }),
+
+  deleteSubscriptionDiscount: stripeMethod({
+    method: 'DELETE',
+    path: '/{customerId}/subscriptions/{subscriptionId}/discount',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+
+});
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'disputes',
+
+  includeBasic: [
+    'list', 'retrieve', 'update', 'setMetadata', 'getMetadata',
+  ],
+
+  close: stripeMethod({
+    method: 'POST',
+    path: '/{id}/close',
+    urlParams: ['id'],
+  }),
+
+});
+
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  create: stripeMethod({
+    method: 'POST',
+    validator: function(data, options) {
+      if (!options.headers || !options.headers['Stripe-Version']) {
+        throw new Error('stripe_version must be specified to create an ephemeral key');
+      }
+    },
+  }),
+
+  path: 'ephemeral_keys',
+
+  includeBasic: ['del'],
+});
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'events',
+  includeBasic: ['list', 'retrieve'],
+});
+
+
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: 'exchange_rates',
+
+  includeBasic: [
+    'list', 'retrieve',
+  ],
+});
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+var utils = __webpack_require__(2);
+
+module.exports = StripeResource.extend({
+
+  path: 'invoices',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+
+  retrieveLines: stripeMethod({
+    method: 'GET',
+    path: '{invoiceId}/lines',
+    urlParams: ['invoiceId'],
+  }),
+
+  pay: stripeMethod({
+    method: 'POST',
+    path: '{invoiceId}/pay',
+    urlParams: ['invoiceId'],
+  }),
+
+  retrieveUpcoming: stripeMethod({
+    method: 'GET',
+    path: function(urlData) {
+      var url = 'upcoming?customer=' + urlData.customerId;
+      // Legacy support where second argument is the subscription id
+      if (urlData.invoiceOptions && typeof urlData.invoiceOptions === 'string') {
+        return url + '&subscription=' + urlData.invoiceOptions;
+      } else if (urlData.invoiceOptions && typeof urlData.invoiceOptions === 'object') {
+        if (urlData.invoiceOptions.subscription_items !== undefined) {
+          urlData.invoiceOptions.subscription_items = utils.arrayToObject(urlData.invoiceOptions.subscription_items);
+        }
+        return url + '&' + utils.stringifyRequestData(urlData.invoiceOptions);
+      }
+      return url;
+    },
+    urlParams: ['customerId', 'optional!invoiceOptions'],
+    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'subscription_items'),
+  }),
+
+});
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'invoiceitems',
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update', 'del',
+    'setMetadata', 'getMetadata',
+  ],
+});
+
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+  path: 'issuer_fraud_records',
+
+  includeBasic: ['list', 'retrieve'],
+});
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+  path: 'accounts/{accountId}/login_links',
+  includeBasic: ['create'],
+});
+
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  path: 'payment_intents',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+
+  cancel: stripeMethod({
+    method: 'POST',
+    path: '{paymentIntentId}/cancel',
+    urlParams: ['paymentIntentId'],
+  }),
+
+  capture: stripeMethod({
+    method: 'POST',
+    path: '{paymentIntentId}/capture',
+    urlParams: ['paymentIntentId'],
+  }),
+
+  confirm: stripeMethod({
+    method: 'POST',
+    path: '{paymentIntentId}/confirm',
+    urlParams: ['paymentIntentId'],
+  }),
+});
+
+
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'payouts',
+
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update',
+    'setMetadata', 'getMetadata',
+  ],
+
+  cancel: stripeMethod({
+    method: 'POST',
+    path: '{payoutId}/cancel',
+    urlParams: ['payoutId'],
+  }),
+
+  listTransactions: stripeMethod({
+    method: 'GET',
+    path: '{payoutId}/transactions',
+    urlParams: ['payoutId'],
+  }),
+});
+
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'plans',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
+});
+
+
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * RecipientCard is similar to CustomerCard in that, upon instantiation, it
+ * requires a recipientId, and therefore each of its methods only
+ * require the cardId argument.
+ *
+ * This streamlines the API specifically for the case of accessing cards
+ * on a returned recipient object.
+ *
+ * E.g. recipientObject.cards.retrieve(cardId)
+ * (As opposed to the also-supported stripe.recipients.retrieveCard(recipientId, cardId))
+ */
+module.exports = StripeResource.extend({
+  path: 'recipients/{recipientId}/cards',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
+});
+
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'recipients',
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update', 'del',
+    'setMetadata', 'getMetadata',
+  ],
+
+  createCard: stripeMethod({
+    method: 'POST',
+    path: '/{recipientId}/cards',
+    urlParams: ['recipientId'],
+  }),
+
+  listCards: stripeMethod({
+    method: 'GET',
+    path: '/{recipientId}/cards',
+    urlParams: ['recipientId'],
+  }),
+
+  retrieveCard: stripeMethod({
+    method: 'GET',
+    path: '/{recipientId}/cards/{cardId}',
+    urlParams: ['recipientId', 'cardId'],
+  }),
+
+  updateCard: stripeMethod({
+    method: 'POST',
+    path: '/{recipientId}/cards/{cardId}',
+    urlParams: ['recipientId', 'cardId'],
+  }),
+
+  deleteCard: stripeMethod({
+    method: 'DELETE',
+    path: '/{recipientId}/cards/{cardId}',
+    urlParams: ['recipientId', 'cardId'],
+  }),
+
+});
+
+
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: 'refunds',
+
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update',
+  ],
+});
+
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(0).extend({
+  path: 'tokens',
+  includeBasic: ['create', 'retrieve'],
+});
+
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+  path: 'topups',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'setMetadata', 'getMetadata'],
+});
+
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'transfers',
+
+  includeBasic: [
+    'create', 'list', 'retrieve', 'update',
+    'setMetadata', 'getMetadata',
+  ],
+
+  reverse: stripeMethod({
+    method: 'POST',
+    path: '/{transferId}/reversals',
+    urlParams: ['transferId'],
+  }),
+
+  cancel: stripeMethod({
+    method: 'POST',
+    path: '{transferId}/cancel',
+    urlParams: ['transferId'],
+  }),
+
+  listTransactions: stripeMethod({
+    method: 'GET',
+    path: '{transferId}/transactions',
+    urlParams: ['transferId'],
+  }),
+
+  /**
+   * Transfer: Reversal methods
+   */
+  createReversal: stripeMethod({
+    method: 'POST',
+    path: '/{transferId}/reversals',
+    urlParams: ['transferId'],
+  }),
+
+  listReversals: stripeMethod({
+    method: 'GET',
+    path: '/{transferId}/reversals',
+    urlParams: ['transferId'],
+  }),
+
+  retrieveReversal: stripeMethod({
+    method: 'GET',
+    path: '/{transferId}/reversals/{reversalId}',
+    urlParams: ['transferId', 'reversalId'],
+  }),
+
+  updateReversal: stripeMethod({
+    method: 'POST',
+    path: '/{transferId}/reversals/{reversalId}',
+    urlParams: ['transferId', 'reversalId'],
+  }),
+});
+
+
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'application_fees',
+
+  includeBasic: [
+    'list', 'retrieve',
+  ],
+
+  refund: stripeMethod({
+    method: 'POST',
+    path: '/{id}/refund',
+    urlParams: ['id'],
+  }),
+
+  createRefund: stripeMethod({
+    method: 'POST',
+    path: '/{feeId}/refunds',
+    urlParams: ['feeId'],
+  }),
+
+  listRefunds: stripeMethod({
+    method: 'GET',
+    path: '/{feeId}/refunds',
+    urlParams: ['feeId'],
+  }),
+
+  retrieveRefund: stripeMethod({
+    method: 'GET',
+    path: '/{feeId}/refunds/{refundId}',
+    urlParams: ['feeId', 'refundId'],
+  }),
+
+  updateRefund: stripeMethod({
+    method: 'POST',
+    path: '/{feeId}/refunds/{refundId}',
+    urlParams: ['feeId', 'refundId'],
+  }),
+});
+
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Buffer = __webpack_require__(18).Buffer;
+var utils = __webpack_require__(2);
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+var multipartDataGenerator = __webpack_require__(90);
+var Error = __webpack_require__(7);
+
+module.exports = StripeResource.extend({
+
+  overrideHost: 'uploads.stripe.com',
+
+  requestDataProcessor: function(method, data, headers, callback) {
+    data = data || {};
+
+    if (method === 'POST') {
+      return getProcessorForSourceType(data);
+    } else {
+      return callback(null, utils.stringifyRequestData(data));
+    }
+
+    function getProcessorForSourceType(data) {
+      var isStream = utils.checkForStream(data);
+      if (isStream) {
+        return streamProcessor(multipartDataGenerator);
+      } else {
+        var buffer = multipartDataGenerator(method, data, headers);
+        return callback(null, buffer);
+      }
+    }
+
+    function streamProcessor (fn) {
+      var bufferArray = [];
+      data.file.data.on('data', function(line) {
+        bufferArray.push(line);
+      }).on('end', function() {
+        var bufferData = Object.assign({}, data);
+        bufferData.file.data = Buffer.concat(bufferArray);
+        var buffer = fn(method, bufferData, headers);
+        callback(null, buffer);
+      }).on('error', function(err) {
+        var errorHandler = streamError(callback);
+        errorHandler(err, null);
+      });
+    }
+
+    function streamError(callback) {
+      var StreamProcessingError = Error.extend({
+        type: 'StreamProcessingError',
+        populate: function(raw) {
+          this.type = this.type;
+          this.message = raw.message;
+          this.detail = raw.detail;
+        }
+      });
+      return function(error) {
+        callback(
+          new StreamProcessingError({
+            message: 'An error occurred while attempting to process the file for upload.',
+            detail: error,
+          }),
+          null
+        );
+      }
+    }
+  },
+
+  path: 'files',
+
+  includeBasic: [
+    'retrieve',
+    'list',
+  ],
+
+  create: stripeMethod({
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
+});
+
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Buffer = __webpack_require__(18).Buffer;
+
+// Method for formatting HTTP body for the multipart/form-data specification
+// Mostly taken from Fermata.js
+// https://github.com/natevw/fermata/blob/5d9732a33d776ce925013a265935facd1626cc88/fermata.js#L315-L343
+function multipartDataGenerator(method, data, headers) {
+  var segno = (Math.round(Math.random() * 1e16) + Math.round(Math.random() * 1e16)).toString();
+  headers['Content-Type'] = ('multipart/form-data; boundary=' + segno);
+  var buffer = new Buffer(0);
+
+  function push(l) {
+    var prevBuffer = buffer;
+    var newBuffer = (l instanceof Buffer) ? l : new Buffer(l);
+    buffer = new Buffer(prevBuffer.length + newBuffer.length + 2);
+    prevBuffer.copy(buffer);
+    newBuffer.copy(buffer, prevBuffer.length);
+    buffer.write('\r\n', buffer.length - 2);
+  }
+
+  function q(s) {
+    return '"' + s.replace(/"|"/g, '%22').replace(/\r\n|\r|\n/g, ' ') + '"';
+  }
+
+  for (var k in data) {
+    var v = data[k];
+    push('--' + segno);
+    if (v.hasOwnProperty('data')) {
+      push('Content-Disposition: form-data; name=' + q(k) + '; filename=' + q(v.name || 'blob'));
+      push('Content-Type: ' + (v.type || 'application/octet-stream'));
+      push('');
+      push(v.data);
+    } else {
+      push('Content-Disposition: form-data; name=' + q(k));
+      push('');
+      push(v);
+    }
+  }
+  push('--' + segno + '--');
+
+  return buffer;
+}
+
+module.exports = multipartDataGenerator;
+
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'bitcoin/receivers',
+
+  includeBasic: [
+    'create', 'list', 'retrieve',
+    'update', 'setMetadata', 'getMetadata',
+  ],
+
+  listTransactions: stripeMethod({
+    method: 'GET',
+    path: '/{receiverId}/transactions',
+    urlParams: ['receiverId'],
+  }),
+});
+
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'products',
+
+  includeBasic: [
+    'list', 'retrieve', 'update', 'del',
+  ],
+
+  create: stripeMethod({
+    method: 'POST',
+    required: ['name'],
+  }),
+
+});
+
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'skus',
+
+  includeBasic: [
+    'list', 'retrieve', 'update', 'del',
+  ],
+
+  create: stripeMethod({
+    method: 'POST',
+    required: ['currency', 'inventory', 'price', 'product'],
+  }),
+
+});
+
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'orders',
+
+  includeBasic: [
+    'list', 'retrieve', 'update',
+  ],
+
+  create: stripeMethod({
+    method: 'POST',
+    required: ['currency'],
+  }),
+
+  pay: stripeMethod({
+    method: 'POST',
+    path: '/{orderId}/pay',
+    urlParams: ['orderId'],
+  }),
+
+  returnOrder: stripeMethod({
+    method: 'POST',
+    path: '/{orderId}/returns',
+    urlParams: ['orderId'],
+  }),
+
+});
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: 'order_returns',
+
+  includeBasic: [
+    'list', 'retrieve',
+  ],
+});
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var utils = __webpack_require__(2);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'subscriptions',
+  includeBasic: ['list', 'retrieve', 'del',],
+
+  create: stripeMethod({
+    method: 'POST',
+    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'items'),
+  }),
+
+  update: stripeMethod({
+    method: 'POST',
+    path: '{id}',
+    urlParams: ['id'],
+    encode: utils.encodeParamWithIntegerIndexes.bind(null, 'items'),
+  }),
+
+  /**
+   * Subscription: Discount methods
+   */
+  deleteDiscount: stripeMethod({
+    method: 'DELETE',
+    path: '/{subscriptionId}/discount',
+    urlParams: ['subscriptionId'],
+  }),
+});
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+  path: 'subscription_items',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del',],
+});
+
+
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+module.exports = StripeResource.extend({
+
+  path: '3d_secure',
+
+  includeBasic: [
+    'create',
+    'retrieve',
+  ],
+});
+
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+
+  path: 'sources',
+
+  includeBasic: [
+    'create', 'retrieve', 'update', 'setMetadata', 'getMetadata',
+  ],
+
+  listSourceTransactions: stripeMethod({
+    method: 'GET',
+    path: '/{id}/source_transactions',
+    urlParams: ['id'],
+  }),
+
+  verify: stripeMethod({
+    method: 'POST',
+    path: '/{id}/verify',
+    urlParams: ['id'],
+  }),
+
+});
+
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  path: 'subscription_items',
+
+  create: stripeMethod({
+    method: 'POST',
+    path: '{subscriptionItem}/usage_records',
+    urlParams: ['subscriptionItem'],
+  }),
+});
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * CustomerCard is a unique resource in that, upon instantiation,
+ * requires a customerId, and therefore each of its methods only
+ * require the cardId argument.
+ *
+ * This streamlines the API specifically for the case of accessing cards
+ * on a returned customer object.
+ *
+ * E.g. customerObject.cards.retrieve(cardId)
+ * (As opposed to the also-supported stripe.customers.retrieveCard(custId, cardId))
+ */
+module.exports = StripeResource.extend({
+  path: 'customers/{customerId}/cards',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
+});
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+/**
+ * CustomerSubscription is a unique resource in that, upon instantiation,
+ * requires a customerId, and therefore each of its methods only
+ * require the subscriptionId argument.
+ *
+ * This streamlines the API specifically for the case of accessing cards
+ * on a returned customer object.
+ *
+ * E.g. customerObject.cards.retrieve(cardId)
+ * (As opposed to the also-supported stripe.customers.retrieveCard(custId, cardId))
+ */
+module.exports = StripeResource.extend({
+  path: 'customers/{customerId}/subscriptions',
+  includeBasic: ['create', 'list', 'retrieve', 'update', 'del'],
+
+  /**
+   * Customer: Discount methods
+   */
+
+  deleteDiscount: stripeMethod({
+    method: 'DELETE',
+    path: '/{subscriptionId}/discount',
+    urlParams: ['customerId', 'subscriptionId'],
+  }),
+});
+
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * ChargeRefunds is a unique resource in that, upon instantiation,
+ * requires a chargeId, and therefore each of its methods only
+ * require the refundId argument.
+ *
+ * This streamlines the API specifically for the case of accessing refunds
+ * on a returned charge object.
+ *
+ * E.g. chargeObject.refunds.retrieve(refundId)
+ * (As opposed to the also-supported stripe.charges.retrieveRefund(chargeId,
+ * refundId))
+ */
+module.exports = StripeResource.extend({
+  path: 'charges/{chargeId}/refunds',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+});
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * ApplicationFeeRefunds is a unique resource in that, upon instantiation,
+ * requires an application fee id , and therefore each of its methods only
+ * require the refundId argument.
+ *
+ * This streamlines the API specifically for the case of accessing refunds
+ * on a returned application fee object.
+ *
+ * E.g. applicationFeeObject.refunds.retrieve(refundId)
+ * (As opposed to the also-supported stripe.applicationFees.retrieveRefund(chargeId,
+ * refundId))
+ */
+module.exports = StripeResource.extend({
+  path: 'application_fees/{feeId}/refunds',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+});
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+
+/**
+ * TransferReversals is a unique resource in that, upon instantiation,
+ * requires a transferId, and therefore each of its methods only
+ * require the reversalId argument.
+ *
+ * This streamlines the API specifically for the case of accessing reversals
+ * on a returned transfer object.
+ *
+ * E.g. transferObject.reversals.retrieve(reversalId)
+ * (As opposed to the also-supported stripe.transfers.retrieveReversal(transferId,
+ * reversalId))
+ */
+module.exports = StripeResource.extend({
+  path: 'transfers/{transferId}/reversals',
+  includeBasic: ['create', 'list', 'retrieve', 'update'],
+});
+
+
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var crypto = __webpack_require__(25);
+
+var utils = __webpack_require__(2);
+var Error = __webpack_require__(7);
+
+var Webhook = {
+  DEFAULT_TOLERANCE: 300,
+
+  constructEvent: function(payload, header, secret, tolerance) {
+    var jsonPayload = JSON.parse(payload);
+
+    this.signature.verifyHeader(payload, header, secret, tolerance || Webhook.DEFAULT_TOLERANCE);
+
+    return jsonPayload;
+  },
+};
+
+var signature = {
+  EXPECTED_SCHEME: 'v1',
+
+  _computeSignature: function(payload, secret) {
+    return crypto.createHmac('sha256', secret)
+      .update(payload, 'utf8')
+      .digest('hex');
+  },
+
+  verifyHeader: function(payload, header, secret, tolerance) {
+    var details = parseHeader(header, this.EXPECTED_SCHEME);
+
+    if (!details || details.timestamp === -1) {
+      throw new Error.StripeSignatureVerificationError({
+        message: 'Unable to extract timestamp and signatures from header',
+        detail: {
+          header: header,
+          payload: payload,
+        },
+      });
+    }
+
+    if (!details.signatures.length) {
+      throw new Error.StripeSignatureVerificationError({
+        message: 'No signatures found with expected scheme',
+        detail: {
+          header: header,
+          payload: payload,
+        },
+      });
+    }
+
+    var expectedSignature = this._computeSignature(details.timestamp + '.' + payload, secret);
+
+    var signatureFound = !!details.signatures
+      .filter(utils.secureCompare.bind(utils, expectedSignature))
+      .length;
+
+    if (!signatureFound) {
+      throw new Error.StripeSignatureVerificationError({
+        message: 'No signatures found matching the expected signature for payload.' +
+          ' Are you passing the raw request body you received from Stripe?' +
+          ' https://github.com/stripe/stripe-node#webhook-signing',
+        detail: {
+          header: header,
+          payload: payload,
+        },
+      });
+    }
+
+    var timestampAge = Math.floor(Date.now() / 1000) - details.timestamp;
+
+    if (tolerance > 0 && timestampAge > tolerance) {
+      throw new Error.StripeSignatureVerificationError({
+        message: 'Timestamp outside the tolerance zone',
+        detail: {
+          header: header,
+          payload: payload,
+        },
+      });
+    }
+
+    return true;
+  },
+};
+
+function parseHeader(header, scheme) {
+  if (typeof header !== 'string') {
+    return null;
+  }
+
+  return header.split(',').reduce(function(accum, item) {
+    var kv = item.split('=');
+
+    if (kv[0] === 't') {
+      accum.timestamp = kv[1];
+    }
+
+    if (kv[0] === scheme) {
+      accum.signatures.push(kv[1]);
+    }
+
+    return accum;
+  }, {
+    timestamp: -1,
+    signatures: [],
+  });
+}
+
+Webhook.signature = signature;
+
+module.exports = Webhook;
+
+
+/***/ }),
 /* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(10).config({ path: '.env.development' });
-const stripe = __webpack_require__(28)(process.env.GATSBY_STRIPE_SECRET_KEY);
-const axios = __webpack_require__(78);
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+__webpack_require__(19).config({ path: '.env.development' });
+const stripe = __webpack_require__(57)(process.env.GATSBY_STRIPE_SECRET_KEY);
+const axios = __webpack_require__(28);
 const statusCode = 200;
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
-exports.handler = function (event, context, callback) {
-  // TEST for post request
-  if (event.httpMethod !== 'POST' || !event.body) {
-    callback(null, {
-      statusCode,
-      headers,
-      body: ''
-    });
-  }
-  if (event.body[0] == '{') {
-    let data = JSON.parse(event.body);
-    data = JSON.parse(data.body);
-    data = JSON.parse(data.body);
+exports.handler = (() => {
+  var _ref = _asyncToGenerator(function* (event, context, callback) {
+    // TEST for post request
+    if (event.httpMethod !== 'POST' || !event.body) {
+      callback(null, {
+        statusCode,
+        headers,
+        body: ''
+      });
+    }
+    if (event.body[0] == '{') {
+      let data = JSON.parse(event.body);
+      data = JSON.parse(data.body);
+      data = JSON.parse(data.body);
 
-    const shopifyConfig = {
-      'Content-Type': 'application/graphql',
-      'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY
-    };
-
-    axios({
-      url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-      method: 'post',
-      headers: shopifyConfig,
-      data: `
+      const shopifyConfig = {
+        'Content-Type': 'application/graphql',
+        'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY
+      };
+      try {
+        let customerId = yield axios({
+          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+          method: 'post',
+          headers: shopifyConfig,
+          data: `
         mutation {
           customerCreate(
             input: {
@@ -6932,18 +6935,17 @@ exports.handler = function (event, context, callback) {
           }
         }
       `
-    }).then(customer => {
-      customer = customer.data.data;
-      console.log(customer.data.data.customer);
-      return axios({
-        url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
-        headers: shopifyConfig,
-        data: `
+        });
+        customerId = customerId.data.data.customerCreate.customer.id;
+        let orderId = yield axios({
+          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+          method: 'post',
+          headers: shopifyConfig,
+          data: `
             mutation {
             draftOrderCreate(
               input: {
-                customerId: "${customer.data}",
+                customerId: "${customerId}",
                 lineItems: ${data.items},
                 useCustomerDefaultAddress: true
               }
@@ -6959,62 +6961,73 @@ exports.handler = function (event, context, callback) {
             }
           }
         `
-      });
-    }).then(order => {
-      order = order.data.data.draftOrderCreate;
-      return axios({
-        url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
-        headers: shopifyConfig,
-        data: `
+        });
+        orderId = orderId.data.data.draftOrderCreate.draftOrder.id;
+        let orderStatus = yield axios({
+          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+          method: 'post',
+          headers: shopifyConfig,
+          data: `
             mutation {
-              draftOrderComplete(id: "${order.draftOrder.id}"){
+              draftOrderComplete(id: "${orderId}"){
                 userErrors {
                   field
                   message
                 }
                 draftOrder {
-                  id
                   status
                   customer {
                     id
                   }
                 }
               }
-              draftOrderInvoiceSend(id: "${order.draftOrder.id}"){
-                userErrors {
-                  field
-                  message
-                }
-              }
             }
           `
-      });
-    }).then(order => {
-      order = order.data.data.draftOrderComplete;
-      let status = order === null || order.status !== 'paid' ? 'failed' : order.status;
-      let response = {
-        statusCode,
-        headers,
-        body: JSON.stringify({
-          status,
-          customer: order.customer,
-          customerType: 'New'
-        })
-      };
-      callback(null, response);
-    }).catch(err => {
-      let response = {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({
-          error: err.message
-        })
-      };
-      callback(null, response);
-    });
-  }
-};
+        });
+        orderStatus = orderStatus.data.data.draftOrderComplete.draftOrder.status;
+        yield axios({
+          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+          method: 'post',
+          headers: shopifyConfig,
+          data: `
+          mutation {
+            draftOrderInvoiceSend(id: "${orderId}"){
+              userErrors {
+                field
+                message
+              }
+            }
+          }
+          `
+        });
+        let status = order === null || order.status !== 'paid' ? 'failed' : order.status;
+        let response = {
+          statusCode,
+          headers,
+          body: JSON.stringify({
+            status,
+            customer: order.customer,
+            customerType: 'New'
+          })
+        };
+        callback(null, response);
+      } catch (err) {
+        let response = {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            error: err.message
+          })
+        };
+        callback(null, response);
+      }
+    }
+  });
+
+  return function (_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+})();
 
 /***/ })
 /******/ ])));

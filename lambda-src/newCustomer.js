@@ -7,7 +7,7 @@ const headers = {
   'Access-Control-Allow-Headers': 'Content-Type',
 }
 
-exports.handler = function(event, context, callback) {
+exports.handler = async function(event, context, callback) {
   // TEST for post request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
@@ -25,12 +25,12 @@ exports.handler = function(event, context, callback) {
       'Content-Type': 'application/graphql',
       'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY,
     }
-
-    axios({
-      url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-      method: 'post',
-      headers: shopifyConfig,
-      data: `
+    try {
+      let customerId = await axios({
+        url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+        method: 'post',
+        headers: shopifyConfig,
+        data: `
         mutation {
           customerCreate(
             input: {
@@ -60,19 +60,17 @@ exports.handler = function(event, context, callback) {
           }
         }
       `,
-    })
-      .then(customer => {
-        customer = customer.data.data
-        console.log(customer.data.data.customer)
-        return axios({
-          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-          method: 'post',
-          headers: shopifyConfig,
-          data: `
+      })
+      customerId = customerId.data.data.customerCreate.customer.id
+      let orderId = await axios({
+        url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+        method: 'post',
+        headers: shopifyConfig,
+        data: `
             mutation {
             draftOrderCreate(
               input: {
-                customerId: "${customer.data}",
+                customerId: "${customerId}",
                 lineItems: ${data.items},
                 useCustomerDefaultAddress: true
               }
@@ -88,63 +86,66 @@ exports.handler = function(event, context, callback) {
             }
           }
         `,
-        })
       })
-      .then(order => {
-        order = order.data.data.draftOrderCreate
-        return axios({
-          url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-          method: 'post',
-          headers: shopifyConfig,
-          data: `
+      orderId = orderId.data.data.draftOrderCreate.draftOrder.id
+      let orderStatus = await axios({
+        url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+        method: 'post',
+        headers: shopifyConfig,
+        data: `
             mutation {
-              draftOrderComplete(id: "${order.draftOrder.id}"){
+              draftOrderComplete(id: "${orderId}"){
                 userErrors {
                   field
                   message
                 }
                 draftOrder {
-                  id
                   status
                   customer {
                     id
                   }
                 }
               }
-              draftOrderInvoiceSend(id: "${order.draftOrder.id}"){
-                userErrors {
-                  field
-                  message
-                }
-              }
             }
           `,
-        })
       })
-      .then(order => {
-        order = order.data.data.draftOrderComplete
-        let status =
-          order === null || order.status !== 'paid' ? 'failed' : order.status
-        let response = {
-          statusCode,
-          headers,
-          body: JSON.stringify({
-            status,
-            customer: order.customer,
-            customerType: 'New',
-          }),
-        }
-        callback(null, response)
+      orderStatus = orderStatus.data.data.draftOrderComplete.draftOrder.status
+      await axios({
+        url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
+        method: 'post',
+        headers: shopifyConfig,
+        data: `
+          mutation {
+            draftOrderInvoiceSend(id: "${orderId}"){
+              userErrors {
+                field
+                message
+              }
+            }
+          }
+          `,
       })
-      .catch(err => {
-        let response = {
-          statusCode: 500,
-          headers,
-          body: JSON.stringify({
-            error: err.message,
-          }),
-        }
-        callback(null, response)
-      })
+      let status =
+        order === null || order.status !== 'paid' ? 'failed' : order.status
+      let response = {
+        statusCode,
+        headers,
+        body: JSON.stringify({
+          status,
+          customer: order.customer,
+          customerType: 'New',
+        }),
+      }
+      callback(null, response)
+    } catch (err) {
+      let response = {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({
+          error: err.message,
+        }),
+      }
+      callback(null, response)
+    }
   }
 }

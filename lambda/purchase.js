@@ -71,8 +71,8 @@
 "use strict";
 
 
-var bind = __webpack_require__(19);
-var isBuffer = __webpack_require__(80);
+var bind = __webpack_require__(8);
+var isBuffer = __webpack_require__(30);
 
 /*global toString:true*/
 
@@ -382,28 +382,14 @@ module.exports = {
 module.exports = require("http");
 
 /***/ }),
-/* 4 */,
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = require("https");
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-/* 7 */,
-/* 8 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(82);
+var normalizeHeaderName = __webpack_require__(32);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -419,10 +405,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(83);
+    adapter = __webpack_require__(33);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(88);
+    adapter = __webpack_require__(38);
   }
   return adapter;
 }
@@ -499,13 +485,13 @@ module.exports = defaults;
 
 
 /***/ }),
-/* 9 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(21);
+var enhanceError = __webpack_require__(10);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -524,103 +510,14 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const fs = __webpack_require__(11)
-const path = __webpack_require__(6)
-
-/*
- * Parses a string or buffer into an object
- * @param {(string|Buffer)} src - source to be parsed
- * @returns {Object} keys and values from src
-*/
-function parse (src) {
-  const obj = {}
-
-  // convert Buffers before splitting into lines and processing
-  src.toString().split('\n').forEach(function (line) {
-    // matching "KEY' and 'VAL' in 'KEY=VAL'
-    const keyValueArr = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/)
-    // matched?
-    if (keyValueArr != null) {
-      const key = keyValueArr[1]
-
-      // default undefined or missing values to empty string
-      let value = keyValueArr[2] || ''
-
-      // expand newlines in quoted values
-      const len = value ? value.length : 0
-      if (len > 0 && value.charAt(0) === '"' && value.charAt(len - 1) === '"') {
-        value = value.replace(/\\n/gm, '\n')
-      }
-
-      // remove any surrounding quotes and extra spaces
-      value = value.replace(/(^['"]|['"]$)/g, '').trim()
-
-      obj[key] = value
-    }
-  })
-
-  return obj
-}
-
-/*
- * Main entry point into dotenv. Allows configuration before loading .env
- * @param {Object} options - options for parsing .env file
- * @param {string} [options.path=.env] - path to .env file
- * @param {string} [options.encoding=utf8] - encoding of .env file
- * @returns {Object} parsed object or error
-*/
-function config (options) {
-  let dotenvPath = path.resolve(process.cwd(), '.env')
-  let encoding = 'utf8'
-
-  if (options) {
-    if (options.path) {
-      dotenvPath = options.path
-    }
-    if (options.encoding) {
-      encoding = options.encoding
-    }
-  }
-
-  try {
-    // specifying an encoding returns a string instead of a buffer
-    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }))
-
-    Object.keys(parsed).forEach(function (key) {
-      if (!process.env.hasOwnProperty(key)) {
-        process.env[key] = parsed[key]
-      }
-    })
-
-    return { parsed }
-  } catch (e) {
-    return { error: e }
-  }
-}
-
-module.exports.config = config
-module.exports.load = config
-module.exports.parse = parse
-
-
-/***/ }),
-/* 11 */
+/* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("fs");
+module.exports = require("https");
 
 /***/ }),
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */
+/* 7 */,
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -638,13 +535,13 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 20 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(9);
+var createError = __webpack_require__(5);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -671,7 +568,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 21 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -699,7 +596,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 22 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -772,15 +669,15 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 23 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var url = __webpack_require__(24);
+var url = __webpack_require__(13);
 var http = __webpack_require__(3);
-var https = __webpack_require__(5);
-var assert = __webpack_require__(89);
-var Writable = __webpack_require__(90).Writable;
-var debug = __webpack_require__(91)("follow-redirects");
+var https = __webpack_require__(6);
+var assert = __webpack_require__(39);
+var Writable = __webpack_require__(40).Writable;
+var debug = __webpack_require__(41)("follow-redirects");
 
 // RFC7231§4.2.1: Of the request methods defined by this specification,
 // the GET, HEAD, OPTIONS, and TRACE methods are defined to be safe.
@@ -1062,13 +959,13 @@ module.exports.wrap = wrap;
 
 
 /***/ }),
-/* 24 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 25 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1084,7 +981,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(93);
+exports.humanize = __webpack_require__(43);
 
 /**
  * Active `debug` instances.
@@ -1299,7 +1196,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 26 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1311,7 +1208,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 27 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1337,72 +1234,125 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 17 */
+/***/ (function(module, exports) {
 
-module.exports = __webpack_require__(79);
+module.exports = require("path");
 
 /***/ }),
-/* 79 */
+/* 18 */,
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const fs = __webpack_require__(20)
+const path = __webpack_require__(17)
+
+/*
+ * Parses a string or buffer into an object
+ * @param {(string|Buffer)} src - source to be parsed
+ * @returns {Object} keys and values from src
+*/
+function parse (src) {
+  const obj = {}
+
+  // convert Buffers before splitting into lines and processing
+  src.toString().split('\n').forEach(function (line) {
+    // matching "KEY' and 'VAL' in 'KEY=VAL'
+    const keyValueArr = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/)
+    // matched?
+    if (keyValueArr != null) {
+      const key = keyValueArr[1]
+
+      // default undefined or missing values to empty string
+      let value = keyValueArr[2] || ''
+
+      // expand newlines in quoted values
+      const len = value ? value.length : 0
+      if (len > 0 && value.charAt(0) === '"' && value.charAt(len - 1) === '"') {
+        value = value.replace(/\\n/gm, '\n')
+      }
+
+      // remove any surrounding quotes and extra spaces
+      value = value.replace(/(^['"]|['"]$)/g, '').trim()
+
+      obj[key] = value
+    }
+  })
+
+  return obj
+}
+
+/*
+ * Main entry point into dotenv. Allows configuration before loading .env
+ * @param {Object} options - options for parsing .env file
+ * @param {string} [options.path=.env] - path to .env file
+ * @param {string} [options.encoding=utf8] - encoding of .env file
+ * @returns {Object} parsed object or error
+*/
+function config (options) {
+  let dotenvPath = path.resolve(process.cwd(), '.env')
+  let encoding = 'utf8'
+
+  if (options) {
+    if (options.path) {
+      dotenvPath = options.path
+    }
+    if (options.encoding) {
+      encoding = options.encoding
+    }
+  }
+
+  try {
+    // specifying an encoding returns a string instead of a buffer
+    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }))
+
+    Object.keys(parsed).forEach(function (key) {
+      if (!process.env.hasOwnProperty(key)) {
+        process.env[key] = parsed[key]
+      }
+    })
+
+    return { parsed }
+  } catch (e) {
+    return { error: e }
+  }
+}
+
+module.exports.config = config
+module.exports.load = config
+module.exports.parse = parse
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(29);
+
+/***/ }),
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var bind = __webpack_require__(19);
-var Axios = __webpack_require__(81);
-var defaults = __webpack_require__(8);
+var bind = __webpack_require__(8);
+var Axios = __webpack_require__(31);
+var defaults = __webpack_require__(4);
 
 /**
  * Create an instance of Axios
@@ -1435,15 +1385,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(27);
-axios.CancelToken = __webpack_require__(105);
-axios.isCancel = __webpack_require__(26);
+axios.Cancel = __webpack_require__(16);
+axios.CancelToken = __webpack_require__(55);
+axios.isCancel = __webpack_require__(15);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(106);
+axios.spread = __webpack_require__(56);
 
 module.exports = axios;
 
@@ -1452,7 +1402,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 80 */
+/* 30 */
 /***/ (function(module, exports) {
 
 /*!
@@ -1479,16 +1429,16 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 81 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(8);
+var defaults = __webpack_require__(4);
 var utils = __webpack_require__(1);
-var InterceptorManager = __webpack_require__(100);
-var dispatchRequest = __webpack_require__(101);
+var InterceptorManager = __webpack_require__(50);
+var dispatchRequest = __webpack_require__(51);
 
 /**
  * Create a new instance of Axios
@@ -1565,7 +1515,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 82 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1584,19 +1534,19 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 83 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(20);
-var buildURL = __webpack_require__(22);
-var parseHeaders = __webpack_require__(84);
-var isURLSameOrigin = __webpack_require__(85);
-var createError = __webpack_require__(9);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(86);
+var settle = __webpack_require__(9);
+var buildURL = __webpack_require__(11);
+var parseHeaders = __webpack_require__(34);
+var isURLSameOrigin = __webpack_require__(35);
+var createError = __webpack_require__(5);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(36);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1693,7 +1643,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(87);
+      var cookies = __webpack_require__(37);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -1771,7 +1721,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 84 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1831,7 +1781,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 85 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1906,7 +1856,7 @@ module.exports = (
 
 
 /***/ }),
-/* 86 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1949,7 +1899,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 87 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2009,24 +1959,24 @@ module.exports = (
 
 
 /***/ }),
-/* 88 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(20);
-var buildURL = __webpack_require__(22);
+var settle = __webpack_require__(9);
+var buildURL = __webpack_require__(11);
 var http = __webpack_require__(3);
-var https = __webpack_require__(5);
-var httpFollow = __webpack_require__(23).http;
-var httpsFollow = __webpack_require__(23).https;
-var url = __webpack_require__(24);
-var zlib = __webpack_require__(98);
-var pkg = __webpack_require__(99);
-var createError = __webpack_require__(9);
-var enhanceError = __webpack_require__(21);
+var https = __webpack_require__(6);
+var httpFollow = __webpack_require__(12).http;
+var httpsFollow = __webpack_require__(12).https;
+var url = __webpack_require__(13);
+var zlib = __webpack_require__(48);
+var pkg = __webpack_require__(49);
+var createError = __webpack_require__(5);
+var enhanceError = __webpack_require__(10);
 
 /*eslint consistent-return:0*/
 module.exports = function httpAdapter(config) {
@@ -2253,19 +2203,19 @@ module.exports = function httpAdapter(config) {
 
 
 /***/ }),
-/* 89 */
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
-/* 90 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("stream");
 
 /***/ }),
-/* 91 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -2274,14 +2224,14 @@ module.exports = require("stream");
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer') {
-  module.exports = __webpack_require__(92);
+  module.exports = __webpack_require__(42);
 } else {
-  module.exports = __webpack_require__(94);
+  module.exports = __webpack_require__(44);
 }
 
 
 /***/ }),
-/* 92 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -2290,7 +2240,7 @@ if (typeof process === 'undefined' || process.type === 'renderer') {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(25);
+exports = module.exports = __webpack_require__(14);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -2482,7 +2432,7 @@ function localstorage() {
 
 
 /***/ }),
-/* 93 */
+/* 43 */
 /***/ (function(module, exports) {
 
 /**
@@ -2640,15 +2590,15 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 94 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var tty = __webpack_require__(95);
-var util = __webpack_require__(96);
+var tty = __webpack_require__(45);
+var util = __webpack_require__(46);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -2656,7 +2606,7 @@ var util = __webpack_require__(96);
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(25);
+exports = module.exports = __webpack_require__(14);
 exports.init = init;
 exports.log = log;
 exports.formatArgs = formatArgs;
@@ -2671,7 +2621,7 @@ exports.useColors = useColors;
 exports.colors = [ 6, 2, 3, 4, 5, 1 ];
 
 try {
-  var supportsColor = __webpack_require__(97);
+  var supportsColor = __webpack_require__(47);
   if (supportsColor && supportsColor.level >= 2) {
     exports.colors = [
       20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68,
@@ -2832,19 +2782,19 @@ exports.enable(load());
 
 
 /***/ }),
-/* 95 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 96 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
-/* 97 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2901,19 +2851,19 @@ module.exports = (function () {
 
 
 /***/ }),
-/* 98 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ }),
-/* 99 */
+/* 49 */
 /***/ (function(module, exports) {
 
 module.exports = {"_args":[["axios@0.18.0","/Users/nikiesfandiari/Desktop/lipslut"]],"_from":"axios@0.18.0","_id":"axios@0.18.0","_inBundle":false,"_integrity":"sha1-MtU+SFHv3AoRmTts0AB4nXDAUQI=","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.18.0","name":"axios","escapedName":"axios","rawSpec":"0.18.0","saveSpec":null,"fetchSpec":"0.18.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.18.0.tgz","_spec":"0.18.0","_where":"/Users/nikiesfandiari/Desktop/lipslut","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.3.0","is-buffer":"^1.1.5"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"bundlesize":"^0.5.7","coveralls":"^2.11.9","es6-promise":"^4.0.5","grunt":"^1.0.1","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.0.0","grunt-contrib-nodeunit":"^1.0.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^19.0.0","grunt-karma":"^2.0.0","grunt-ts":"^6.0.0-beta.3","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.0.0","karma-coverage":"^1.0.0","karma-firefox-launcher":"^1.0.0","karma-jasmine":"^1.0.2","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.1.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","sinon":"^1.17.4","typescript":"^2.0.3","url-search-params":"^0.6.1","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"homepage":"https://github.com/axios/axios","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test && bundlesize","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","version":"0.18.0"}
 
 /***/ }),
-/* 100 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2972,18 +2922,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 101 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var transformData = __webpack_require__(102);
-var isCancel = __webpack_require__(26);
-var defaults = __webpack_require__(8);
-var isAbsoluteURL = __webpack_require__(103);
-var combineURLs = __webpack_require__(104);
+var transformData = __webpack_require__(52);
+var isCancel = __webpack_require__(15);
+var defaults = __webpack_require__(4);
+var isAbsoluteURL = __webpack_require__(53);
+var combineURLs = __webpack_require__(54);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -3065,7 +3015,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 102 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3092,7 +3042,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 103 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3113,7 +3063,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 104 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3134,13 +3084,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 105 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(27);
+var Cancel = __webpack_require__(16);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -3198,7 +3148,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 106 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3232,6 +3182,56 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
 /* 107 */,
 /* 108 */,
 /* 109 */
@@ -3240,8 +3240,10 @@ module.exports = function spread(callback) {
 "use strict";
 
 
-__webpack_require__(10).config({ path: '.env.development' });
-const axios = __webpack_require__(78);
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+__webpack_require__(19).config({ path: '.env.development' });
+const axios = __webpack_require__(28);
 const statusCode = 200;
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -3250,62 +3252,89 @@ const headers = {
   // 1. what type, 2. validate reuqest 3. handle request
   // convert handler to switch statement that calls seperate function
 
-};exports.handler = function (event, context, callback) {
-  context.callbackWaitsForEmptyEventLoop = false;
-  // TEST for post request
-  if (event.httpMethod !== 'POST' || !event.body) {
-    callback(null, {
-      statusCode,
-      headers,
-      body: ''
-    });
-  }
-  // TEST if the event body has data relevant to be parsed. Is valid post request
-  if (event.body[0] == '{') {
-    let data = JSON.parse(event.body);
-    data = JSON.parse(data.body);
-
-    if (!data.token || !data.idempotency_key) {
-      console.error('Required information is missing.');
+};exports.handler = (() => {
+  var _ref = _asyncToGenerator(function* (event, context, callback) {
+    context.callbackWaitsForEmptyEventLoop = false;
+    // TEST for post request
+    if (event.httpMethod !== 'POST' || !event.body) {
       callback(null, {
-        sstatusCode,
+        statusCode,
         headers,
-        body: JSON.stringify({ status: 'missing-information' })
+        body: ''
       });
     }
+    // TEST if the event body has data relevant to be parsed. Is valid post request
+    if (event.body[0] == '{') {
+      let data = JSON.parse(event.body);
+      data = JSON.parse(data.body);
 
-    // Handler Logic
-    if (data.previousCustomer) {
-      axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/previousCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}previousCustomer`, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: event.body
-      }).then(res => {
-        let response = {
-          statusCode,
+      if (!data.token || !data.idempotency_key) {
+        console.error('Required information is missing.');
+        callback(null, {
+          sstatusCode,
           headers,
-          body: JSON.stringify(res.data)
-        };
-        callback(null, response);
-      });
-    } else {
-      axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/newCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}newCustomer`, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: event.body
-      }).then(res => {
-        let response = {
-          statusCode,
-          headers,
-          body: JSON.stringify(res.data)
-        };
-        callback(null, response);
-      });
+          body: JSON.stringify({ status: 'missing-information' })
+        });
+      }
+
+      // Handler Logic
+      if (data.previousCustomer) {
+        try {
+          const res = yield axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/previousCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}previousCustomer`, {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: event.body
+          });
+          let response = {
+            statusCode,
+            headers,
+            body: JSON.stringify(res.data)
+          };
+          callback(null, response);
+        } catch (err) {
+          let response = {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              error: err.message
+            })
+          };
+          console.log(response);
+          callback(null, response);
+        }
+      } else {
+        try {
+          const res = yield axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/newCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}newCustomer`, {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: event.body
+          });
+          let response = {
+            statusCode,
+            headers,
+            body: JSON.stringify(res.data)
+          };
+          callback(null, response);
+        } catch (err) {
+          let response = {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              error: err.message
+            })
+          };
+          callback(null, response);
+        }
+      }
     }
-  }
-};
+  });
+
+  return function (_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+})();
 
 /***/ })
 /******/ ])));

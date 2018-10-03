@@ -124,6 +124,7 @@ class CheckoutForm extends Component {
             }
           )
           .then(res => {
+            debugger
             const { firebase } = this.context
             const { curUser, cart, subtotal, tax } = this.props
             const {
@@ -159,10 +160,10 @@ class CheckoutForm extends Component {
             }
             navigateTo('/order-confirmation')
           })
-      })
-      .catch(error => {
-        console.error(error)
-        this.setState({ orderStatus: 'TRANSACTION DECLINED' })
+          .catch(error => {
+            console.error(error)
+            this.setState({ orderStatus: 'TRANSACTION DECLINED' })
+          })
       })
   }
 

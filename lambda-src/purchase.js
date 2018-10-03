@@ -9,7 +9,7 @@ const headers = {
 // 1. what type, 2. validate reuqest 3. handle request
 // convert handler to switch statement that calls seperate function
 
-exports.handler = function(event, context, callback) {
+exports.handler = async function(event, context, callback) {
   context.callbackWaitsForEmptyEventLoop = false
   // TEST for post request
   if (event.httpMethod !== 'POST' || !event.body) {
@@ -35,8 +35,8 @@ exports.handler = function(event, context, callback) {
 
     // Handler Logic
     if (data.previousCustomer) {
-      axios
-        .post(
+      try {
+        const res = await axios.post(
           process.env.GATSBY_NODE_ENV === 'development'
             ? 'http://localhost:9000/previousCustomer'
             : `${process.env.GATSBY_LAMBDA_ENDPOINT}previousCustomer`,
@@ -47,17 +47,26 @@ exports.handler = function(event, context, callback) {
             body: event.body,
           }
         )
-        .then(res => {
-          let response = {
-            statusCode,
-            headers,
-            body: JSON.stringify(res.data),
-          }
-          callback(null, response)
-        })
+        let response = {
+          statusCode,
+          headers,
+          body: JSON.stringify(res.data),
+        }
+        callback(null, response)
+      } catch (err) {
+        let response = {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            error: err.message,
+          }),
+        }
+        console.log(response)
+        callback(null, response)
+      }
     } else {
-      axios
-        .post(
+      try {
+        const res = await axios.post(
           process.env.GATSBY_NODE_ENV === 'development'
             ? 'http://localhost:9000/newCustomer'
             : `${process.env.GATSBY_LAMBDA_ENDPOINT}newCustomer`,
@@ -68,14 +77,22 @@ exports.handler = function(event, context, callback) {
             body: event.body,
           }
         )
-        .then(res => {
-          let response = {
-            statusCode,
-            headers,
-            body: JSON.stringify(res.data),
-          }
-          callback(null, response)
-        })
+        let response = {
+          statusCode,
+          headers,
+          body: JSON.stringify(res.data),
+        }
+        callback(null, response)
+      } catch (err) {
+        let response = {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            error: err.message,
+          }),
+        }
+        callback(null, response)
+      }
     }
   }
 }
