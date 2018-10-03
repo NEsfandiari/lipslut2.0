@@ -6968,7 +6968,7 @@ exports.handler = function (event, context, callback) {
         headers: shopifyConfig,
         data: `
             mutation {
-              draftOrderComplete(id: ${order.data.data.draftOrder.id}){
+              draftOrderComplete(id: "${order.draftOrder.id}"){
                 userErrors {
                   field
                   message
@@ -6979,6 +6979,12 @@ exports.handler = function (event, context, callback) {
                   customer {
                     id
                   }
+                }
+              }
+              draftOrderInvoiceSend(id: "${order.draftOrder.id}"){
+                userErrors {
+                  field
+                  message
                 }
               }
             }

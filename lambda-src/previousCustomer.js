@@ -26,7 +26,6 @@ exports.handler = function(event, context, callback) {
       'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY,
     }
     //  TODO: use async await for readibility
-    console.log(data.items)
     axios({
       url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
       method: 'post',
@@ -76,14 +75,23 @@ exports.handler = function(event, context, callback) {
                 }
               }
             }
+            draftOrderInvoiceSend(id: "${order.draftOrder.id}"){
+              userErrors {
+                field
+                message
+              }
+            }
           }
         `,
         })
       })
       .then(order => {
         order = order.data.data.draftOrderComplete
+        console.log(order)
         let status =
-          order === null || order.status !== 'paid' ? 'failed' : order.status
+          order === null || order.draftOrder.status !== 'paid'
+            ? 'failed'
+            : order.draftOrder.status
         let response = {
           statusCode,
           headers,
