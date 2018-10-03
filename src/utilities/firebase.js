@@ -196,7 +196,6 @@ class Firebase {
     phone,
     newsletter
   ) => {
-    debugger
     this.store()
       .collection('users')
       .doc(user.uid)

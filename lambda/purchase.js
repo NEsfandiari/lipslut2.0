@@ -3300,7 +3300,6 @@ const headers = {
               error: err.message
             })
           };
-          console.log(response);
           callback(null, response);
         }
       } else {

@@ -91,6 +91,7 @@ class CheckoutForm extends Component {
     const firstName = this.state.firstName
     const lastName = this.state.lastName
     const phoneNumber = this.state.phone
+    const amount = (this.props.subtotal + this.state.shipping) * 100
     // Create Stripe Token from Stripe React elements
     this.props.stripe
       .createToken({
@@ -120,11 +121,11 @@ class CheckoutForm extends Component {
                 lastName,
                 phoneNumber,
                 items,
+                amount,
               }),
             }
           )
           .then(res => {
-            debugger
             const { firebase } = this.context
             const { curUser, cart, subtotal, tax } = this.props
             const {

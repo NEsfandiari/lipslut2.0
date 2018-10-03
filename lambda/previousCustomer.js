@@ -6929,6 +6929,13 @@ exports.handler = (() => {
       }
     `
         });
+        stripe.charges.create({
+          amount: parseInt(data.amount),
+          currency: 'usd',
+          description: 'Test data',
+          source: data.token.id
+        });
+
         orderId = orderId.data.data.draftOrderCreate.draftOrder.id;
         let orderStatus = yield axios({
           url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',

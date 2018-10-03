@@ -61,7 +61,6 @@ exports.handler = async function(event, context, callback) {
             error: err.message,
           }),
         }
-        console.log(response)
         callback(null, response)
       }
     } else {
