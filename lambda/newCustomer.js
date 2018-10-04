@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 107);
+/******/ 	return __webpack_require__(__webpack_require__.s = 108);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,12 +70,12 @@
 "use strict";
 
 
-var http = __webpack_require__(3);
+var http = __webpack_require__(5);
 var https = __webpack_require__(6);
-var path = __webpack_require__(17);
+var path = __webpack_require__(16);
 
 var utils = __webpack_require__(2);
-var Error = __webpack_require__(7);
+var Error = __webpack_require__(17);
 
 var hasOwn = {}.hasOwnProperty;
 
@@ -83,7 +83,7 @@ var hasOwn = {}.hasOwnProperty;
 StripeResource.extend = utils.protoExtend;
 
 // Expose method-creator & prepared (basic) methods
-StripeResource.method = __webpack_require__(27);
+StripeResource.method = __webpack_require__(56);
 StripeResource.BASIC_METHODS = __webpack_require__(64);
 
 /**
@@ -404,8 +404,8 @@ module.exports = StripeResource;
 "use strict";
 
 
-var bind = __webpack_require__(8);
-var isBuffer = __webpack_require__(30);
+var bind = __webpack_require__(7);
+var isBuffer = __webpack_require__(22);
 
 /*global toString:true*/
 
@@ -714,13 +714,13 @@ module.exports = {
 "use strict";
 
 
-var Buffer = __webpack_require__(18).Buffer;
-var EventEmitter = __webpack_require__(21).EventEmitter;
+var Buffer = __webpack_require__(49).Buffer;
+var EventEmitter = __webpack_require__(50).EventEmitter;
 var qs = __webpack_require__(61);
-var crypto = __webpack_require__(25);
+var crypto = __webpack_require__(54);
 
 var hasOwn = {}.hasOwnProperty;
-var isPlainObject = __webpack_require__(26);
+var isPlainObject = __webpack_require__(55);
 
 var OPTIONS_KEYS = ['api_key', 'idempotency_key', 'stripe_account', 'stripe_version'];
 
@@ -954,19 +954,13 @@ function emitWarning(warning) {
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-module.exports = require("http");
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(32);
+var normalizeHeaderName = __webpack_require__(24);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -982,10 +976,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(33);
+    adapter = __webpack_require__(25);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(38);
+    adapter = __webpack_require__(30);
   }
   return adapter;
 }
@@ -1062,13 +1056,13 @@ module.exports = defaults;
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(10);
+var enhanceError = __webpack_require__(9);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -1087,6 +1081,12 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = require("http");
+
+/***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
@@ -1094,88 +1094,6 @@ module.exports = require("https");
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(2);
-
-module.exports = _Error;
-
-/**
- * Generic Error klass to wrap any errors returned by stripe-node
- */
-function _Error(raw) {
-  this.populate.apply(this, arguments);
-  this.stack = (new Error(this.message)).stack;
-}
-
-// Extend Native Error
-_Error.prototype = Object.create(Error.prototype);
-
-_Error.prototype.type = 'GenericError';
-_Error.prototype.populate = function(type, message) {
-  this.type = type;
-  this.message = message;
-};
-
-_Error.extend = utils.protoExtend;
-
-/**
- * Create subclass of internal Error klass
- * (Specifically for errors returned from Stripe's REST API)
- */
-var StripeError = _Error.StripeError = _Error.extend({
-  type: 'StripeError',
-  populate: function(raw) {
-    // Move from prototype def (so it appears in stringified obj)
-    this.type = this.type;
-
-    this.stack = (new Error(raw.message)).stack;
-    this.rawType = raw.type;
-    this.code = raw.code;
-    this.param = raw.param;
-    this.message = raw.message;
-    this.detail = raw.detail;
-    this.raw = raw;
-    this.headers = raw.headers;
-    this.requestId = raw.requestId;
-    this.statusCode = raw.statusCode;
-  },
-});
-
-/**
- * Helper factory which takes raw stripe errors and outputs wrapping instances
- */
-StripeError.generate = function(rawStripeError) {
-  switch (rawStripeError.type) {
-  case 'card_error':
-    return new _Error.StripeCardError(rawStripeError);
-  case 'invalid_request_error':
-    return new _Error.StripeInvalidRequestError(rawStripeError);
-  case 'api_error':
-    return new _Error.StripeAPIError(rawStripeError);
-  case 'idempotency_error':
-    return new _Error.StripeIdempotencyError(rawStripeError);
-  }
-  return new _Error('Generic', 'Unknown Error');
-};
-
-// Specific Stripe Error types:
-_Error.StripeCardError = StripeError.extend({type: 'StripeCardError'});
-_Error.StripeInvalidRequestError = StripeError.extend({type: 'StripeInvalidRequestError'});
-_Error.StripeAPIError = StripeError.extend({type: 'StripeAPIError'});
-_Error.StripeAuthenticationError = StripeError.extend({type: 'StripeAuthenticationError'});
-_Error.StripePermissionError = StripeError.extend({type: 'StripePermissionError'});
-_Error.StripeRateLimitError = StripeError.extend({type: 'StripeRateLimitError'});
-_Error.StripeConnectionError = StripeError.extend({type: 'StripeConnectionError'});
-_Error.StripeSignatureVerificationError = StripeError.extend({type: 'StripeSignatureVerificationError'});
-_Error.StripeIdempotencyError = StripeError.extend({type: 'StripeIdempotencyError'});
-
-
-/***/ }),
-/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1193,13 +1111,13 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(5);
+var createError = __webpack_require__(4);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1226,7 +1144,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1254,7 +1172,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1327,15 +1245,15 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var url = __webpack_require__(13);
-var http = __webpack_require__(3);
+var url = __webpack_require__(12);
+var http = __webpack_require__(5);
 var https = __webpack_require__(6);
-var assert = __webpack_require__(39);
-var Writable = __webpack_require__(40).Writable;
-var debug = __webpack_require__(41)("follow-redirects");
+var assert = __webpack_require__(31);
+var Writable = __webpack_require__(32).Writable;
+var debug = __webpack_require__(33)("follow-redirects");
 
 // RFC7231§4.2.1: Of the request methods defined by this specification,
 // the GET, HEAD, OPTIONS, and TRACE methods are defined to be safe.
@@ -1617,13 +1535,13 @@ module.exports.wrap = wrap;
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("url");
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1639,7 +1557,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(43);
+exports.humanize = __webpack_require__(35);
 
 /**
  * Active `debug` instances.
@@ -1854,7 +1772,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1866,7 +1784,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1892,85 +1810,99 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* eslint-disable node/no-deprecated-api */
-var buffer = __webpack_require__(60)
-var Buffer = buffer.Buffer
+"use strict";
 
-// alternative to using Object.keys for old browsers
-function copyProps (src, dst) {
-  for (var key in src) {
-    dst[key] = src[key]
+
+var utils = __webpack_require__(2);
+
+module.exports = _Error;
+
+/**
+ * Generic Error klass to wrap any errors returned by stripe-node
+ */
+function _Error(raw) {
+  this.populate.apply(this, arguments);
+  this.stack = (new Error(this.message)).stack;
+}
+
+// Extend Native Error
+_Error.prototype = Object.create(Error.prototype);
+
+_Error.prototype.type = 'GenericError';
+_Error.prototype.populate = function(type, message) {
+  this.type = type;
+  this.message = message;
+};
+
+_Error.extend = utils.protoExtend;
+
+/**
+ * Create subclass of internal Error klass
+ * (Specifically for errors returned from Stripe's REST API)
+ */
+var StripeError = _Error.StripeError = _Error.extend({
+  type: 'StripeError',
+  populate: function(raw) {
+    // Move from prototype def (so it appears in stringified obj)
+    this.type = this.type;
+
+    this.stack = (new Error(raw.message)).stack;
+    this.rawType = raw.type;
+    this.code = raw.code;
+    this.param = raw.param;
+    this.message = raw.message;
+    this.detail = raw.detail;
+    this.raw = raw;
+    this.headers = raw.headers;
+    this.requestId = raw.requestId;
+    this.statusCode = raw.statusCode;
+  },
+});
+
+/**
+ * Helper factory which takes raw stripe errors and outputs wrapping instances
+ */
+StripeError.generate = function(rawStripeError) {
+  switch (rawStripeError.type) {
+  case 'card_error':
+    return new _Error.StripeCardError(rawStripeError);
+  case 'invalid_request_error':
+    return new _Error.StripeInvalidRequestError(rawStripeError);
+  case 'api_error':
+    return new _Error.StripeAPIError(rawStripeError);
+  case 'idempotency_error':
+    return new _Error.StripeIdempotencyError(rawStripeError);
   }
-}
-if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
-  module.exports = buffer
-} else {
-  // Copy properties from require('buffer')
-  copyProps(buffer, exports)
-  exports.Buffer = SafeBuffer
-}
+  return new _Error('Generic', 'Unknown Error');
+};
 
-function SafeBuffer (arg, encodingOrOffset, length) {
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-// Copy static methods from Buffer
-copyProps(Buffer, SafeBuffer)
-
-SafeBuffer.from = function (arg, encodingOrOffset, length) {
-  if (typeof arg === 'number') {
-    throw new TypeError('Argument must not be a number')
-  }
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-SafeBuffer.alloc = function (size, fill, encoding) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  var buf = Buffer(size)
-  if (fill !== undefined) {
-    if (typeof encoding === 'string') {
-      buf.fill(fill, encoding)
-    } else {
-      buf.fill(fill)
-    }
-  } else {
-    buf.fill(0)
-  }
-  return buf
-}
-
-SafeBuffer.allocUnsafe = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return Buffer(size)
-}
-
-SafeBuffer.allocUnsafeSlow = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return buffer.SlowBuffer(size)
-}
+// Specific Stripe Error types:
+_Error.StripeCardError = StripeError.extend({type: 'StripeCardError'});
+_Error.StripeInvalidRequestError = StripeError.extend({type: 'StripeInvalidRequestError'});
+_Error.StripeAPIError = StripeError.extend({type: 'StripeAPIError'});
+_Error.StripeAuthenticationError = StripeError.extend({type: 'StripeAuthenticationError'});
+_Error.StripePermissionError = StripeError.extend({type: 'StripePermissionError'});
+_Error.StripeRateLimitError = StripeError.extend({type: 'StripeRateLimitError'});
+_Error.StripeConnectionError = StripeError.extend({type: 'StripeConnectionError'});
+_Error.StripeSignatureVerificationError = StripeError.extend({type: 'StripeSignatureVerificationError'});
+_Error.StripeIdempotencyError = StripeError.extend({type: 'StripeIdempotencyError'});
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const fs = __webpack_require__(20)
-const path = __webpack_require__(17)
+const fs = __webpack_require__(19)
+const path = __webpack_require__(16)
 
 /*
  * Parses a string or buffer into an object
@@ -2049,658 +1981,28 @@ module.exports.parse = parse
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(21);
+
+/***/ }),
 /* 21 */
-/***/ (function(module, exports) {
-
-module.exports = require("events");
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var StripeResource = __webpack_require__(0);
-var stripeMethod = StripeResource.method;
-
-module.exports = StripeResource.extend({
-  // Since path can either be `account` or `accounts`, support both through stripeMethod path
-
-  create: stripeMethod({
-    method: 'POST',
-    path: 'accounts',
-  }),
-
-  list: stripeMethod({
-    method: 'GET',
-    path: 'accounts',
-  }),
-
-  update: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{id}',
-    urlParams: ['id'],
-  }),
-
-  // Avoid 'delete' keyword in JS
-  del: stripeMethod({
-    method: 'DELETE',
-    path: 'accounts/{id}',
-    urlParams: ['id'],
-  }),
-
-  reject: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{id}/reject',
-    urlParams: ['id'],
-  }),
-
-  retrieve: function(id) {
-    // No longer allow an api key to be passed as the first string to this function due to ambiguity between
-    // old account ids and api keys. To request the account for an api key, send null as the id
-    if (typeof id === 'string') {
-      return stripeMethod({
-        method: 'GET',
-        path: 'accounts/{id}',
-        urlParams: ['id'],
-      }).apply(this, arguments);
-    } else {
-      if (id === null || id === undefined) {
-        // Remove id as stripeMethod would complain of unexpected argument
-        [].shift.apply(arguments);
-      }
-      return stripeMethod({
-        method: 'GET',
-        path: 'account',
-      }).apply(this, arguments);
-    }
-  },
-
-  /**
-   * Accounts: External account methods
-   */
-
-  createExternalAccount: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{accountId}/external_accounts',
-    urlParams: ['accountId'],
-  }),
-
-  listExternalAccounts: stripeMethod({
-    method: 'GET',
-    path: 'accounts/{accountId}/external_accounts',
-    urlParams: ['accountId'],
-  }),
-
-  retrieveExternalAccount: stripeMethod({
-    method: 'GET',
-    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
-    urlParams: ['accountId', 'externalAccountId'],
-  }),
-
-  updateExternalAccount: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
-    urlParams: ['accountId', 'externalAccountId'],
-  }),
-
-  deleteExternalAccount: stripeMethod({
-    method: 'DELETE',
-    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
-    urlParams: ['accountId', 'externalAccountId'],
-  }),
-
-  /**
-  * Accounts: LoginLink methods
-  */
-
-  createLoginLink: stripeMethod({
-    method: 'POST',
-    path: 'accounts/{accountId}/login_links',
-    urlParams: ['accountId'],
-  }),
-});
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var has = Object.prototype.hasOwnProperty;
-
-var hexTable = (function () {
-    var array = [];
-    for (var i = 0; i < 256; ++i) {
-        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
-    }
-
-    return array;
-}());
-
-var compactQueue = function compactQueue(queue) {
-    var obj;
-
-    while (queue.length) {
-        var item = queue.pop();
-        obj = item.obj[item.prop];
-
-        if (Array.isArray(obj)) {
-            var compacted = [];
-
-            for (var j = 0; j < obj.length; ++j) {
-                if (typeof obj[j] !== 'undefined') {
-                    compacted.push(obj[j]);
-                }
-            }
-
-            item.obj[item.prop] = compacted;
-        }
-    }
-
-    return obj;
-};
-
-exports.arrayToObject = function arrayToObject(source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
-    for (var i = 0; i < source.length; ++i) {
-        if (typeof source[i] !== 'undefined') {
-            obj[i] = source[i];
-        }
-    }
-
-    return obj;
-};
-
-exports.merge = function merge(target, source, options) {
-    if (!source) {
-        return target;
-    }
-
-    if (typeof source !== 'object') {
-        if (Array.isArray(target)) {
-            target.push(source);
-        } else if (typeof target === 'object') {
-            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
-                target[source] = true;
-            }
-        } else {
-            return [target, source];
-        }
-
-        return target;
-    }
-
-    if (typeof target !== 'object') {
-        return [target].concat(source);
-    }
-
-    var mergeTarget = target;
-    if (Array.isArray(target) && !Array.isArray(source)) {
-        mergeTarget = exports.arrayToObject(target, options);
-    }
-
-    if (Array.isArray(target) && Array.isArray(source)) {
-        source.forEach(function (item, i) {
-            if (has.call(target, i)) {
-                if (target[i] && typeof target[i] === 'object') {
-                    target[i] = exports.merge(target[i], item, options);
-                } else {
-                    target.push(item);
-                }
-            } else {
-                target[i] = item;
-            }
-        });
-        return target;
-    }
-
-    return Object.keys(source).reduce(function (acc, key) {
-        var value = source[key];
-
-        if (has.call(acc, key)) {
-            acc[key] = exports.merge(acc[key], value, options);
-        } else {
-            acc[key] = value;
-        }
-        return acc;
-    }, mergeTarget);
-};
-
-exports.assign = function assignSingleSource(target, source) {
-    return Object.keys(source).reduce(function (acc, key) {
-        acc[key] = source[key];
-        return acc;
-    }, target);
-};
-
-exports.decode = function (str) {
-    try {
-        return decodeURIComponent(str.replace(/\+/g, ' '));
-    } catch (e) {
-        return str;
-    }
-};
-
-exports.encode = function encode(str) {
-    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-    // It has been adapted here for stricter adherence to RFC 3986
-    if (str.length === 0) {
-        return str;
-    }
-
-    var string = typeof str === 'string' ? str : String(str);
-
-    var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
-
-        if (
-            c === 0x2D // -
-            || c === 0x2E // .
-            || c === 0x5F // _
-            || c === 0x7E // ~
-            || (c >= 0x30 && c <= 0x39) // 0-9
-            || (c >= 0x41 && c <= 0x5A) // a-z
-            || (c >= 0x61 && c <= 0x7A) // A-Z
-        ) {
-            out += string.charAt(i);
-            continue;
-        }
-
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        out += hexTable[0xF0 | (c >> 18)]
-            + hexTable[0x80 | ((c >> 12) & 0x3F)]
-            + hexTable[0x80 | ((c >> 6) & 0x3F)]
-            + hexTable[0x80 | (c & 0x3F)];
-    }
-
-    return out;
-};
-
-exports.compact = function compact(value) {
-    var queue = [{ obj: { o: value }, prop: 'o' }];
-    var refs = [];
-
-    for (var i = 0; i < queue.length; ++i) {
-        var item = queue[i];
-        var obj = item.obj[item.prop];
-
-        var keys = Object.keys(obj);
-        for (var j = 0; j < keys.length; ++j) {
-            var key = keys[j];
-            var val = obj[key];
-            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
-                queue.push({ obj: obj, prop: key });
-                refs.push(val);
-            }
-        }
-    }
-
-    return compactQueue(queue);
-};
-
-exports.isRegExp = function isRegExp(obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-exports.isBuffer = function isBuffer(obj) {
-    if (obj === null || typeof obj === 'undefined') {
-        return false;
-    }
-
-    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
-};
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var replace = String.prototype.replace;
-var percentTwenties = /%20/g;
-
-module.exports = {
-    'default': 'RFC3986',
-    formatters: {
-        RFC1738: function (value) {
-            return replace.call(value, percentTwenties, '+');
-        },
-        RFC3986: function (value) {
-            return value;
-        }
-    },
-    RFC1738: 'RFC1738',
-    RFC3986: 'RFC3986'
-};
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-module.exports = require("crypto");
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/** `Object#toString` result references. */
-var objectTag = '[object Object]';
-
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-/**
- * Creates a unary function that invokes `func` with its argument transformed.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {Function} transform The argument transform.
- * @returns {Function} Returns the new function.
- */
-function overArg(func, transform) {
-  return function(arg) {
-    return func(transform(arg));
-  };
-}
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype,
-    objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to infer the `Object` constructor. */
-var objectCtorString = funcToString.call(Object);
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var getPrototype = overArg(Object.getPrototypeOf, Object);
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * @static
- * @memberOf _
- * @since 0.8.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */
-function isPlainObject(value) {
-  if (!isObjectLike(value) ||
-      objectToString.call(value) != objectTag || isHostObject(value)) {
-    return false;
-  }
-  var proto = getPrototype(value);
-  if (proto === null) {
-    return true;
-  }
-  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-  return (typeof Ctor == 'function' &&
-    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
-}
-
-module.exports = isPlainObject;
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(2);
-var OPTIONAL_REGEX = /^optional!/;
-
-/**
- * Create an API method from the declared spec.
- *
- * @param [spec.method='GET'] Request Method (POST, GET, DELETE, PUT)
- * @param [spec.path=''] Path to be appended to the API BASE_PATH, joined with
- *  the instance's path (e.g. 'charges' or 'customers')
- * @param [spec.required=[]] Array of required arguments in the order that they
- *  must be passed by the consumer of the API. Subsequent optional arguments are
- *  optionally passed through a hash (Object) as the penultimate argument
- *  (preceding the also-optional callback argument
-  * @param [spec.encode] Function for mutating input parameters to a method.
- *  Usefully for applying transforms to data on a per-method basis.
- */
-function stripeMethod(spec) {
-  var commandPath = typeof spec.path == 'function' ? spec.path
-    : utils.makeURLInterpolator(spec.path || '');
-  var requestMethod = (spec.method || 'GET').toUpperCase();
-  var urlParams = spec.urlParams || [];
-  var encode = spec.encode || function(data) {return data;};
-
-  return function() {
-    var self = this;
-    var args = [].slice.call(arguments);
-
-    var callback = typeof args[args.length - 1] == 'function' && args.pop();
-    var urlData = this.createUrlData();
-
-    return this.wrapTimeout(new Promise((function(resolve, reject) {
-      for (var i = 0, l = urlParams.length; i < l; ++i) {
-        var path
-        var err;
-
-        // Note that we shift the args array after every iteration so this just
-        // grabs the "next" argument for use as a URL parameter.
-        var arg = args[0];
-
-        var param = urlParams[i];
-
-        var isOptional = OPTIONAL_REGEX.test(param);
-        param = param.replace(OPTIONAL_REGEX, '');
-
-        if (param == 'id' && typeof arg !== 'string') {
-          path = this.createResourcePathWithSymbols(spec.path);
-          err = new Error(
-            'Stripe: "id" must be a string, but got: ' + typeof arg +
-            ' (on API request to `' + requestMethod + ' ' + path + '`)'
-          );
-          reject(err);
-          return;
-        }
-
-        if (!arg) {
-          if (isOptional) {
-            urlData[param] = '';
-            continue;
-          }
-
-          path = this.createResourcePathWithSymbols(spec.path);
-          err = new Error(
-            'Stripe: Argument "' + urlParams[i] + '" required, but got: ' + arg +
-            ' (on API request to `' + requestMethod + ' ' + path + '`)'
-          );
-          reject(err);
-          return;
-        }
-
-        urlData[param] = args.shift();
-      }
-
-      var data;
-      try {
-        data = encode(utils.getDataFromArgs(args));
-      } catch (e) {
-        reject(e);
-      }
-      var opts = utils.getOptionsFromArgs(args);
-
-      if (args.length) {
-        path = this.createResourcePathWithSymbols(spec.path);
-        err = new Error(
-          'Stripe: Unknown arguments (' + args + '). Did you mean to pass an options ' +
-          'object? See https://github.com/stripe/stripe-node/wiki/Passing-Options.' +
-          ' (on API request to ' + requestMethod + ' `' + path + '`)'
-        );
-        reject(err);
-        return;
-      }
-
-      var requestPath = this.createFullPath(commandPath, urlData);
-      var options = {headers: Object.assign(opts.headers, spec.headers)};
-
-      if (spec.validator) {
-        try {
-          spec.validator(data, options);
-        } catch (err) {
-          reject(err);
-          return;
-        }
-      }
-
-      function requestCallback(err, response) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(
-            spec.transformResponseData ?
-              spec.transformResponseData(response) :
-              response
-          );
-        }
-      }
-
-      self._request(requestMethod, requestPath, data, opts.auth, options, requestCallback);
-    }).bind(this)), callback);
-  };
-}
-
-module.exports = stripeMethod;
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(29);
-
-/***/ }),
-/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var bind = __webpack_require__(8);
-var Axios = __webpack_require__(31);
-var defaults = __webpack_require__(4);
+var bind = __webpack_require__(7);
+var Axios = __webpack_require__(23);
+var defaults = __webpack_require__(3);
 
 /**
  * Create an instance of Axios
@@ -2733,15 +2035,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(16);
-axios.CancelToken = __webpack_require__(55);
-axios.isCancel = __webpack_require__(15);
+axios.Cancel = __webpack_require__(15);
+axios.CancelToken = __webpack_require__(47);
+axios.isCancel = __webpack_require__(14);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(56);
+axios.spread = __webpack_require__(48);
 
 module.exports = axios;
 
@@ -2750,7 +2052,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 30 */
+/* 22 */
 /***/ (function(module, exports) {
 
 /*!
@@ -2777,16 +2079,16 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 31 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(3);
 var utils = __webpack_require__(1);
-var InterceptorManager = __webpack_require__(50);
-var dispatchRequest = __webpack_require__(51);
+var InterceptorManager = __webpack_require__(42);
+var dispatchRequest = __webpack_require__(43);
 
 /**
  * Create a new instance of Axios
@@ -2863,7 +2165,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 32 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2882,19 +2184,19 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 33 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(9);
-var buildURL = __webpack_require__(11);
-var parseHeaders = __webpack_require__(34);
-var isURLSameOrigin = __webpack_require__(35);
-var createError = __webpack_require__(5);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(36);
+var settle = __webpack_require__(8);
+var buildURL = __webpack_require__(10);
+var parseHeaders = __webpack_require__(26);
+var isURLSameOrigin = __webpack_require__(27);
+var createError = __webpack_require__(4);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(28);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -2991,7 +2293,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(37);
+      var cookies = __webpack_require__(29);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -3069,7 +2371,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 34 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3129,7 +2431,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 35 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3204,7 +2506,7 @@ module.exports = (
 
 
 /***/ }),
-/* 36 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3247,7 +2549,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 37 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3307,24 +2609,24 @@ module.exports = (
 
 
 /***/ }),
-/* 38 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(9);
-var buildURL = __webpack_require__(11);
-var http = __webpack_require__(3);
+var settle = __webpack_require__(8);
+var buildURL = __webpack_require__(10);
+var http = __webpack_require__(5);
 var https = __webpack_require__(6);
-var httpFollow = __webpack_require__(12).http;
-var httpsFollow = __webpack_require__(12).https;
-var url = __webpack_require__(13);
-var zlib = __webpack_require__(48);
-var pkg = __webpack_require__(49);
-var createError = __webpack_require__(5);
-var enhanceError = __webpack_require__(10);
+var httpFollow = __webpack_require__(11).http;
+var httpsFollow = __webpack_require__(11).https;
+var url = __webpack_require__(12);
+var zlib = __webpack_require__(40);
+var pkg = __webpack_require__(41);
+var createError = __webpack_require__(4);
+var enhanceError = __webpack_require__(9);
 
 /*eslint consistent-return:0*/
 module.exports = function httpAdapter(config) {
@@ -3551,19 +2853,19 @@ module.exports = function httpAdapter(config) {
 
 
 /***/ }),
-/* 39 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = require("assert");
 
 /***/ }),
-/* 40 */
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = require("stream");
 
 /***/ }),
-/* 41 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -3572,14 +2874,14 @@ module.exports = require("stream");
  */
 
 if (typeof process === 'undefined' || process.type === 'renderer') {
-  module.exports = __webpack_require__(42);
+  module.exports = __webpack_require__(34);
 } else {
-  module.exports = __webpack_require__(44);
+  module.exports = __webpack_require__(36);
 }
 
 
 /***/ }),
-/* 42 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -3588,7 +2890,7 @@ if (typeof process === 'undefined' || process.type === 'renderer') {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(14);
+exports = module.exports = __webpack_require__(13);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -3780,7 +3082,7 @@ function localstorage() {
 
 
 /***/ }),
-/* 43 */
+/* 35 */
 /***/ (function(module, exports) {
 
 /**
@@ -3938,15 +3240,15 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 44 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var tty = __webpack_require__(45);
-var util = __webpack_require__(46);
+var tty = __webpack_require__(37);
+var util = __webpack_require__(38);
 
 /**
  * This is the Node.js implementation of `debug()`.
@@ -3954,7 +3256,7 @@ var util = __webpack_require__(46);
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(14);
+exports = module.exports = __webpack_require__(13);
 exports.init = init;
 exports.log = log;
 exports.formatArgs = formatArgs;
@@ -3969,7 +3271,7 @@ exports.useColors = useColors;
 exports.colors = [ 6, 2, 3, 4, 5, 1 ];
 
 try {
-  var supportsColor = __webpack_require__(47);
+  var supportsColor = __webpack_require__(39);
   if (supportsColor && supportsColor.level >= 2) {
     exports.colors = [
       20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68,
@@ -4130,19 +3432,19 @@ exports.enable(load());
 
 
 /***/ }),
-/* 45 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = require("tty");
 
 /***/ }),
-/* 46 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = require("util");
 
 /***/ }),
-/* 47 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4199,19 +3501,19 @@ module.exports = (function () {
 
 
 /***/ }),
-/* 48 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("zlib");
 
 /***/ }),
-/* 49 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = {"_args":[["axios@0.18.0","/Users/nikiesfandiari/Desktop/lipslut"]],"_from":"axios@0.18.0","_id":"axios@0.18.0","_inBundle":false,"_integrity":"sha1-MtU+SFHv3AoRmTts0AB4nXDAUQI=","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.18.0","name":"axios","escapedName":"axios","rawSpec":"0.18.0","saveSpec":null,"fetchSpec":"0.18.0"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.18.0.tgz","_spec":"0.18.0","_where":"/Users/nikiesfandiari/Desktop/lipslut","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.3.0","is-buffer":"^1.1.5"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"bundlesize":"^0.5.7","coveralls":"^2.11.9","es6-promise":"^4.0.5","grunt":"^1.0.1","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.0.0","grunt-contrib-nodeunit":"^1.0.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^19.0.0","grunt-karma":"^2.0.0","grunt-ts":"^6.0.0-beta.3","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.0.0","karma-coverage":"^1.0.0","karma-firefox-launcher":"^1.0.0","karma-jasmine":"^1.0.2","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.1.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","sinon":"^1.17.4","typescript":"^2.0.3","url-search-params":"^0.6.1","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"homepage":"https://github.com/axios/axios","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test && bundlesize","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","version":"0.18.0"}
 
 /***/ }),
-/* 50 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4270,18 +3572,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 51 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var transformData = __webpack_require__(52);
-var isCancel = __webpack_require__(15);
-var defaults = __webpack_require__(4);
-var isAbsoluteURL = __webpack_require__(53);
-var combineURLs = __webpack_require__(54);
+var transformData = __webpack_require__(44);
+var isCancel = __webpack_require__(14);
+var defaults = __webpack_require__(3);
+var isAbsoluteURL = __webpack_require__(45);
+var combineURLs = __webpack_require__(46);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -4363,7 +3665,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 52 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4390,7 +3692,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 53 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4411,7 +3713,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 54 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4432,13 +3734,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 55 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(16);
+var Cancel = __webpack_require__(15);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -4496,7 +3798,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 56 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4530,6 +3832,704 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* eslint-disable node/no-deprecated-api */
+var buffer = __webpack_require__(60)
+var Buffer = buffer.Buffer
+
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key]
+  }
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports)
+  exports.Buffer = SafeBuffer
+}
+
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer)
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size)
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding)
+    } else {
+      buf.fill(fill)
+    }
+  } else {
+    buf.fill(0)
+  }
+  return buf
+}
+
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+}
+
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+}
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports) {
+
+module.exports = require("events");
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var StripeResource = __webpack_require__(0);
+var stripeMethod = StripeResource.method;
+
+module.exports = StripeResource.extend({
+  // Since path can either be `account` or `accounts`, support both through stripeMethod path
+
+  create: stripeMethod({
+    method: 'POST',
+    path: 'accounts',
+  }),
+
+  list: stripeMethod({
+    method: 'GET',
+    path: 'accounts',
+  }),
+
+  update: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{id}',
+    urlParams: ['id'],
+  }),
+
+  // Avoid 'delete' keyword in JS
+  del: stripeMethod({
+    method: 'DELETE',
+    path: 'accounts/{id}',
+    urlParams: ['id'],
+  }),
+
+  reject: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{id}/reject',
+    urlParams: ['id'],
+  }),
+
+  retrieve: function(id) {
+    // No longer allow an api key to be passed as the first string to this function due to ambiguity between
+    // old account ids and api keys. To request the account for an api key, send null as the id
+    if (typeof id === 'string') {
+      return stripeMethod({
+        method: 'GET',
+        path: 'accounts/{id}',
+        urlParams: ['id'],
+      }).apply(this, arguments);
+    } else {
+      if (id === null || id === undefined) {
+        // Remove id as stripeMethod would complain of unexpected argument
+        [].shift.apply(arguments);
+      }
+      return stripeMethod({
+        method: 'GET',
+        path: 'account',
+      }).apply(this, arguments);
+    }
+  },
+
+  /**
+   * Accounts: External account methods
+   */
+
+  createExternalAccount: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/external_accounts',
+    urlParams: ['accountId'],
+  }),
+
+  listExternalAccounts: stripeMethod({
+    method: 'GET',
+    path: 'accounts/{accountId}/external_accounts',
+    urlParams: ['accountId'],
+  }),
+
+  retrieveExternalAccount: stripeMethod({
+    method: 'GET',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  updateExternalAccount: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  deleteExternalAccount: stripeMethod({
+    method: 'DELETE',
+    path: 'accounts/{accountId}/external_accounts/{externalAccountId}',
+    urlParams: ['accountId', 'externalAccountId'],
+  }),
+
+  /**
+  * Accounts: LoginLink methods
+  */
+
+  createLoginLink: stripeMethod({
+    method: 'POST',
+    path: 'accounts/{accountId}/login_links',
+    urlParams: ['accountId'],
+  }),
+});
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    var obj;
+
+    while (queue.length) {
+        var item = queue.pop();
+        obj = item.obj[item.prop];
+
+        if (Array.isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+
+    return obj;
+};
+
+exports.arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+exports.merge = function merge(target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = exports.arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = exports.merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = exports.merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+exports.assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+exports.decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+exports.encode = function encode(str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+exports.compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    return compactQueue(queue);
+};
+
+exports.isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+exports.isBuffer = function isBuffer(obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports) {
+
+module.exports = require("crypto");
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports) {
+
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var getPrototype = overArg(Object.getPrototypeOf, Object);
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) ||
+      objectToString.call(value) != objectTag || isHostObject(value)) {
+    return false;
+  }
+  var proto = getPrototype(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return (typeof Ctor == 'function' &&
+    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+}
+
+module.exports = isPlainObject;
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(2);
+var OPTIONAL_REGEX = /^optional!/;
+
+/**
+ * Create an API method from the declared spec.
+ *
+ * @param [spec.method='GET'] Request Method (POST, GET, DELETE, PUT)
+ * @param [spec.path=''] Path to be appended to the API BASE_PATH, joined with
+ *  the instance's path (e.g. 'charges' or 'customers')
+ * @param [spec.required=[]] Array of required arguments in the order that they
+ *  must be passed by the consumer of the API. Subsequent optional arguments are
+ *  optionally passed through a hash (Object) as the penultimate argument
+ *  (preceding the also-optional callback argument
+  * @param [spec.encode] Function for mutating input parameters to a method.
+ *  Usefully for applying transforms to data on a per-method basis.
+ */
+function stripeMethod(spec) {
+  var commandPath = typeof spec.path == 'function' ? spec.path
+    : utils.makeURLInterpolator(spec.path || '');
+  var requestMethod = (spec.method || 'GET').toUpperCase();
+  var urlParams = spec.urlParams || [];
+  var encode = spec.encode || function(data) {return data;};
+
+  return function() {
+    var self = this;
+    var args = [].slice.call(arguments);
+
+    var callback = typeof args[args.length - 1] == 'function' && args.pop();
+    var urlData = this.createUrlData();
+
+    return this.wrapTimeout(new Promise((function(resolve, reject) {
+      for (var i = 0, l = urlParams.length; i < l; ++i) {
+        var path
+        var err;
+
+        // Note that we shift the args array after every iteration so this just
+        // grabs the "next" argument for use as a URL parameter.
+        var arg = args[0];
+
+        var param = urlParams[i];
+
+        var isOptional = OPTIONAL_REGEX.test(param);
+        param = param.replace(OPTIONAL_REGEX, '');
+
+        if (param == 'id' && typeof arg !== 'string') {
+          path = this.createResourcePathWithSymbols(spec.path);
+          err = new Error(
+            'Stripe: "id" must be a string, but got: ' + typeof arg +
+            ' (on API request to `' + requestMethod + ' ' + path + '`)'
+          );
+          reject(err);
+          return;
+        }
+
+        if (!arg) {
+          if (isOptional) {
+            urlData[param] = '';
+            continue;
+          }
+
+          path = this.createResourcePathWithSymbols(spec.path);
+          err = new Error(
+            'Stripe: Argument "' + urlParams[i] + '" required, but got: ' + arg +
+            ' (on API request to `' + requestMethod + ' ' + path + '`)'
+          );
+          reject(err);
+          return;
+        }
+
+        urlData[param] = args.shift();
+      }
+
+      var data;
+      try {
+        data = encode(utils.getDataFromArgs(args));
+      } catch (e) {
+        reject(e);
+      }
+      var opts = utils.getOptionsFromArgs(args);
+
+      if (args.length) {
+        path = this.createResourcePathWithSymbols(spec.path);
+        err = new Error(
+          'Stripe: Unknown arguments (' + args + '). Did you mean to pass an options ' +
+          'object? See https://github.com/stripe/stripe-node/wiki/Passing-Options.' +
+          ' (on API request to ' + requestMethod + ' `' + path + '`)'
+        );
+        reject(err);
+        return;
+      }
+
+      var requestPath = this.createFullPath(commandPath, urlData);
+      var options = {headers: Object.assign(opts.headers, spec.headers)};
+
+      if (spec.validator) {
+        try {
+          spec.validator(data, options);
+        } catch (err) {
+          reject(err);
+          return;
+        }
+      }
+
+      function requestCallback(err, response) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(
+            spec.transformResponseData ?
+              spec.transformResponseData(response) :
+              response
+          );
+        }
+      }
+
+      self._request(requestMethod, requestPath, data, opts.auth, options, requestCallback);
+    }).bind(this)), callback);
+  };
+}
+
+module.exports = stripeMethod;
+
+
+/***/ }),
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4542,7 +4542,7 @@ Stripe.DEFAULT_BASE_PATH = '/v1/';
 Stripe.DEFAULT_API_VERSION = null;
 
 // Use node's default timeout:
-Stripe.DEFAULT_TIMEOUT = __webpack_require__(3).createServer().timeout;
+Stripe.DEFAULT_TIMEOUT = __webpack_require__(5).createServer().timeout;
 
 Stripe.PACKAGE_VERSION = __webpack_require__(58).version;
 
@@ -4559,13 +4559,13 @@ Stripe.USER_AGENT_SERIALIZED = null;
 
 var APP_INFO_PROPERTIES = ['name', 'version', 'url'];
 
-var EventEmitter = __webpack_require__(21).EventEmitter;
+var EventEmitter = __webpack_require__(50).EventEmitter;
 var exec = __webpack_require__(59).exec;
 
 var resources = {
   // Support Accounts for consistency, Account for backwards compat
-  Account: __webpack_require__(22),
-  Accounts: __webpack_require__(22),
+  Account: __webpack_require__(51),
+  Accounts: __webpack_require__(51),
   ApplePayDomains: __webpack_require__(65),
   Balance: __webpack_require__(66),
   Charges: __webpack_require__(67),
@@ -4644,7 +4644,7 @@ function Stripe(key, version) {
   this.setApiKey(key);
   this.setApiVersion(version);
 
-  this.errors = __webpack_require__(7);
+  this.errors = __webpack_require__(17);
   this.webhooks = __webpack_require__(106);
 }
 
@@ -4827,7 +4827,7 @@ module.exports = require("buffer");
 
 var stringify = __webpack_require__(62);
 var parse = __webpack_require__(63);
-var formats = __webpack_require__(24);
+var formats = __webpack_require__(53);
 
 module.exports = {
     formats: formats,
@@ -4843,8 +4843,8 @@ module.exports = {
 "use strict";
 
 
-var utils = __webpack_require__(23);
-var formats = __webpack_require__(24);
+var utils = __webpack_require__(52);
+var formats = __webpack_require__(53);
 
 var arrayPrefixGenerators = {
     brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
@@ -5060,7 +5060,7 @@ module.exports = function (object, opts) {
 "use strict";
 
 
-var utils = __webpack_require__(23);
+var utils = __webpack_require__(52);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -5241,8 +5241,8 @@ module.exports = function (str, opts) {
 "use strict";
 
 
-var isPlainObject = __webpack_require__(26);
-var stripeMethod = __webpack_require__(27);
+var isPlainObject = __webpack_require__(55);
+var stripeMethod = __webpack_require__(56);
 
 module.exports = {
 
@@ -6204,12 +6204,12 @@ module.exports = StripeResource.extend({
 "use strict";
 
 
-var Buffer = __webpack_require__(18).Buffer;
+var Buffer = __webpack_require__(49).Buffer;
 var utils = __webpack_require__(2);
 var StripeResource = __webpack_require__(0);
 var stripeMethod = StripeResource.method;
 var multipartDataGenerator = __webpack_require__(90);
-var Error = __webpack_require__(7);
+var Error = __webpack_require__(17);
 
 module.exports = StripeResource.extend({
 
@@ -6293,7 +6293,7 @@ module.exports = StripeResource.extend({
 "use strict";
 
 
-var Buffer = __webpack_require__(18).Buffer;
+var Buffer = __webpack_require__(49).Buffer;
 
 // Method for formatting HTTP body for the multipart/form-data specification
 // Mostly taken from Fermata.js
@@ -6752,10 +6752,10 @@ module.exports = StripeResource.extend({
 /* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var crypto = __webpack_require__(25);
+var crypto = __webpack_require__(54);
 
 var utils = __webpack_require__(2);
-var Error = __webpack_require__(7);
+var Error = __webpack_require__(17);
 
 var Webhook = {
   DEFAULT_TOLERANCE: 300,
@@ -6864,7 +6864,8 @@ module.exports = Webhook;
 
 
 /***/ }),
-/* 107 */
+/* 107 */,
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6872,9 +6873,9 @@ module.exports = Webhook;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-__webpack_require__(19).config({ path: '.env.development' });
+__webpack_require__(18).config({ path: '.env.development' });
 const stripe = __webpack_require__(57)(process.env.GATSBY_STRIPE_SECRET_KEY);
-const axios = __webpack_require__(28);
+const axios = __webpack_require__(20);
 const statusCode = 200;
 const headers = {
   'Access-Control-Allow-Origin': '*',

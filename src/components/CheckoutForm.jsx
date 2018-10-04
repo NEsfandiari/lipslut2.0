@@ -34,6 +34,7 @@ class CheckoutForm extends Component {
       newsletter: props.curUser ? props.curUser.newsletter : false,
       shipping: 4.95,
       orderStatus: 'PLACE ORDER',
+      shopifyPaymentsId: '',
       profileLoad: props.curUser ? true : false,
     }
     this.handleChange = this.handleChange.bind(this)
@@ -47,6 +48,35 @@ class CheckoutForm extends Component {
   componentDidUpdate() {
     // SetState to user data if user lands on this page
     if (!this.state.profileLoad && this.props.curUser) {
+      const items = this.props.cart.map(item => {
+        return {
+          variantId: parseInt(item.sku),
+          quantity: item.quantity,
+        }
+      })
+      axios
+        .post(
+          location.hostname === 'localhost'
+            ? 'http://localhost:9000/createCheckout'
+            : `${process.env.GATSBY_LAMBDA_ENDPOINT}createCheckout`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              items,
+            }),
+          }
+        )
+        .then(res => {
+          this.setState({
+            shopifyPaymentsId:
+              res.data.data.checkout.shopify_payments_account_id,
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
       this.setState({
         profileLoad: true,
         email: this.props.curUser.email,
@@ -84,13 +114,10 @@ class CheckoutForm extends Component {
     }
     const items = this.props.cart.map(item => {
       return {
-        variantId: item.sku,
+        variantId: parseInt(item.sku),
         quantity: item.quantity,
       }
     })
-    const firstName = this.state.firstName
-    const lastName = this.state.lastName
-    const phoneNumber = this.state.phone
     const amount = (this.props.subtotal + this.state.shipping) * 100
     // Create Stripe Token from Stripe React elements
     this.props.stripe
@@ -117,9 +144,9 @@ class CheckoutForm extends Component {
                 token,
                 idempotency_key: uuid(),
                 previousCustomer,
-                firstName,
-                lastName,
-                phoneNumber,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                phoneNumber: this.state.phone,
                 items,
                 amount,
               }),

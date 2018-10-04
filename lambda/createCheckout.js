@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 110);
+/******/ 	return __webpack_require__(__webpack_require__.s = 107);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -3232,10 +3232,7 @@ module.exports = function spread(callback) {
 /* 104 */,
 /* 105 */,
 /* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3249,11 +3246,13 @@ const statusCode = 200;
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type'
+};
+const shopifyConfig = {
+  'Content-Type': 'application/json',
+  'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY
+};
 
-  // 1. what type, 2. validate reuqest 3. handle request
-  // convert handler to switch statement that calls seperate function
-
-};exports.handler = (() => {
+exports.handler = (() => {
   var _ref = _asyncToGenerator(function* (event, context, callback) {
     context.callbackWaitsForEmptyEventLoop = false;
     // TEST for post request
@@ -3268,65 +3267,36 @@ const headers = {
     if (event.body[0] == '{') {
       let data = JSON.parse(event.body);
       data = JSON.parse(data.body);
-
-      if (!data.token || !data.idempotency_key) {
-        console.error('Required information is missing.');
-        callback(null, {
-          sstatusCode,
-          headers,
-          body: JSON.stringify({ status: 'missing-information' })
+      try {
+        const checkoutData = yield axios({
+          url: 'https://lipslut2-0.myshopify.com/admin/checkouts.json',
+          method: 'post',
+          headers: shopifyConfig,
+          body: JSON.stringify({
+            checkout: {
+              line_items: data.items
+            }
+          })
         });
-      }
-
-      // Handler Logic
-      if (data.previousCustomer) {
-        try {
-          const res = yield axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/previousCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}previousCustomer`, {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: event.body
-          });
-          let response = {
-            statusCode,
-            headers,
-            body: JSON.stringify(res.data)
-          };
-          callback(null, response);
-        } catch (err) {
-          let response = {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({
-              error: err.message
-            })
-          };
-          callback(null, response);
-        }
-      } else {
-        try {
-          const res = yield axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/newCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}newCustomer`, {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: event.body
-          });
-          let response = {
-            statusCode,
-            headers,
-            body: JSON.stringify(res.data)
-          };
-          callback(null, response);
-        } catch (err) {
-          let response = {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({
-              error: err.message
-            })
-          };
-          callback(null, response);
-        }
+        checkoutData = checkoutData.data;
+        let response = {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            data: checkoutData
+          })
+        };
+        callback(null, response);
+      } catch (err) {
+        console.log(err);
+        let response = {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            error: err.message
+          })
+        };
+        callback(null, response);
       }
     }
   });

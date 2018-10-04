@@ -7,7 +7,7 @@ const headers = {
   'Access-Control-Allow-Headers': 'Content-Type',
 }
 const shopifyConfig = {
-  'Content-Type': 'application/graphql',
+  'Content-Type': 'application/json',
   'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY,
 }
 
@@ -34,10 +34,7 @@ exports.handler = async function(event, context, callback) {
         draftOrderCreate(
           input: {
             customerId: "${data.previousCustomer}",
-            lineItems: [{
-              variantId: "Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8xNTU2MTk2ODYxNTQ4Mw==",
-              quantity: 1
-            }],
+            lineItems: ${data.items},
             useCustomerDefaultAddress: true
           }
         )
