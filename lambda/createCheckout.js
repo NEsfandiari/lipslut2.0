@@ -3278,12 +3278,11 @@ exports.handler = (() => {
             }
           })
         });
-        checkoutData = checkoutData.data;
         let response = {
           statusCode: 200,
           headers,
           body: JSON.stringify({
-            data: checkoutData
+            data: checkoutData.data
           })
         };
         callback(null, response);
