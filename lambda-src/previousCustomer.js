@@ -1,7 +1,6 @@
 require('dotenv').config({ path: '.env.development' })
 const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
 const axios = require('axios')
-import gql from 'graphql-tag'
 const statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
