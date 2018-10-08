@@ -5,6 +5,7 @@ import { LinkButton, StyledHr } from './atoms'
 import { SidebarItem } from './molecules'
 import axios from 'axios'
 import 'animate.css'
+import { navigateTo } from 'gatsby-link'
 
 const Container = styled.div`
   display: ${({ displayFix }) => displayFix || 'none'};
@@ -84,7 +85,9 @@ class CartSidebar extends Component {
         }
       )
       .then(res => {
-        console.log(res)
+        window.location.replace(
+          res.data.data.data.checkoutCreate.checkout.webUrl
+        )
       })
   }
   render() {
