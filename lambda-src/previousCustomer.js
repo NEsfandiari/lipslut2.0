@@ -1,6 +1,7 @@
 require('dotenv').config({ path: '.env.development' })
 const stripe = require('stripe')(process.env.GATSBY_STRIPE_SECRET_KEY)
 const axios = require('axios')
+import gql from 'graphql-tag'
 const statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -12,7 +13,7 @@ const shopifyConfig = {
 }
 
 exports.handler = async function(event, context, callback) {
-  // TEST for post request
+  // TEST for POST request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
       statusCode,
@@ -27,7 +28,7 @@ exports.handler = async function(event, context, callback) {
     try {
       let orderId = await axios({
         url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
+        method: 'POST',
         headers: shopifyConfig,
         data: `
         mutation {
@@ -60,7 +61,7 @@ exports.handler = async function(event, context, callback) {
       orderId = orderId.data.data.draftOrderCreate.draftOrder.id
       let orderStatus = await axios({
         url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
+        method: 'POST',
         headers: shopifyConfig,
         data: `
           mutation {
@@ -82,7 +83,7 @@ exports.handler = async function(event, context, callback) {
       orderStatus = orderStatus.data.data.draftOrderComplete.draftOrder.status
       await axios({
         url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
+        method: 'POST',
         headers: shopifyConfig,
         data: `
         mutation {

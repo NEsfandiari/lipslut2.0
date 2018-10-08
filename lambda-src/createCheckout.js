@@ -1,5 +1,6 @@
 require('dotenv').config({ path: '.env.development' })
 const axios = require('axios')
+import gql from 'graphql-tag'
 const statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
@@ -7,7 +8,8 @@ const headers = {
 }
 const shopifyConfig = {
   'Content-Type': 'application/json',
-  'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY,
+  'X-Shopify-Storefront-Access-Token':
+    process.env.GATSBY_SHOPIFY_STOREFRONT_KEY,
 }
 
 exports.handler = async function(event, context, callback) {
@@ -24,17 +26,31 @@ exports.handler = async function(event, context, callback) {
   if (event.body[0] == '{') {
     let data = JSON.parse(event.body)
     data = JSON.parse(data.body)
+    const query = gql`
+      mutation checkoutCreate($input: CheckoutCreateInput!) {
+        checkoutCreate(input: $input) {
+          checkout {
+            id
+            webUrl
+          }
+          checkoutUserErrors {
+            field
+            message
+          }
+        }
+      }
+    `
+    const variables = {
+      input: { lineItems: data.items },
+    }
     try {
       const checkoutData = await axios({
-        url: 'https://lipslut2-0.myshopify.com/admin/checkouts.json',
-        method: 'post',
+        url: 'https://lipslut2-0.myshopify.com/api/graphql',
+        method: 'POST',
         headers: shopifyConfig,
-        body: JSON.stringify({
-          checkout: {
-            line_items: data.items,
-          },
-        }),
+        body: { query, variables },
       })
+      console.log(checkoutData, '1')
       let response = {
         statusCode: 200,
         headers,
@@ -44,7 +60,7 @@ exports.handler = async function(event, context, callback) {
       }
       callback(null, response)
     } catch (err) {
-      console.log(err)
+      console.log(err, '3')
       let response = {
         statusCode: 500,
         headers,

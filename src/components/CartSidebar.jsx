@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FaClose } from 'react-icons/lib/fa'
 import { LinkButton, StyledHr } from './atoms'
 import { SidebarItem } from './molecules'
+import axios from 'axios'
 import 'animate.css'
 
 const Container = styled.div`
@@ -59,6 +60,33 @@ class CartSidebar extends Component {
       this.props.editItem('quantity', newVal, i)
     }
   }
+
+  handleCheckout = e => {
+    this.props.handleSidebar()
+    const items = this.props.cart.map(item => {
+      return {
+        variantId: item.sku,
+        quantity: item.quantity,
+      }
+    })
+    axios
+      .post(
+        location.hostname === 'localhost'
+          ? 'http://localhost:9000/createCheckout'
+          : `${process.env.GATSBY_LAMBDA_ENDPOINT}createCheckout`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            items,
+          }),
+        }
+      )
+      .then(res => {
+        console.log(res)
+      })
+  }
   render() {
     const { cart, removeItem } = this.props
     const animation =
@@ -78,7 +106,7 @@ class CartSidebar extends Component {
         return accumulator + currentValue.price * currentValue.quantity
       }, 0)
       .toFixed(2)
-    const buttonUsability = this.props.cart.length == 0 ? '' : '/checkout'
+    const buttonUsability = this.props.cart.length == 0 ? '' : ''
     const opacity = this.props.cart.length == 0 ? 0.3 : 1
     return (
       <Container className={animation} displayFix={displayFix}>
@@ -94,7 +122,7 @@ class CartSidebar extends Component {
           <h4>Subtotal: ${subtotal}</h4>
           <LinkButton
             to={buttonUsability}
-            onClick={this.props.handleSidebar}
+            onClick={this.handleCheckout}
             style={{ opacity: opacity }}
           >
             CHECKOUT

@@ -6,9 +6,12 @@ const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
 }
-
+const shopifyConfig = {
+  'Content-Type': 'application/graphql',
+  'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY,
+}
 exports.handler = async function(event, context, callback) {
-  // TEST for post request
+  // TEST for POST request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
       statusCode,
@@ -21,14 +24,10 @@ exports.handler = async function(event, context, callback) {
     data = JSON.parse(data.body)
     data = JSON.parse(data.body)
 
-    const shopifyConfig = {
-      'Content-Type': 'application/graphql',
-      'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_SECRET_KEY,
-    }
     try {
       let customerId = await axios({
         url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
+        method: 'POST',
         headers: shopifyConfig,
         data: `
         mutation {
@@ -64,7 +63,7 @@ exports.handler = async function(event, context, callback) {
       customerId = customerId.data.data.customerCreate.customer.id
       let orderId = await axios({
         url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
+        method: 'POST',
         headers: shopifyConfig,
         data: `
             mutation {
@@ -96,7 +95,7 @@ exports.handler = async function(event, context, callback) {
       orderId = orderId.data.data.draftOrderCreate.draftOrder.id
       let orderStatus = await axios({
         url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
+        method: 'POST',
         headers: shopifyConfig,
         data: `
             mutation {
@@ -118,7 +117,7 @@ exports.handler = async function(event, context, callback) {
       orderStatus = orderStatus.data.data.draftOrderComplete.draftOrder.status
       await axios({
         url: 'https://lipslut2-0.myshopify.com/admin/api/graphql.json',
-        method: 'post',
+        method: 'POST',
         headers: shopifyConfig,
         data: `
           mutation {
