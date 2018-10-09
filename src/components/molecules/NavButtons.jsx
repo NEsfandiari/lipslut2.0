@@ -90,6 +90,10 @@ class NavButtons extends Component {
         text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
         page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
       },
+      {
+        text: 'F*ck Kavanaugh',
+        page: 'Fck-Kavanaugh/',
+      },
     ]
     const labLinks = [
       { text: 'BATCH—001: "02"', page: 'BATCH—001:-"02"' },
