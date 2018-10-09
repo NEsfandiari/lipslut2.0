@@ -124,6 +124,7 @@ class CartSidebar extends Component {
           <StyledHr />
           <h4>Subtotal: ${subtotal}</h4>
           <LinkButton
+            to={window.location.href}
             onClick={this.handleCheckout}
             style={{ opacity: opacity }}
           >
