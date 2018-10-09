@@ -63,7 +63,6 @@ class CartSidebar extends Component {
   }
 
   handleCheckout = e => {
-    this.props.handleSidebar()
     const items = this.props.cart.map(item => {
       return {
         variantId: item.sku,
@@ -88,6 +87,7 @@ class CartSidebar extends Component {
         window.location.replace(
           res.data.data.data.checkoutCreate.checkout.webUrl
         )
+        this.props.clearCart()
       })
   }
   render() {
@@ -124,7 +124,6 @@ class CartSidebar extends Component {
           <StyledHr />
           <h4>Subtotal: ${subtotal}</h4>
           <LinkButton
-            to={buttonUsability}
             onClick={this.handleCheckout}
             style={{ opacity: opacity }}
           >

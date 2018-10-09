@@ -56,6 +56,7 @@ class Navbar extends Component {
       displayFix,
       handleSidebar,
       curUser,
+      clearCart,
     } = this.props
     const { mobileSidebar, mobileDisplayFix } = this.state
     return (
@@ -85,6 +86,7 @@ class Navbar extends Component {
           editItem={editItem}
           removeItem={removeItem}
           displayFix={displayFix}
+          clearCart={clearCart}
         />
       </div>
     )

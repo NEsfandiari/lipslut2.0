@@ -163,6 +163,7 @@ class Layout extends Component {
             displayFix={this.state.displayFix}
             handleSidebar={this.handleSidebar}
             curUser={this.state.curUser}
+            clearCart={this.clearCart}
           />
 
           {children({
