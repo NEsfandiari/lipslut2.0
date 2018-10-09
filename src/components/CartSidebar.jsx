@@ -109,7 +109,8 @@ class CartSidebar extends Component {
         return accumulator + currentValue.price * currentValue.quantity
       }, 0)
       .toFixed(2)
-    const buttonUsability = this.props.cart.length == 0 ? '' : ''
+    const buttonUsability =
+      this.props.cart.length == 0 ? '' : window.location.pathname
     const opacity = this.props.cart.length == 0 ? 0.3 : 1
     return (
       <Container className={animation} displayFix={displayFix}>
@@ -124,7 +125,7 @@ class CartSidebar extends Component {
           <StyledHr />
           <h4>Subtotal: ${subtotal}</h4>
           <LinkButton
-            to={window.location.href}
+            to={buttonUsability}
             onClick={this.handleCheckout}
             style={{ opacity: opacity }}
           >
