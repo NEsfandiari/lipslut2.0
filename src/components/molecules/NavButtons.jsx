@@ -92,7 +92,7 @@ class NavButtons extends Component {
       },
       {
         text: 'F*ck Kavanaugh',
-        page: 'Fck-Kavanaugh/',
+        page: 'Fck-Kavanaugh',
       },
     ]
     const labLinks = [

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FaTrash } from 'react-icons/lib/fa'
+import { TiTrash } from 'react-icons/lib/ti'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -62,7 +62,7 @@ class SidebarItem extends Component {
         </div>
         <div className="item-total">
           <p className="price">${(item.price * item.quantity).toFixed(2)}</p>
-          <FaTrash size={'1.5rem'} onClick={this.handleCLick} />
+          <TiTrash size={'1.5rem'} onClick={this.handleCLick} />
         </div>
       </Container>
     )

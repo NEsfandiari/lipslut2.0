@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { FaShoppingBag } from 'react-icons/lib/fa'
+import { TiShoppingBag } from 'react-icons/lib/ti'
 
 const Container = styled.div`
   cursor: pointer;
@@ -11,9 +11,17 @@ const Container = styled.div`
     position: relative;
     cursor: pointer;
     margin: 0;
-    right: 1.25rem;
-    top: 0.3rem;
-    width: 0.5rem;
+    padding: 0;
+    right: 0.8rem;
+    top: -0.5rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: white;
+    line-height: 1.2rem;
+    font-size: 0.65rem !important;
+    border-radius: 1000px;
+    background-color: #ff0086;
+    text-align: center;
   }
 `
 
@@ -22,7 +30,7 @@ class ShoppingBagIcon extends Component {
     const { click, cart } = this.props
     return (
       <Container>
-        <FaShoppingBag color="#FF0088" size="1.9rem" onClick={click} />
+        <TiShoppingBag size="2.2rem" onClick={click} />
         <p onClick={click}>{cart.length}</p>
       </Container>
     )

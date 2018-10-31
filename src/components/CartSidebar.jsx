@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { FaClose } from 'react-icons/lib/fa'
-import { LinkButton, StyledHr } from './atoms'
+import { IoIosCloseEmpty } from 'react-icons/lib/io'
+import { LinkButton, StyledHr, ShoppingBagIcon } from './atoms'
 import { SidebarItem } from './molecules'
 import axios from 'axios'
 import 'animate.css'
@@ -13,37 +13,67 @@ const Container = styled.div`
   top: 0;
   right: 0;
   z-index: 2;
-  flex-direction: column;
-  align-items: center;
   width: 23rem;
   height: 100%;
-  background-color: #f9f7f1;
-  overflow: auto;
-  padding-bottom: 1rem;
+  background-color: #e4f1f4;
   p {
     text-align: center;
-  }
-  h1 {
-    margin: 0;
   }
   .contents {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
     align-items: center;
+    overflow: auto;
+  }
+  .items {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    hr {
+      width: 250%;
+    }
   }
   .header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 90%;
     margin-top: 1rem;
     margin-bottom: 2rem;
     svg {
-      margin-right: 6rem;
       cursor: pointer;
+    }
+    h3 {
+      margin: 0;
+    }
+    #bag {
+      cursor: default;
     }
     svg:hover {
       color: dimgray;
     }
   }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    width: 80%
+    justify-content: space-between;
+    align-items: center;
+    p {
+      font-size: 0.7rem;
+      text-align: left;
+      line-height: 1rem;
+      margin-top: .5rem;
+    }
+  }
+  .subtotal{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   @media (max-width: 420px) {
     width: 100%;
   }
@@ -63,6 +93,7 @@ class CartSidebar extends Component {
   }
 
   handleCheckout = e => {
+    this.props.handleSidebar()
     const items = this.props.cart.map(item => {
       return {
         variantId: item.sku,
@@ -91,9 +122,8 @@ class CartSidebar extends Component {
       })
   }
   render() {
-    const { cart, removeItem } = this.props
-    const animation =
-      'animated ' + (this.props.display ? 'slideInRight' : 'slideOutRight')
+    const { cart, removeItem, handleSidebar, display } = this.props
+    const animation = 'animated ' + (display ? 'slideInRight' : 'slideOutRight')
     const displayFix = this.props.displayFix ? 'inital' : 'none'
     const items = cart.map((item, i) => (
       <SidebarItem
@@ -104,33 +134,53 @@ class CartSidebar extends Component {
         key={i}
       />
     ))
-    const subtotal = this.props.cart
+    const subtotal = cart
       .reduce((accumulator, currentValue) => {
         return accumulator + currentValue.price * currentValue.quantity
       }, 0)
       .toFixed(2)
-    const buttonUsability =
-      this.props.cart.length == 0 ? '' : window.location.pathname
-    const opacity = this.props.cart.length == 0 ? 0.3 : 1
+    const buttonUsability = cart.length == 0 ? '' : window.location.pathname
+    const opacity = cart.length == 0 ? 0.3 : 1
     return (
       <Container className={animation} displayFix={displayFix}>
         <div className="contents">
           <div className="header">
-            <div>
-              <FaClose onClick={this.props.handleSidebar} size={'2rem'} />
-            </div>
-            <h1>Items</h1>
+            <IoIosCloseEmpty
+              onClick={handleSidebar}
+              size={'2rem'}
+              class="close"
+            />
+            <h3>Your Bag</h3>
+            <ShoppingBagIcon id="bag" cart={cart} click={handleSidebar} />
           </div>
-          {cart.length > 0 ? items : <p>Add Items to Checkout!</p>}
-          <StyledHr />
-          <h4>Subtotal: ${subtotal}</h4>
-          <LinkButton
-            to={buttonUsability}
-            onClick={this.handleCheckout}
-            style={{ opacity: opacity }}
-          >
-            CHECKOUT
-          </LinkButton>
+          <div className="items">
+            {cart.length > 0 ? (
+              items
+            ) : (
+              <p>
+                nothing here.....yet<br />shop now!
+              </p>
+            )}
+            <StyledHr />
+          </div>
+          <div className="footer">
+            <div className="subtotal">
+              <h4>Subtotal:</h4>
+              <h4>${subtotal}</h4>
+            </div>
+            <LinkButton
+              to={buttonUsability}
+              onClick={this.handleCheckout}
+              style={{ opacity: opacity }}
+            >
+              CHECKOUT
+            </LinkButton>
+            <p>
+              By checking out, I agree to the Terms of Use and acknowledge that
+              I have read the Privacy Policy Shipping and promotions calculated
+              in checkout.
+            </p>
+          </div>
         </div>
       </Container>
     )
