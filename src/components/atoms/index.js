@@ -6,6 +6,7 @@ import LinkButton from './LinkButton.jsx'
 import Loading from './Loading.jsx'
 import MobileDropdown from './MobileDropdown.jsx'
 import NavLink from './NavLink.jsx'
+import QuantityAdjustButton from './QuantityAdjustButton.jsx'
 import ShoppingBagIcon from './ShoppingBagIcon.jsx'
 import StyledButton from './StyledButton.jsx'
 import StyledHr from './StyledHr.jsx'
@@ -20,6 +21,7 @@ export default {
   Loading,
   MobileDropdown,
   NavLink,
+  QuantityAdjustButton,
   ShoppingBagIcon,
   StyledButton,
   StyledHr,
