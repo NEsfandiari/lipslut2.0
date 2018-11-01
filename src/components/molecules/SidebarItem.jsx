@@ -10,7 +10,6 @@ const Container = styled.div`
   margin-bottom: 1rem;
   margin-right: 3rem;
   img {
-    flex-basis: 30%;
     height: 3.5rem;
     padding-left: 1.7rem;
     padding-right: 1.7rem;
@@ -26,6 +25,12 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     flex-basis: 40%;
+    .item-title {
+      width: 7rem;
+      height: 1.5rem;
+      white-space: nowrap;
+      overflow: auto;
+    }
   }
   .item-total {
     display: flex;
@@ -37,7 +42,6 @@ const Container = styled.div`
     }
   }
   .price {
-    flex-basis: 20%;
     text-align: center;
     margin-bottom: 0.7rem;
   }
@@ -53,7 +57,7 @@ class SidebarItem extends Component {
       <Container>
         <img src={item.image} alt="Cart Product Icon" />
         <div className="item-details">
-          <p>{item.title}</p>
+          <p className="item-title">{item.title}</p>
           <QuantityAdjustButton
             item={item}
             handleAdjust={handleAdjust}

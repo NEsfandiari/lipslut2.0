@@ -17,6 +17,11 @@ const Container = styled.div`
     font-size: 0.9rem;
     margin-bottom: 0.9rem;
   }
+  h1 {
+    white-space: nowrap;
+    overflow: visible;
+    width: 23rem;
+  }
 `
 
 class ProductDescription extends Component {
