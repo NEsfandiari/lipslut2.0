@@ -45,6 +45,9 @@ class CartSidebarFooter extends Component {
           to={buttonUsability}
           onClick={handleCheckout}
           style={{ opacity: opacity }}
+          height={'3rem'}
+          width={'18.5rem'}
+          lineHeight={'2.85rem'}
         >
           CHECKOUT
         </LinkButton>
