@@ -4,9 +4,9 @@ import BannerPromo from './BannerPromo.jsx'
 import CheckoutPayment from './CheckoutPayment.jsx'
 import CheckoutShipping from './CheckoutShipping.jsx'
 import CheckoutSummary from './CheckoutSummary.jsx'
-import CartSidebarHeader from './CartSidebarHeader'
 import CartSidebarBody from './CartSidebarBody.jsx'
 import CartSidebarFooter from './CartSidebarFooter.jsx'
+import CartSidebarHeader from './CartSidebarHeader.jsx'
 import FeaturedProduct from './FeaturedProduct.jsx'
 import LoginEmailPassword from './LoginEmailPassword.jsx'
 import LoginFacebook from './LoginFacebook.jsx'
@@ -32,9 +32,9 @@ export default {
   CheckoutPayment,
   CheckoutShipping,
   CheckoutSummary,
-  CartSidebarHeader,
   CartSidebarBody,
   CartSidebarFooter,
+  CartSidebarHeader,
   FeaturedProduct,
   LoginEmailPassword,
   LoginFacebook,
