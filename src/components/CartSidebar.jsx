@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import {
-  CartSidebarHeader,
   CartSidebarBody,
   CartSidebarFooter,
+  CartSidebarHeader,
 } from './molecules'
 import axios from 'axios'
 import 'animate.css'
