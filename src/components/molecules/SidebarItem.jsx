@@ -59,7 +59,7 @@ class SidebarItem extends Component {
         <div className="item-details">
           <p className="item-title">{item.title}</p>
           <QuantityAdjustButton
-            item={item}
+            quantity={item.quantity}
             handleAdjust={handleAdjust}
             id={id}
           />

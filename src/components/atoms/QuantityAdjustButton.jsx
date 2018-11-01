@@ -6,28 +6,29 @@ const Container = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
+  color: ${({ color }) => color || ''};
   div {
     cursor: pointer;
   }
   border: 2px solid;
   background-color: white;
+  height: ${({ height }) => height || '1.7rem'};
+  width: 6rem;
   p {
     margin: 0;
   }
-  height: 1.7rem;
-  width: 6rem;
 `
 
 class QuantityAdjustButton extends Component {
   state = {}
   render() {
-    const { handleAdjust, id, item } = this.props
+    const { handleAdjust, id, quantity, height, color } = this.props
     return (
-      <Container>
+      <Container height={height} color={color}>
         <div className="sub" onClick={handleAdjust} data-id={id}>
           -
         </div>
-        <p>{item.quantity}</p>
+        <p>{quantity}</p>
         <div className="add" onClick={handleAdjust} data-id={id}>
           +
         </div>

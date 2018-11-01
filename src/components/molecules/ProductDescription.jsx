@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import { StyledHr, StyledButton, StyledInput } from '../atoms'
+import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
 
 const Container = styled.div`
   flex-basis: 50%;
@@ -10,17 +10,22 @@ const Container = styled.div`
   padding: 1rem;
   .purchase {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    width: 100%
+    justify-content: space-around;
   }
-  p {
+  .price {
     font-size: 0.9rem;
-    margin-bottom: 0.9rem;
+    line-height: 3.5rem;
+    margin:0;
+    color: #FF009A
   }
   h1 {
     white-space: nowrap;
     overflow: visible;
     width: 23rem;
+  }
+   
   }
 `
 
@@ -28,12 +33,25 @@ class ProductDescription extends Component {
   state = {
     quantity: 1,
     price: this.props.price,
-    status: 'ADD TO CART',
+    status: 'ADD TO BAG',
   }
-  handlePrice = e => {
-    const newPrice = e.target.value * this.props.price
+  handleAdjust = e => {
+    let newQuantity
+    if (e.target.className == 'add') {
+      newQuantity = this.state.quantity + 1
+      this.setState({ quantity: newQuantity })
+      this.handlePrice(newQuantity)
+    } else {
+      if (this.state.quantity > 1) {
+        newQuantity = this.state.quantity - 1
+        this.setState({ quantity: newQuantity })
+        this.handlePrice(newQuantity)
+      }
+    }
+  }
+  handlePrice = quantity => {
+    const newPrice = quantity * this.props.price
     this.setState({
-      [e.target.name]: e.target.value,
       price: newPrice.toFixed(2),
     })
   }
@@ -58,20 +76,17 @@ class ProductDescription extends Component {
         {descriptors}
         <StyledHr width={'100%'} margin={'.8rem'} />
         <form className="purchase" onSubmit={this.handleSubmit}>
-          <p>${this.state.price}</p>
-          <label htmlFor="quantity">Quantity: </label>
-          <StyledInput
-            width="3.5rem"
-            type="number"
-            name="quantity"
-            onChange={this.handlePrice}
-            value={this.state.quantity}
-            id="quantity"
-            min="1"
+          <QuantityAdjustButton
+            quantity={this.state.quantity}
+            handleAdjust={this.handleAdjust}
+            id={''}
+            color={'#FF009A'}
+            height={'2.5rem'}
           />
-          <StyledButton height={'4rem'} width={'8.5rem'} fontSize={'.65rem'}>
+          <StyledButton height={'2.5rem'} width={'18rem'} fontSize={'.65rem'}>
             <b>{this.state.status}</b>
           </StyledButton>
+          <p className="price">${this.state.price}</p>
         </form>
       </Container>
     )
