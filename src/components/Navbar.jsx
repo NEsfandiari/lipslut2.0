@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { NavButtons } from './molecules'
+import { NavButtons, BannerPromo } from './molecules'
 import CartSidebar from './CartSidebar.jsx'
 import MobileSidebar from './MobileSidebar.jsx'
 import 'futura-font/styles.css'
 
 const NavContainer = Styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
   @media (max-width: 420px) {
     position: relative;
     top: 0;
@@ -71,6 +78,7 @@ class Navbar extends Component {
           mobileDisplayFix={mobileDisplayFix}
         />
         <NavContainer>
+          <BannerPromo />
           <NavButtons
             handleMobileSidebar={this.handleMobileSidebar}
             handleSidebar={handleSidebar}

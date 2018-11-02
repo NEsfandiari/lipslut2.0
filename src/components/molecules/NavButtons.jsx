@@ -8,10 +8,10 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  max-width: 1220px;
-  min-width: 1220px;
-  padding-top: 0.5rem;
+  width: 98%;
+  height: 3.5rem;
+  padding-top: 0.3rem;
+  background-color: white;
   margin: 0;
   div {
     padding: 0.5rem;

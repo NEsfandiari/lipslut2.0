@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { CartSidebarBody, CartSidebarFooter } from './molecules'
+// FIX: file naming issue on build, have to pull off this hack for now
 import CartSidebarHeader from './molecules/CartSIdebarHeader.jsx'
 import axios from 'axios'
 import 'animate.css'
@@ -10,7 +11,7 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 2;
+  z-index: 3;
   width: 23rem;
   height: 100%;
   background-color: #e4f1f4;

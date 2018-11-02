@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { LinkButton } from '../atoms'
+import { LinkButton, StyledHr } from '../atoms'
 
 const Container = styled.div`
     display: flex;
@@ -19,6 +19,9 @@ const Container = styled.div`
       justify-content: space-between;
       width: 100%;
     }
+    hr {
+    width: 150%;
+  }
 `
 
 class CartSidebarFooter extends Component {
@@ -37,6 +40,7 @@ class CartSidebarFooter extends Component {
     const opacity = cart.length == 0 ? 0.3 : 1
     return (
       <Container>
+        <StyledHr />
         <div className="subtotal">
           <h4>Subtotal:</h4>
           <h4>${subtotal}</h4>

@@ -4,14 +4,15 @@ import { FaClose } from 'react-icons/lib/fa'
 import Link from 'gatsby-link'
 
 const Container = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
   background-color: #e6f8f9;
   padding: 0.5rem;
   position: relative;
   text-align: center;
-  width: 110%;
-  right: 5%;
+  width: 100%;
+  height: 2.5rem;
   top: 0;
   :hover {
     background-color: #d9f3fc;

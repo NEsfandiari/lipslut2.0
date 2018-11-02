@@ -4,7 +4,6 @@ import Helmet from 'react-helmet'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import './index.css'
-import { BannerPromo } from '../components/molecules'
 
 const Container = styled.div`
   h1,
@@ -154,7 +153,6 @@ class Layout extends Component {
             paddingTop: 0,
           }}
         >
-          <BannerPromo />
           <Navbar
             cart={this.state.cart}
             editItem={this.editItem}
@@ -165,19 +163,25 @@ class Layout extends Component {
             curUser={this.state.curUser}
             clearCart={this.clearCart}
           />
-
-          {children({
-            ...this.props,
-            addItem: this.addItem,
-            editItem: this.editItem,
-            removeItem: this.removeItem,
-            clearCart: this.clearCart,
-            cart: this.state.cart,
-            curUser: this.state.curUser,
-            resetSidebar: this.resetSidebar,
-            signIn: this.signIn,
-          })}
-          <Footer />
+          <div
+            style={{
+              position: 'relative',
+              top: '6rem',
+            }}
+          >
+            {children({
+              ...this.props,
+              addItem: this.addItem,
+              editItem: this.editItem,
+              removeItem: this.removeItem,
+              clearCart: this.clearCart,
+              cart: this.state.cart,
+              curUser: this.state.curUser,
+              resetSidebar: this.resetSidebar,
+              signIn: this.signIn,
+            })}
+            <Footer />
+          </div>
         </div>
       </Container>
     )

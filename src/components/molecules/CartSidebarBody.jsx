@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { StyledHr } from '../atoms'
 import SidebarItem from './SidebarItem'
 
 const Container = styled.div`
@@ -8,9 +7,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  hr {
-    width: 250%;
-  }
 `
 
 class CartSidebarBody extends Component {
@@ -38,7 +34,6 @@ class CartSidebarBody extends Component {
             nothing here.....yet<br />shop now!
           </p>
         )}
-        <StyledHr />
       </Container>
     )
   }
