@@ -6,7 +6,6 @@ import CheckoutShipping from './CheckoutShipping.jsx'
 import CheckoutSummary from './CheckoutSummary.jsx'
 import CartSidebarBody from './CartSidebarBody.jsx'
 import CartSidebarFooter from './CartSidebarFooter.jsx'
-import CartSidebarHeader from './CartSidebarHeader.jsx'
 import FeaturedProduct from './FeaturedProduct.jsx'
 import LoginEmailPassword from './LoginEmailPassword.jsx'
 import LoginFacebook from './LoginFacebook.jsx'
@@ -34,7 +33,6 @@ export default {
   CheckoutSummary,
   CartSidebarBody,
   CartSidebarFooter,
-  CartSidebarHeader,
   FeaturedProduct,
   LoginEmailPassword,
   LoginFacebook,

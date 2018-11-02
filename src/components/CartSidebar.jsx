@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import {
-  CartSidebarBody,
-  CartSidebarFooter,
-  CartSidebarHeader,
-} from './molecules'
+import { CartSidebarBody, CartSidebarFooter } from './molecules'
+import CartSidebarHeader from './molecules/CartSidebarHeader.jsx'
 import axios from 'axios'
 import 'animate.css'
 import { navigateTo } from 'gatsby-link'
