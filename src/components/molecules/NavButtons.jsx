@@ -85,21 +85,31 @@ class NavButtons extends Component {
       curUser,
       logOut,
     } = this.props
-    const links = [
-      { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
+    const campaignLinks = [
       {
-        text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
-        page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
+        text: 'F*ck Trump',
+        page: 'Fck-Trump',
       },
       {
         text: 'F*ck Kavanaugh',
         page: 'Fck-Kavanaugh',
+      },
+      {
+        text: 'F*ck Hollywood',
+        page: 'Fck-Hollywood',
       },
     ]
     const labLinks = [
       { text: 'BATCH—001: "02"', page: 'BATCH—001:-"02"' },
       { text: 'BATCH—001: "04"', page: 'BATCH—001:-"04"' },
       { text: 'BATCH—001: "05"', page: 'BATCH—001:-"05"' },
+    ]
+    const moreLinks = [
+      { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
+      {
+        text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
+        page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
+      },
     ]
     const userLinks = !curUser
       ? [{ text: 'Sign Up', page: 'signup' }, { text: 'Log In', page: 'login' }]
@@ -115,10 +125,10 @@ class NavButtons extends Component {
             onClick={handleMobileSidebar}
             size="1.5rem"
           />
-          <NavLink to="/Fck-Trump">F*CK TRUMP</NavLink>
-          <NavLink to="/Fck-Hollywood">F*CK HOLLYWOOD</NavLink>
-          <DropdownMenu links={labLinks} dropdownText={'LIPSLUT LAB'} />
-          <DropdownMenu links={links} dropdownText={'MORE'} />
+          <DropdownMenu links={campaignLinks} dropdownText={'Campaigns'} />
+          <DropdownMenu links={labLinks} dropdownText={'Lipslut Lab'} />
+          <DropdownMenu links={moreLinks} dropdownText={'More'} />
+          <NavLink to="about">About</NavLink>
         </div>
         <div className="logo">
           <Link to="/">
