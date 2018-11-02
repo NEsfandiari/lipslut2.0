@@ -8,7 +8,6 @@ import {
 import axios from 'axios'
 import 'animate.css'
 import { navigateTo } from 'gatsby-link'
-// fix me
 const Container = styled.div`
   display: ${({ displayFix }) => displayFix || 'none'};
   position: fixed;
