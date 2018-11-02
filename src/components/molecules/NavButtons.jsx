@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FaUser, FaBars } from 'react-icons/lib/fa'
+import { FaUserSecret, FaBars } from 'react-icons/lib/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
@@ -43,6 +43,7 @@ const Container = styled.div`
     padding: 1rem;
     min-width: 0px;
     position: sticky;
+    background-color: #f7f7f7;
     top: 0;
     img {
       width: 9rem;
@@ -100,6 +101,12 @@ class NavButtons extends Component {
       { text: 'BATCH—001: "04"', page: 'BATCH—001:-"04"' },
       { text: 'BATCH—001: "05"', page: 'BATCH—001:-"05"' },
     ]
+    const userLinks = !curUser
+      ? [{ text: 'Sign Up', page: 'signup' }, { text: 'Log In', page: 'login' }]
+      : [
+          { text: 'Account', page: 'account' },
+          { text: 'Log Out', page: '', onClick: logOut },
+        ]
     return (
       <Container>
         <div className="leftNav">
@@ -126,20 +133,10 @@ class NavButtons extends Component {
           </Link>
         </div>
         <div className="rightNav">
-          {!curUser ? (
-            <NavLink className="login" to="/signup">
-              SIGN UP
-            </NavLink>
-          ) : (
-            <NavLink className="logout" to="" onClick={logOut}>
-              LOG OUT
-            </NavLink>
-          )}
-          {curUser ? (
-            <Link to="/account">
-              <FaUser color="#FF0088" size="2.2rem" />
-            </Link>
-          ) : null}
+          <DropdownMenu
+            links={userLinks}
+            dropdownText={<FaUserSecret size="2.2rem" />}
+          />
           <ShoppingBagIcon click={handleSidebar} cart={cart} />
         </div>
       </Container>

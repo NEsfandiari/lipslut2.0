@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import NavLink from './NavLink'
-import { FaCaretDown } from 'react-icons/lib/fa'
 import 'animate.css'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   .dropdown {
+    margin: 0;
   }
   .dropdown-content {
     display: none;
@@ -39,16 +39,17 @@ class DropdownMenu extends Component {
   render() {
     const display = this.state.display ? 'initial' : 'none'
     const links = this.props.links.map(link => (
-      <NavLink to={link.page}>{link.text}</NavLink>
+      <NavLink to={link.page} onClick={link.onClick ? link.onClick : null}>
+        {link.text}
+      </NavLink>
     ))
     return (
       <Container onMouseLeave={this.hideMenu}>
         <NavLink className="dropdown" onMouseEnter={this.showMenu}>
           {this.props.dropdownText}
-          <FaCaretDown />
         </NavLink>
         <div
-          className="dropdown-content animated fadeInUp"
+          className="dropdown-content animated fadeIn"
           style={{ display: display }}
         >
           <div className="links">{links}</div>
