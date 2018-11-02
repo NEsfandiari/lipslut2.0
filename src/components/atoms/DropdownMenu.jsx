@@ -45,7 +45,7 @@ class DropdownMenu extends Component {
     ))
     return (
       <Container onMouseLeave={this.hideMenu}>
-        <NavLink className="dropdown" onMouseEnter={this.showMenu}>
+        <NavLink className="dropdown" onMouseEnter={this.showMenu} to="">
           {this.props.dropdownText}
         </NavLink>
         <div

@@ -24,19 +24,17 @@ const Container = styled.div`
   }
   .leftNav {
     display: flex;
-    flex-basis: 45%;
     align-items: center;
+    flex-basis: 45%;
   }
   .logo {
     flex-basis: 10%;
-    display: flex;
-    justify-content: center;
   }
   .rightNav {
-    flex-basis: 45%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    flex-basis: 45%;
   }
   @media (max-width: 420px) {
     width: 100%;
@@ -56,6 +54,7 @@ const Container = styled.div`
     }
     .leftNav {
       flex-basis: 20%;
+      width: 100%;
       a {
         display: none;
       }
