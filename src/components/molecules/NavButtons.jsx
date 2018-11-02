@@ -28,6 +28,8 @@ const Container = styled.div`
     flex-basis: 45%;
   }
   .logo {
+    display: flex;
+    justify-content: center;
     flex-basis: 10%;
   }
   .rightNav {
