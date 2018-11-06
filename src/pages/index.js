@@ -26,7 +26,6 @@ class IndexPage extends Component {
         <HomePageFeatured />
         <StyledHr />
         <HomePageMission />
-        <StyledHr width="65%" />
       </Container>
     )
   }

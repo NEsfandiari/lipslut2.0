@@ -10,7 +10,7 @@ const StyledButton = Styled.button`
     background-color: ${({ backgroundColor }) => backgroundColor || '#FF0086'};
     border-color: ${({ borderColor }) => borderColor};
     outline: none;
-    border-radius: ${({ borderRadius }) => borderRadius || '2px'};
+    border-radius: ${({ borderRadius }) => borderRadius || '1px'};
     border-width: ${({ borderWidth }) => borderWidth || '0'};
     cursor: pointer;
     
