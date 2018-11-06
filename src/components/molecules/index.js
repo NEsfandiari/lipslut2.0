@@ -7,6 +7,8 @@ import CheckoutSummary from './CheckoutSummary.jsx'
 import CartSidebarBody from './CartSidebarBody.jsx'
 import CartSidebarFooter from './CartSidebarFooter.jsx'
 import FeaturedProduct from './FeaturedProduct.jsx'
+import FooterEmailForm from './FooterEmailForm.jsx'
+import FooterSocialIcons from './FooterSocialIcons.jsx'
 import LoginEmailPassword from './LoginEmailPassword.jsx'
 import LoginFacebook from './LoginFacebook.jsx'
 import LoginGoogle from './LoginGoogle.jsx'
@@ -34,6 +36,8 @@ export default {
   CartSidebarBody,
   CartSidebarFooter,
   FeaturedProduct,
+  FooterEmailForm,
+  FooterSocialIcons,
   LoginEmailPassword,
   LoginFacebook,
   LoginGoogle,

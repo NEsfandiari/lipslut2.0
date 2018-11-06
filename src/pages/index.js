@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
-import {
-  HomePageFeatured,
-  HomePageMission,
-  HomePageEmailForm,
-} from '../components'
+import { HomePageFeatured, HomePageMission } from '../components'
 import { StyledHr } from '../components/atoms'
 
 const Container = Styled.div`
@@ -31,7 +27,6 @@ class IndexPage extends Component {
         <StyledHr />
         <HomePageMission />
         <StyledHr width="65%" />
-        <HomePageEmailForm />
       </Container>
     )
   }

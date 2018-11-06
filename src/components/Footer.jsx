@@ -1,108 +1,90 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
-import 'futura-font/styles.css'
-
-import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/lib/fa'
+import { FooterSocialIcons, FooterEmailForm } from './molecules'
 import { NavLink } from './atoms'
 
 const Container = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'futura';
-    div{
-        margin: 1.5rem;
+    .top-footer, .bottom-footer{
+      display: flex;
+      justify-content: space-between;
+      width: 90%
     }
-    svg{
-        margin: .5rem;
-        transition: 0.3s ease;
+
+    .top-footer{
+      padding: 1rem;
     }
-    svg:hover{
-        opacity: 1 !important;
+    .bottom-footer{
+      height: 6rem;
+      background-color: #75CAEB;
+      width: 100vw;
+      color: white;
+      padding: 1rem;
     }
     .copyright{
-        color: #C4C4C4
+        color: white;
     }
-    .links{
+    .top-links{
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      height: 6rem;
+      flex-basis: 50%;
+    }
+    .bottom-links{
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
+      margin-right: 5rem;
+    }
+    .corporate-info{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 5rem;
+      flex-basis: 50%;
+      p{
+        margin: 0;
+      }
     }
 `
 
 class Footer extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      hover: 1,
-    }
-  }
-  hoverEnter = () => {
-    this.setState({
-      hover: 0.5,
-    })
-  }
-  hoverExit = () => {
-    this.setState({
-      hover: 1,
-    })
-  }
   render() {
-    const opacity = this.state.hover
     return (
       <Container>
-        <div className="social">
-          <a
-            href="https://www.instagram.com/hello.lipslut/"
-            target="_blank"
-            rel="noopener"
-            title="Lipslut Instagram Account"
-          >
-            <FaInstagram
-              size="2.2rem"
-              color="#FB4883"
-              style={{ opacity: opacity }}
-              onMouseEnter={this.hoverEnter}
-              onMouseLeave={this.hoverExit}
-            />
-          </a>
-          <a
-            href="https://twitter.com/Hello_Lipslut"
-            target="_blank"
-            rel="noopener"
-            title="Lipslut Twitter Account"
-          >
-            <FaTwitter
-              size="2.2rem"
-              color="#39A9F2"
-              style={{ opacity: opacity }}
-              onMouseEnter={this.hoverEnter}
-              onMouseLeave={this.hoverExit}
-            />
-          </a>
-          <a
-            href="https://www.facebook.com/Lipslut/"
-            target="_blank"
-            rel="noopener"
-            title="Lipslut Facebook Account"
-          >
-            <FaFacebook
-              size="2.2rem"
-              color="#3B539A"
-              style={{ opacity: opacity }}
-              onMouseEnter={this.hoverEnter}
-              onMouseLeave={this.hoverExit}
-            />
-          </a>
+        <div className="top-footer">
+          <div className="left-side">
+            <FooterEmailForm />
+            <FooterSocialIcons />
+          </div>
+          <div className="top-links">
+            <NavLink to="/contact">Contact Us</NavLink>
+            <NavLink to="/faq">FAQ + Help</NavLink>
+            <NavLink to="/faq">Returns</NavLink>
+            <NavLink to="/faq">Our Story</NavLink>
+            <NavLink to="/faq">Careers</NavLink>
+            <NavLink to="/about">Press</NavLink>
+            <NavLink to="/about">team@lipslut.com</NavLink>
+          </div>
         </div>
-        <div className="links">
-          <NavLink to="/faq">FAQ</NavLink>
-          <NavLink to="/about">ABOUT</NavLink>
-          <NavLink to="/contact">CONTACT</NavLink>
-          <NavLink to="/privacy-policy">PRIVACY POLICY</NavLink>
-          <NavLink to="/terms-conditions">TERMS {'&'} CONDITIONS</NavLink>
+        <div className="bottom-footer">
+          <div className="corporate-info">
+            <p>Lipslut LLC.</p>
+            <p className="copyright">
+              &copy; 2019 LIPSLUT&trade;. All Rights Reserved
+            </p>
+          </div>
+          <div className="bottom-links">
+            <NavLink to="/privacy-policy" color="white" hoverColor="black">
+              Privacy Policy
+            </NavLink>
+            <NavLink to="/terms-conditions" color="white" hoverColor="black">
+              Terms + Conditions
+            </NavLink>
+          </div>
         </div>
-        <p className="copyright">&copy; 2018 LIPSLUT&trade;</p>
       </Container>
     )
   }

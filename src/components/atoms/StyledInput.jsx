@@ -6,9 +6,9 @@ const StyledInput = styled.input`
   margin-bottom: ${({ marginBottom }) => marginBottom || '.5rem'};
   border-style: solid;
   border-color: #f0f0f0;
-  border-width: 2px;
+  border-width: 1px;
   outline: none;
-  border-radius: ${({ borderRadius }) => borderRadius || '6px'};
+  border-radius: ${({ borderRadius }) => borderRadius || '2px'};
   padding-left: 1rem;
 `
 export default StyledInput

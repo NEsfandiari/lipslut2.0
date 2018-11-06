@@ -166,7 +166,7 @@ class Layout extends Component {
           <div
             style={{
               position: 'relative',
-              top: '6rem',
+              top: '5.8rem',
             }}
           >
             {children({
