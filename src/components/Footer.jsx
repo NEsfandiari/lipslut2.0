@@ -7,6 +7,7 @@ const Container = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    
     .top-footer{
       display: flex;
       justify-content: space-between;

@@ -5,7 +5,8 @@ import {
   LoginGoogle,
   LoginFacebook,
 } from '../components/molecules'
-import { NavLink, Card } from '../components/atoms'
+import { NavLink } from '../components/atoms'
+import userAuthLayout from '../layouts/userAuth.jsx'
 import 'animate.css'
 
 const Container = styled.div`
@@ -14,9 +15,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  
-  p{
-    margin-bottom: .5rem;
+  background-color:#E4F1F4;
+  padding:5rem;
+  a{
+    text-decoration-line: default
   }
   .errorMessage {
     width: 100%;
@@ -49,30 +51,33 @@ class Login extends Component {
     }
     return (
       <Container className="animated fadeInUp">
-        <Card height="31rem">
-          <h2>Welcome Back!</h2>
-          <p className="errorMessage animated fadeInRight" style={displayError}>
-            {this.state.errorMessage}
-          </p>
-          <LoginEmailPassword handleError={this.handleError} />
-          <p>or</p>
-          <LoginGoogle handleError={this.handleError} />
-          <LoginFacebook handleError={this.handleError} />
-          <p>
-            Don't have an account?{' '}
-            <NavLink
-              to="/signup"
-              fontSize=".8rem"
-              hoverColor="#00a6f6"
-              letterSpacing="0"
-            >
-              Sign Up
-            </NavLink>
-          </p>
-        </Card>
+        <h2>Hey again!</h2>
+        <p className="errorMessage animated fadeInRight" style={displayError}>
+          {this.state.errorMessage}
+        </p>
+        <LoginEmailPassword handleError={this.handleError} />
+        <p>or</p>
+        <LoginGoogle handleError={this.handleError} />
+        <LoginFacebook handleError={this.handleError} />
+        <NavLink
+          to="/signup"
+          fontSize=".8rem"
+          hoverColor="#00a6f6"
+          letterSpacing="0"
+        >
+          Don't have an account? Create One!
+        </NavLink>
+        <NavLink
+          to="/signup"
+          fontSize=".8rem"
+          hoverColor="#00a6f6"
+          letterSpacing="0"
+        >
+          Forgot your password?
+        </NavLink>
       </Container>
     )
   }
 }
 
-export default Login
+export default userAuthLayout(Login)

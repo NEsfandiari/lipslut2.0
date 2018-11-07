@@ -4,7 +4,7 @@ import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/lib/fa'
 
 const Container = styled.div`
   svg {
-    margin: 0.5rem;
+    margin: 0.4rem;
     transition: 0.3s ease;
   }
   svg:hover {

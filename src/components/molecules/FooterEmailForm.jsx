@@ -21,7 +21,7 @@ const Container = styled.form`
     position: relative;
     right: 0.5%;
     padding-top: 0.35rem;
-    transition: 0.3s;
+    transition: 0.3s ease;
   }
   svg {
     margin-bottom: 0.3rem;

@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import './index.css'
+import { relative } from 'path'
 
 const Container = styled.div`
   h1,
@@ -166,7 +167,7 @@ class Layout extends Component {
           <div
             style={{
               position: 'relative',
-              top: '5.8rem',
+              top: '5rem',
             }}
           >
             {children({

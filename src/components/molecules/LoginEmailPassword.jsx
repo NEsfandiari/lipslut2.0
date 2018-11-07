@@ -8,6 +8,7 @@ const Container = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0;
 `
 
 class LoginEmailPassword extends Component {
@@ -38,6 +39,7 @@ class LoginEmailPassword extends Component {
           name="email"
           onChange={this.handleChange}
           value={this.state.email}
+          width="22rem"
         />
         <StyledInput
           aria-label="Email Address"
@@ -45,8 +47,9 @@ class LoginEmailPassword extends Component {
           name="password"
           onChange={this.handleChange}
           value={this.state.password}
+          width="22rem"
         />
-        <StyledButton width="17rem" height="2rem" margin="0">
+        <StyledButton width="22rem" height="2rem" margin="2rem">
           LOG IN
         </StyledButton>
       </Container>
