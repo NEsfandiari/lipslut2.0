@@ -7,7 +7,7 @@ import {
   SignupFacebook,
 } from '../components/molecules'
 import 'animate.css'
-import userAuthLayout from '../layouts/userAuth.jsx'
+import lightBlueLayout from '../layouts/lightBlue.jsx'
 
 const Container = styled.div`
   display: flex;
@@ -68,4 +68,4 @@ class Signup extends Component {
   }
 }
 
-export default userAuthLayout(Signup)
+export default lightBlueLayout(Signup)

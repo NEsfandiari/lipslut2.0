@@ -10,12 +10,14 @@ const Container = styled.div`
     display: flex;
     justify-content: space-around;
     background-color: #faf9f7;
-    min-height: 2.7rem;
+    align-items: center;
+    min-height: 3.5rem;
     p {
       font-size: 0.7rem;
       font-weight: 600;
       margin: 0;
       height: 1.2rem;
+      line-height: 0.9rem;
     }
     p:first-child {
       font-weight: 300;

@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Card, StyledHr } from './atoms'
 import { Order } from './molecules'
 
 const Container = styled.div`
-  margin: 1rem;
+  flex-basis: 66%;
   .orders {
-    max-height: 50vh;
+    max-height: 55vh;
     overflow: auto;
   }
+  background-color: white;
+  border-radius: 3px;
+  margin: 2rem;
+  padding: 2rem;
   h3 {
-    margin-bottom: 0;
+    margin-bottom: 2rem;
   }
   p {
     text-align: center;
@@ -35,11 +38,8 @@ class OrderHistory extends Component {
     }
     return (
       <Container>
-        <Card className="history animated fadeInUp" height="32rem">
-          <h3>Order History</h3>
-          <StyledHr margin="1rem" />
-          <div className="orders">{orders}</div>
-        </Card>
+        <h3>Order History</h3>
+        <div className="orders">{orders}</div>
       </Container>
     )
   }

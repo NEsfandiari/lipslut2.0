@@ -20,7 +20,7 @@ const Container = styled.form`
   .button {
     position: relative;
     right: 0.5%;
-    padding-top: 0.35rem;
+    padding-top: 0.25rem;
     transition: 0.3s ease;
   }
   svg {
@@ -76,7 +76,6 @@ class FooterEmailForm extends Component {
           margin="0rem"
           backgroundColor="white"
           borderColor="#FF009A"
-          borderWidth="2px"
           width="5rem"
           onMouseEnter={this.handleHoverIn}
           onMouseLeave={this.handleHoverOut}

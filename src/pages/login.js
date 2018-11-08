@@ -6,7 +6,7 @@ import {
   LoginFacebook,
 } from '../components/molecules'
 import { NavLink } from '../components/atoms'
-import userAuthLayout from '../layouts/userAuth.jsx'
+import lightBlueLayout from '../layouts/lightBlue.jsx'
 import 'animate.css'
 
 const Container = styled.div`
@@ -80,4 +80,4 @@ class Login extends Component {
   }
 }
 
-export default userAuthLayout(Login)
+export default lightBlueLayout(Login)

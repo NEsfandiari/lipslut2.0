@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import 'animate.css'
 import { OrderHistory, AccountDetails } from '../components'
 import { Loading } from '../components/atoms'
+import lightBlueLayout from '../layouts/lightBlue.jsx'
 
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
-  align-items: center;
   margin-top: 2rem;
+  padding: 2rem;
   @media (max-width: 420px) {
     flex-direction: column;
     margin-top: 1rem;
@@ -25,8 +26,8 @@ class Account extends Component {
       <div>
         {curUser ? (
           <Container>
-            <OrderHistory curUser={curUser} signIn={signIn} />
             <AccountDetails curUser={curUser} signIn={signIn} />
+            <OrderHistory curUser={curUser} signIn={signIn} />
           </Container>
         ) : (
           <Loading />
@@ -36,4 +37,4 @@ class Account extends Component {
   }
 }
 
-export default Account
+export default lightBlueLayout(Account)

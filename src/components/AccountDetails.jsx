@@ -5,9 +5,17 @@ import { Card, StyledButton, StyledHr, NavLink } from './atoms'
 import { AccountDetailsList, AccountDetailsForm } from './molecules'
 
 const Container = styled.div`
+  flex-basis: 33%;
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  width: 25rem;
   h3 {
-    margin-bottom: 0;
+    margin-bottom: 2rem;
   }
+  background-color: white;
+  border-radius: 3px;
+  padding: 2rem;
 `
 
 class AccountDetails extends Component {
@@ -78,51 +86,47 @@ class AccountDetails extends Component {
     } = this.state
     return (
       <Container>
-        <Card className="shipping animated fadeInUp" height="32rem">
-          <h3>Account Details</h3>
-          <StyledHr margin="1rem" />
-          {!this.state.editing ? (
-            <AccountDetailsList
-              curUser={curUser}
-              firstName={firstName}
-              lastName={lastName}
-              email={email}
-              address={address}
-              apartment={apartment}
-              city={city}
-              zip={zip}
-              phone={phone}
-            />
-          ) : (
-            <AccountDetailsForm
-              curUser={curUser}
-              handleChange={this.handleChange}
-              firstName={firstName}
-              lastName={lastName}
-              email={email}
-              address={address}
-              apartment={apartment}
-              city={city}
-              zip={zip}
-              phone={phone}
-            />
-          )}
-          <StyledHr margin="0" />
-          {!this.state.editing ? (
-            <StyledButton width="17rem" onClick={this.showEdit}>
-              Edit
-            </StyledButton>
-          ) : (
-            <StyledButton width="17rem" onClick={this.handleUpdate}>
-              Update
-            </StyledButton>
-          )}
-          {this.state.editing ? (
-            <NavLink to="/account" onClick={this.cancel}>
-              Cancel
-            </NavLink>
-          ) : null}
-        </Card>
+        <h3>Account Details</h3>
+        {!this.state.editing ? (
+          <AccountDetailsList
+            curUser={curUser}
+            firstName={firstName}
+            lastName={lastName}
+            email={email}
+            address={address}
+            apartment={apartment}
+            city={city}
+            zip={zip}
+            phone={phone}
+          />
+        ) : (
+          <AccountDetailsForm
+            curUser={curUser}
+            handleChange={this.handleChange}
+            firstName={firstName}
+            lastName={lastName}
+            email={email}
+            address={address}
+            apartment={apartment}
+            city={city}
+            zip={zip}
+            phone={phone}
+          />
+        )}
+        {!this.state.editing ? (
+          <StyledButton width="17rem" margin="0rem" onClick={this.showEdit}>
+            EDIT
+          </StyledButton>
+        ) : (
+          <StyledButton width="17rem" margin="0rem" onClick={this.handleUpdate}>
+            UPDATE
+          </StyledButton>
+        )}
+        {this.state.editing ? (
+          <NavLink to="/account" onClick={this.cancel}>
+            CANCEL
+          </NavLink>
+        ) : null}
       </Container>
     )
   }
