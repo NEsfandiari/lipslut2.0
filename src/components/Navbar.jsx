@@ -17,7 +17,7 @@ const NavContainer = Styled.div`
   align-items: center;
   justify-content: center;
   z-index: 2;
-  
+  box-shadow: 2px 2px 4px 0 rgba(46, 61, 73, 0.2);
 `
 class Navbar extends Component {
   state = {
@@ -82,7 +82,6 @@ class Navbar extends Component {
             curUser={curUser}
             logOut={this.logOut}
           />
-          <StyledHr margin={'0rem'} />
         </NavContainer>
         <CartSidebar
           display={sidebar}

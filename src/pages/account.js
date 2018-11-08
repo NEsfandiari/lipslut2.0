@@ -10,6 +10,15 @@ const Container = styled.div`
   justify-content: space-around;
   margin-top: 2rem;
   padding: 2rem;
+  animation: fadein 1s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   @media (max-width: 420px) {
     flex-direction: column;
     margin-top: 1rem;
