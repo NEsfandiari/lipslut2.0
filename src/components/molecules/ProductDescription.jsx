@@ -16,9 +16,13 @@ const Container = styled.div`
   }
   .price {
     font-size: 0.9rem;
-    line-height: 3.5rem;
+    text-align: center;
+    padding: .5rem;
+    /* border: 2px solid #FF009A */
     margin:0;
     color: #FF009A
+    height: 2.5rem
+    width: 5rem;
   }
   h1 {
     white-space: nowrap;
