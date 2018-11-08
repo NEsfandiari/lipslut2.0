@@ -41,7 +41,7 @@ class LoginFacebook extends Component {
           letterSpacing="0"
           className="facebook"
         >
-          LOG IN WITH <FaFacebookSquare color="#3B539A" size="1.3rem" />
+          CONNECT WITH <FaFacebookSquare color="#3B539A" size="1.3rem" />
         </StyledButton>
       </Container>
     )

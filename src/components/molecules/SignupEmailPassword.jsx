@@ -7,17 +7,24 @@ import { StyledInput, StyledButton } from '../atoms'
 const Container = styled.form`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
+  height: 14rem;
   .name {
     display: flex;
     justify-content: space-between;
-    width: 17rem;
+    width: 22rem;
   }
-  .checkbox {
+  .radio {
     margin-top: 0.4rem;
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 17rem;
+    input {
+      margin: 0;
+      height: 1.5rem;
+    }
   }
 `
 
@@ -63,7 +70,7 @@ class SignupEmailPassword extends Component {
           <StyledInput
             aria-label="First Name"
             type="text"
-            width="8rem"
+            width="10.5rem"
             placeholder="First Name"
             name="firstName"
             value={this.state.firstName}
@@ -72,7 +79,7 @@ class SignupEmailPassword extends Component {
           <StyledInput
             aria-label="Last Name"
             type="text"
-            width="8rem"
+            width="10.5rem"
             placeholder="Last Name"
             name="lastName"
             onChange={this.handleChange}
@@ -86,6 +93,7 @@ class SignupEmailPassword extends Component {
           name="email"
           onChange={this.handleChange}
           value={this.state.email}
+          width="22rem"
         />
         <StyledInput
           placeholder="Password"
@@ -93,20 +101,22 @@ class SignupEmailPassword extends Component {
           name="password"
           onChange={this.handleChange}
           value={this.state.password}
+          width="22rem"
         />
-        <StyledButton width="17rem" height="2rem" margin="0">
+        <StyledButton width="22rem" height="2.2rem" margin="0">
           SIGN UP
         </StyledButton>
-        <div className="checkbox">
+        <div className="radio">
           <StyledInput
             aria-label="Newsletter"
             width="2rem"
-            type="checkbox"
+            type="radio"
             onClick={this.handleChange}
             value={this.state.newsletter}
             name="newsletter"
+            id="newsletter"
           />
-          <label> I'd like to hear from Lipslut</label>
+          <label for="newsletter"> I'd like to hear from Lipslut</label>
         </div>
       </Container>
     )

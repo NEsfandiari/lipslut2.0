@@ -46,6 +46,7 @@ class Layout extends Component {
       sidebar: false,
       displayFix: false,
       curUser: null,
+      rem: 5.9,
     }
     this.handleSidebar = this.handleSidebar.bind(this)
     this.editItem = this.editItem.bind(this)
@@ -53,6 +54,7 @@ class Layout extends Component {
     this.addItem = this.addItem.bind(this)
     this.clearCart = this.clearCart.bind(this)
     this.resetSidebar = this.resetSidebar.bind(this)
+    this.marginSet = this.marginSet.bind(this)
   }
 
   static contextTypes = {
@@ -135,6 +137,9 @@ class Layout extends Component {
     this.setState({ cart: [] })
     windowGlobal.localStorage.setItem('cart', [])
   }
+  marginSet(rem) {
+    this.setState({ rem })
+  }
   render() {
     const { children, data } = this.props
     return (
@@ -150,7 +155,7 @@ class Layout extends Component {
           style={{
             margin: '0 auto',
             maxWidth: 1260,
-            padding: '0px 1.0875rem 1.45rem',
+            padding: '0px 1.0875rem',
             paddingTop: 0,
           }}
         >
@@ -163,11 +168,12 @@ class Layout extends Component {
             handleSidebar={this.handleSidebar}
             curUser={this.state.curUser}
             clearCart={this.clearCart}
+            marginSet={this.marginSet}
           />
           <div
             style={{
               position: 'relative',
-              top: '5rem',
+              marginTop: this.state.rem + 'rem',
             }}
           >
             {children({

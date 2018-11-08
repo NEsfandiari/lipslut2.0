@@ -59,6 +59,7 @@ class Navbar extends Component {
       handleSidebar,
       curUser,
       clearCart,
+      marginSet,
     } = this.props
     const { mobileSidebar, mobileDisplayFix } = this.state
     return (
@@ -73,7 +74,7 @@ class Navbar extends Component {
           mobileDisplayFix={mobileDisplayFix}
         />
         <NavContainer>
-          <BannerPromo />
+          <BannerPromo marginSet={marginSet} />
           <NavButtons
             handleMobileSidebar={this.handleMobileSidebar}
             handleSidebar={handleSidebar}

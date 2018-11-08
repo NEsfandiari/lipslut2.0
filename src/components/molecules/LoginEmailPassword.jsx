@@ -49,7 +49,7 @@ class LoginEmailPassword extends Component {
           value={this.state.password}
           width="22rem"
         />
-        <StyledButton width="22rem" height="2rem" margin="2rem">
+        <StyledButton width="22rem" height="2.2rem" margin="2rem">
           LOG IN
         </StyledButton>
       </Container>

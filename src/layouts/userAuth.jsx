@@ -3,11 +3,15 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   background-color: #e4f1f4;
-  width: 100vw;
+  width: 120%;
+  position: relative;
+  right: 10%;
 `
 
-const userAuthLayout = ({ children, data, props }) => (
-  <Container>{children}</Container>
+const userAuthLayout = WrappedComponent => props => (
+  <Container>
+    <WrappedComponent {...props} />
+  </Container>
 )
 
 export default userAuthLayout

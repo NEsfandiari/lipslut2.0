@@ -38,7 +38,7 @@ class SignupEmailPassword extends Component {
           margin=".5rem"
           className="google"
         >
-          SIGN UP WITH <GoogleIcon />
+          CONNECT WITH <GoogleIcon />
         </StyledButton>
       </Container>
     )

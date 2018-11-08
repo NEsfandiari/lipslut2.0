@@ -16,7 +16,7 @@ const Container = styled.div`
   align-items: center;
   margin-top: 2rem;
   background-color:#E4F1F4;
-  padding:5rem;
+  padding: 4rem;
   a{
     text-decoration-line: default
   }

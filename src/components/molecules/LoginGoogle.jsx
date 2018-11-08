@@ -40,7 +40,7 @@ class LoginGoogle extends Component {
           letterSpacing="0"
           className="google"
         >
-          LOG IN WITH <GoogleIcon />
+          CONNECT WITH <GoogleIcon />
         </StyledButton>
       </Container>
     )

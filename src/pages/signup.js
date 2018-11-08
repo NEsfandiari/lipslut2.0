@@ -7,6 +7,7 @@ import {
   SignupFacebook,
 } from '../components/molecules'
 import 'animate.css'
+import userAuthLayout from '../layouts/userAuth.jsx'
 
 const Container = styled.div`
   display: flex;
@@ -14,9 +15,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  p{
-    margin-bottom: .5rem;
-  }
+  padding: 4rem;
   .errorMessage {
     width: 100%;
     text-align: center;
@@ -47,30 +46,26 @@ class Signup extends Component {
     }
     return (
       <Container className="animated fadeInUp">
-        <Card height="32rem">
-          <h2>Create Account</h2>
-          <p className="errorMessage animated fadeInRight" style={displayError}>
-            {this.state.errorMessage}
-          </p>
-          <SignupEmailPassword handleError={this.handleError} />
-          <p>or</p>
-          <SignupGoogle handleError={this.handleError} />
-          <SignupFacebook handleError={this.handleError} />
-          <p>
-            Already have an account?{' '}
-            <NavLink
-              to="/login"
-              fontSize=".8rem"
-              hoverColor="#00a6f6"
-              letterSpacing="0"
-            >
-              Log In
-            </NavLink>
-          </p>
-        </Card>
+        <h2>Create Account</h2>
+        <p className="errorMessage animated fadeInRight" style={displayError}>
+          {this.state.errorMessage}
+        </p>
+        <SignupEmailPassword handleError={this.handleError} />
+        <p>or</p>
+        <SignupGoogle handleError={this.handleError} />
+        <SignupFacebook handleError={this.handleError} />
+
+        <NavLink
+          to="/login"
+          fontSize=".8rem"
+          hoverColor="#00a6f6"
+          letterSpacing="0"
+        >
+          Already have an account? Log In!
+        </NavLink>
       </Container>
     )
   }
 }
 
-export default Signup
+export default userAuthLayout(Signup)
