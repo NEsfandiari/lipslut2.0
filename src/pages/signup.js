@@ -6,7 +6,7 @@ import {
   SignupGoogle,
   SignupFacebook,
 } from '../components/molecules'
-import 'animate.css'
+
 import lightBlueLayout from '../layouts/lightBlue.jsx'
 
 const Container = styled.div`
@@ -16,14 +16,23 @@ const Container = styled.div`
   align-items: center;
   margin-top: 2rem;
   padding: 4rem;
+  animation: fadein 1s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   .errorMessage {
     width: 100%;
     text-align: center;
-    padding: .5rem;
-    border-radius: 4px
-    background-color: #FFA62C;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: #ffa62c;
     color: white;
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
   @media (max-width: 420px) {
     margin-top: 1rem;
@@ -45,7 +54,7 @@ class Signup extends Component {
       display: typeof this.state.errorMessage !== 'string' ? 'none' : 'inherit',
     }
     return (
-      <Container className="animated fadeInUp">
+      <Container>
         <h2>Create Account</h2>
         <p className="errorMessage animated fadeInRight" style={displayError}>
           {this.state.errorMessage}

@@ -40,9 +40,10 @@ class SignupEmailPassword extends Component {
     firebase: PropTypes.object,
   }
   handleChange = e => {
-    if (e.target.type == 'checkbox') {
+    if (e.target.type == 'radio') {
+      let newsState = !this.state.newsletter
       this.setState({
-        [e.target.name]: e.target.checked,
+        newsletter: newsState,
       })
     } else {
       this.setState({
@@ -112,7 +113,7 @@ class SignupEmailPassword extends Component {
             width="2rem"
             type="radio"
             onClick={this.handleChange}
-            value={this.state.newsletter}
+            checked={this.state.newsletter}
             name="newsletter"
             id="newsletter"
           />

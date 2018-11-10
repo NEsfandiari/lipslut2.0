@@ -47,7 +47,7 @@ exports.handler = async function(event, context, callback) {
         headers: shopifyConfig,
         data: JSON.stringify(payload),
       })
-      console.log(checkoutData, '1')
+      console.log(checkoutData)
       let response = {
         statusCode: 200,
         headers,
@@ -57,7 +57,7 @@ exports.handler = async function(event, context, callback) {
       }
       callback(null, response)
     } catch (err) {
-      console.log(err, '3')
+      console.log(err)
       let response = {
         statusCode: 500,
         headers,

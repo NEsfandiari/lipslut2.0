@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import NavLink from './NavLink'
-import 'animate.css'
 
 const Container = styled.div`
   display: flex;
@@ -18,6 +17,15 @@ const Container = styled.div`
     margin-top: 2rem;
     animation-duration: 0.5s;
     z-index: 3;
+    animation: fadein 0.25s;
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
   }
   .links {
     display: flex;
@@ -48,10 +56,7 @@ class DropdownMenu extends Component {
         <NavLink className="dropdown" onMouseEnter={this.showMenu} to="">
           {this.props.dropdownText}
         </NavLink>
-        <div
-          className="dropdown-content animated fadeIn"
-          style={{ display: display }}
-        >
+        <div className="dropdown-content" style={{ display: display }}>
           <div className="links">{links}</div>
         </div>
       </Container>

@@ -7,7 +7,6 @@ import {
 } from '../components/molecules'
 import { NavLink } from '../components/atoms'
 import lightBlueLayout from '../layouts/lightBlue.jsx'
-import 'animate.css'
 
 const Container = styled.div`
   display: flex;
@@ -15,19 +14,29 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  background-color:#E4F1F4;
+  background-color: #e4f1f4;
   padding: 4rem;
-  a{
-    text-decoration-line: default
+  a {
+    text-decoration-line: default;
   }
+  animation: fadein 1s;
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .errorMessage {
     width: 100%;
     text-align: center;
-    padding: .5rem;
-    border-radius: 4px
-    background-color: #FFA62C;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: #ffa62c;
     color: white;
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
   @media (max-width: 420px) {
     margin-top: 1rem;
@@ -50,7 +59,7 @@ class Login extends Component {
       display: typeof this.state.errorMessage !== 'string' ? 'none' : 'inherit',
     }
     return (
-      <Container className="animated fadeInUp">
+      <Container>
         <h2>Hey again!</h2>
         <p className="errorMessage animated fadeInRight" style={displayError}>
           {this.state.errorMessage}
