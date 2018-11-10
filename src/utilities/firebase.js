@@ -2,6 +2,7 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 import { navigateTo } from 'gatsby-link'
 import moment from 'moment'
+import axios from 'axios'
 
 const config = {
   apiKey: 'AIzaSyCbFZ7xiMAbvt9LtlknAa4eeK-WMqV9f1s',
@@ -137,7 +138,7 @@ class Firebase {
       .set({
         name: user.displayName,
         email: user.email,
-        newsletter: false,
+        newsletter: user.newsletter,
         orderHistory: [],
         billing: {
           email: '',

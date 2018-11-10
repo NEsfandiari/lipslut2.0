@@ -98,6 +98,10 @@ class Layout extends Component {
     this.setState({ sidebar: false })
   }
 
+  marginSet(rem) {
+    this.setState({ rem })
+  }
+
   editItem(name, value, i) {
     let newCart = this.state.cart
     newCart[i][name] = value
@@ -136,9 +140,7 @@ class Layout extends Component {
     this.setState({ cart: [] })
     windowGlobal.localStorage.setItem('cart', [])
   }
-  marginSet(rem) {
-    this.setState({ rem })
-  }
+
   render() {
     const { children, data } = this.props
     return (

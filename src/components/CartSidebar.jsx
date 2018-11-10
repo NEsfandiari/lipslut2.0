@@ -5,7 +5,8 @@ import { CartSidebarBody, CartSidebarFooter } from './molecules'
 import CartSidebarHeader from './molecules/CartSIdebarHeader.jsx'
 import axios from 'axios'
 import 'animate.css'
-import { navigateTo } from 'gatsby-link'
+import postLambda from '../utilities/postLambda'
+
 const Container = styled.div`
   display: ${({ displayFix }) => displayFix || 'none'};
   position: fixed;
@@ -52,26 +53,10 @@ class CartSidebar extends Component {
         quantity: item.quantity,
       }
     })
-    axios
-      .post(
-        location.hostname === 'localhost'
-          ? 'http://localhost:9000/createCheckout'
-          : `${process.env.GATSBY_LAMBDA_ENDPOINT}createCheckout`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            items,
-          }),
-        }
-      )
-      .then(res => {
-        window.location.replace(
-          res.data.data.data.checkoutCreate.checkout.webUrl
-        )
-        this.props.clearCart()
-      })
+    postLambda(createCheckout, { items }).then(res => {
+      window.location.replace(res.data.data.data.checkoutCreate.checkout.webUrl)
+      this.props.clearCart()
+    })
   }
   render() {
     const { cart, removeItem, handleSidebar, display } = this.props
