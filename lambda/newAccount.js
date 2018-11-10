@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 110);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -3183,59 +3183,7 @@ module.exports = function spread(callback) {
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3249,14 +3197,14 @@ const statusCode = 200;
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type'
-
-  // 1. what type, 2. validate reuqest 3. handle request
-  // convert handler to switch statement that calls seperate function
-
-};exports.handler = (() => {
+};
+const shopifyConfig = {
+  'Content-Type': 'application/json',
+  'X-Shopify-Storefront-Access-Token': process.env.GATSBY_SHOPIFY_STOREFRONT_KEY
+};
+exports.handler = (() => {
   var _ref = _asyncToGenerator(function* (event, context, callback) {
-    context.callbackWaitsForEmptyEventLoop = false;
-    // TEST for post request
+    // TEST for POST request
     if (event.httpMethod !== 'POST' || !event.body) {
       callback(null, {
         statusCode,
@@ -3264,69 +3212,63 @@ const headers = {
         body: ''
       });
     }
-    // TEST if the event body has data relevant to be parsed. Is valid post request
     if (event.body[0] == '{') {
       let data = JSON.parse(event.body);
       data = JSON.parse(data.body);
 
-      if (!data.token || !data.idempotency_key) {
-        console.error('Required information is missing.');
-        callback(null, {
-          sstatusCode,
-          headers,
-          body: JSON.stringify({ status: 'missing-information' })
-        });
-      }
+      const payload = {
+        query: `mutation customerCreate($input: CustomerCreateInput!) {
+        customerCreate(input: $input) {
+          userErrors {
+            field
+            message
+          }
+          customer {
+            id
+          }
+          customerUserErrors {
+            field
+            message
+          }
+        }
+      }`,
+        variables: {
+          input: {
+            email: data.email,
+            password: data.password,
+            acceptsMarketing: data.newsletter,
+            firstName: data.firstName,
+            lastName: data.lastName
+          }
+        }
+      };
 
-      // Handler Logic
-      if (data.previousCustomer) {
-        try {
-          const res = yield axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/previousCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}previousCustomer`, {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: event.body
-          });
-          let response = {
-            statusCode,
-            headers,
-            body: JSON.stringify(res.data)
-          };
-          callback(null, response);
-        } catch (err) {
-          let response = {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({
-              error: err.message
-            })
-          };
-          callback(null, response);
-        }
-      } else {
-        try {
-          const res = yield axios.post(process.env.GATSBY_NODE_ENV === 'development' ? 'http://localhost:9000/newCustomer' : `${process.env.GATSBY_LAMBDA_ENDPOINT}newCustomer`, {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: event.body
-          });
-          let response = {
-            statusCode,
-            headers,
-            body: JSON.stringify(res.data)
-          };
-          callback(null, response);
-        } catch (err) {
-          let response = {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({
-              error: err.message
-            })
-          };
-          callback(null, response);
-        }
+      try {
+        let customer = yield axios({
+          url: 'https://lipslut2-0.myshopify.com/api/graphql',
+          method: 'POST',
+          headers: shopifyConfig,
+          data: JSON.stringify(payload)
+        });
+        customer = customer.data.data.customerCreate;
+        let response = {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            customer
+          })
+        };
+        callback(null, response);
+      } catch (err) {
+        console.log(err);
+        let response = {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            error: err.message
+          })
+        };
+        callback(null, response);
       }
     }
   });

@@ -5,7 +5,7 @@ import { Order } from './molecules'
 const Container = styled.div`
   flex-basis: 66%;
   .orders {
-    max-height: 55vh;
+    height: 55vh;
     overflow: auto;
   }
   background-color: white;
@@ -27,6 +27,7 @@ class OrderHistory extends Component {
   render() {
     let orders
     if (this.props.curUser) {
+      debugger
       if (this.props.curUser.orderHistory.length > 0) {
         const { curUser } = this.props
         orders = curUser.orderHistory.map((order, i) => (

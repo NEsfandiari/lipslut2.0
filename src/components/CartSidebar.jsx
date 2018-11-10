@@ -53,7 +53,7 @@ class CartSidebar extends Component {
         quantity: item.quantity,
       }
     })
-    postLambda(createCheckout, { items }).then(res => {
+    postLambda('createCheckout', { items }).then(res => {
       window.location.replace(res.data.data.data.checkoutCreate.checkout.webUrl)
       this.props.clearCart()
     })

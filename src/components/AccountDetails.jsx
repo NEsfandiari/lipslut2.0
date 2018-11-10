@@ -16,19 +16,16 @@ const Container = styled.div`
   background-color: white;
   border-radius: 3px;
   padding: 2rem;
+  max-height: 48vh;
 `
 
 class AccountDetails extends Component {
   state = {
     editing: false,
-    firstName: this.props.curUser.name.split(' ')[0] || '',
-    lastName: this.props.curUser.name.split(' ')[1] || '',
+    firstName: this.props.curUser.firstName || '',
+    lastName: this.props.curUser.lastName || '',
     email: this.props.curUser.email || '',
-    address: this.props.curUser.billing.address_line1 || '',
-    apartment: this.props.curUser.billing.address_line2 || '',
-    city: this.props.curUser.billing.address_city || '',
-    zip: this.props.curUser.billing.zip || '',
-    phone: this.props.curUser.billing.phone || '',
+    phone: this.props.curUser.phone || '',
   }
 
   static contextTypes = {
@@ -48,25 +45,12 @@ class AccountDetails extends Component {
   }
   handleUpdate = e => {
     const firebase = this.context.firebase
-    const {
-      firstName,
-      lastName,
-      email,
-      address,
-      apartment,
-      city,
-      zip,
-      phone,
-    } = this.state
+    const { firstName, lastName, email, phone } = this.state
     firebase.updateAccount(
       this.props.curUser,
       firstName,
       lastName,
       email,
-      address,
-      apartment,
-      city,
-      zip,
       phone
     )
     this.props.signIn(this.props.curUser)
@@ -74,16 +58,7 @@ class AccountDetails extends Component {
   }
   render() {
     const curUser = this.props.curUser
-    const {
-      firstName,
-      lastName,
-      email,
-      address,
-      apartment,
-      city,
-      zip,
-      phone,
-    } = this.state
+    const { firstName, lastName, email, phone } = this.state
     return (
       <Container>
         <h3>Account Details</h3>
@@ -93,10 +68,6 @@ class AccountDetails extends Component {
             firstName={firstName}
             lastName={lastName}
             email={email}
-            address={address}
-            apartment={apartment}
-            city={city}
-            zip={zip}
             phone={phone}
           />
         ) : (
@@ -106,10 +77,6 @@ class AccountDetails extends Component {
             firstName={firstName}
             lastName={lastName}
             email={email}
-            address={address}
-            apartment={apartment}
-            city={city}
-            zip={zip}
             phone={phone}
           />
         )}

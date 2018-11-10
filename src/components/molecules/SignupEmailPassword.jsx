@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { navigateTo } from 'gatsby-link'
-import { StyledInput, StyledButton } from '../atoms'
+import { StyledInput, StyledButton, Loading } from '../atoms'
 
 const Container = styled.form`
   display: flex;
@@ -35,6 +34,7 @@ class SignupEmailPassword extends Component {
     email: '',
     password: '',
     newsletter: false,
+    status: 'SIGN UP',
   }
   static contextTypes = {
     firebase: PropTypes.object,
@@ -55,14 +55,20 @@ class SignupEmailPassword extends Component {
     e.preventDefault()
     const { firebase } = this.context
     const { firstName, lastName, email, password, newsletter } = this.state
-    firebase.signupEmailPassword(
-      this,
-      firstName,
-      lastName,
-      email,
-      password,
-      newsletter
-    )
+    this.setState({ status: <Loading /> })
+    try {
+      firebase.signupEmailPassword(
+        this,
+        firstName,
+        lastName,
+        email,
+        password,
+        newsletter
+      )
+    } catch (err) {
+      console.log(err)
+      this.setState({ status: 'FAILURE' })
+    }
   }
   render() {
     return (
@@ -105,7 +111,7 @@ class SignupEmailPassword extends Component {
           width="22rem"
         />
         <StyledButton width="22rem" height="2.2rem" margin="0">
-          SIGN UP
+          {this.state.status}
         </StyledButton>
         <div className="radio">
           <StyledInput

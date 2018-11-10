@@ -79,6 +79,7 @@ class Layout extends Component {
     // TODO: Seperate database schema into more react friendly schema
     const { firebase } = this.context
     firebase.signIn(user.uid).then(doc => {
+      debugger
       this.setState({ curUser: { uid: user.uid, ...doc.data() } })
     })
   }

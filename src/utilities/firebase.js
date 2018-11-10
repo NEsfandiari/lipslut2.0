@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 import { navigateTo } from 'gatsby-link'
 import moment from 'moment'
-import axios from 'axios'
+import postLambda from './postLambda'
 
 const config = {
   apiKey: 'AIzaSyCbFZ7xiMAbvt9LtlknAa4eeK-WMqV9f1s',
@@ -118,13 +118,18 @@ class Firebase {
       .then(user => {
         let userInfo = {
           uid: user.user.uid,
-          email: user.user.email,
-          displayName: firstName + ' ' + lastName,
+          email,
+          firstName,
+          lastName,
+          password,
+          newsletter,
         }
         if (newsletter) {
           this.addEmail(userInfo.email)
         }
-        this.storeUser(userInfo)
+        postLambda('newAccount', userInfo).then(res => {
+          this.storeUser(userInfo)
+        })
       })
       .catch(function(error) {
         const errorMessage = error.message
@@ -136,24 +141,17 @@ class Firebase {
       .collection('users')
       .doc(user.uid)
       .set({
-        name: user.displayName,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         newsletter: user.newsletter,
+        password: user.password,
+        phone: '',
         orderHistory: [],
-        billing: {
-          email: '',
-          address_city: '',
-          address_line1: '',
-          address_line2: '',
-          address_state: '',
-          firstName: '',
-          lastName: '',
-          zip: '',
-          phone: '',
-          card: '',
-        },
       })
-      .then(() => navigateTo('/'))
+      .then(() => {
+        navigateTo('/')
+      })
   }
 
   updateAccount = (

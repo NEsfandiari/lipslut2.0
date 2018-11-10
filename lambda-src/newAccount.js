@@ -6,8 +6,9 @@ const headers = {
   'Access-Control-Allow-Headers': 'Content-Type',
 }
 const shopifyConfig = {
-  'Content-Type': 'application/graphql',
-  'X-Shopify-Access-Token': process.env.GATSBY_SHOPIFY_STOREFRONT_KEY,
+  'Content-Type': 'application/json',
+  'X-Shopify-Storefront-Access-Token':
+    process.env.GATSBY_SHOPIFY_STOREFRONT_KEY,
 }
 exports.handler = async function(event, context, callback) {
   // TEST for POST request
@@ -21,55 +22,52 @@ exports.handler = async function(event, context, callback) {
   if (event.body[0] == '{') {
     let data = JSON.parse(event.body)
     data = JSON.parse(data.body)
-    data = JSON.parse(data.body)
+
     const payload = {
-      query: ` mutation customerCreate($input: CheckoutCreateInput!) {
-          customerCreate(input: $input) {
-            userErrors {
-              field
-              message
-            }
-            customer {
-              id
-            }
-            customerUserErrors {
-              field
-              message
-            }
+      query: `mutation customerCreate($input: CustomerCreateInput!) {
+        customerCreate(input: $input) {
+          userErrors {
+            field
+            message
           }
-        }`,
+          customer {
+            id
+          }
+          customerUserErrors {
+            field
+            message
+          }
+        }
+      }`,
       variables: {
         input: {
-          acceptsMarketing: true,
-          email: data.token.email,
+          email: data.email,
+          password: data.password,
+          acceptsMarketing: data.newsletter,
           firstName: data.firstName,
           lastName: data.lastName,
-          phone: data.phoneNumber,
         },
       },
     }
 
     try {
-      let customerId = await axios({
+      let customer = await axios({
         url: 'https://lipslut2-0.myshopify.com/api/graphql',
         method: 'POST',
         headers: shopifyConfig,
         data: JSON.stringify(payload),
       })
-      customerId = customerId.data.data.customerCreate.customer.id
-      let status =
-        customer === null || order.status !== 'paid' ? 'failed' : order.status
+      customer = customer.data.data.customerCreate
       let response = {
-        statusCode,
+        statusCode: 200,
         headers,
         body: JSON.stringify({
-          status,
-          customer: order.customer,
-          customerType: 'New',
+          customer,
         }),
       }
       callback(null, response)
     } catch (err) {
+      console.log(err)
       let response = {
         statusCode: 500,
         headers,

@@ -20,15 +20,10 @@ class AccountDetailsForm extends Component {
       firstName,
       lastName,
       email,
-      address,
-      apartment,
-      city,
-      zip,
       phone,
       handleChange,
       curUser,
     } = this.props
-    const apartmentDisplay = curUser.billing.address_line2 ? 'inherit' : 'none'
 
     return (
       <Container>
@@ -63,50 +58,6 @@ class AccountDetailsForm extends Component {
             name="email"
             required
             value={email}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="">Address</label>
-          <StyledInput
-            type="text"
-            placeholder="Address"
-            onChange={handleChange}
-            name="address"
-            required
-            value={address}
-          />
-        </div>
-        <div className="field" style={{ display: apartmentDisplay }}>
-          <label htmlFor="">Apt/Suite</label>
-          <StyledInput
-            type="text"
-            placeholder="Apt/Floor/Suite"
-            onChange={handleChange}
-            name="apartment"
-            required
-            value={apartment}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="">City</label>
-          <StyledInput
-            type="text"
-            placeholder="City"
-            onChange={handleChange}
-            required
-            name="city"
-            value={city}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="">Zip</label>
-          <StyledInput
-            type="text"
-            placeholder="Zip"
-            onChange={handleChange}
-            required
-            name="zip"
-            value={zip}
           />
         </div>
         <div className="field">
