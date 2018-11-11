@@ -41,6 +41,7 @@ const Container = styled.div`
   @media (max-width: 420px) {
     width: 100%;
     padding: 1rem;
+    padding-right: 0rem;
     min-width: 0px;
     position: sticky;
     background-color: #f7f7f7;
@@ -65,14 +66,13 @@ const Container = styled.div`
       }
     }
     .logo {
-      flex-basis: 60%;
+      flex-basis: 55%;
     }
     .rightNav {
-      flex-basis: 20%;
-    }
-    .logout,
-    .login {
-      display: none;
+      flex-basis: 25%;
+      div:first-child {
+        display: none;
+      }
     }
   }
 `

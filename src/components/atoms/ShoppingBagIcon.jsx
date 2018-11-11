@@ -6,7 +6,6 @@ const Container = styled.div`
   cursor: pointer;
   max-height: 2.5rem;
   display: flex;
-  justify-content: center;
   align-items: center;
   p {
     position: relative;
