@@ -8,11 +8,21 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  @media (max-width: 420px) {
+      padding: 0rem;
+      hr{
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
   .purchase {
     display: flex;
     align-items: center;
-    width: 100%
+    width: 100%;
     justify-content: space-around;
+    @media (max-width: 420px) {
+      flex-direction: column;
+    }
   }
   .price {
     font-size: 0.9rem;

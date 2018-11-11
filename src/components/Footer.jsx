@@ -7,27 +7,44 @@ const Container = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    /* TODO: Break Up into Seperate Top/Bottom Componenets */
     .top-footer{
       display: flex;
       justify-content: space-between;
       width: 90%
       padding: 1rem;
+      @media (max-width: 420px) {
+        width: 100%
+        padding: 0rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        a{
+            font-size: .8rem;
+          }
+      }
     }
-
     .bottom-footer{
+      width: 100vw;
       height: 6rem;
       background-color: #75CAEB;
-      width: 100vw;
       color: white;
       padding: 1rem;
       display flex;
-      justify-content: center;
+      @media (max-width: 420px) {
+          display: none;
+          padding: .5rem;
+          position: relative;
+          right: 4.5%;
+      }
       .bottom-footer-container{
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         width: 75%;
-        padding-right: 2rem;
+        @media (max-width: 420px) {
+          width: 950%;
+      }
+       
       }
     }
     .copyright{
@@ -39,6 +56,9 @@ const Container = Styled.div`
       flex-wrap: wrap;
       height: 6rem;
       flex-basis: 50%;
+      @media (max-width: 420px) {
+        width: 20rem;
+      }
     }
     .bottom-links{
       display: flex;

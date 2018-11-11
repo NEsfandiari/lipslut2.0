@@ -10,7 +10,6 @@ const Container = styled.form`
   @media (max-width: 420px) {
     display: flex;
     align-items: center;
-    flex-direction: column;
   }
   input {
     text-align: center;

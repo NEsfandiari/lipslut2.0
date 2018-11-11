@@ -46,7 +46,7 @@ class Layout extends Component {
       sidebar: false,
       displayFix: false,
       curUser: null,
-      rem: 5.9,
+      rem: 6,
     }
     this.handleSidebar = this.handleSidebar.bind(this)
     this.editItem = this.editItem.bind(this)
@@ -186,6 +186,7 @@ class Layout extends Component {
               position: 'relative',
               marginTop: this.state.rem + 'rem',
             }}
+            className="body"
           >
             {children({
               ...this.props,

@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/lib/fa'
 
 const Container = styled.div`
+  @media (max-width: 420px) {
+    display: flex;
+    justify-content: center;
+  }
   svg {
     margin: 0.4rem;
     transition: 0.3s ease;

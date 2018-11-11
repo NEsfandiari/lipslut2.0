@@ -25,6 +25,8 @@ const Container = styled.div`
   }
 
   @media (max-width: 420px) {
+    padding: 0rem;
+    width: 98%;
     .photoCarousel {
       overflow: auto;
     }
