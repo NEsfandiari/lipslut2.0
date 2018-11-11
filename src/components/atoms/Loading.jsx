@@ -6,7 +6,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 81vh;
+  height: ${({ height }) => height || '81vh'};
 `
 
 const Loading = () => (

@@ -90,7 +90,17 @@ class Firebase {
   signupGoogle = componentThis => {
     this.auth()
       .signInWithPopup(new this.auth.GoogleAuthProvider())
-      .then(user => this.storeUser(user.user))
+      .then(user => {
+        let userInfo = {
+          uid: user.user.uid,
+          email: user.additionalUserInfo.profile.email,
+          firstName: user.additionalUserInfo.profile.given_name,
+          lastName: user.additionalUserInfo.profile.family_name,
+          password: user.additionalUserInfo.profile.id,
+          newsletter: true,
+        }
+        this.storeUser(userInfo)
+      })
       .catch(error => {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
@@ -99,7 +109,17 @@ class Firebase {
   signupFacebook = componentThis => {
     this.auth()
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then(user => this.storeUser(user.user))
+      .then(user => {
+        let userInfo = {
+          uid: user.user.uid,
+          email: user.additionalUserInfo.profile.email,
+          firstName: user.additionalUserInfo.profile.first_name,
+          lastName: user.additionalUserInfo.profile.last_name,
+          password: user.additionalUserInfo.profile.id,
+          newsletter: true,
+        }
+        this.storeUser(userInfo)
+      })
       .catch(error => {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
@@ -127,9 +147,7 @@ class Firebase {
         if (newsletter) {
           this.addEmail(userInfo.email)
         }
-        postLambda('newAccount', userInfo).then(res => {
-          this.storeUser(userInfo)
-        })
+        this.storeUser(userInfo)
       })
       .catch(function(error) {
         const errorMessage = error.message
@@ -137,21 +155,23 @@ class Firebase {
       })
   }
   storeUser = user => {
-    this.store()
-      .collection('users')
-      .doc(user.uid)
-      .set({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        newsletter: user.newsletter,
-        password: user.password,
-        phone: '',
-        orderHistory: [],
-      })
-      .then(() => {
-        navigateTo('/')
-      })
+    postLambda('newAccount', user).then(res => {
+      this.store()
+        .collection('users')
+        .doc(user.uid)
+        .set({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          newsletter: user.newsletter,
+          password: user.password,
+          phone: '',
+          orderHistory: [],
+        })
+        .then(() => {
+          navigateTo('/')
+        })
+    })
   }
 
   updateAccount = (

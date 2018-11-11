@@ -55,7 +55,7 @@ class SignupEmailPassword extends Component {
     e.preventDefault()
     const { firebase } = this.context
     const { firstName, lastName, email, password, newsletter } = this.state
-    this.setState({ status: <Loading /> })
+    this.setState({ status: <Loading height="5vh" /> })
     try {
       firebase.signupEmailPassword(
         this,
