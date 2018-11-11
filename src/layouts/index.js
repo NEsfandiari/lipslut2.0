@@ -84,7 +84,6 @@ class Layout extends Component {
       .then(curUser => {
         curUser = curUser.data()
         postLambda('getAccount', curUser).then(res => {
-          debugger
           if (res.data.customer) curUser = res.data.customer
         })
         this.setState({ curUser: curUser })

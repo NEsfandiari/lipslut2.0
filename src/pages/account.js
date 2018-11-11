@@ -11,9 +11,6 @@ const Container = styled.div`
   margin-top: 2rem;
   padding: 2rem;
   animation: fadein 1s;
-  .loading {
-    height: 81vh !important;
-  }
   @keyframes fadein {
     from {
       opacity: 0;
@@ -42,7 +39,7 @@ class Account extends Component {
             <OrderHistory curUser={curUser} signIn={signIn} />
           </Container>
         ) : (
-          <Loading className="loading" />
+          <Loading />
         )}
       </div>
     )

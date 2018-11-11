@@ -160,6 +160,7 @@ class Firebase {
         .collection('users')
         .doc(user.uid)
         .set({
+          uid: uid,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
