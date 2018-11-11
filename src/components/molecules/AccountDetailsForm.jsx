@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { StyledInput } from '../atoms'
 
 const Container = styled.form`
-  max-height: 50vh;
   overflow: auto;
   p {
     font-size: 0.9rem;

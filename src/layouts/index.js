@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import './index.css'
+import postLambda from '../utilities/postLambda'
 
 const Container = styled.div`
   h1,
@@ -78,10 +79,19 @@ class Layout extends Component {
   signIn = user => {
     // TODO: Seperate database schema into more react friendly schema
     const { firebase } = this.context
-    firebase.signIn(user.uid).then(curUser => {
-      debugger
-      this.setState({ curUser })
-    })
+    firebase
+      .signIn(user.uid)
+      .then(curUser => {
+        curUser = curUser.data()
+        postLambda('getAccount', curUser).then(res => {
+          debugger
+          if (res.data.customer) curUser = res.data.customer
+        })
+        this.setState({ curUser: curUser })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   signOut = () => {

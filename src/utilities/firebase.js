@@ -38,18 +38,10 @@ class Firebase {
   }
 
   signIn = uid => {
-    let curUser
     return this.store()
       .collection('users')
       .doc(uid)
       .get()
-      .then(user => {
-        curUser = user.data()
-        return postLambda('getAccount', curUser).then(res => {
-          if (res.data.customer) return res
-          else return curUser
-        })
-      })
   }
 
   checkDb = email => {

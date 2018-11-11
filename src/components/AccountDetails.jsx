@@ -16,7 +16,7 @@ const Container = styled.div`
   background-color: white;
   border-radius: 3px;
   padding: 2rem;
-  max-height: 48vh;
+  max-height: 20rem;
 `
 
 class AccountDetails extends Component {
