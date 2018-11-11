@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ 	return __webpack_require__(__webpack_require__.s = 47);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -3172,8 +3172,7 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 46 */,
-/* 47 */,
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3206,41 +3205,96 @@ exports.handler = (() => {
       let data = JSON.parse(event.body);
       data = JSON.parse(data.body);
 
-      const payload = {
-        query: `mutation customerCreate($input: CustomerCreateInput!) {
-        customerCreate(input: $input) {
+      const payload1 = {
+        query: `mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+        customerAccessTokenCreate(input: $input) {
           userErrors {
             field
             message
           }
-          customer {
-            id
+          customerAccessToken {
+            accessToken
+            expiresAt
           }
           customerUserErrors {
             field
             message
           }
         }
-      }`,
+      }
+      `,
         variables: {
           input: {
             email: data.email,
-            password: data.password,
-            acceptsMarketing: data.newsletter,
-            firstName: data.firstName,
-            lastName: data.lastName
+            password: data.password
           }
         }
       };
-
+      let token;
+      try {
+        token = yield axios({
+          url: 'https://lipslut2-0.myshopify.com/api/graphql',
+          method: 'POST',
+          headers: shopifyConfig,
+          data: JSON.stringify(payload1)
+        });
+        token = token.data.data.customerAccessTokenCreate.customerAccessToken.accessToken;
+        console.log(token);
+      } catch (err) {
+        console.log(err);
+        let response = {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({
+            error: err.message
+          })
+        };
+        callback(null, response);
+      }
+      const payload2 = {
+        query: `query customerQuery($customerAccessToken: String!){
+        customer(customerAccessToken: $customerAccessToken) {
+          firstName
+          email
+          orders{
+            edges{
+              node{
+                orderNumber
+                totalPrice
+                lineItems{
+                  edges{
+                    node{
+                      quantity
+                      title
+                      variant{
+                        title
+                        price
+                        image{
+                          originalSrc
+                        }
+                      }
+                    }
+                  }
+                }
+                
+              }
+            }
+          }
+        }
+      }`,
+        variables: {
+          customerAccessToken: token
+        }
+      };
       try {
         let customer = yield axios({
           url: 'https://lipslut2-0.myshopify.com/api/graphql',
           method: 'POST',
           headers: shopifyConfig,
-          data: JSON.stringify(payload)
+          data: JSON.stringify(payload2)
         });
-        customer = customer.data.data.customerCreate;
+        customer = customer.data.data.customer;
+        console.log(customer);
         let response = {
           statusCode: 200,
           headers,

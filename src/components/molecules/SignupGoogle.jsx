@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-import { StyledButton, GoogleIcon } from '../atoms'
+import { StyledButton, GoogleIcon, Loading } from '../atoms'
 
 const Container = styled.div`
   .google {
@@ -16,11 +16,15 @@ const Container = styled.div`
 `
 
 class SignupEmailPassword extends Component {
+  state = {
+    status: 'CONNECT WITH ',
+  }
   static contextTypes = {
     firebase: PropTypes.object,
   }
   handleGoogle = e => {
     const { firebase } = this.context
+    this.setState({ status: <Loading /> })
     firebase.signupGoogle(this)
   }
   render() {
@@ -38,7 +42,7 @@ class SignupEmailPassword extends Component {
           margin=".5rem"
           className="google"
         >
-          CONNECT WITH <GoogleIcon />
+          {this.state.status} <GoogleIcon />
         </StyledButton>
       </Container>
     )

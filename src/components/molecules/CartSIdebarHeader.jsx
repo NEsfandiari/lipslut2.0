@@ -33,7 +33,11 @@ class CartSidebarHeader extends Component {
     const { cart, handleSidebar } = this.props
     return (
       <Container>
-        <IoIosCloseEmpty onClick={handleSidebar} size={'2rem'} class="close" />
+        <IoIosCloseEmpty
+          onClick={handleSidebar}
+          size={'2rem'}
+          className="close"
+        />
         <h3>Your Bag</h3>
         <ShoppingBagIcon id="bag" cart={cart} click={handleSidebar} />
       </Container>

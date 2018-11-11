@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { StyledButton } from '../atoms'
+import { StyledButton, Loading } from '../atoms'
 import { FaFacebookSquare } from 'react-icons/lib/fa'
 
 const Container = styled.div`
@@ -15,12 +15,16 @@ const Container = styled.div`
   }
 `
 class SignupFacebook extends Component {
+  state = {
+    status: 'CONNECT WITH ',
+  }
   static contextTypes = {
     firebase: PropTypes.object,
   }
 
   handleFacebook = e => {
     const { firebase } = this.context
+    this.setState({ status: <Loading /> })
     firebase.signupFacebook(this, 'facebook')
   }
 
@@ -40,7 +44,7 @@ class SignupFacebook extends Component {
           letterSpacing="0"
           className="facebook"
         >
-          CONNECT WITH <FaFacebookSquare color="#3B539A" size="1.3rem" />
+          {this.state.status} <FaFacebookSquare color="#3B539A" size="1.3rem" />
         </StyledButton>
       </Container>
     )
