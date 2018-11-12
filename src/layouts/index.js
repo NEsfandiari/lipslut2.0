@@ -62,6 +62,7 @@ class Layout extends Component {
   }
 
   componentDidMount() {
+    // TODO: Create Context for the current User Information
     let cartData = windowGlobal.localStorage.getItem('cart') || '[]'
     cartData = JSON.parse(cartData)
     this.setState({ cart: cartData })

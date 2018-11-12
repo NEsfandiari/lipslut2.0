@@ -3,9 +3,8 @@ import styled from 'styled-components'
 import { CartSidebarBody, CartSidebarFooter } from './molecules'
 // FIX: file naming issue on build, have to pull off this hack for now
 import CartSidebarHeader from './molecules/CartSIdebarHeader.jsx'
-import axios from 'axios'
-import 'animate.css'
 import postLambda from '../utilities/postLambda'
+import 'animate.css'
 
 const Container = styled.div`
   display: ${({ displayFix }) => displayFix || 'none'};
@@ -53,8 +52,14 @@ class CartSidebar extends Component {
         quantity: item.quantity,
       }
     })
-    postLambda('createCheckout', { items }).then(res => {
-      window.location.replace(res.data.data.data.checkoutCreate.checkout.webUrl)
+    const hasAccount = this.props.curUser ? true : false
+    postLambda('createCheckout', {
+      items,
+      hasAccount,
+      user: this.props.curUser,
+    }).then(res => {
+      debugger
+      window.location.replace(res.data.data.webUrl)
       this.props.clearCart()
     })
   }

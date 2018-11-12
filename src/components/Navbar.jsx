@@ -91,6 +91,7 @@ class Navbar extends Component {
           removeItem={removeItem}
           displayFix={displayFix}
           clearCart={clearCart}
+          curUser={curUser}
         />
       </div>
     )

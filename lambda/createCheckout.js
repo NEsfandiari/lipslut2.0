@@ -3206,7 +3206,7 @@ exports.handler = (() => {
     if (event.body[0] == '{') {
       let data = JSON.parse(event.body);
       data = JSON.parse(data.body);
-      const payload = {
+      const payload1 = {
         query: `mutation checkoutCreate($input: CheckoutCreateInput!) {
             checkoutCreate(input: $input) {
               checkout {
@@ -3221,22 +3221,15 @@ exports.handler = (() => {
           }`,
         variables: { input: { lineItems: data.items } }
       };
+      let checkoutData;
       try {
-        const checkoutData = yield axios({
+        checkoutData = yield axios({
           url: 'https://lipslut2-0.myshopify.com/api/graphql',
           method: 'post',
           headers: shopifyConfig,
-          data: JSON.stringify(payload)
+          data: JSON.stringify(payload1)
         });
-        console.log(checkoutData);
-        let response = {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            data: checkoutData.data
-          })
-        };
-        callback(null, response);
+        checkoutData = checkoutData.data.data.checkoutCreate.checkout;
       } catch (err) {
         console.log(err);
         let response = {
@@ -3247,6 +3240,111 @@ exports.handler = (() => {
           })
         };
         callback(null, response);
+      }
+
+      // IF the user has an account ASK shopify for a customeraccesstoken and asscoiate the checkout with the account
+      if (!data.hasAccount) {
+        console.log('hey');
+        let response = {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            data: checkoutData
+          })
+        };
+        callback(null, response);
+      } else {
+        const payload2 = {
+          query: `mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+          customerAccessTokenCreate(input: $input) {
+            userErrors {
+              field
+              message
+            }
+            customerAccessToken {
+              accessToken
+              expiresAt
+            }
+            customerUserErrors {
+              field
+              message
+            }
+          }
+        }
+        `,
+          variables: {
+            input: {
+              email: data.user.email,
+              password: data.user.password
+            }
+          }
+        };
+        let token;
+        try {
+          token = yield axios({
+            url: 'https://lipslut2-0.myshopify.com/api/graphql',
+            method: 'POST',
+            headers: shopifyConfig,
+            data: JSON.stringify(payload2)
+          });
+          token = token.data.data.customerAccessTokenCreate.customerAccessToken.accessToken;
+        } catch (err) {
+          console.log(err);
+          let response = {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              error: err.message
+            })
+          };
+          callback(null, response);
+        }
+        const payload3 = {
+          query: `mutation checkoutCustomerAssociateV2($checkoutId: ID!, $customerAccessToken: String!) {
+          checkoutCustomerAssociateV2(checkoutId: $checkoutId, customerAccessToken: $customerAccessToken) {
+            userErrors {
+              field
+              message
+            }
+            checkout {
+              id
+            }
+            customer {
+              id
+            }
+          }
+        }`,
+          variables: {
+            checkoutId: checkoutData.id,
+            customerAccessToken: token
+          }
+        };
+        try {
+          token = yield axios({
+            url: 'https://lipslut2-0.myshopify.com/api/graphql',
+            method: 'POST',
+            headers: shopifyConfig,
+            data: JSON.stringify(payload3)
+          });
+          let response = {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+              data: checkoutData
+            })
+          };
+          callback(null, response);
+        } catch (err) {
+          console.log(err);
+          let response = {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              error: err.message
+            })
+          };
+          callback(null, response);
+        }
       }
     }
   });

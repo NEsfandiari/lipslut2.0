@@ -3239,7 +3239,6 @@ exports.handler = (() => {
           data: JSON.stringify(payload1)
         });
         token = token.data.data.customerAccessTokenCreate.customerAccessToken.accessToken;
-        console.log(token);
       } catch (err) {
         console.log(err);
         let response = {

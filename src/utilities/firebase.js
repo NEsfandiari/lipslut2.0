@@ -160,7 +160,7 @@ class Firebase {
         .collection('users')
         .doc(user.uid)
         .set({
-          uid: uid,
+          uid: user.uid,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
@@ -170,37 +170,21 @@ class Firebase {
           orderHistory: [],
         })
         .then(() => {
+          this.signIn(user.uid)
           navigateTo('/')
         })
     })
   }
 
-  updateAccount = (
-    user,
-    firstName,
-    lastName,
-    email,
-    address,
-    apartment,
-    city,
-    zip,
-    phone
-  ) => {
+  updateAccount = (user, firstName, lastName, email, phone) => {
     this.store()
       .collection('users')
       .doc(user.uid)
       .update({
-        billing: {
-          card: user.billing.card || '',
-          address_city: city,
-          address_state: user.billing.address_state || '',
-          address_line1: address,
-          address_line2: apartment,
-          zip: zip,
-          phone: phone,
-        },
+        phone: phone,
         email: email,
-        name: firstName + ' ' + lastName,
+        firstName: firstName,
+        lastName: lastName,
       })
   }
   updatePayment = (
@@ -229,18 +213,6 @@ class Firebase {
             orderNumber: parseInt(Math.random() * 1000),
           },
         ],
-        billing: {
-          card:
-            res.data.customerType == 'New'
-              ? res.data.customer
-              : res.data.previousCustomer,
-          address_city: city,
-          address_state: state,
-          address_line1: address,
-          address_line2: apartment,
-          zip: zip,
-          phone: phone,
-        },
         newsletter: newsletter,
       })
   }

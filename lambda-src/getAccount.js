@@ -59,7 +59,6 @@ exports.handler = async function(event, context, callback) {
       token =
         token.data.data.customerAccessTokenCreate.customerAccessToken
           .accessToken
-      console.log(token)
     } catch (err) {
       console.log(err)
       let response = {

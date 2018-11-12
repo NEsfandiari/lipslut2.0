@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FaUserSecret, FaBars } from 'react-icons/lib/fa'
+import { FaUser, FaBars } from 'react-icons/lib/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
@@ -146,7 +146,7 @@ class NavButtons extends Component {
         <div className="rightNav">
           <DropdownMenu
             links={userLinks}
-            dropdownText={<FaUserSecret size="2.2rem" />}
+            dropdownText={<FaUser size="2.2rem" color="#FF009A" />}
           />
           <ShoppingBagIcon click={handleSidebar} cart={cart} />
         </div>

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  max-height: 50vh;
   overflow: auto;
   p {
     font-size: 0.9rem;
@@ -20,7 +19,10 @@ class AccountDetailsForm extends Component {
     return (
       <Container>
         <p>
-          <span className="labels">Name:</span> {firstName + ' ' + lastName}
+          <span className="labels">First Name:</span> {firstName}
+        </p>
+        <p>
+          <span className="labels">Last Name:</span> {lastName}
         </p>
         <p>
           <span className="labels">Email:</span> {email}
