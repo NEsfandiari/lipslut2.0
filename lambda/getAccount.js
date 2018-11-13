@@ -3265,6 +3265,12 @@ exports.handler = (() => {
                 totalPrice
                 processedAt
                 statusUrl
+                successfulFulfillments(first: 100){
+                  trackingInfo(first: 100){
+                    number
+                    url
+                  }
+                }
                 lineItems(first:100){
                   edges{
                     node{
