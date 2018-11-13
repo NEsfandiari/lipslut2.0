@@ -19,7 +19,7 @@ const StyledButton = Styled.button`
 
   :hover{
     background-color: ${({ hoverColor }) => hoverColor || 'white'};
-    color: #FF0086;
+    color: ${({ hoverTextColor }) => hoverTextColor || '#FF0086'};
   }
   @media (max-width: 420px) {
     width: 90%;

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
-import './index.css'
 import postLambda from '../utilities/postLambda'
+import './index.css'
 
 const Container = styled.div`
   h1,
@@ -61,7 +61,7 @@ class Layout extends Component {
       sidebar: false,
       displayFix: false,
       curUser: null,
-      rem: 6,
+      rem: 5.9,
     }
     this.handleSidebar = this.handleSidebar.bind(this)
     this.editItem = this.editItem.bind(this)

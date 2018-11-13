@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
 import { FooterSocialIcons, FooterEmailForm } from './molecules'
-import { NavLink, StyledHr } from './atoms'
+import { NavLink } from './atoms'
 
 const Container = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top:2rem;
     /* TODO: Break Up into Seperate Top/Bottom Componenets */
     .top-footer{
       display: flex;
@@ -80,7 +81,6 @@ class Footer extends Component {
   render() {
     return (
       <Container>
-        <StyledHr width="65%" />
         <div className="top-footer">
           <div className="left-side">
             <FooterEmailForm />

@@ -32,9 +32,9 @@ class LoginFacebook extends Component {
           onClick={this.handleFacebook}
           width="17rem"
           height="2.5rem"
-          color="black"
+          color="#3B539A"
           backgroundColor="white"
-          borderColor="#FF0086"
+          borderColor="#3B539A"
           borderWidth="2px"
           margin=".5rem"
           hoverColor="#E9F6FF"

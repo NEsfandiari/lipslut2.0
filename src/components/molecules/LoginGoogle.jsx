@@ -31,9 +31,9 @@ class LoginGoogle extends Component {
           onClick={this.handleGoogle}
           width="17rem"
           height="2.5rem"
-          color="black"
+          color="#D34836"
           backgroundColor="white"
-          borderColor="#FF0086"
+          borderColor="#D34836"
           borderWidth="2px"
           margin=".5rem"
           hoverColor="#F9F7F1"
