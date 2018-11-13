@@ -59,7 +59,21 @@ class MobileSidebar extends Component {
     const { handleMobileSidebar, display, logOut, curUser, cart } = this.props
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
-    const links = [
+    const campaignLinks = [
+      {
+        text: 'F*ck Trump',
+        page: 'Fck-Trump',
+      },
+      {
+        text: 'F*ck Kavanaugh',
+        page: 'Fck-Kavanaugh',
+      },
+      {
+        text: 'F*ck Hollywood',
+        page: 'Fck-Hollywood',
+      },
+    ]
+    const morelinks = [
       { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
       {
         text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
@@ -96,12 +110,11 @@ class MobileSidebar extends Component {
               LOG OUT
             </NavLink>
           )}
-          <NavLink onClick={handleMobileSidebar} to="/Fck-Trump">
-            F*CK TRUMP
-          </NavLink>
-          <NavLink onClick={handleMobileSidebar} to="/Fck-Hollywood">
-            F*CK HOLLYWOOD
-          </NavLink>
+          <MobileDropdown
+            handleMobileSidebar={handleMobileSidebar}
+            dropdownText="CAMPAIGNS"
+            links={campaignLinks}
+          />
           <MobileDropdown
             handleMobileSidebar={handleMobileSidebar}
             dropdownText="LIPSLUT LAB"
@@ -110,7 +123,7 @@ class MobileSidebar extends Component {
           <MobileDropdown
             handleMobileSidebar={handleMobileSidebar}
             dropdownText="MORE"
-            links={links}
+            links={morelinks}
           />
         </div>
       </Container>

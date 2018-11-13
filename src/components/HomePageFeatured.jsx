@@ -10,6 +10,7 @@ const Container = Styled.div`
     margin-bottom: 3rem;
   @media (max-width: 420px) {
     flex-direction: column;
+    padding: 0;
   }
 `
 

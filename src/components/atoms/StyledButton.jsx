@@ -5,7 +5,7 @@ const StyledButton = Styled.button`
     padding: 0;
     height: ${({ height }) => height || '3rem'};
     width: ${({ width }) => width || '7rem'};
-    font-size: ${({ fontSize }) => fontSize || '1rem'};
+    font-size: ${({ fontSize }) => fontSize || '.9rem'};
     letter-spacing: .1rem;
     color: ${({ color }) => color || 'white'};
     background-color: ${({ backgroundColor }) => backgroundColor || '#FF0086'};
@@ -22,7 +22,6 @@ const StyledButton = Styled.button`
     color: ${({ hoverTextColor }) => hoverTextColor || '#FF0086'};
   }
   @media (max-width: 420px) {
-    width: 90%;
   }
 `
 

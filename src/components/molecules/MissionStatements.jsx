@@ -9,14 +9,12 @@ const Container = Styled.div`
     padding: 5rem;
     h2{
         font-size: 2rem;
+        text-align:center;
     }
     .statements{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        @media (max-width: 420px) {
-            flex-direction: column;
-        }
     }
     .statement{
         flex-basis: 33%;
@@ -30,6 +28,13 @@ const Container = Styled.div`
             font-size: .9rem;
             width:80%;
         }
+    }
+    @media (max-width: 420px) {
+      .statements{
+        flex-direction: column;
+      }
+      padding:1rem;
+      flex-direction: column;
     }
     
  

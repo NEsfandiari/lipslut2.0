@@ -38,7 +38,7 @@ const Container = styled.div`
   }
   @media (max-width: 420px) {
     margin-top: 1rem;
-    padding: 0rem;
+    padding: 2rem;
   }
 `
 
@@ -73,7 +73,7 @@ class Login extends Component {
           hoverColor="#00a6f6"
           letterSpacing="0"
         >
-          Don't have an account? Create One!
+          Don't have an account? <u>Create One!</u>
         </NavLink>
         <NavLink
           to="/signup"
@@ -81,7 +81,7 @@ class Login extends Component {
           hoverColor="#00a6f6"
           letterSpacing="0"
         >
-          Forgot your password?
+          <u>Forgot your password?</u>
         </NavLink>
       </Container>
     )

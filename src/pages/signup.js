@@ -69,7 +69,7 @@ class Signup extends Component {
           hoverColor="#00a6f6"
           letterSpacing="0"
         >
-          Already have an account? Log In!
+          Already have an account? <u>Log In!</u>
         </NavLink>
       </Container>
     )

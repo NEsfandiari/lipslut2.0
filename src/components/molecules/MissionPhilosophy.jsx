@@ -27,6 +27,7 @@ const Container = Styled.div`
     flex-basis: 60%;
   }
   @media (max-width: 420px) {
+    padding:0;
     h1{
       font-size: 2rem;
     }
