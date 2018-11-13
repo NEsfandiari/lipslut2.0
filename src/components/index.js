@@ -3,7 +3,6 @@ import CartSidebar from './CartSidebar.jsx'
 import CheckoutForm from './CheckoutForm.jsx'
 import Footer from './Footer.jsx'
 import HomePageFeatured from './HomePageFeatured.jsx'
-import HomePageMission from './HomePageMission.jsx'
 import MobileSidebar from './MobileSidebar'
 import Navbar from './Navbar.jsx'
 import OrderHistory from './OrderHistory.jsx'
@@ -16,7 +15,6 @@ export default {
   CheckoutForm,
   Footer,
   HomePageFeatured,
-  HomePageMission,
   MobileSidebar,
   Navbar,
   OrderHistory,

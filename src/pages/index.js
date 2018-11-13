@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
-import { HomePageFeatured, HomePageMission } from '../components'
-import { StyledHr } from '../components/atoms'
+import { HomePageFeatured } from '../components'
+import { MissionStatements, MissionPhilosophy } from '../components/molecules'
 
 const Container = Styled.div`
   display: flex;
@@ -24,8 +24,8 @@ class IndexPage extends Component {
     return (
       <Container>
         <HomePageFeatured />
-        <StyledHr />
-        <HomePageMission />
+        <MissionStatements />
+        <MissionPhilosophy />
       </Container>
     )
   }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { NavButtons, BannerPromo } from './molecules'
 import CartSidebar from './CartSidebar.jsx'
 import MobileSidebar from './MobileSidebar.jsx'
+import StyledHr from './atoms/StyledHr'
 import 'futura-font/styles.css'
 
 const NavContainer = Styled.div`
@@ -16,7 +17,6 @@ const NavContainer = Styled.div`
   align-items: center;
   justify-content: center;
   z-index: 2;
-  box-shadow: 2px 2px 4px 0 rgba(46, 61, 73, 0.2);
 `
 class Navbar extends Component {
   state = {
@@ -81,6 +81,7 @@ class Navbar extends Component {
             curUser={curUser}
             logOut={this.logOut}
           />
+          <StyledHr margin="0rem" />
         </NavContainer>
         <CartSidebar
           display={sidebar}

@@ -13,7 +13,7 @@ import LoginEmailPassword from './LoginEmailPassword.jsx'
 import LoginFacebook from './LoginFacebook.jsx'
 import LoginGoogle from './LoginGoogle.jsx'
 import MissionPhilosophy from './MissionPhilosophy.jsx'
-import MissionStatement from './MissionStatement.jsx'
+import MissionStatements from './MissionStatements.jsx'
 import NavButtons from './NavButtons.jsx'
 import Order from './Order.jsx'
 import OrderConfirmationSummary from './OrderConfirmationSummary'
@@ -42,7 +42,7 @@ export default {
   LoginFacebook,
   LoginGoogle,
   MissionPhilosophy,
-  MissionStatement,
+  MissionStatements,
   NavButtons,
   Order,
   OrderConfirmationSummary,

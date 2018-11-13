@@ -31,6 +31,9 @@ const Container = Styled.div`
       color: white;
       padding: 1rem;
       display flex;
+      text-decoration: underline;
+      display: flex;
+      justify-content: center;
       @media (max-width: 420px) {
           display: none;
           padding: .5rem;
@@ -39,11 +42,9 @@ const Container = Styled.div`
       }
       .bottom-footer-container{
         display: flex;
-        justify-content: center;
-        width: 75%;
-        @media (max-width: 420px) {
-          width: 950%;
-      }
+        justify-content: space-between;
+        width: 90%;
+
        
       }
     }
@@ -104,11 +105,11 @@ class Footer extends Component {
               </p>
             </div>
             <div className="bottom-links">
-              <NavLink to="/privacy-policy" color="white" hoverColor="black">
-                Privacy Policy
-              </NavLink>
               <NavLink to="/terms-conditions" color="white" hoverColor="black">
                 Terms + Conditions
+              </NavLink>
+              <NavLink to="/privacy-policy" color="white" hoverColor="black">
+                Privacy Policy
               </NavLink>
             </div>
           </div>

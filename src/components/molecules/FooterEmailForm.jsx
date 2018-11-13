@@ -74,7 +74,7 @@ class FooterEmailForm extends Component {
         <StyledButton
           margin="0rem"
           backgroundColor="white"
-          borderColor="#FF009A"
+          hoverColor="#FF009A"
           width="5rem"
           onMouseEnter={this.handleHoverIn}
           onMouseLeave={this.handleHoverOut}
