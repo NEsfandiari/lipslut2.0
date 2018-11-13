@@ -21,6 +21,9 @@ const StyledButton = Styled.button`
     background-color: ${({ hoverColor }) => hoverColor || '#FF0086'};
     color: white;
   }
+  @media (max-width: 420px) {
+    width: 90%;
+  }
 `
 
 export default StyledButton

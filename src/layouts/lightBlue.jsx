@@ -6,8 +6,7 @@ const Container = styled.div`
   width: 100vw;
   position: relative;
   @media (max-width: 420px) {
-    width: 100%;
-    right: 5%;
+    width: 110%;
   }
 `
 

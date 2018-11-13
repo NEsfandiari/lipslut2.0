@@ -5,7 +5,6 @@ import { NavButtons, BannerPromo } from './molecules'
 import CartSidebar from './CartSidebar.jsx'
 import MobileSidebar from './MobileSidebar.jsx'
 import 'futura-font/styles.css'
-import StyledHr from './atoms/StyledHr'
 
 const NavContainer = Styled.div`
   position: fixed;

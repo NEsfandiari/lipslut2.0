@@ -5,7 +5,7 @@ import { Card, StyledButton, StyledHr, NavLink } from './atoms'
 import { AccountDetailsList, AccountDetailsForm } from './molecules'
 
 const Container = styled.div`
-  flex-basis: 33%;
+  flex-basis: 25%;
   display: flex;
   flex-direction: column;
   margin: 2rem;
@@ -17,6 +17,12 @@ const Container = styled.div`
   border-radius: 3px;
   padding: 2rem;
   max-height: 25rem;
+  @media (max-width: 420px) {
+    width: 90%;
+    margin: 0;
+    padding: 1rem;
+    align-items: center;
+  }
 `
 
 class AccountDetails extends Component {

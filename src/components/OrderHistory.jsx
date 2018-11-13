@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { Order } from './molecules'
 
 const Container = styled.div`
-  flex-basis: 66%;
-  width: 66vw;
+  flex-basis: 75%;
+  display: flex;
+  flex-direction: column;
   .orders {
     height: 25rem;
     overflow: auto;
@@ -18,6 +19,13 @@ const Container = styled.div`
   }
   p {
     text-align: center;
+  }
+  @media (max-width: 420px) {
+    width: 90%;
+    margin: 0;
+    padding: 1rem;
+    margin-top: 1rem;
+    align-items: center;
   }
 `
 
