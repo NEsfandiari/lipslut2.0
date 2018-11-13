@@ -37,13 +37,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   .children {
     max-width: 1260px;
     padding: 0px 1.0875rem;
-    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     @media (max-width: 420px) {
       max-width: 100vw;
       padding-left: 1rem;

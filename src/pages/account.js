@@ -8,7 +8,6 @@ import lightBlueLayout from '../layouts/lightBlue.jsx'
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 2rem;
   padding: 2rem;
   animation: fadein 1s;
   @keyframes fadein {

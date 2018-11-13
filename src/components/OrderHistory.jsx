@@ -4,8 +4,9 @@ import { Order } from './molecules'
 
 const Container = styled.div`
   flex-basis: 66%;
+  width: 66vw;
   .orders {
-    height: 55vh;
+    height: 25rem;
     overflow: auto;
   }
   background-color: white;

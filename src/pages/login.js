@@ -13,8 +13,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
-  background-color: #e4f1f4;
   padding: 4rem;
   a {
     text-decoration-line: default;

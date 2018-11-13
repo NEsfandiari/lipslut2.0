@@ -26,7 +26,7 @@ const Container = styled.div`
       text-decoration: underline;
       text-align: center;
       :visited {
-        color: #75C9ED;
+        color: blue;
     }
     p:first-child {
       font-weight: 300;
