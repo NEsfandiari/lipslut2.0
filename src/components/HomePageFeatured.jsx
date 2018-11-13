@@ -21,9 +21,9 @@ const HomePageFeatured = () => (
       image="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a114c56652dea88b02f4156/1511125818700/?format=750w"
     />
     <FeaturedProduct
-      title="F*ck Hollywood."
-      route="/Fck-Hollywood"
-      image="https://images.ctfassets.net/ubhny9w4s07i/4fd0NCp7lS6yIKCc2o0wYO/257a74d31047788161e269e357b552d8/2_tubes_red.jpg"
+      title="F*ck Kavanaugh."
+      route="/Fck-Kavanaugh"
+      image="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5bb2488a53450a0af5e2ec05/1538410688367/news-kav2.png?format=750w"
     />
   </Container>
 )

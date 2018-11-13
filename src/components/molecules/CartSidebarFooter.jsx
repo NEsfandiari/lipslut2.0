@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { LinkButton, StyledHr } from '../atoms'
+import { StyledButton, StyledHr } from '../atoms'
 
 const Container = styled.div`
     display: flex;
@@ -45,16 +45,15 @@ class CartSidebarFooter extends Component {
           <h4>Subtotal:</h4>
           <h4>${subtotal}</h4>
         </div>
-        <LinkButton
-          to={buttonUsability}
-          onClick={handleCheckout}
+        <StyledButton
+          onClick={cart.length !== 0 ? handleCheckout : ''}
           style={{ opacity: opacity }}
           height={'3rem'}
           width={'18.5rem'}
           lineHeight={'2.85rem'}
         >
           CHECKOUT
-        </LinkButton>
+        </StyledButton>
         <p className="disclaimer">
           By checking out, I agree to the Terms of Use and acknowledge that I
           have read the Privacy Policy Shipping and promotions calculated in
