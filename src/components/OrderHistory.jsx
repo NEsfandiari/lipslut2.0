@@ -12,7 +12,7 @@ const Container = styled.div`
   }
   background-color: white;
   border-radius: 3px;
-  margin: 2rem;
+  margin-left: 1rem;
   padding: 2rem;
   h3 {
     margin-bottom: 2rem;

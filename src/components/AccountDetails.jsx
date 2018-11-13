@@ -8,7 +8,7 @@ const Container = styled.div`
   flex-basis: 25%;
   display: flex;
   flex-direction: column;
-  margin: 2rem;
+  margin-right: 1rem;
   width: 25rem;
   h3 {
     margin-bottom: 2rem;

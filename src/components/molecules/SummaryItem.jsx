@@ -8,11 +8,15 @@ const Container = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 100%;
+    width: 96%;
   }
   p {
     margin: 0;
     text-align: center;
+    white-space: nowrap;
+    overflow: auto;
+    width: 7rem;
+    height: 2rem;
   }
   .item-details {
     margin: 0.5rem;

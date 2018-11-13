@@ -27,7 +27,7 @@ const Container = styled.div`
       text-align: center;
       :visited {
         color: blue;
-    }
+      }
     p:first-child {
       font-weight: 300;
     }
@@ -45,7 +45,6 @@ const Container = styled.div`
 `
 
 class Order extends Component {
-  state = {}
   render() {
     const order = this.props.order
     const items = order.lineItems.edges.map((item, i) => (
