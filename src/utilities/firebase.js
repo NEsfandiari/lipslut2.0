@@ -59,7 +59,10 @@ class Firebase {
       case 'google':
         this.auth()
           .signInWithPopup(new this.auth.GoogleAuthProvider())
-          .then(() => navigateTo('/'))
+          .then(user => {
+            debugger
+            navigateTo('/')
+          })
           .catch(error => {
             let errorMessage = error.message
             componentThis.props.handleError(errorMessage)

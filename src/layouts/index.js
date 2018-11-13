@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import './index.css'
 import postLambda from '../utilities/postLambda'
-import OrderHistory from '../components/OrderHistory'
 
 const Container = styled.div`
   h1,

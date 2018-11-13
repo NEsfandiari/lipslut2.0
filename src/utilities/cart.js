@@ -38,3 +38,5 @@ class Cart {
     windowGlobal.localStorage.setItem('cart', [])
   }
 }
+
+export default Cart
