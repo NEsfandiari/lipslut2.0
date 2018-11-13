@@ -74,13 +74,18 @@ exports.handler = async function(event, context, callback) {
       query: `query customerQuery($customerAccessToken: String!){
         customer(customerAccessToken: $customerAccessToken) {
           firstName
+          lastName
+          acceptsMarketing
+          phone
           email
-          orders{
+          orders(first:100){
             edges{
               node{
                 orderNumber
                 totalPrice
-                lineItems{
+                processedAt
+                statusUrl
+                lineItems(first:100){
                   edges{
                     node{
                       quantity

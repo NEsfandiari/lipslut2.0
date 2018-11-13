@@ -28,11 +28,11 @@ class OrderHistory extends Component {
   }
   render() {
     let orders
-    if (this.props.curUser) {
-      if (this.props.curUser.orderHistory.length > 0) {
-        const { curUser } = this.props
-        orders = curUser.orderHistory.map((order, i) => (
-          <Order order={order} id={i} key={i} />
+    const { curUser } = this.props
+    if (curUser) {
+      if (curUser.orderHistory.edges.length > 0) {
+        orders = curUser.orderHistory.edges.map((order, i) => (
+          <Order order={order.node} id={i} key={i} />
         ))
       } else {
         orders = <p>You have not placed an order yet.</p>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import SummaryItem from './SummaryItem'
+import moment from 'moment'
 
 const Container = styled.div`
   display: flex;
@@ -18,6 +19,14 @@ const Container = styled.div`
       margin: 0;
       height: 1.2rem;
       line-height: 0.9rem;
+    }
+    a {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-decoration: underline;
+      text-align: center;
+      :visited {
+        color: #75C9ED;
     }
     p:first-child {
       font-weight: 300;
@@ -39,23 +48,23 @@ class Order extends Component {
   state = {}
   render() {
     const order = this.props.order
-    const items = order.cart.map((item, i) => (
-      <SummaryItem item={item} id={i} key={i} />
+    const items = order.lineItems.edges.map((item, i) => (
+      <SummaryItem item={item.node} id={i} key={i} />
     ))
     return (
       <Container>
         <div className="headers">
           <div className="header">
             <p>Order Placed:</p>
-            <p>{order.placed}</p>
+            <p>{moment().format('MMMM Do YYYY', order.processedAt)}</p>
           </div>
           <div className="header">
             <p>Total:</p>
-            <p>${order.total}</p>
+            <p>${order.totalPrice}</p>
           </div>
           <div className="header">
-            <p>Tracking #:</p>
-            <p>{order.orderNumber}</p>
+            <p>Order Confirmation #:</p>
+            <a href={order.statusUrl}>{order.orderNumber}</a>
           </div>
         </div>
         <div className="items">{items}</div>

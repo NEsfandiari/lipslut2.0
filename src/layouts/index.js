@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import './index.css'
 import postLambda from '../utilities/postLambda'
+import OrderHistory from '../components/OrderHistory'
 
 const Container = styled.div`
   h1,
@@ -36,6 +37,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  .children {
+    max-width: 1260px;
+    padding: 0px 1.0875rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @media (max-width: 420px) {
+      max-width: 100vw;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      margin: auto;
+    }
+  }
 `
 const windowGlobal = typeof window !== 'undefined' && window
 class Layout extends Component {
@@ -85,9 +100,9 @@ class Layout extends Component {
       .then(curUser => {
         curUser = curUser.data()
         postLambda('getAccount', curUser).then(res => {
-          if (res.data.customer) curUser = res.data.customer
+          curUser['orderHistory'] = res.data.customer.orders
+          this.setState({ curUser })
         })
-        this.setState({ curUser: curUser })
       })
       .catch(err => {
         console.log(err)
@@ -163,46 +178,31 @@ class Layout extends Component {
             { name: 'keywords', content: 'sample, something' },
           ]}
         />
-        <div
-          style={{
-            margin: '0 auto',
-            maxWidth: 1260,
-            padding: '0px 1.0875rem',
-            paddingTop: 0,
-          }}
-        >
-          <Navbar
-            cart={this.state.cart}
-            editItem={this.editItem}
-            removeItem={this.removeItem}
-            sidebar={this.state.sidebar}
-            displayFix={this.state.displayFix}
-            handleSidebar={this.handleSidebar}
-            curUser={this.state.curUser}
-            clearCart={this.clearCart}
-            marginSet={this.marginSet}
-          />
-          <div
-            style={{
-              position: 'relative',
-              marginTop: this.state.rem + 'rem',
-            }}
-            className="body"
-          >
-            {children({
-              ...this.props,
-              addItem: this.addItem,
-              editItem: this.editItem,
-              removeItem: this.removeItem,
-              clearCart: this.clearCart,
-              cart: this.state.cart,
-              curUser: this.state.curUser,
-              resetSidebar: this.resetSidebar,
-              signIn: this.signIn,
-            })}
-            <Footer />
-          </div>
+        <Navbar
+          cart={this.state.cart}
+          editItem={this.editItem}
+          removeItem={this.removeItem}
+          sidebar={this.state.sidebar}
+          displayFix={this.state.displayFix}
+          handleSidebar={this.handleSidebar}
+          curUser={this.state.curUser}
+          clearCart={this.clearCart}
+          marginSet={this.marginSet}
+        />
+        <div className="children" style={{ marginTop: this.state.rem + 'rem' }}>
+          {children({
+            ...this.props,
+            addItem: this.addItem,
+            editItem: this.editItem,
+            removeItem: this.removeItem,
+            clearCart: this.clearCart,
+            cart: this.state.cart,
+            curUser: this.state.curUser,
+            resetSidebar: this.resetSidebar,
+            signIn: this.signIn,
+          })}
         </div>
+        <Footer />
       </Container>
     )
   }

@@ -40,6 +40,7 @@ const Container = styled.div`
   }
   @media (max-width: 420px) {
     margin-top: 1rem;
+    padding: 0rem;
   }
 `
 

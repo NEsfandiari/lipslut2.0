@@ -34,12 +34,15 @@ class SummaryItem extends Component {
     return (
       <Container>
         <div className="contents">
-          <img src={item.image} alt="Checkout Product Icon" />
+          <img
+            src={item.variant.image.originalSrc}
+            alt="Checkout Product Icon"
+          />
           <div className="item-details">
             <p>{item.title}</p>
           </div>
           <p className="price">
-            {item.quantity} x ${item.price}
+            {item.quantity} x ${item.variant.price}
           </p>
         </div>
       </Container>
