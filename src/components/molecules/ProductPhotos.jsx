@@ -7,21 +7,33 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 70%;
   padding: 1rem;
   img {
     transition: 0.5s;
   }
   .photoCarousel {
     img {
-      max-height: 18vh;
+      max-height: 8rem;
       opacity: 0.5;
     }
     display: flex;
     overflow: auto;
   }
+  .animation {
+    animation: fadein 1.25s;
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  }
 
   .highlight {
-    margin-bottom: 0.6rem;
+    margin-bottom: 1rem;
   }
 
   @media (max-width: 420px) {
@@ -41,15 +53,14 @@ class ProductPhotos extends Component {
   hadnlePhoto = e => {
     this.setState({
       highlight: parseInt(e.target.name),
-    })
-    e.target.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center',
+      animation: !this.state.animation,
     })
   }
 
   render() {
+    const animation = `highlight animated ${
+      this.state.animation ? 'animation' : 'fadeIn'
+    }`
     const images = this.props.images.map((image, i) => (
       <img
         src={image}
@@ -64,7 +75,7 @@ class ProductPhotos extends Component {
       <img
         src={this.props.images[this.state.highlight]}
         alt="Highlighted Image"
-        className="highlight animated fadeIn"
+        className={animation}
       />
     )
     return (

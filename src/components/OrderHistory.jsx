@@ -6,8 +6,8 @@ const Container = styled.div`
   flex-basis: 75%;
   display: flex;
   flex-direction: column;
+  height: 35rem;
   .orders {
-    height: 25rem;
     overflow: auto;
   }
   background-color: white;

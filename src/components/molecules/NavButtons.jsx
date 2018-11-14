@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FaUser, FaBars } from 'react-icons/lib/fa'
+import { FaUser, FaBars, FaQuestion } from 'react-icons/lib/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
@@ -70,7 +70,10 @@ const Container = styled.div`
     }
     .rightNav {
       flex-basis: 25%;
-      div:first-child {
+      div:nth-child(1) {
+        display: none;
+      }
+      div:nth-child(2) {
         display: none;
       }
     }
@@ -118,6 +121,12 @@ class NavButtons extends Component {
           { text: 'Account', page: 'account' },
           { text: 'Log Out', page: '', onClick: logOut },
         ]
+    const helpLinks = [
+      { text: 'FAQ', page: 'faq' },
+      { text: 'Help', page: 'faq' },
+      { text: 'Returns', page: 'faq' },
+      { text: 'team@lipslut.com', page: 'contact' },
+    ]
     return (
       <Container>
         <div className="leftNav">
@@ -145,8 +154,12 @@ class NavButtons extends Component {
         </div>
         <div className="rightNav">
           <DropdownMenu
+            links={helpLinks}
+            dropdownText={<FaQuestion size="2.2rem" color="#FF009A" />}
+          />
+          <DropdownMenu
             links={userLinks}
-            dropdownText={<FaUser size="2.2rem" color="#FF009A" />}
+            dropdownText={<FaUser size="2.1rem" color="#FF009A" />}
           />
           <ShoppingBagIcon click={handleSidebar} cart={cart} />
         </div>

@@ -9,7 +9,6 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 2rem;
-  min-height: 50rem;
   animation: fadein 1s;
   @keyframes fadein {
     from {
