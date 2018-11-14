@@ -6,7 +6,7 @@ import { QuantityAdjustButton } from '../atoms'
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 95%;
   margin-bottom: 1rem;
   margin-right: 3rem;
   img {
@@ -15,21 +15,27 @@ const Container = styled.div`
     padding-right: 1.7rem;
     margin: 0;
   }
-  p {
-    margin: 0;
-    line-height: 0.9rem;
+  svg {
+    cursor: pointer;
   }
   .item-details {
     display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+  }
+  .item-adjust {
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    flex-basis: 40%;
+
     .item-title {
       width: 7rem;
       height: 1.5rem;
       white-space: nowrap;
       overflow: auto;
+      margin: 0;
+      line-height: 0.9rem;
+      text-align: left;
     }
   }
   .item-total {
@@ -37,9 +43,6 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    svg {
-      cursor: pointer;
-    }
   }
   .price {
     text-align: center;
@@ -55,18 +58,20 @@ class SidebarItem extends Component {
     const { item, handleAdjust, id } = this.props
     return (
       <Container>
-        <img src={item.image} alt="Cart Product Icon" />
         <div className="item-details">
-          <p className="item-title">{item.title}</p>
-          <QuantityAdjustButton
-            quantity={item.quantity}
-            handleAdjust={handleAdjust}
-            id={id}
-          />
+          <img src={item.image} alt="Cart Product Icon" />
+          <div className="item-adjust">
+            <p className="item-title">{item.title}</p>
+            <QuantityAdjustButton
+              quantity={item.quantity}
+              handleAdjust={handleAdjust}
+              id={id}
+            />
+          </div>
+          <TiTrash size={'1.5rem'} onClick={this.handleCLick} />
         </div>
         <div className="item-total">
           <p className="price">${(item.price * item.quantity).toFixed(2)}</p>
-          <TiTrash size={'1.5rem'} onClick={this.handleCLick} />
         </div>
       </Container>
     )

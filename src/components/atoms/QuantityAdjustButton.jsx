@@ -13,7 +13,7 @@ const Container = styled.div`
   border: 2px solid;
   background-color: white;
   height: ${({ height }) => height || '1.7rem'};
-  width: 6rem;
+  width: 5rem;
   p {
     margin: 0;
   }

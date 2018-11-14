@@ -24,7 +24,7 @@ const Container = styled.div`
 
     img {
       margin: 1rem;
-      opacity: 0.5;
+      opacity: 0.3;
       max-width: 9rem;
     }
   }
