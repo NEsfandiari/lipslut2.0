@@ -50,7 +50,7 @@ class ProductPhotos extends Component {
     highlight: 0,
     animation: false,
   }
-  hadnlePhoto = e => {
+  handlePhoto = e => {
     this.setState({
       highlight: parseInt(e.target.name),
       animation: !this.state.animation,
@@ -67,7 +67,7 @@ class ProductPhotos extends Component {
         alt={'Product Page Image' + i}
         key={i}
         name={i}
-        onClick={this.hadnlePhoto}
+        onClick={this.handlePhoto}
         style={this.state.highlight === i ? { opacity: 1 } : {}}
       />
     ))

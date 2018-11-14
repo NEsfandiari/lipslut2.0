@@ -6,7 +6,7 @@ import { FeaturedProduct } from './molecules'
 const Container = Styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 3rem 9rem 5rem;
+    padding: 2rem 9rem 5rem;
     margin-bottom: 3rem;
   @media (max-width: 420px) {
     flex-direction: column;

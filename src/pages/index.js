@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
 import { HomePageFeatured } from '../components'
-import { MissionStatements, MissionPhilosophy } from '../components/molecules'
+import {
+  MissionStatements,
+  MissionPhilosophy,
+  MediaHighlights,
+} from '../components/molecules'
 
 const Container = Styled.div`
   display: flex;
@@ -26,6 +30,7 @@ class IndexPage extends Component {
         <HomePageFeatured />
         <MissionStatements />
         <MissionPhilosophy />
+        <MediaHighlights />
       </Container>
     )
   }

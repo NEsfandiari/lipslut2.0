@@ -12,6 +12,7 @@ import FooterSocialIcons from './FooterSocialIcons.jsx'
 import LoginEmailPassword from './LoginEmailPassword.jsx'
 import LoginFacebook from './LoginFacebook.jsx'
 import LoginGoogle from './LoginGoogle.jsx'
+import MediaHighlights from './MediaHighlights.jsx'
 import MissionPhilosophy from './MissionPhilosophy.jsx'
 import MissionStatements from './MissionStatements.jsx'
 import NavButtons from './NavButtons.jsx'
@@ -41,6 +42,7 @@ export default {
   LoginEmailPassword,
   LoginFacebook,
   LoginGoogle,
+  MediaHighlights,
   MissionPhilosophy,
   MissionStatements,
   NavButtons,

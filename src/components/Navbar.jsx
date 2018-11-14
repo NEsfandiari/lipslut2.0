@@ -81,7 +81,6 @@ class Navbar extends Component {
             curUser={curUser}
             logOut={this.logOut}
           />
-          <StyledHr margin="0rem" />
         </NavContainer>
         <CartSidebar
           display={sidebar}
