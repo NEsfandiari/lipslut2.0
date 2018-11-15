@@ -1,5 +1,6 @@
 // Gatsby v 1.91 window object problem hack
 const windowGlobal = typeof window !== 'undefined' && window
+
 class Cart {
   static editItem(componentThis, name, value, i) {
     let newCart = componentThis.state.cart

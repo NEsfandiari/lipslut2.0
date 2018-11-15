@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
-import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import postLambda from '../utilities/postLambda'
 import Cart from '../utilities/cart'
@@ -88,6 +88,7 @@ class Layout extends Component {
     })
   }
 
+  // Firebase Functionality
   signIn = user => {
     // TODO: Seperate database schema into more react friendly schema
     const { firebase } = this.context
@@ -104,25 +105,24 @@ class Layout extends Component {
         console.log(err)
       })
   }
-
   signOut = () => {
     this.setState({ curUser: null })
   }
 
+  // Sidebar/Banner UI Logic
   handleSidebar = () => {
     this.setState({
       sidebar: !this.state.sidebar,
       displayFix: true,
     })
   }
-
   resetSidebar = () => {
     this.setState({ sidebar: false })
   }
-
   handleBannerMargin = (rem) => {
     this.setState({ bannerMargin: rem })
   }
+
   handleCart = (cartFunc, ...args) =>{
     switch(cartFunc){
       case 'add':
