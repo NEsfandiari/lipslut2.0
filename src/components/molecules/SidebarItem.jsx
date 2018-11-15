@@ -20,7 +20,6 @@ const Container = styled.div`
   }
   .item-details {
     display: flex;
-    justify-content: space-around;
     align-items: flex-end;
   }
   .item-adjust {
@@ -29,10 +28,10 @@ const Container = styled.div`
     justify-content: space-between;
 
     .item-title {
-      width: 7rem;
+      width: 6rem;
       height: 1.5rem;
       white-space: nowrap;
-      overflow: auto;
+      overflow: visible;
       margin: 0;
       line-height: 0.9rem;
       text-align: left;
@@ -41,7 +40,7 @@ const Container = styled.div`
   .item-total {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
   }
   .price {

@@ -10,6 +10,7 @@ const Container = Styled.div`
     h2{
         font-size: 2rem;
         text-align:center;
+        font-family: GlacialIndifferenceRegular;
     }
     .statements{
         display: flex;
