@@ -6,7 +6,7 @@ const Container = styled.div`
   flex-basis: 75%;
   display: flex;
   flex-direction: column;
-  height: 35rem;
+  max-height: 32rem;
   .orders {
     overflow: auto;
   }

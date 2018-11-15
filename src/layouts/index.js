@@ -5,6 +5,7 @@ import Helmet from 'react-helmet'
 import { Navbar, Footer } from '../components'
 import postLambda from '../utilities/postLambda'
 import Cart from '../utilities/cart'
+// import { UserProvider } from '../containers/UserContext'
 import './index.css'
 
 const Container = styled.div`
@@ -20,11 +21,13 @@ const Container = styled.div`
   select {
     font-family: 'futura';
   }
+
   h3,
   h4,
   p {
     font-weight: 100;
   }
+
   p {
     font-size: 0.9rem;
   }
@@ -34,17 +37,20 @@ const Container = styled.div`
   img {
     border-radius: 3px;
   }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .all-components-layout {
-    max-width: 1260px;
-    padding: 0px 1.0875rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 1260px;
+    padding: 0px 1.0875rem;
+
     @media (max-width: 420px) {
       max-width: 100vw;
       padding-left: 1rem;
@@ -119,12 +125,12 @@ class Layout extends Component {
   resetSidebar = () => {
     this.setState({ sidebar: false })
   }
-  handleBannerMargin = (rem) => {
+  handleBannerMargin = rem => {
     this.setState({ bannerMargin: rem })
   }
 
-  handleCart = (cartFunc, ...args) =>{
-    switch(cartFunc){
+  handleCart = (cartFunc, ...args) => {
+    switch (cartFunc) {
       case 'add':
         Cart.addItem(this, ...args)
         break
@@ -146,6 +152,7 @@ class Layout extends Component {
   render() {
     const { children, data } = this.props
     return (
+      // <UserProvider value={this.state.curUser}>
       <Container>
         <Helmet
           title="Lipslut"
@@ -178,6 +185,7 @@ class Layout extends Component {
         </div>
         <Footer />
       </Container>
+      // </UserProvider>
     )
   }
 }

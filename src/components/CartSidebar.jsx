@@ -36,11 +36,11 @@ class CartSidebar extends Component {
     let i = parseInt(e.target.dataset.id)
     if (e.target.className == 'add') {
       let newVal = this.props.cart[i].quantity + 1
-      this.props.handleCart('edit','quantity', newVal, i)
+      this.props.handleCart('edit', 'quantity', newVal, i)
     } else {
       let newVal = this.props.cart[i].quantity - 1
       newVal < 1 ? (newVal = 1) : newVal
-      this.props.handleCart('edit','quantity', newVal, i)
+      this.props.handleCart('edit', 'quantity', newVal, i)
     }
   }
 
@@ -58,7 +58,6 @@ class CartSidebar extends Component {
       hasAccount,
       user: this.props.curUser,
     }).then(res => {
-      debugger
       window.location.replace(res.data.data.webUrl)
       this.props.handleCart('clear')
     })

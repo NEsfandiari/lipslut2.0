@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { NavButtons, BannerPromo } from './molecules'
 import CartSidebar from './CartSidebar.jsx'
 import MobileSidebar from './MobileSidebar.jsx'
-import StyledHr from './atoms/StyledHr'
 import 'futura-font/styles.css'
 
 const NavContainer = Styled.div`
@@ -73,10 +72,10 @@ class Navbar extends Component {
         <NavContainer>
           <BannerPromo handleBannerMargin={handleBannerMargin} />
           <NavButtons
-            handleMobileSidebar={this.handleMobileSidebar}
-            handleSidebar={handleSidebar}
             cart={cart}
             curUser={curUser}
+            handleMobileSidebar={this.handleMobileSidebar}
+            handleSidebar={handleSidebar}
             logOut={this.logOut}
           />
         </NavContainer>

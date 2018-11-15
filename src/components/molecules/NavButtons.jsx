@@ -3,6 +3,7 @@ import { FaUser, FaBars, FaQuestion } from 'react-icons/lib/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import Link from 'gatsby-link'
 import styled from 'styled-components'
+import { UserConsumer } from '../../containers/UserContext'
 
 const Container = styled.div`
   display: flex;
@@ -81,6 +82,11 @@ const Container = styled.div`
 `
 
 class NavButtons extends Component {
+  constructor(props, context) {
+    super(props)
+    // debugger
+    console.log(context)
+  }
   render() {
     const {
       handleMobileSidebar,
@@ -168,4 +174,5 @@ class NavButtons extends Component {
   }
 }
 
+// export default UserConsumer(NavButtons)
 export default NavButtons
