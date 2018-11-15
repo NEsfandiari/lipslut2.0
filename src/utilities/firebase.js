@@ -61,6 +61,7 @@ class Firebase {
           .signInWithPopup(new this.auth.GoogleAuthProvider())
           .then(user => {
             debugger
+            // Todo Catch page change and slow it down
             navigateTo('/')
           })
           .catch(error => {
@@ -76,6 +77,7 @@ class Firebase {
             let errorMessage = error.message
             componentThis.props.handleError(errorMessage)
           })
+        break
       case 'facebook':
         this.auth()
           .signInWithPopup(new this.auth.FacebookAuthProvider())
@@ -84,6 +86,7 @@ class Firebase {
             let errorMessage = error.message
             componentThis.props.handleError(errorMessage)
           })
+        break
       default:
         console.error('incorrect usage')
         break

@@ -15,12 +15,12 @@ class CartSidebarBody extends Component {
     this.state = {}
   }
   render() {
-    const { removeItem, cart, handleAdjust } = this.props
+    const { handleCart, cart, handleAdjust } = this.props
     const items = cart.map((item, i) => (
       <SidebarItem
         item={item}
         handleAdjust={handleAdjust}
-        removeItem={removeItem}
+        handleCart={handleCart}
         id={i}
         key={i}
       />

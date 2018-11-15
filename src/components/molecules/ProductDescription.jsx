@@ -71,7 +71,8 @@ class ProductDescription extends Component {
   }
   handleSubmit = e => {
     e.preventDefault()
-    this.props.addItem(
+    this.props.handleCart(
+      'add',
       this.props.title,
       this.props.price,
       parseInt(this.state.quantity),

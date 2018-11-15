@@ -61,10 +61,10 @@ class Layout extends Component {
     super(props)
     this.state = {
       cart: [],
+      curUser: null,
       sidebar: false,
       displayFix: false,
-      curUser: null,
-      rem: 5.9,
+      bannerMargin: 5.9,
     }
   }
 
@@ -121,20 +121,26 @@ class Layout extends Component {
   }
 
   handleBannerMargin = (rem) => {
-    this.setState({ rem })
+    this.setState({ bannerMargin: rem })
   }
-
-  editItem =(name, value, i) => {
-    Cart.editItem(this, name, value, i)
-  }
-  removeItem = (i) => {
-    Cart.removeItem(this, i)
-  }
-  addItem =(title, price, quantity, image, sku) => {
-    Cart.addItem(this, title, price, quantity, image, sku)
-  }
-  clearCart=() => {
-   Cart.clearCart(this)
+  handleCart = (cartFunc, ...args) =>{
+    switch(cartFunc){
+      case 'add':
+        Cart.addItem(this, ...args)
+        break
+      case 'edit':
+        Cart.editItem(this, ...args)
+        break
+      case 'remove':
+        Cart.removeItem(this, ...args)
+        break
+      case 'clear':
+        Cart.clearCart(this)
+        break
+      default:
+        console.error('incorrect usage')
+        break
+    }
   }
 
   render() {
@@ -151,9 +157,7 @@ class Layout extends Component {
         <Navbar
           curUser={this.state.curUser}
           cart={this.state.cart}
-          editItem={this.editItem}
-          removeItem={this.removeItem}
-          clearCart={this.clearCart}
+          handleCart={this.handleCart}
           sidebar={this.state.sidebar}
           displayFix={this.state.displayFix}
           handleSidebar={this.handleSidebar}
@@ -161,14 +165,11 @@ class Layout extends Component {
         />
         <div
           className="all-components-layout"
-          style={{ marginTop: this.state.rem + 'rem' }}
+          style={{ marginTop: this.state.bannerMargin + 'rem' }}
         >
           {children({
             ...this.props,
-            addItem: this.addItem,
-            editItem: this.editItem,
-            removeItem: this.removeItem,
-            clearCart: this.clearCart,
+            handleCart: this.handleCart,
             cart: this.state.cart,
             curUser: this.state.curUser,
             resetSidebar: this.resetSidebar,

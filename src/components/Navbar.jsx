@@ -50,14 +50,12 @@ class Navbar extends Component {
 
   render() {
     const {
+      curUser,
       cart,
-      editItem,
-      removeItem,
+      handleCart,
       sidebar,
       displayFix,
       handleSidebar,
-      curUser,
-      clearCart,
       handleBannerMargin,
     } = this.props
     const { mobileSidebar, mobileDisplayFix } = this.state
@@ -83,14 +81,12 @@ class Navbar extends Component {
           />
         </NavContainer>
         <CartSidebar
+          cart={cart}
+          handleCart={handleCart}
+          curUser={curUser}
           display={sidebar}
           handleSidebar={handleSidebar}
-          cart={cart}
-          editItem={editItem}
-          removeItem={removeItem}
           displayFix={displayFix}
-          clearCart={clearCart}
-          curUser={curUser}
         />
       </div>
     )

@@ -39,8 +39,8 @@ class ProductTemplate extends Component {
           descriptors={data.descriptors}
           images={images}
           price={data.price}
-          addItem={this.props.addItem}
           sku={data.sku}
+          handleCart={this.props.handleCart}
         />
         {productMedia}
       </Container>

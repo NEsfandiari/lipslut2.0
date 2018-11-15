@@ -36,11 +36,11 @@ class CartSidebar extends Component {
     let i = parseInt(e.target.dataset.id)
     if (e.target.className == 'add') {
       let newVal = this.props.cart[i].quantity + 1
-      this.props.editItem('quantity', newVal, i)
+      this.props.handleCart('edit','quantity', newVal, i)
     } else {
       let newVal = this.props.cart[i].quantity - 1
       newVal < 1 ? (newVal = 1) : newVal
-      this.props.editItem('quantity', newVal, i)
+      this.props.handleCart('edit','quantity', newVal, i)
     }
   }
 
@@ -60,11 +60,11 @@ class CartSidebar extends Component {
     }).then(res => {
       debugger
       window.location.replace(res.data.data.webUrl)
-      this.props.clearCart()
+      this.props.handleCart('clear')
     })
   }
   render() {
-    const { cart, removeItem, handleSidebar, display } = this.props
+    const { cart, handleCart, handleSidebar, display } = this.props
     const animation = 'animated ' + (display ? 'slideInRight' : 'slideOutRight')
     const displayFix = this.props.displayFix ? 'inital' : 'none'
     return (
@@ -73,7 +73,7 @@ class CartSidebar extends Component {
           <CartSidebarHeader cart={cart} handleSidebar={handleSidebar} />
           <CartSidebarBody
             cart={cart}
-            removeItem={removeItem}
+            handleCart={handleCart}
             handleAdjust={this.handleAdjust}
           />
           <CartSidebarFooter cart={cart} handleCheckout={this.handleCheckout} />

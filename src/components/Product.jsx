@@ -24,12 +24,12 @@ const Container = styled.div`
 
 class Product extends Component {
   render() {
-    const { images, addItem, descriptors, title, price, sku } = this.props
+    const { images, handleCart, descriptors, title, price, sku } = this.props
     return (
       <Container>
         <ProductPhotos images={images} />
         <ProductDescription
-          addItem={addItem}
+          handleCart={handleCart}
           descriptors={descriptors}
           title={title}
           price={price}

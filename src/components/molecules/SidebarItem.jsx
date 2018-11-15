@@ -51,7 +51,7 @@ const Container = styled.div`
 class SidebarItem extends Component {
   state = {}
   handleCLick = () => {
-    this.props.removeItem(this.props.id)
+    this.props.handleCart('remove', this.props.id)
   }
   render() {
     const { item, handleAdjust, id } = this.props
