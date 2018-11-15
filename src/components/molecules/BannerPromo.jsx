@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { FaClose } from 'react-icons/lib/fa'
-import Link from 'gatsby-link'
+import { FaClose } from 'react-icons/fa'
+import { Link } from 'gatsby'
 
 const Container = styled.div`
   display: flex;

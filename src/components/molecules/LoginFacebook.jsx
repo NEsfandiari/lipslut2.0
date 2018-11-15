@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { StyledButton } from '../atoms'
-import { FaFacebookSquare } from 'react-icons/lib/fa'
+import { FaFacebookSquare } from 'react-icons/fa'
 
 const Container = styled.div`
   .facebook {

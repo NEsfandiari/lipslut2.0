@@ -3,7 +3,7 @@
 // import React, { Component } from 'react'
 // import styled from 'styled-components'
 // import PropTypes from 'prop-types'
-// import { navigateTo } from 'gatsby-link'
+// import { navigate } from 'gatsby'
 // import { CheckoutShipping, CheckoutSummary, CheckoutPayment } from './molecules'
 // import { injectStripe } from 'react-stripe-elements'
 // import axios from 'axios'
@@ -159,7 +159,7 @@
 //                 console.error('FAILED TO SAVE ACCOUNT INFO')
 //               }
 //             }
-//             navigateTo('/order-confirmation')
+//             navigate('/order-confirmation')
 //           })
 //           .catch(error => {
 //             console.error(error)

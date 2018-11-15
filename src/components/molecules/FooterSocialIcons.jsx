@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/lib/fa'
+import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa'
 
 const Container = styled.div`
   @media (max-width: 420px) {
@@ -37,7 +37,7 @@ class FooterSocialIcons extends Component {
         <a
           href="https://www.instagram.com/hello.lipslut/"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           title="Lipslut Instagram Account"
         >
           <FaInstagram
@@ -51,7 +51,7 @@ class FooterSocialIcons extends Component {
         <a
           href="https://twitter.com/Hello_Lipslut"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           title="Lipslut Twitter Account"
         >
           <FaTwitter
@@ -65,7 +65,7 @@ class FooterSocialIcons extends Component {
         <a
           href="https://www.facebook.com/Lipslut/"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           title="Lipslut Facebook Account"
         >
           <FaFacebook

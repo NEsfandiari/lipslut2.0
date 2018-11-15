@@ -34,7 +34,7 @@ const Container = styled.div`
 `
 class SummaryItem extends Component {
   render() {
-    const { item, id } = this.props
+    const { item } = this.props
     return (
       <Container>
         <div className="contents">

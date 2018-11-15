@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Styled from 'styled-components'
 import lightBlueLayout from '../../layouts/lightBlue'
 
@@ -48,7 +48,7 @@ const MissionStatements = ({ text, image }) => (
       <div className="statement">
         <img
           src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a0e6e7871c10b10891ca92f/1486789972984/?format=500w"
-          alt="Mission Image 1"
+          alt="Mission Icon 1"
         />
         <p>
           We work with you to create cause-driven products that raise awareness
@@ -58,7 +58,7 @@ const MissionStatements = ({ text, image }) => (
       <div className="statement">
         <img
           src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a0e6e7871c10b10891ca931/1486790014504/?format=500w"
-          alt="Mission Image 1"
+          alt="Mission Icon 1"
         />
         <p>
           We pledge to always use our platform to help organizations and
@@ -68,7 +68,7 @@ const MissionStatements = ({ text, image }) => (
       <div className="statement">
         <img
           src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a0e6e7871c10b10891ca933/1486790093728/GlobeLogo2.png?format=500w"
-          alt="Mission Image 3"
+          alt="Mission Icon 3"
         />
         <p>
           Be part of the movement—join our community and help empower people for

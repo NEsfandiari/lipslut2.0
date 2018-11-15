@@ -75,7 +75,7 @@ class ProductMedia extends Component {
         }}
         onScroll={this.handleFade}
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
       >
         <img src={media.image} alt="News Media Logo" />
       </a>

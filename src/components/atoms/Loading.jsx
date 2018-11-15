@@ -9,8 +9,8 @@ const Container = styled.div`
   height: ${({ height }) => height || '0vh'};
 `
 
-const Loading = ({ height }) => (
-  <Container height={height}>
+const Loading = ({ propHeight }) => (
+  <Container height={propHeight}>
     <Spinner name="double-bounce" name="ball-beat" color="#ff0086" />
   </Container>
 )

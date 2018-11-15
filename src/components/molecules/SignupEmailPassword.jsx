@@ -40,7 +40,7 @@ class SignupEmailPassword extends Component {
     firebase: PropTypes.object,
   }
   handleChange = e => {
-    if (e.target.type == 'radio') {
+    if (e.target.type === 'radio') {
       let newsState = !this.state.newsletter
       this.setState({
         newsletter: newsState,

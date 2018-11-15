@@ -1,14 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Link from 'gatsby-link'
-import { FaClose, FaUser } from 'react-icons/lib/fa'
-import {
-  LinkButton,
-  StyledHr,
-  NavLink,
-  ShoppingBagIcon,
-  MobileDropdown,
-} from './atoms'
+import { Link } from 'gatsby'
+import { FaClose, FaUser } from 'react-icons/fa'
+import { NavLink, ShoppingBagIcon, MobileDropdown } from './atoms'
 import 'animate.css'
 
 const Container = styled.div`

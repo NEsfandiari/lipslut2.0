@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { IoIosCloseEmpty } from 'react-icons/lib/io'
+import { IoIosCloseEmpty } from 'react-icons/io'
 import { ShoppingBagIcon } from '../atoms'
 
 const Container = styled.div`

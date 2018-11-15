@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { StyledButton, StyledInput } from '../atoms'
-import { MdChevronRight } from 'react-icons/lib/md'
+import { MdChevronRight } from 'react-icons/md'
 
 // TODO: Switch Form to Formspree
 

@@ -34,12 +34,12 @@ const Container = styled.div`
 class CartSidebar extends Component {
   handleAdjust = e => {
     let i = parseInt(e.target.dataset.id)
-    if (e.target.className == 'add') {
+    if (e.target.className === 'add') {
       let newVal = this.props.cart[i].quantity + 1
       this.props.handleCart('edit', 'quantity', newVal, i)
     } else {
       let newVal = this.props.cart[i].quantity - 1
-      newVal < 1 ? (newVal = 1) : newVal
+      if (newVal < 1) newVal = 1
       this.props.handleCart('edit', 'quantity', newVal, i)
     }
   }

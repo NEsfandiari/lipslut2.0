@@ -7,7 +7,7 @@ const Container = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:2rem;
+    margin-top: 2rem;
     /* TODO: Break Up into Seperate Top/Bottom Componenets */
     .top-footer{
       display: flex;

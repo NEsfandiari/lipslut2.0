@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { FaUser, FaBars, FaQuestion } from 'react-icons/lib/fa'
+import { FaUser, FaBars, FaQuestion } from 'react-icons/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 import styled from 'styled-components'
-import { UserConsumer } from '../../containers/UserContext'
+// import { UserConsumer } from '../../containers/UserContext'
 
 const Container = styled.div`
   display: flex;

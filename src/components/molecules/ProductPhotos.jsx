@@ -74,7 +74,7 @@ class ProductPhotos extends Component {
     const highlight = (
       <img
         src={this.props.images[this.state.highlight]}
-        alt="Highlighted Image"
+        alt="Highlighted Product"
         className={animation}
       />
     )

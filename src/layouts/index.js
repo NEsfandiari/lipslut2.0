@@ -59,7 +59,7 @@ const Container = styled.div`
     }
   }
 `
-// Gatsby v 1.91 window object problem hack
+// Gatsby window object problem hack
 const windowGlobal = typeof window !== 'undefined' && window
 
 class Layout extends Component {
@@ -150,7 +150,17 @@ class Layout extends Component {
   }
 
   render() {
-    const { children, data } = this.props
+    const { children } = this.props
+    const childrenWithProps = React.Children.map(children, (child, i) =>
+      React.cloneElement(child, {
+        ...this.props,
+        handleCart: this.handleCart,
+        cart: this.state.cart,
+        curUser: this.state.curUser,
+        resetSidebar: this.resetSidebar,
+        signIn: this.signIn,
+      })
+    )
     return (
       // <UserProvider value={this.state.curUser}>
       <Container>
@@ -174,14 +184,7 @@ class Layout extends Component {
           className="all-components-layout"
           style={{ marginTop: this.state.bannerMargin + 'rem' }}
         >
-          {children({
-            ...this.props,
-            handleCart: this.handleCart,
-            cart: this.state.cart,
-            curUser: this.state.curUser,
-            resetSidebar: this.resetSidebar,
-            signIn: this.signIn,
-          })}
+          {childrenWithProps}
         </div>
         <Footer />
       </Container>
@@ -195,13 +198,3 @@ Layout.propTypes = {
 }
 
 export default Layout
-
-export const query = graphql`
-  query SiteTitleQuery {
-    site {
-      siteMetadata {
-        title
-      }
-    }
-  }
-`

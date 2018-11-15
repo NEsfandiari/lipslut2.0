@@ -51,7 +51,7 @@ class ProductDescription extends Component {
   }
   handleAdjust = e => {
     let newQuantity
-    if (e.target.className == 'add') {
+    if (e.target.className === 'add') {
       newQuantity = this.state.quantity + 1
       this.setState({ quantity: newQuantity })
       this.handlePrice(newQuantity)

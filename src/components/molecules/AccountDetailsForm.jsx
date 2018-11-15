@@ -15,14 +15,7 @@ const Container = styled.form`
 
 class AccountDetailsForm extends Component {
   render() {
-    const {
-      firstName,
-      lastName,
-      email,
-      phone,
-      handleChange,
-      curUser,
-    } = this.props
+    const { firstName, lastName, email, phone, handleChange } = this.props
 
     return (
       <Container>

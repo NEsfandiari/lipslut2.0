@@ -1,5 +1,5 @@
 import Styled from 'styled-components'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 
 const NavLink = Styled(Link)`
     color: ${({ color }) => color || 'black'};

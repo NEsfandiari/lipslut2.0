@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { NavLink, Card } from '../components/atoms'
+import { NavLink } from '../components/atoms'
 import {
   SignupEmailPassword,
   SignupGoogle,

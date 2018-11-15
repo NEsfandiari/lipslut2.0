@@ -1,39 +1,33 @@
-import AccountDetailsForm from './AccountDetailsForm.jsx'
-import AccountDetailsList from './AccountDetailsList.jsx'
-import BannerPromo from './BannerPromo.jsx'
-import CheckoutPayment from './CheckoutPayment.jsx'
-import CheckoutShipping from './CheckoutShipping.jsx'
-import CheckoutSummary from './CheckoutSummary.jsx'
-import CartSidebarBody from './CartSidebarBody.jsx'
-import CartSidebarFooter from './CartSidebarFooter.jsx'
-import FeaturedProduct from './FeaturedProduct.jsx'
-import FooterEmailForm from './FooterEmailForm.jsx'
-import FooterSocialIcons from './FooterSocialIcons.jsx'
-import LoginEmailPassword from './LoginEmailPassword.jsx'
-import LoginFacebook from './LoginFacebook.jsx'
-import LoginGoogle from './LoginGoogle.jsx'
-import MediaHighlights from './MediaHighlights.jsx'
-import MissionPhilosophy from './MissionPhilosophy.jsx'
-import MissionStatements from './MissionStatements.jsx'
-import NavButtons from './NavButtons.jsx'
-import Order from './Order.jsx'
+import AccountDetailsForm from './AccountDetailsForm'
+import AccountDetailsList from './AccountDetailsList'
+import BannerPromo from './BannerPromo'
+import CartSidebarBody from './CartSidebarBody'
+import CartSidebarFooter from './CartSidebarFooter'
+import FeaturedProduct from './FeaturedProduct'
+import FooterEmailForm from './FooterEmailForm'
+import FooterSocialIcons from './FooterSocialIcons'
+import LoginEmailPassword from './LoginEmailPassword'
+import LoginFacebook from './LoginFacebook'
+import LoginGoogle from './LoginGoogle'
+import MediaHighlights from './MediaHighlights'
+import MissionPhilosophy from './MissionPhilosophy'
+import MissionStatements from './MissionStatements'
+import NavButtons from './NavButtons'
+import Order from './Order'
 import OrderConfirmationSummary from './OrderConfirmationSummary'
-import ProductDescription from './ProductDescription.jsx'
-import ProductPhotos from './ProductPhotos.jsx'
-import SidebarItem from './SidebarItem.jsx'
-import SignupEmailPassword from './SignupEmailPassword.jsx'
-import SignupFacebook from './SignupFacebook.jsx'
-import SignupGoogle from './SignupGoogle.jsx'
-import SummaryFinancials from './SummaryFinancials.jsx'
-import SummaryItem from './SummaryItem.jsx'
+import ProductDescription from './ProductDescription'
+import ProductPhotos from './ProductPhotos'
+import SidebarItem from './SidebarItem'
+import SignupEmailPassword from './SignupEmailPassword'
+import SignupFacebook from './SignupFacebook'
+import SignupGoogle from './SignupGoogle'
+import SummaryFinancials from './SummaryFinancials'
+import SummaryItem from './SummaryItem'
 
 export default {
   AccountDetailsForm,
   AccountDetailsList,
   BannerPromo,
-  CheckoutPayment,
-  CheckoutShipping,
-  CheckoutSummary,
   CartSidebarBody,
   CartSidebarFooter,
   FeaturedProduct,

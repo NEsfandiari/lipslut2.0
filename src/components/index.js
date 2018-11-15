@@ -1,13 +1,13 @@
-import AccountDetails from './AccountDetails.jsx'
-import CartSidebar from './CartSidebar.jsx'
-import CheckoutForm from './CheckoutForm.jsx'
-import Footer from './Footer.jsx'
-import HomePageFeatured from './HomePageFeatured.jsx'
+import AccountDetails from './AccountDetails'
+import CartSidebar from './CartSidebar'
+import CheckoutForm from './CheckoutForm'
+import Footer from './Footer'
+import HomePageFeatured from './HomePageFeatured'
 import MobileSidebar from './MobileSidebar'
-import Navbar from './Navbar.jsx'
-import OrderHistory from './OrderHistory.jsx'
-import Product from './Product.jsx'
-import ProductMedia from './ProductMedia.jsx'
+import Navbar from './Navbar'
+import OrderHistory from './OrderHistory'
+import Product from './Product'
+import ProductMedia from './ProductMedia'
 
 export default {
   AccountDetails,

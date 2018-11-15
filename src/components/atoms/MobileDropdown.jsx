@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import NavLink from './NavLink'
-import { FaChevronDown, FaChevronUp } from 'react-icons/lib/fa'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import 'animate.css'
 
 const Container = styled.div`
