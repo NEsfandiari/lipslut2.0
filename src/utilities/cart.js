@@ -1,40 +1,42 @@
+// Gatsby v 1.91 window object problem hack
+const windowGlobal = typeof window !== 'undefined' && window
 class Cart {
-  editItem(componentThis, name, value, i) {
-    let newCart = this.state.cart
+  static editItem(componentThis, name, value, i) {
+    let newCart = componentThis.state.cart
     newCart[i][name] = value
-    this.setState({
+    componentThis.setState({
       cart: newCart,
     })
     windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
-  removeItem(componentThis, i) {
-    let newCart = this.state.cart
+  static removeItem(componentThis, i) {
+    let newCart = componentThis.state.cart
     newCart.splice(i, 1)
-    this.setState({
+    componentThis.setState({
       cart: newCart,
     })
     windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
-  addItem(componentThis, title, price, quantity, image, sku) {
-    let newCart = this.state.cart
+  static addItem(componentThis, title, price, quantity, image, sku) {
+    let newCart = componentThis.state.cart
     // test if sku is in cart
     let cartI = null
-    this.state.cart.forEach((item, i) => {
+    componentThis.state.cart.forEach((item, i) => {
       item.sku == sku ? (cartI = i) : (cartI = null)
     })
     cartI !== null
       ? newCart[cartI].quantity++
       : newCart.push({ title, price, quantity, image, sku })
 
-    this.setState({
+    componentThis.setState({
       cart: newCart,
       sidebar: true,
       displayFix: true,
     })
     windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
-  clearCart(componentThis) {
-    this.setState({ cart: [] })
+  static clearCart(componentThis) {
+    componentThis.setState({ cart: [] })
     windowGlobal.localStorage.setItem('cart', [])
   }
 }

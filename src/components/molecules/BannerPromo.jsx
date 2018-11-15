@@ -42,7 +42,7 @@ class BannerPromo extends Component {
 
   hidePromo = () => {
     this.setState({ display: false })
-    this.props.marginSet(3.5)
+    this.props.handleBannerMargin(3.5)
   }
 
   render() {

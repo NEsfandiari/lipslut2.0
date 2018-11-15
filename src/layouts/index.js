@@ -4,6 +4,7 @@ import Helmet from 'react-helmet'
 import styled from 'styled-components'
 import { Navbar, Footer } from '../components'
 import postLambda from '../utilities/postLambda'
+import Cart from '../utilities/cart'
 import './index.css'
 
 const Container = styled.div`
@@ -37,7 +38,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  .children {
+  .all-components-layout {
     max-width: 1260px;
     padding: 0px 1.0875rem;
     display: flex;
@@ -52,7 +53,9 @@ const Container = styled.div`
     }
   }
 `
+// Gatsby v 1.91 window object problem hack
 const windowGlobal = typeof window !== 'undefined' && window
+
 class Layout extends Component {
   constructor(props, context) {
     super(props)
@@ -63,13 +66,6 @@ class Layout extends Component {
       curUser: null,
       rem: 5.9,
     }
-    this.handleSidebar = this.handleSidebar.bind(this)
-    this.editItem = this.editItem.bind(this)
-    this.removeItem = this.removeItem.bind(this)
-    this.addItem = this.addItem.bind(this)
-    this.clearCart = this.clearCart.bind(this)
-    this.resetSidebar = this.resetSidebar.bind(this)
-    this.marginSet = this.marginSet.bind(this)
   }
 
   static contextTypes = {
@@ -113,58 +109,32 @@ class Layout extends Component {
     this.setState({ curUser: null })
   }
 
-  handleSidebar() {
+  handleSidebar = () => {
     this.setState({
       sidebar: !this.state.sidebar,
       displayFix: true,
     })
   }
 
-  resetSidebar() {
+  resetSidebar = () => {
     this.setState({ sidebar: false })
   }
 
-  marginSet(rem) {
+  handleBannerMargin = (rem) => {
     this.setState({ rem })
   }
 
-  editItem(name, value, i) {
-    let newCart = this.state.cart
-    newCart[i][name] = value
-    this.setState({
-      cart: newCart,
-    })
-    windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
+  editItem =(name, value, i) => {
+    Cart.editItem(this, name, value, i)
   }
-  removeItem(i) {
-    let newCart = this.state.cart
-    newCart.splice(i, 1)
-    this.setState({
-      cart: newCart,
-    })
-    windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
+  removeItem = (i) => {
+    Cart.removeItem(this, i)
   }
-  addItem(title, price, quantity, image, sku) {
-    let newCart = this.state.cart
-    // test if sku is in cart
-    let cartI = null
-    this.state.cart.forEach((item, i) => {
-      item.sku == sku ? (cartI = i) : (cartI = null)
-    })
-    cartI !== null
-      ? newCart[cartI].quantity++
-      : newCart.push({ title, price, quantity, image, sku })
-
-    this.setState({
-      cart: newCart,
-      sidebar: true,
-      displayFix: true,
-    })
-    windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
+  addItem =(title, price, quantity, image, sku) => {
+    Cart.addItem(this, title, price, quantity, image, sku)
   }
-  clearCart() {
-    this.setState({ cart: [] })
-    windowGlobal.localStorage.setItem('cart', [])
+  clearCart=() => {
+   Cart.clearCart(this)
   }
 
   render() {
@@ -179,17 +149,20 @@ class Layout extends Component {
           ]}
         />
         <Navbar
+          curUser={this.state.curUser}
           cart={this.state.cart}
           editItem={this.editItem}
           removeItem={this.removeItem}
+          clearCart={this.clearCart}
           sidebar={this.state.sidebar}
           displayFix={this.state.displayFix}
           handleSidebar={this.handleSidebar}
-          curUser={this.state.curUser}
-          clearCart={this.clearCart}
-          marginSet={this.marginSet}
+          handleBannerMargin={this.handleBannerMargin}
         />
-        <div className="children" style={{ marginTop: this.state.rem + 'rem' }}>
+        <div
+          className="all-components-layout"
+          style={{ marginTop: this.state.rem + 'rem' }}
+        >
           {children({
             ...this.props,
             addItem: this.addItem,
