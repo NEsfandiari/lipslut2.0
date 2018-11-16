@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { NavButtons, BannerPromo } from './molecules'
 import CartSidebar from './CartSidebar.jsx'
 import MobileSidebar from './MobileSidebar.jsx'
+import { CartConsumer } from '../containers/CartContext'
 import 'futura-font/styles.css'
 
 const NavContainer = Styled.div`
@@ -50,8 +51,6 @@ class Navbar extends Component {
   render() {
     const {
       curUser,
-      cart,
-      handleCart,
       sidebar,
       displayFix,
       handleSidebar,
@@ -66,27 +65,29 @@ class Navbar extends Component {
           logOut={this.logOut}
           curUser={curUser}
           handleSidebar={handleSidebar}
-          cart={cart}
           mobileDisplayFix={mobileDisplayFix}
         />
         <NavContainer>
           <BannerPromo handleBannerMargin={handleBannerMargin} />
           <NavButtons
-            cart={cart}
             curUser={curUser}
             handleMobileSidebar={this.handleMobileSidebar}
             handleSidebar={handleSidebar}
             logOut={this.logOut}
           />
         </NavContainer>
-        <CartSidebar
-          cart={cart}
-          handleCart={handleCart}
-          curUser={curUser}
-          display={sidebar}
-          handleSidebar={handleSidebar}
-          displayFix={displayFix}
-        />
+        <CartConsumer>
+          {cartContext => (
+            <CartSidebar
+              cart={cartContext.cart}
+              handleCart={cartContext.handleCart}
+              curUser={curUser}
+              display={sidebar}
+              handleSidebar={handleSidebar}
+              displayFix={displayFix}
+            />
+          )}
+        </CartConsumer>
       </div>
     )
   }

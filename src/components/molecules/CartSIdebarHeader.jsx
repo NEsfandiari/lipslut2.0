@@ -30,12 +30,12 @@ class CartSidebarHeader extends Component {
     this.state = {}
   }
   render() {
-    const { cart, handleSidebar } = this.props
+    const { handleSidebar } = this.props
     return (
       <Container>
         <IoIosClose onClick={handleSidebar} size={'2rem'} className="close" />
         <h3>Your Bag</h3>
-        <ShoppingBagIcon id="bag" cart={cart} click={handleSidebar} />
+        <ShoppingBagIcon id="bag" click={handleSidebar} />
       </Container>
     )
   }

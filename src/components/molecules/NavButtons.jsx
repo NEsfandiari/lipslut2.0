@@ -3,7 +3,6 @@ import { FaRegUser, FaBars, FaRegQuestionCircle } from 'react-icons/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
-// import { UserConsumer } from '../../containers/UserContext'
 
 const Container = styled.div`
   display: flex;
@@ -81,17 +80,10 @@ const Container = styled.div`
 class NavButtons extends Component {
   constructor(props, context) {
     super(props)
-    // debugger
     console.log(context)
   }
   render() {
-    const {
-      handleMobileSidebar,
-      handleSidebar,
-      cart,
-      curUser,
-      logOut,
-    } = this.props
+    const { handleMobileSidebar, handleSidebar, curUser, logOut } = this.props
     const campaignLinks = [
       {
         text: 'F*ck Trump',
@@ -164,12 +156,11 @@ class NavButtons extends Component {
             links={userLinks}
             dropdownText={<FaRegUser size="1.9rem" />}
           />
-          <ShoppingBagIcon click={handleSidebar} cart={cart} />
+          <ShoppingBagIcon click={handleSidebar} />
         </div>
       </Container>
     )
   }
 }
 
-// export default UserConsumer(NavButtons)
 export default NavButtons

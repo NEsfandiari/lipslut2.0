@@ -69,7 +69,7 @@ class CartSidebar extends Component {
     return (
       <Container className={animation} displayFix={displayFix}>
         <div className="contents">
-          <CartSidebarHeader cart={cart} handleSidebar={handleSidebar} />
+          <CartSidebarHeader handleSidebar={handleSidebar} />
           <CartSidebarBody
             cart={cart}
             handleCart={handleCart}

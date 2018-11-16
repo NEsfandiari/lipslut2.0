@@ -51,7 +51,7 @@ class MobileSidebar extends Component {
     this.props.handleSidebar()
   }
   render() {
-    const { handleMobileSidebar, display, logOut, curUser, cart } = this.props
+    const { handleMobileSidebar, display, logOut, curUser } = this.props
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
     const campaignLinks = [
@@ -93,7 +93,7 @@ class MobileSidebar extends Component {
               <FaUser color="#FF0088" size="2.35rem" />
             </Link>
           ) : null}
-          <ShoppingBagIcon click={this.cartClick} cart={cart} />
+          <ShoppingBagIcon click={this.cartClick} />
         </div>
         <div className="links">
           {!curUser ? (

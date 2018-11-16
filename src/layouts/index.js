@@ -5,7 +5,8 @@ import Helmet from 'react-helmet'
 import { Navbar, Footer } from '../components'
 import postLambda from '../utilities/postLambda'
 import Cart from '../utilities/cart'
-import { UserProvider } from '../containers/UserContext'
+import { CartProvider } from '../containers/CartContext'
+// import { UserProvider } from '../containers/UserContext'
 import './index.css'
 
 const Container = styled.div`
@@ -162,33 +163,36 @@ class Layout extends Component {
       })
     )
     return (
-      // <UserProvider value={this.state.curUser}>
-      <Container>
-        <Helmet
-          title="Lipslut"
-          meta={[
-            { name: 'description', content: 'Sample' },
-            { name: 'keywords', content: 'sample, something' },
-          ]}
-        />
-        <Navbar
-          curUser={this.state.curUser}
-          cart={this.state.cart}
-          handleCart={this.handleCart}
-          sidebar={this.state.sidebar}
-          displayFix={this.state.displayFix}
-          handleSidebar={this.handleSidebar}
-          handleBannerMargin={this.handleBannerMargin}
-        />
-        <div
-          className="all-components-layout"
-          style={{ marginTop: this.state.bannerMargin + 'rem' }}
-        >
-          {childrenWithProps}
-        </div>
-        <Footer />
-      </Container>
-      // </UserProvider>
+      <CartProvider
+        value={{
+          cart: this.state.cart,
+          handleCart: this.handleCart,
+        }}
+      >
+        <Container>
+          <Helmet
+            title="Lipslut"
+            meta={[
+              { name: 'description', content: 'Sample' },
+              { name: 'keywords', content: 'sample, something' },
+            ]}
+          />
+          <Navbar
+            curUser={this.state.curUser}
+            sidebar={this.state.sidebar}
+            displayFix={this.state.displayFix}
+            handleSidebar={this.handleSidebar}
+            handleBannerMargin={this.handleBannerMargin}
+          />
+          <div
+            className="all-components-layout"
+            style={{ marginTop: this.state.bannerMargin + 'rem' }}
+          >
+            {childrenWithProps}
+          </div>
+          <Footer />
+        </Container>
+      </CartProvider>
     )
   }
 }
