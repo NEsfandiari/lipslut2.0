@@ -1,5 +1,5 @@
 import Styled from 'styled-components'
-import Link from 'gatsby-link'
+import { Link } from 'gatsby'
 
 const LinkButton = Styled(Link)`
     color: #FF0086

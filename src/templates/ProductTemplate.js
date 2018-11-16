@@ -13,7 +13,7 @@ class ProductTemplate extends Component {
     this.props.resetSidebar()
   }
   render() {
-    const data = this.props.pathContext.node
+    const data = this.props.pageContext.node
     const images = data.images.map(img => img.file.url)
     let productMedia
 

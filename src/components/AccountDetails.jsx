@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Card, StyledButton, StyledHr, NavLink } from './atoms'
+import { StyledButton, NavLink } from './atoms'
 import { AccountDetailsList, AccountDetailsForm } from './molecules'
 
 const Container = styled.div`

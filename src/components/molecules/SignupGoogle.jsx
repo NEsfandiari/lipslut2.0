@@ -38,7 +38,7 @@ class SignupEmailPassword extends Component {
           backgroundColor="white"
           borderColor="#D34836"
           borderWidth="2px"
-          hoverColor="#F9F7F1"
+          hovercolor="#F9F7F1"
           margin=".5rem"
           className="google"
         >

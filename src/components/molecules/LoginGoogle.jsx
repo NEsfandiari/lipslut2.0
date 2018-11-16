@@ -36,7 +36,7 @@ class LoginGoogle extends Component {
           borderColor="#D34836"
           borderWidth="2px"
           margin=".5rem"
-          hoverColor="#F9F7F1"
+          hovercolor="#F9F7F1"
           letterSpacing="0"
           className="google"
         >

@@ -1,23 +1,10 @@
-import AccountDetails from './AccountDetails.jsx'
-import CartSidebar from './CartSidebar.jsx'
-import CheckoutForm from './CheckoutForm.jsx'
-import Footer from './Footer.jsx'
-import HomePageFeatured from './HomePageFeatured.jsx'
-import MobileSidebar from './MobileSidebar'
-import Navbar from './Navbar.jsx'
-import OrderHistory from './OrderHistory.jsx'
-import Product from './Product.jsx'
-import ProductMedia from './ProductMedia.jsx'
-
-export default {
-  AccountDetails,
-  CartSidebar,
-  CheckoutForm,
-  Footer,
-  HomePageFeatured,
-  MobileSidebar,
-  Navbar,
-  OrderHistory,
-  Product,
-  ProductMedia,
-}
+export { default as AccountDetails } from './AccountDetails'
+export { default as CartSidebar } from './CartSidebar'
+export { default as CheckoutForm } from './CheckoutForm'
+export { default as Footer } from './Footer'
+export { default as HomePageFeatured } from './HomePageFeatured'
+export { default as MobileSidebar } from './MobileSidebar'
+export { default as Navbar } from './Navbar'
+export { default as OrderHistory } from './OrderHistory'
+export { default as Product } from './Product'
+export { default as ProductMedia } from './ProductMedia'

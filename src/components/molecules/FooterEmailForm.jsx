@@ -2,15 +2,14 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { StyledButton, StyledInput } from '../atoms'
-import { MdChevronRight } from 'react-icons/lib/md'
+import { MdChevronRight } from 'react-icons/md'
 
 // TODO: Switch Form to Formspree
 
 const Container = styled.form`
-  @media (max-width: 420px) {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+
   input {
     text-align: center;
     padding-left: 0;
@@ -74,7 +73,7 @@ class FooterEmailForm extends Component {
         <StyledButton
           margin="0rem"
           backgroundColor="white"
-          hoverColor="#FF009A"
+          hovercolor="#FF009A"
           width="5rem"
           onMouseEnter={this.handleHoverIn}
           onMouseLeave={this.handleHoverOut}

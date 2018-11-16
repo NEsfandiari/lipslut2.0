@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { StyledButton, Loading } from '../atoms'
-import { FaFacebookSquare } from 'react-icons/lib/fa'
+import { FaFacebookSquare } from 'react-icons/fa'
 
 const Container = styled.div`
   .facebook {
@@ -40,7 +40,7 @@ class SignupFacebook extends Component {
           borderColor="#3B539A"
           borderWidth="2px"
           margin=".5rem"
-          hoverColor="#E9F6FF"
+          hovercolor="#E9F6FF"
           letterSpacing="0"
           className="facebook"
         >

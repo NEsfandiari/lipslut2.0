@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { FaClose } from 'react-icons/lib/fa'
-import Link from 'gatsby-link'
+import { IoIosClose } from 'react-icons/io'
+import { Link } from 'gatsby'
 
 const Container = styled.div`
   display: flex;
@@ -54,7 +54,7 @@ class BannerPromo extends Component {
           Checkout our newest Batch, 100% of Profits towards charity.{' '}
           <Link to="/Lipslut-Lab">Click Here</Link>
         </p>
-        <FaClose onClick={this.hidePromo} />
+        <IoIosClose onClick={this.hidePromo} />
       </Container>
     )
   }

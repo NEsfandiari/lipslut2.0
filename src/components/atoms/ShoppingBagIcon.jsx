@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { TiShoppingBag } from 'react-icons/lib/ti'
+import { TiShoppingBag } from 'react-icons/ti'
 
 const Container = styled.div`
   cursor: pointer;

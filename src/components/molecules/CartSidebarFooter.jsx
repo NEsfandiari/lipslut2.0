@@ -36,8 +36,7 @@ class CartSidebarFooter extends Component {
         return accumulator + currentValue.price * currentValue.quantity
       }, 0)
       .toFixed(2)
-    const buttonUsability = cart.length == 0 ? '' : window.location.pathname
-    const opacity = cart.length == 0 ? 0.3 : 1
+    const opacity = cart.length === 0 ? 0.3 : 1
     return (
       <Container>
         <StyledHr />

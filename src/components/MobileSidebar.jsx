@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Link from 'gatsby-link'
-import { FaClose, FaUser } from 'react-icons/lib/fa'
-import {
-  LinkButton,
-  StyledHr,
-  NavLink,
-  ShoppingBagIcon,
-  MobileDropdown,
-} from './atoms'
+import { Link } from 'gatsby'
+import { FaUser } from 'react-icons/fa'
+import { IoIosClose } from 'react-icons/io'
+import { NavLink, ShoppingBagIcon, MobileDropdown } from './atoms'
 import 'animate.css'
 
 const Container = styled.div`
@@ -92,7 +87,7 @@ class MobileSidebar extends Component {
         mobileDisplayFix={mobileDisplayFix}
       >
         <div className="header">
-          <FaClose onClick={handleMobileSidebar} size={'2rem'} />
+          <IoIosClose onClick={handleMobileSidebar} size={'2rem'} />
           {curUser ? (
             <Link to="/account" onClick={handleMobileSidebar}>
               <FaUser color="#FF0088" size="2.35rem" />

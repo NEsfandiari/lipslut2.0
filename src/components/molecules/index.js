@@ -1,59 +1,25 @@
-import AccountDetailsForm from './AccountDetailsForm.jsx'
-import AccountDetailsList from './AccountDetailsList.jsx'
-import BannerPromo from './BannerPromo.jsx'
-import CheckoutPayment from './CheckoutPayment.jsx'
-import CheckoutShipping from './CheckoutShipping.jsx'
-import CheckoutSummary from './CheckoutSummary.jsx'
-import CartSidebarBody from './CartSidebarBody.jsx'
-import CartSidebarFooter from './CartSidebarFooter.jsx'
-import FeaturedProduct from './FeaturedProduct.jsx'
-import FooterEmailForm from './FooterEmailForm.jsx'
-import FooterSocialIcons from './FooterSocialIcons.jsx'
-import LoginEmailPassword from './LoginEmailPassword.jsx'
-import LoginFacebook from './LoginFacebook.jsx'
-import LoginGoogle from './LoginGoogle.jsx'
-import MediaHighlights from './MediaHighlights.jsx'
-import MissionPhilosophy from './MissionPhilosophy.jsx'
-import MissionStatements from './MissionStatements.jsx'
-import NavButtons from './NavButtons.jsx'
-import Order from './Order.jsx'
-import OrderConfirmationSummary from './OrderConfirmationSummary'
-import ProductDescription from './ProductDescription.jsx'
-import ProductPhotos from './ProductPhotos.jsx'
-import SidebarItem from './SidebarItem.jsx'
-import SignupEmailPassword from './SignupEmailPassword.jsx'
-import SignupFacebook from './SignupFacebook.jsx'
-import SignupGoogle from './SignupGoogle.jsx'
-import SummaryFinancials from './SummaryFinancials.jsx'
-import SummaryItem from './SummaryItem.jsx'
-
-export default {
-  AccountDetailsForm,
-  AccountDetailsList,
-  BannerPromo,
-  CheckoutPayment,
-  CheckoutShipping,
-  CheckoutSummary,
-  CartSidebarBody,
-  CartSidebarFooter,
-  FeaturedProduct,
-  FooterEmailForm,
-  FooterSocialIcons,
-  LoginEmailPassword,
-  LoginFacebook,
-  LoginGoogle,
-  MediaHighlights,
-  MissionPhilosophy,
-  MissionStatements,
-  NavButtons,
-  Order,
-  OrderConfirmationSummary,
-  ProductDescription,
-  ProductPhotos,
-  SidebarItem,
-  SignupEmailPassword,
-  SignupFacebook,
-  SignupGoogle,
-  SummaryFinancials,
-  SummaryItem,
-}
+export { default as AccountDetailsForm } from './AccountDetailsForm'
+export { default as AccountDetailsList } from './AccountDetailsList'
+export { default as BannerPromo } from './BannerPromo'
+export { default as CartSidebarBody } from './CartSidebarBody'
+export { default as CartSidebarFooter } from './CartSidebarFooter'
+export { default as FeaturedProduct } from './FeaturedProduct'
+export { default as FooterEmailForm } from './FooterEmailForm'
+export { default as FooterSocialIcons } from './FooterSocialIcons'
+export { default as LoginEmailPassword } from './LoginEmailPassword'
+export { default as LoginFacebook } from './LoginFacebook'
+export { default as LoginGoogle } from './LoginGoogle'
+export { default as MediaHighlights } from './MediaHighlights'
+export { default as MissionPhilosophy } from './MissionPhilosophy'
+export { default as MissionStatements } from './MissionStatements'
+export { default as NavButtons } from './NavButtons'
+export { default as Order } from './Order'
+export { default as OrderConfirmationSummary } from './OrderConfirmationSummary'
+export { default as ProductDescription } from './ProductDescription'
+export { default as ProductPhotos } from './ProductPhotos'
+export { default as SidebarItem } from './SidebarItem'
+export { default as SignupEmailPassword } from './SignupEmailPassword'
+export { default as SignupFacebook } from './SignupFacebook'
+export { default as SignupGoogle } from './SignupGoogle'
+export { default as SummaryFinancials } from './SummaryFinancials'
+export { default as SummaryItem } from './SummaryItem'

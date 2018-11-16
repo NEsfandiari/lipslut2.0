@@ -61,7 +61,7 @@ class MediaHighlights extends Component {
         key={i}
         name={i}
         onClick={this.handleHighlight}
-        style={this.state.highlight == i ? { opacity: 1 } : {}}
+        style={this.state.highlight === i ? { opacity: 1 } : {}}
       />
     ))
     return (

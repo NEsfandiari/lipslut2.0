@@ -15,14 +15,7 @@ const Container = styled.form`
 
 class AccountDetailsForm extends Component {
   render() {
-    const {
-      firstName,
-      lastName,
-      email,
-      phone,
-      handleChange,
-      curUser,
-    } = this.props
+    const { firstName, lastName, email, phone, handleChange } = this.props
 
     return (
       <Container>
@@ -63,7 +56,6 @@ class AccountDetailsForm extends Component {
           <label htmlFor="">Phone</label>
           <StyledInput
             type="tel"
-            placeholder="Phone"
             onChange={handleChange}
             placeholder="Phone #"
             pattern="[0-9]{3}[0-9]{3}[0-9]{4}"

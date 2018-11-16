@@ -4,8 +4,8 @@ require('dotenv').config({
 
 // create product pages from contentful graphql data
 const path = require('path')
-exports.createPages = async ({ boundActionCreators, graphql }) => {
-  const { createPage } = boundActionCreators
+exports.createPages = async ({ actions, graphql }) => {
+  const { createPage } = actions
   return new Promise((resolve, reject) => {
     const ProductPageTemplate = path.resolve(`src/templates/ProductTemplate.js`)
     // Query for contentful nodes to use in creating pages.
@@ -71,8 +71,8 @@ exports.createPages = async ({ boundActionCreators, graphql }) => {
 // const crypto = require('crypto')
 // const contentful = require('contentful')
 
-// exports.sourceNodes = async ({ boundActionCreators }) => {
-//   const { createNode } = boundActionCreators
+// exports.sourceNodes = async ({ actions }) => {
+//   const { createNode } = actions
 //   const client = await contentful.createClient({
 //     space: process.env.GATSBY_CONTENTFUL_SPACE_ID,
 //     accessToken: process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,

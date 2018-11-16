@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TiTrash } from 'react-icons/lib/ti'
+import { TiTrash } from 'react-icons/ti'
 import styled from 'styled-components'
 import { QuantityAdjustButton } from '../atoms'
 

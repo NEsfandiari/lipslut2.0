@@ -70,7 +70,7 @@ class Login extends Component {
         <NavLink
           to="/signup"
           fontSize=".8rem"
-          hoverColor="#00a6f6"
+          hovercolor="#00a6f6"
           letterSpacing="0"
         >
           Don't have an account? <u>Create One!</u>
@@ -78,7 +78,7 @@ class Login extends Component {
         <NavLink
           to="/signup"
           fontSize=".8rem"
-          hoverColor="#00a6f6"
+          hovercolor="#00a6f6"
           letterSpacing="0"
         >
           <u>Forgot your password?</u>
