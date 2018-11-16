@@ -66,7 +66,7 @@ class Signup extends Component {
         <NavLink
           to="/login"
           fontSize=".8rem"
-          hoverColor="#00a6f6"
+          hovercolor="#00a6f6"
           letterSpacing="0"
         >
           Already have an account? <u>Log In!</u>

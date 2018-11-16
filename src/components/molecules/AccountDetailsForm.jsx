@@ -56,7 +56,6 @@ class AccountDetailsForm extends Component {
           <label htmlFor="">Phone</label>
           <StyledInput
             type="tel"
-            placeholder="Phone"
             onChange={handleChange}
             placeholder="Phone #"
             pattern="[0-9]{3}[0-9]{3}[0-9]{4}"

@@ -13,7 +13,7 @@ const NavLink = Styled(Link)`
       color: ${({ color }) => color || 'black'};
     }
     :hover{
-      color: ${({ hoverColor }) => hoverColor || 'darkgrey'};
+      color: ${({ hovercolor }) => hovercolor || 'darkgrey'};
     }
 `
 export default NavLink

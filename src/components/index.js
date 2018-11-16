@@ -1,23 +1,10 @@
-import AccountDetails from './AccountDetails'
-import CartSidebar from './CartSidebar'
-import CheckoutForm from './CheckoutForm'
-import Footer from './Footer'
-import HomePageFeatured from './HomePageFeatured'
-import MobileSidebar from './MobileSidebar'
-import Navbar from './Navbar'
-import OrderHistory from './OrderHistory'
-import Product from './Product'
-import ProductMedia from './ProductMedia'
-
-export default {
-  AccountDetails,
-  CartSidebar,
-  CheckoutForm,
-  Footer,
-  HomePageFeatured,
-  MobileSidebar,
-  Navbar,
-  OrderHistory,
-  Product,
-  ProductMedia,
-}
+export { default as AccountDetails } from './AccountDetails'
+export { default as CartSidebar } from './CartSidebar'
+export { default as CheckoutForm } from './CheckoutForm'
+export { default as Footer } from './Footer'
+export { default as HomePageFeatured } from './HomePageFeatured'
+export { default as MobileSidebar } from './MobileSidebar'
+export { default as Navbar } from './Navbar'
+export { default as OrderHistory } from './OrderHistory'
+export { default as Product } from './Product'
+export { default as ProductMedia } from './ProductMedia'

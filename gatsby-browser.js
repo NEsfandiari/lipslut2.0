@@ -6,5 +6,5 @@ export const wrapRootElement = ({ element }) => {
   const ConnectedRouterWrapper = () => (
     <FirebaseProvider firebase={firebase}>{element}</FirebaseProvider>
   )
-  return ConnectedRouterWrapper
+  return <ConnectedRouterWrapper />
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { IoIosCloseEmpty } from 'react-icons/io'
+import { IoIosClose } from 'react-icons/io'
 import { ShoppingBagIcon } from '../atoms'
 
 const Container = styled.div`
@@ -33,11 +33,7 @@ class CartSidebarHeader extends Component {
     const { cart, handleSidebar } = this.props
     return (
       <Container>
-        <IoIosCloseEmpty
-          onClick={handleSidebar}
-          size={'2rem'}
-          className="close"
-        />
+        <IoIosClose onClick={handleSidebar} size={'2rem'} className="close" />
         <h3>Your Bag</h3>
         <ShoppingBagIcon id="bag" cart={cart} click={handleSidebar} />
       </Container>

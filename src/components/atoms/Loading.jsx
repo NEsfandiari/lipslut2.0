@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const Loading = ({ propHeight }) => (
   <Container height={propHeight}>
-    <Spinner name="double-bounce" name="ball-beat" color="#ff0086" />
+    <Spinner name="double-bounce" color="#ff0086" />
   </Container>
 )
 

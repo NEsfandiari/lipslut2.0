@@ -12,10 +12,10 @@ const Container = Styled.div`
     .top-footer{
       display: flex;
       justify-content: space-between;
-      width: 90%
+      width: 80vw;
       padding: 1rem;
       @media (max-width: 420px) {
-        width: 100%
+        width: 100%;
         padding: 0rem;
         justify-content: center;
         align-items: center;
@@ -105,10 +105,10 @@ class Footer extends Component {
               </p>
             </div>
             <div className="bottom-links">
-              <NavLink to="/terms-conditions" color="white" hoverColor="black">
+              <NavLink to="/terms-conditions" color="white" hovercolor="black">
                 Terms + Conditions
               </NavLink>
-              <NavLink to="/privacy-policy" color="white" hoverColor="black">
+              <NavLink to="/privacy-policy" color="white" hovercolor="black">
                 Privacy Policy
               </NavLink>
             </div>

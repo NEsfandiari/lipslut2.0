@@ -5,7 +5,7 @@ import Helmet from 'react-helmet'
 import { Navbar, Footer } from '../components'
 import postLambda from '../utilities/postLambda'
 import Cart from '../utilities/cart'
-// import { UserProvider } from '../containers/UserContext'
+import { UserProvider } from '../containers/UserContext'
 import './index.css'
 
 const Container = styled.div`

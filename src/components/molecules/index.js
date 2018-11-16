@@ -1,53 +1,25 @@
-import AccountDetailsForm from './AccountDetailsForm'
-import AccountDetailsList from './AccountDetailsList'
-import BannerPromo from './BannerPromo'
-import CartSidebarBody from './CartSidebarBody'
-import CartSidebarFooter from './CartSidebarFooter'
-import FeaturedProduct from './FeaturedProduct'
-import FooterEmailForm from './FooterEmailForm'
-import FooterSocialIcons from './FooterSocialIcons'
-import LoginEmailPassword from './LoginEmailPassword'
-import LoginFacebook from './LoginFacebook'
-import LoginGoogle from './LoginGoogle'
-import MediaHighlights from './MediaHighlights'
-import MissionPhilosophy from './MissionPhilosophy'
-import MissionStatements from './MissionStatements'
-import NavButtons from './NavButtons'
-import Order from './Order'
-import OrderConfirmationSummary from './OrderConfirmationSummary'
-import ProductDescription from './ProductDescription'
-import ProductPhotos from './ProductPhotos'
-import SidebarItem from './SidebarItem'
-import SignupEmailPassword from './SignupEmailPassword'
-import SignupFacebook from './SignupFacebook'
-import SignupGoogle from './SignupGoogle'
-import SummaryFinancials from './SummaryFinancials'
-import SummaryItem from './SummaryItem'
-
-export default {
-  AccountDetailsForm,
-  AccountDetailsList,
-  BannerPromo,
-  CartSidebarBody,
-  CartSidebarFooter,
-  FeaturedProduct,
-  FooterEmailForm,
-  FooterSocialIcons,
-  LoginEmailPassword,
-  LoginFacebook,
-  LoginGoogle,
-  MediaHighlights,
-  MissionPhilosophy,
-  MissionStatements,
-  NavButtons,
-  Order,
-  OrderConfirmationSummary,
-  ProductDescription,
-  ProductPhotos,
-  SidebarItem,
-  SignupEmailPassword,
-  SignupFacebook,
-  SignupGoogle,
-  SummaryFinancials,
-  SummaryItem,
-}
+export { default as AccountDetailsForm } from './AccountDetailsForm'
+export { default as AccountDetailsList } from './AccountDetailsList'
+export { default as BannerPromo } from './BannerPromo'
+export { default as CartSidebarBody } from './CartSidebarBody'
+export { default as CartSidebarFooter } from './CartSidebarFooter'
+export { default as FeaturedProduct } from './FeaturedProduct'
+export { default as FooterEmailForm } from './FooterEmailForm'
+export { default as FooterSocialIcons } from './FooterSocialIcons'
+export { default as LoginEmailPassword } from './LoginEmailPassword'
+export { default as LoginFacebook } from './LoginFacebook'
+export { default as LoginGoogle } from './LoginGoogle'
+export { default as MediaHighlights } from './MediaHighlights'
+export { default as MissionPhilosophy } from './MissionPhilosophy'
+export { default as MissionStatements } from './MissionStatements'
+export { default as NavButtons } from './NavButtons'
+export { default as Order } from './Order'
+export { default as OrderConfirmationSummary } from './OrderConfirmationSummary'
+export { default as ProductDescription } from './ProductDescription'
+export { default as ProductPhotos } from './ProductPhotos'
+export { default as SidebarItem } from './SidebarItem'
+export { default as SignupEmailPassword } from './SignupEmailPassword'
+export { default as SignupFacebook } from './SignupFacebook'
+export { default as SignupGoogle } from './SignupGoogle'
+export { default as SummaryFinancials } from './SummaryFinancials'
+export { default as SummaryItem } from './SummaryItem'

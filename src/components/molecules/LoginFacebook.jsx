@@ -36,7 +36,7 @@ class LoginFacebook extends Component {
           borderColor="#3B539A"
           borderWidth="2px"
           margin=".5rem"
-          hoverColor="#E9F6FF"
+          hovercolor="#E9F6FF"
           letterSpacing="0"
           className="facebook"
         >
