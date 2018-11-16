@@ -35,9 +35,6 @@ const Container = styled.div`
     justify-content: flex-end;
     align-items: center;
     flex-basis: 45%;
-    div {
-      padding: 0;
-    }
   }
   @media (max-width: 420px) {
     width: 100%;
