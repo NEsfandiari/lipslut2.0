@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FaUser, FaBars, FaQuestion } from 'react-icons/fa'
+import { FaRegUser, FaBars, FaRegQuestionCircle } from 'react-icons/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
@@ -14,9 +14,6 @@ const Container = styled.div`
   padding-top: 0.3rem;
   background-color: white;
   margin: 0;
-  div {
-    padding: 0.5rem;
-  }
   a {
     margin-right: 0.7rem;
   }
@@ -38,6 +35,9 @@ const Container = styled.div`
     justify-content: flex-end;
     align-items: center;
     flex-basis: 45%;
+    div {
+      padding: 0;
+    }
   }
   @media (max-width: 420px) {
     width: 100%;
@@ -161,11 +161,11 @@ class NavButtons extends Component {
         <div className="rightNav">
           <DropdownMenu
             links={helpLinks}
-            dropdownText={<FaQuestion size="2.2rem" color="#FF009A" />}
+            dropdownText={<FaRegQuestionCircle size="1.9rem" />}
           />
           <DropdownMenu
             links={userLinks}
-            dropdownText={<FaUser size="2.1rem" color="#FF009A" />}
+            dropdownText={<FaRegUser size="1.9rem" />}
           />
           <ShoppingBagIcon click={handleSidebar} cart={cart} />
         </div>

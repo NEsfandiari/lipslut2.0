@@ -4,7 +4,7 @@ import { Link } from 'gatsby'
 const NavLink = Styled(Link)`
     color: ${({ color }) => color || 'black'};
     font-size: ${({ fontSize }) => fontSize || '.85rem'};
-    padding: .2rem
+    padding: .5rem;
     letter-spacing: ${({ letterSpacing }) => letterSpacing || '.1rem'};
     transition: 0.2s ease;
     cursor: pointer;

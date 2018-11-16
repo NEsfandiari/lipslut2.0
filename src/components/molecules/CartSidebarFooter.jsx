@@ -3,23 +3,23 @@ import styled from 'styled-components'
 import { StyledButton, StyledHr } from '../atoms'
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  .disclaimer {
+    font-size: 0.7rem;
+    text-align: left;
+    line-height: 1rem;
+    margin-top: 0.5rem;
+  }
+  .subtotal {
     display: flex;
-    flex-direction: column;
-    width: 80%
     justify-content: space-between;
-    align-items: center;
-    .disclaimer{
-      font-size: 0.7rem;
-      text-align: left;
-      line-height: 1rem;
-      margin-top: .5rem;
-    }
-    .subtotal{
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-    }
-    hr {
+    width: 100%;
+  }
+  hr {
     width: 150%;
   }
 `

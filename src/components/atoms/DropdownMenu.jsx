@@ -5,6 +5,7 @@ import NavLink from './NavLink'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0.5rem;
   .dropdown {
     margin: 0;
   }
@@ -12,6 +13,7 @@ const Container = styled.div`
     display: none;
     position: absolute;
     background-color: white;
+    padding: 0.5rem;
     border-radius: 2px;
     box-shadow: 1px 1px 10px 0 rgba(46, 61, 73, 0.2);
     margin-top: 2rem;
