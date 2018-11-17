@@ -5,32 +5,36 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   padding-top: 3rem;
-  img{
-      flex-basis: 50%;
-      max-height: 33rem;
-      max-width: 30rem;
+  img {
+    flex-basis: 50%;
+    max-height: 33rem;
+    max-width: 30rem;
   }
-  div{
+  div {
     display: flex;
-    flex-direction: column
+    flex-direction: column;
     flex-basis: 50%;
   }
-  h1{
-      font-size: 3.5rem;
+  h1 {
+    font-size: 3.5rem;
   }
   animation: fadein 1s;
   @keyframes fadein {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+    from {
+      opacity: 0;
     }
+    to {
+      opacity: 1;
+    }
+  }
   @media (max-width: 420px) {
     flex-direction: column;
     padding-top: 1rem;
-    img{
-      width:100%
+    img {
+      width: 100%;
     }
-    h1{
-      text-align:center;
+    h1 {
+      text-align: center;
     }
   }
 `

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { Navbar, Footer } from '../components'
 import postLambda from '../utilities/postLambda'
