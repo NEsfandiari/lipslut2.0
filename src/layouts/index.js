@@ -6,6 +6,8 @@ import { Navbar, Footer } from '../components'
 import postLambda from '../utilities/postLambda'
 import Cart from '../utilities/cart'
 import { CartProvider } from '../containers/CartContext'
+import FirebaseProvider from '../containers/FirebaseProvider'
+import firebase from '../utilities/firebase'
 // import { UserProvider } from '../containers/UserContext'
 import './index.css'
 
@@ -75,17 +77,12 @@ class Layout extends Component {
     }
   }
 
-  static contextTypes = {
-    firebase: PropTypes.object,
-  }
-
   componentDidMount() {
     // TODO: Create Context for the current User Information
     let cartData = windowGlobal.localStorage.getItem('cart') || '[]'
     cartData = JSON.parse(cartData)
     this.setState({ cart: cartData })
 
-    const firebase = this.context.firebase
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.signIn(user)
@@ -98,7 +95,6 @@ class Layout extends Component {
   // Firebase Functionality
   signIn = user => {
     // TODO: Seperate database schema into more react friendly schema
-    const { firebase } = this.context
     firebase
       .signIn(user.uid)
       .then(curUser => {
@@ -163,42 +159,40 @@ class Layout extends Component {
       })
     )
     return (
-      <CartProvider
-        value={{
-          cart: this.state.cart,
-          handleCart: this.handleCart,
-        }}
-      >
-        <Container>
-          <Helmet
-            title="Lipslut"
-            meta={[
-              { name: 'description', content: 'Sample' },
-              { name: 'keywords', content: 'sample, something' },
-            ]}
-          />
-          <Navbar
-            curUser={this.state.curUser}
-            sidebar={this.state.sidebar}
-            displayFix={this.state.displayFix}
-            handleSidebar={this.handleSidebar}
-            handleBannerMargin={this.handleBannerMargin}
-          />
-          <div
-            className="all-components-layout"
-            style={{ marginTop: this.state.bannerMargin + 'rem' }}
-          >
-            {childrenWithProps}
-          </div>
-          <Footer />
-        </Container>
-      </CartProvider>
+      <FirebaseProvider firebase={firebase}>
+        <CartProvider
+          value={{
+            cart: this.state.cart,
+            handleCart: this.handleCart,
+          }}
+        >
+          <Container>
+            <Helmet
+              title="Lipslut"
+              meta={[
+                { name: 'description', content: 'Sample' },
+                { name: 'keywords', content: 'sample, something' },
+              ]}
+            />
+            <Navbar
+              curUser={this.state.curUser}
+              sidebar={this.state.sidebar}
+              displayFix={this.state.displayFix}
+              handleSidebar={this.handleSidebar}
+              handleBannerMargin={this.handleBannerMargin}
+            />
+            <div
+              className="all-components-layout"
+              style={{ marginTop: this.state.bannerMargin + 'rem' }}
+            >
+              {childrenWithProps}
+            </div>
+            <Footer />
+          </Container>
+        </CartProvider>
+      </FirebaseProvider>
     )
   }
-}
-
-Layout.propTypes = {
-  children: PropTypes.func,
 }
 
 export default Layout
