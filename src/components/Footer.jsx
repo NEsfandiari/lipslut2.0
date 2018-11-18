@@ -12,7 +12,7 @@ const Container = Styled.div`
     .top-footer{
       display: flex;
       justify-content: space-between;
-      width: 80vw;
+      width: 70vw;
       padding: 1rem;
       @media (max-width: 420px) {
         width: 100%;
@@ -59,6 +59,8 @@ const Container = Styled.div`
       height: 6rem;
       flex-basis: 50%;
       @media (max-width: 420px) {
+        flex-direction:row;
+        justify-content:center;
         width: 20rem;
       }
     }
