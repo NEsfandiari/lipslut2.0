@@ -40,7 +40,6 @@ class ProductTemplate extends Component {
           images={images}
           price={data.price}
           sku={data.sku}
-          handleCart={this.props.handleCart}
         />
         {productMedia}
       </Container>

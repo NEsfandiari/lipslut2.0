@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { ProductPhotos, ProductDescription } from './molecules'
+import { CartConsumer } from '../containers/CartContext'
 
 const Container = styled.div`
   display: flex;
@@ -24,18 +25,22 @@ const Container = styled.div`
 
 class Product extends Component {
   render() {
-    const { images, handleCart, descriptors, title, price, sku } = this.props
+    const { images, descriptors, title, price, sku } = this.props
     return (
       <Container>
         <ProductPhotos images={images} />
-        <ProductDescription
-          handleCart={handleCart}
-          descriptors={descriptors}
-          title={title}
-          price={price}
-          images={images}
-          sku={sku}
-        />
+        <CartConsumer>
+          {cartContext => (
+            <ProductDescription
+              handleCart={cartContext.handleCart}
+              descriptors={descriptors}
+              title={title}
+              price={price}
+              images={images}
+              sku={sku}
+            />
+          )}
+        </CartConsumer>
       </Container>
     )
   }

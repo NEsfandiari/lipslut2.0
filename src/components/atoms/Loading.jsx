@@ -9,10 +9,12 @@ const Container = styled.div`
   height: ${({ height }) => height || '0vh'};
 `
 
-const Loading = ({ propHeight }) => (
-  <Container height={propHeight}>
-    <Spinner name="double-bounce" color="#ff0086" />
-  </Container>
-)
+const Loading = props => {
+  return (
+    <Container height={props.height}>
+      <Spinner name="three-bounce" color="#ff0086" />
+    </Container>
+  )
+}
 
 export default Loading

@@ -86,7 +86,7 @@ class Layout extends Component {
       if (user) {
         this.signIn(user)
       } else {
-        this.signOut()
+        this.setState({ curUser: null })
       }
     })
   }
@@ -106,9 +106,6 @@ class Layout extends Component {
       .catch(err => {
         console.log(err)
       })
-  }
-  signOut = () => {
-    this.setState({ curUser: null })
   }
 
   // Sidebar/Banner UI Logic
@@ -147,16 +144,17 @@ class Layout extends Component {
 
   render() {
     const { children } = this.props
+    // TODO: Remove this pattern and convert out of a gatsby v1 magic layout
+    // Cannot Pass Props down to children in Gatsby v2 with gatsby v1 magic Layout, Need this Hack for now
     const childrenWithProps = React.Children.map(children, (child, i) =>
       React.cloneElement(child, {
         ...this.props,
-        handleCart: this.handleCart,
-        cart: this.state.cart,
         curUser: this.state.curUser,
         resetSidebar: this.resetSidebar,
         signIn: this.signIn,
       })
     )
+
     return (
       <FirebaseProvider firebase={firebase}>
         <CartProvider

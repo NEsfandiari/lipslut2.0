@@ -4,16 +4,16 @@ import { IoIosClose } from 'react-icons/io'
 import { Link } from 'gatsby'
 
 const Container = styled.div`
+  position: relative;
+  top: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #e6f8f9;
   padding: 0.5rem;
-  position: relative;
-  text-align: center;
-  width: 100%;
   height: 2.5rem;
-  top: 0;
+  text-align: center;
   :hover {
     background-color: #d9f3fc;
   }
@@ -23,12 +23,12 @@ const Container = styled.div`
   }
   a {
     border-bottom: 1px solid currentColor;
-  }
-  a:visited {
-    color: #4100f1;
-  }
-  a:hover {
-    color: #4300fc;
+    :visited {
+      color: #4100f1;
+    }
+    :hover {
+      color: #4300fc;
+    }
   }
   svg:hover {
     color: dimgrey;
@@ -50,7 +50,6 @@ class BannerPromo extends Component {
     return (
       <Container style={{ display: display }}>
         <p>
-          {' '}
           Checkout our newest Batch, 100% of Profits towards charity.{' '}
           <Link to="/Lipslut-Lab">Click Here</Link>
         </p>

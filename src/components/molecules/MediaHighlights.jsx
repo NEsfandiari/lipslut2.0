@@ -60,7 +60,7 @@ class MediaHighlights extends Component {
         alt={'Brand Logo' + i}
         key={i}
         name={i}
-        onClick={this.handleHighlight}
+        onMouseEnter={this.handleHighlight}
         style={this.state.highlight === i ? { opacity: 1 } : {}}
       />
     ))
