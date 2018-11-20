@@ -8,13 +8,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  @media (max-width: 420px) {
-      padding: 0rem;
-      hr{
-        margin-left: 0;
-        margin-right: 0;
-      }
-    }
+
   .purchase {
     display: flex;
     align-items: center;
@@ -27,11 +21,11 @@ const Container = styled.div`
   .price {
     font-size: 0.9rem;
     text-align: center;
-    padding: .5rem;
+    padding: 0.5rem;
     /* border: 2px solid #FF009A */
-    margin:0;
-    color: #FF009A
-    height: 2.5rem
+    margin: 0;
+    color: #ff009a;
+    height: 2.5rem;
     width: 5rem;
   }
   h1 {
@@ -39,7 +33,13 @@ const Container = styled.div`
     overflow: visible;
     width: 23rem;
   }
-   
+
+  @media (max-width: 420px) {
+    padding: 0rem;
+    hr {
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
 `
 

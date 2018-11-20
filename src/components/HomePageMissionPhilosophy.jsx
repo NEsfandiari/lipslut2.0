@@ -39,7 +39,6 @@ class MissionPhilosophy extends Component {
     let slogans = []
     let phil = []
     this.props.philosophyCopy.forEach(line => {
-      console.log(line)
       if (line.nodeType === 'heading-1')
         slogans.push(<h1>{line.content[0].value}</h1>)
       else phil.push(<p>{line.content[0].value}</p>)

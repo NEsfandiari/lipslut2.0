@@ -23,6 +23,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     flex-basis: 45%;
+    padding-left: 1rem;
   }
   .logo {
     display: flex;
@@ -55,6 +56,7 @@ const Container = styled.div`
     .leftNav {
       flex-basis: 20%;
       width: 100%;
+      padding-left: 0rem;
       a {
         display: none;
       }

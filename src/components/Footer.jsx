@@ -5,77 +5,53 @@ import { NavLink } from './atoms'
 
 const Container = Styled.div`
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-top: 2rem;
-    /* TODO: Break Up into Seperate Top/Bottom Componenets */
-    .top-footer{
-      display: flex;
-      justify-content: space-between;
-      width: 70vw;
-      padding: 1rem;
-      @media (max-width: 420px) {
-        width: 100%;
-        padding: 0rem;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        a{
-            font-size: .8rem;
-          }
-      }
-    }
-    .bottom-footer{
-      width: 100vw;
-      height: 6rem;
-      background-color: #75CAEB;
-      color: white;
-      padding: 1rem;
-      display flex;
-      text-decoration: underline;
-      display: flex;
-      justify-content: center;
-      @media (max-width: 420px) {
-          display: none;
-          padding: .5rem;
-          position: relative;
-          right: 4.5%;
-      }
-      .bottom-footer-container{
-        display: flex;
-        justify-content: space-between;
-        width: 90%;
-
-       
-      }
-    }
-    .copyright{
-        color: white;
-    }
-    .top-links{
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      height: 6rem;
-      flex-basis: 50%;
-      @media (max-width: 420px) {
-        flex-direction:row;
-        justify-content:center;
-        width: 20rem;
-      }
-    }
-    .bottom-links{
-      display: flex;
-      justify-content: flex-end;
-    }
-    .corporate-info{
+    justify-content: center;
+    width: 100vw;
+    padding: 2rem 7rem;
+    background-color: #75CAEB;
+    color: white;
+    .left-side{
+      padding-top: 2rem;
+      flex-basis: 40%;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      flex-basis: 50%;
-      p{
+      .label{
         margin: 0;
       }
+    }
+    .middle{
+      flex-basis: 20%;
+      display: flex;
+      justify-content: center;
+
+    }
+    .right-side{
+      flex-basis: 20%;
+      display: flex;
+      justify-content: space-around;
+      div{
+        display: flex;
+        flex-direction: column;
+        width: 9rem;
+      }
+    }
+    .divider{
+      flex-basis: 33%;
+      height: 16rem;
+      width: 2px;
+      border-left: 1.5px solid black;
+    }
+    @media (max-width: 420px) {
+      padding: 3rem;
+      .divider{
+        display: none;
+      }
+      .left-side{
+        padding: 1rem;
+      }
+      flex-direction: column;
     }
 `
 
@@ -83,37 +59,47 @@ class Footer extends Component {
   render() {
     return (
       <Container>
-        <div className="top-footer">
-          <div className="left-side">
-            <FooterEmailForm />
-            <FooterSocialIcons />
-          </div>
-          <div className="top-links">
-            <NavLink to="/contact">Contact Us</NavLink>
-            <NavLink to="/faq">FAQ + Help</NavLink>
-            <NavLink to="/faq">Returns</NavLink>
-            <NavLink to="/about">Our Story</NavLink>
-            <NavLink to="/faq">Careers</NavLink>
-            <NavLink to="/">Press</NavLink>
-            <NavLink to="/about">team@lipslut.com</NavLink>
-          </div>
+        <div className="left-side">
+          <h3>Join Us</h3>
+          <p>
+            Be in the know with what we do next—products, promos, pop-ups, and
+            everything Lipslut.{' '}
+          </p>
+          <p className="label">Email</p>
+          <FooterEmailForm />
+          <FooterSocialIcons />
         </div>
-        <div className="bottom-footer">
-          <div className="bottom-footer-container">
-            <div className="corporate-info">
-              <p>Lipslut LLC.</p>
-              <p className="copyright">
-                &copy; 2019 LIPSLUT&trade;. All Rights Reserved
-              </p>
-            </div>
-            <div className="bottom-links">
-              <NavLink to="/terms-conditions" color="white" hovercolor="black">
-                Terms + Conditions
-              </NavLink>
-              <NavLink to="/privacy-policy" color="white" hovercolor="black">
-                Privacy Policy
-              </NavLink>
-            </div>
+        <div className="middle">
+          <div className="divider" />
+        </div>
+        <div className="right-side">
+          <div>
+            <NavLink color="white" hovercolor="black" to="/account">
+              My Account
+            </NavLink>
+            <NavLink color="white" hovercolor="black" to="/contact">
+              Contact Us
+            </NavLink>
+            <NavLink color="white" hovercolor="black" to="/faq">
+              Careers
+            </NavLink>
+            <NavLink color="white" hovercolor="black" to="/faq">
+              FAQ + Help
+            </NavLink>
+          </div>
+          <div>
+            <NavLink color="white" hovercolor="black" to="/about">
+              Our Story
+            </NavLink>
+            <NavLink color="white" hovercolor="black" to="/">
+              Press
+            </NavLink>
+            <NavLink color="white" hovercolor="black" to="/terms-conditions">
+              Terms Of Use
+            </NavLink>
+            <NavLink color="white" hovercolor="black" to="/privacy-policy">
+              Privacy
+            </NavLink>
           </div>
         </div>
       </Container>

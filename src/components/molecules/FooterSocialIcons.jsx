@@ -42,7 +42,7 @@ class FooterSocialIcons extends Component {
         >
           <FaInstagram
             size="2.2rem"
-            color="#FB4883"
+            color="black"
             style={{ opacity: opacity }}
             onMouseEnter={this.hoverEnter}
             onMouseLeave={this.hoverExit}
@@ -56,7 +56,7 @@ class FooterSocialIcons extends Component {
         >
           <FaTwitter
             size="2.2rem"
-            color="#39A9F2"
+            color="black"
             style={{ opacity: opacity }}
             onMouseEnter={this.hoverEnter}
             onMouseLeave={this.hoverExit}
@@ -70,7 +70,7 @@ class FooterSocialIcons extends Component {
         >
           <FaFacebook
             size="2.2rem"
-            color="#3B539A"
+            color="black"
             style={{ opacity: opacity }}
             onMouseEnter={this.hoverEnter}
             onMouseLeave={this.hoverExit}

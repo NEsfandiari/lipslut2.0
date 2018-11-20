@@ -44,16 +44,6 @@ class Firebase {
       .get()
   }
 
-  // checkDb = email => {
-  //   // TODO Learn to query db for email string and see if user exists to avoid login no write issue
-  //   this.store()
-  //     .collection('users')
-  //     .doc(uid)
-  //     .get()
-  //     ? true
-  //     : false
-  // }
-
   login = (componentThis, signInMethod, email, password) => {
     switch (signInMethod) {
       case 'google':
@@ -191,35 +181,6 @@ class Firebase {
         email: email,
         firstName: firstName,
         lastName: lastName,
-      })
-  }
-  updatePayment = (
-    res,
-    user,
-    cart,
-    total,
-    city,
-    state,
-    address,
-    apartment,
-    zip,
-    phone,
-    newsletter
-  ) => {
-    this.store()
-      .collection('users')
-      .doc(user.uid)
-      .update({
-        orderHistory: [
-          ...user.orderHistory,
-          {
-            cart: [...cart],
-            placed: moment().format('MMMM Do YYYY'),
-            total: total,
-            orderNumber: parseInt(Math.random() * 1000),
-          },
-        ],
-        newsletter: newsletter,
       })
   }
 }

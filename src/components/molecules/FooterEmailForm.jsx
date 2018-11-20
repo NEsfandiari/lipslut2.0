@@ -11,18 +11,10 @@ const Container = styled.form`
   align-items: center;
 
   input {
-    text-align: center;
     padding-left: 0;
-    border: 2px solid black;
   }
   .button {
-    position: relative;
-    right: 0.5%;
-    padding-top: 0.25rem;
     transition: 0.3s ease;
-  }
-  svg {
-    margin-bottom: 0.3rem;
   }
 `
 
@@ -59,31 +51,26 @@ class FooterEmailForm extends Component {
     return (
       <Container onSubmit={this.handleSubmit}>
         <StyledInput
+          id="emailForm"
           aria-label="Email Form"
           width="13rem"
-          height="3rem"
+          height="2.5rem"
           borderRadius="3px"
           marginBottom="0"
           type="email"
-          placeholder="Enter email and join us!"
           name="email"
           value={this.state.email}
           onChange={this.handleChange}
         />
         <StyledButton
-          margin="0rem"
-          backgroundColor="white"
-          hovercolor="#FF009A"
-          width="5rem"
+          margin="1rem"
+          height="2.5rem"
+          width="7rem"
           onMouseEnter={this.handleHoverIn}
           onMouseLeave={this.handleHoverOut}
           className="button"
         >
-          <MdChevronRight
-            color={this.state.color}
-            size="2rem"
-            className="chevron"
-          />
+          Sign Up
         </StyledButton>
       </Container>
     )

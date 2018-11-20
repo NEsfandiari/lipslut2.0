@@ -44,7 +44,6 @@ class Contact extends Component {
   render() {
     const contactCopy = this.props.data.contentfulSupportPage.copy.content.map(
       line => {
-        console.log(line.content)
         if (line.nodeType === 'heading-1')
           return <h1>{line.content[0].value}</h1>
         else if (line.nodeType === 'paragraph' && line.content.length > 1)
