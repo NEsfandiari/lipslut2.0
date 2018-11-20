@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { graphql } from 'gatsby'
 
 const Container = styled.div`
   display: flex;
@@ -43,37 +44,57 @@ class About extends Component {
     this.props.resetSidebar()
   }
   render() {
+    const aboutImage = this.props.data.contentfulSupportPage.images[0].fluid.src
+    const aboutCopy = this.props.data.contentfulSupportPage.copy.content.map(
+      line => {
+        if (line.nodeType === 'heading-1')
+          return <h1>{line.content[0].value}</h1>
+        else if (line.nodeType === 'paragraph')
+          return <p>{line.content[0].value}</p>
+        return ''
+      }
+    )
     return (
       <Container>
-        <img
-          src="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a126c2b0d92977795831e25/1511156798314/?format=750w"
-          alt="2017 Women's March"
-        />
-        <div>
-          <h1>About Us</h1>
-          <p>Welcome to Lipslut.</p>
-          <p>
-            Birthed in the aftermath of the 2016 presidential election, Lipslut
-            was founded in Los Angeles by a group of jaded romantics. We're a
-            middle finger to the current sociopolitical landscape and practices
-            found in the cosmetics industry. We pride ourselves on taking action
-            and putting our money where our mouth is. While trends may come and
-            go, we believe questioning the world around us and working towards
-            improving society will always be “in vogue.”
-          </p>
-          <p>
-            Expect us to provide the best possible products, and to work hard
-            towards solving the issues you care about. Join Lipslut on our path
-            to changing the world one face at a time.
-          </p>
-          <p>
-            Love,
-            <br />
-            The Lipslut Team
-          </p>
-        </div>
+        <img src={aboutImage} alt="2017 Women's March" />
+        <div>{aboutCopy}</div>
       </Container>
     )
   }
 }
+
+export const query = graphql`
+  {
+    contentfulSupportPage(pageName: { eq: "About" }) {
+      id
+      pageName
+      images {
+        id
+        fluid {
+          src
+        }
+      }
+      copy {
+        content {
+          nodeType
+          content {
+            value
+            marks {
+              type
+            }
+            nodeType
+            content {
+              value
+              nodeType
+            }
+            data {
+              uri
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 export default About

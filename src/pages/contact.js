@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
+import { graphql } from 'gatsby'
 
 const Container = styled.div`
   display: flex;
@@ -41,24 +42,60 @@ class Contact extends Component {
     this.props.resetSidebar()
   }
   render() {
-    return (
-      <Container>
-        <h1>Contact Us</h1>
-        <p>
-          Have a question? Chances are the answer is on our{' '}
-          <Link to="/faq">FAQ page.</Link>
-        </p>
-        <p>
-          If not, or if you just want to chat, please reach out to us through
-          our Facebook page. We'll get back to you within 48 business hours.
-        </p>
-        <p>
-          For all Business or Public Relations inquiries:{' '}
-          <a href="mailto:Hello.Lipslut@gmail.com">Hello.Lipslut@gmail.com</a>
-        </p>
-      </Container>
+    const contactCopy = this.props.data.contentfulSupportPage.copy.content.map(
+      line => {
+        console.log(line.content)
+        if (line.nodeType === 'heading-1')
+          return <h1>{line.content[0].value}</h1>
+        else if (line.nodeType === 'paragraph' && line.content.length > 1)
+          return (
+            <p>
+              {line.content[0].value}
+              <Link to={line.content[1].data.uri}>
+                {line.content[1].content[0].value}
+              </Link>
+            </p>
+          )
+        else if (line.nodeType === 'paragraph')
+          return <p>{line.content[0].value}</p>
+        return ''
+      }
     )
+    return <Container>{contactCopy}</Container>
   }
 }
+export const query = graphql`
+  {
+    contentfulSupportPage(pageName: { eq: "Contact" }) {
+      id
+      pageName
+      images {
+        id
+        fluid {
+          src
+        }
+      }
+      copy {
+        content {
+          nodeType
+          content {
+            value
+            marks {
+              type
+            }
+            nodeType
+            content {
+              value
+              nodeType
+            }
+            data {
+              uri
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export default Contact
