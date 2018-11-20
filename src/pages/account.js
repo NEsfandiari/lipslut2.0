@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import 'animate.css'
-import { OrderHistory, AccountDetails } from '../components'
+import { AccountOrderHistory, AccountDetails } from '../components'
 import { Loading } from '../components/atoms'
 import lightBlueLayout from '../layouts/lightBlue.jsx'
 
@@ -36,7 +36,7 @@ class Account extends Component {
         {curUser ? (
           <Container>
             <AccountDetails curUser={curUser} signIn={signIn} />
-            <OrderHistory curUser={curUser} signIn={signIn} />
+            <AccountOrderHistory curUser={curUser} signIn={signIn} />
           </Container>
         ) : (
           <Loading height={'35rem'} />

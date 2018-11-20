@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import lightBlueLayout from '../../layouts/lightBlue'
+import lightBlueLayout from '../layouts/lightBlue'
 
 const Container = styled.div`
   display: flex;

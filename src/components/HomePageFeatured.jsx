@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Styled from 'styled-components'
-
 import { FeaturedProduct } from './molecules'
 
 const Container = Styled.div`
@@ -13,20 +12,23 @@ const Container = Styled.div`
     padding: 0;
   }
 `
-
-const HomePageFeatured = () => (
-  <Container>
-    <FeaturedProduct
-      title="F*ck Trump."
-      route="/Fck-Trump"
-      image="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5a114c56652dea88b02f4156/1511125818700/?format=750w"
-    />
-    <FeaturedProduct
-      title="F*ck Kavanaugh."
-      route="/Fck-Kavanaugh"
-      image="https://static1.squarespace.com/static/5887fa45d482e9ca1fca0fcc/t/5bb2488a53450a0af5e2ec05/1538410688367/news-kav2.png?format=750w"
-    />
-  </Container>
-)
-
+class HomePageFeatured extends Component {
+  render() {
+    const { titles, photos } = this.props
+    return (
+      <Container>
+        <FeaturedProduct
+          title={titles[0]}
+          route="/Fck-Trump"
+          image={photos[0].fluid.src}
+        />
+        <FeaturedProduct
+          title={titles[1]}
+          route="/Fck-Kavanaugh"
+          image={photos[1].fluid.src}
+        />
+      </Container>
+    )
+  }
+}
 export default HomePageFeatured

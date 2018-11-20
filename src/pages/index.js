@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
 import 'futura-font/styles.css'
-import { HomePageFeatured } from '../components'
 import {
-  MissionStatements,
-  MissionPhilosophy,
-  MediaHighlights,
-} from '../components/molecules'
+  HomePageFeatured,
+  HomePageMissionStatements,
+  HomePageMissionPhilosophy,
+  HomePageMediaHighlights,
+} from '../components'
+import { graphql } from 'gatsby'
 
 const Container = Styled.div`
   display: flex;
@@ -25,15 +26,28 @@ class IndexPage extends Component {
   }
 
   render() {
+    const titles = this.props.data.contentfulHomePage.featuredProductTitles
+    const photos = this.props.data.contentfulHomePage.featuredProductPhotos
     return (
       <Container>
-        <HomePageFeatured />
-        <MissionStatements />
-        <MissionPhilosophy />
-        <MediaHighlights />
+        <HomePageFeatured titles={titles} photos={photos} />
+        <HomePageMissionStatements />
+        <HomePageMissionPhilosophy />
+        <HomePageMediaHighlights />
       </Container>
     )
   }
 }
-
+export const query = graphql`
+  {
+    contentfulHomePage(pageName: { eq: "Home Page V1" }) {
+      featuredProductTitles
+      featuredProductPhotos {
+        fluid {
+          src
+        }
+      }
+    }
+  }
+`
 export default IndexPage

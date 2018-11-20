@@ -11,7 +11,7 @@ const Container = styled.div`
     max-height: 33rem;
     max-width: 30rem;
   }
-  div {
+  .aboutCopy {
     display: flex;
     flex-direction: column;
     flex-basis: 50%;
@@ -57,7 +57,7 @@ class About extends Component {
     return (
       <Container>
         <img src={aboutImage} alt="2017 Women's March" />
-        <div>{aboutCopy}</div>
+        <div className="aboutCopy">{aboutCopy}</div>
       </Container>
     )
   }
