@@ -1,7 +1,6 @@
 import firebase from 'firebase'
 import 'firebase/firestore'
 import { navigate } from 'gatsby'
-import moment from 'moment'
 import postLambda from './postLambda'
 
 const config = {

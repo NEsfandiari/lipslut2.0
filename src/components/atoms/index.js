@@ -1,6 +1,8 @@
 export { default as Card } from './Card'
 export { default as DropdownMenu } from './DropdownMenu'
 export { default as FiftyStateDropdownInput } from './FiftyStateDropdownInput'
+export { default as FooterEmailForm } from '../atoms/FooterEmailForm'
+export { default as FooterSocialIcons } from '../atoms/FooterSocialIcons'
 export { default as GoogleIcon } from './GoogleIcon'
 export { default as LinkButton } from './LinkButton'
 export { default as Loading } from './Loading'
