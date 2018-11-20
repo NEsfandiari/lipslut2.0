@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Styled from 'styled-components'
 
 const Container = Styled.div`
@@ -34,23 +34,23 @@ const Container = Styled.div`
     flex-direction: column;
   }
 `
-
-const MissionPhilosophy = () => (
-  <Container>
-    <div className="slogans">
-      <h1>Do Good.</h1>
-      <h1>Be Bold.</h1>
-    </div>
-    <div className="philosophy">
-      <p>What if companies prided themselves on pushing to improve society?</p>
-      <p>
-        Lipslut is fashion, subversion, and a middle finger to the current
-        sociopolitical landscape. By working hard towards solving the issues you
-        care about, Lipslut is ready to help you make a statement.
-      </p>
-      <p>Join Lipslut on our path to changing the world one face at a time.</p>
-    </div>
-  </Container>
-)
+class MissionPhilosophy extends Component {
+  render() {
+    let slogans = []
+    let phil = []
+    this.props.philosophyCopy.forEach(line => {
+      console.log(line)
+      if (line.nodeType === 'heading-1')
+        slogans.push(<h1>{line.content[0].value}</h1>)
+      else phil.push(<p>{line.content[0].value}</p>)
+    })
+    return (
+      <Container>
+        <div className="slogans">{slogans}</div>
+        <div className="philosophy">{phil}</div>
+      </Container>
+    )
+  }
+}
 
 export default MissionPhilosophy

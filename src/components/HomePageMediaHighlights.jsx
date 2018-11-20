@@ -54,9 +54,9 @@ class MediaHighlights extends Component {
         <i>{this.props.quotes[this.state.highlight]}</i>
       </h1>
     )
-    const brands = this.props.brands.map((image, i) => (
+    const brands = this.props.logos.map((image, i) => (
       <img
-        src={image}
+        src={image.fluid.src}
         alt={'Brand Logo' + i}
         key={i}
         name={i}
@@ -71,19 +71,6 @@ class MediaHighlights extends Component {
       </Container>
     )
   }
-}
-
-MediaHighlights.defaultProps = {
-  quotes: [
-    '"Changing both the cosmetics industry and public policy one tube at a time"',
-    '"Changing both the cosmetics industry and public policy one tube at a time"',
-    '"Changing both the cosmetics industry and public policy one tube at a time"',
-  ],
-  brands: [
-    'https://images.ctfassets.net/ubhny9w4s07i/2LGtGR0HJCgA68aUWaumI/bba1216c43b071f973821d0e30aa4f26/r29new.png',
-    'https://images.ctfassets.net/ubhny9w4s07i/5wmWe20og02oi4W2kM4YwY/1b7adb26fd431d81c0788f48d7d7e6c2/bustlenew.png',
-    'https://images.ctfassets.net/ubhny9w4s07i/2CzeHWL4V6q2s0yKkaau6k/83a46e7526466025297ff2e51dd0ef72/teenvoguenew.png',
-  ],
 }
 
 export default lightBlueLayout(MediaHighlights)

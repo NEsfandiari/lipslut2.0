@@ -26,14 +26,19 @@ class IndexPage extends Component {
   }
 
   render() {
-    const titles = this.props.data.contentfulHomePage.featuredProductTitles
-    const photos = this.props.data.contentfulHomePage.featuredProductPhotos
+    const contentfulData = this.props.data.contentfulHomePage
+    const titles = contentfulData.featuredProductTitles
+    const photos = contentfulData.featuredProductPhotos
+    const quotes = contentfulData.mediaHighlightQuotes
+    const logos = contentfulData.mediaHighlightLogos
+    const philosophyCopy = contentfulData.philosophy.content
+    const statementsCopy = contentfulData.mission.content
     return (
       <Container>
         <HomePageFeatured titles={titles} photos={photos} />
-        <HomePageMissionStatements />
-        <HomePageMissionPhilosophy />
-        <HomePageMediaHighlights />
+        <HomePageMissionStatements statementsCopy={statementsCopy} />
+        <HomePageMissionPhilosophy philosophyCopy={philosophyCopy} />
+        <HomePageMediaHighlights quotes={quotes} logos={logos} />
       </Container>
     )
   }
@@ -43,6 +48,30 @@ export const query = graphql`
     contentfulHomePage(pageName: { eq: "Home Page V1" }) {
       featuredProductTitles
       featuredProductPhotos {
+        fluid {
+          src
+        }
+      }
+      mission {
+        content {
+          nodeType
+          content {
+            value
+            nodeType
+          }
+        }
+      }
+      philosophy {
+        content {
+          nodeType
+          content {
+            value
+            nodeType
+          }
+        }
+      }
+      mediaHighlightQuotes
+      mediaHighlightLogos {
         fluid {
           src
         }
