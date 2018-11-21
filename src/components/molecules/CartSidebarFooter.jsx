@@ -5,6 +5,7 @@ import { StyledButton, StyledHr } from '../atoms'
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 13rem;
   width: 80%;
   justify-content: space-between;
   align-items: center;
@@ -19,8 +20,12 @@ const Container = styled.div`
     justify-content: space-between;
     width: 100%;
   }
+  h4 {
+    margin-bottom: 0.5rem;
+  }
   hr {
-    width: 150%;
+    width: 110%;
+    margin: 1rem;
   }
 `
 

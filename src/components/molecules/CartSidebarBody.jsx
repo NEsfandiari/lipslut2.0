@@ -26,15 +26,19 @@ class CartSidebarBody extends Component {
       />
     ))
     return (
-      <Container>
-        {cart.length > 0 ? (
-          items
-        ) : (
-          <p>
-            nothing here.....yet<br />shop now!
-          </p>
-        )}
-      </Container>
+      <div style={{ overflow: 'auto' }}>
+        <Container>
+          {cart.length > 0 ? (
+            items
+          ) : (
+            <p>
+              nothing here.....yet
+              <br />
+              shop now!
+            </p>
+          )}
+        </Container>
+      </div>
     )
   }
 }

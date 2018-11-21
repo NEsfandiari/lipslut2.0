@@ -24,7 +24,6 @@ const Container = styled.div`
     height: 100%;
     justify-content: space-between;
     align-items: center;
-    overflow: auto;
   }
   @media (max-width: 420px) {
     width: 100%;
@@ -66,6 +65,7 @@ class CartSidebar extends Component {
     const { cart, handleCart, handleSidebar, display } = this.props
     const animation = 'animated ' + (display ? 'slideInRight' : 'slideOutRight')
     const displayFix = this.props.displayFix ? 'inital' : 'none'
+
     return (
       <Container className={animation} displayFix={displayFix}>
         <div className="contents">
