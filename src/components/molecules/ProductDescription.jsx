@@ -22,7 +22,6 @@ const Container = styled.div`
     font-size: 0.9rem;
     text-align: center;
     padding: 0.5rem;
-    /* border: 2px solid #FF009A */
     margin: 0;
     color: #ff009a;
     height: 2.5rem;
@@ -82,13 +81,25 @@ class ProductDescription extends Component {
     this.setState({ status: 'ADDED!' })
   }
   render() {
-    const descriptors = this.props.descriptors.map((description, i) => (
-      <p key={i}>{description}</p>
-    ))
+    const productCopy = this.props.productCopy.map((statement, i) => {
+      if (statement.content.length === 1)
+        return <p key={i}>{statement.content[0].value}</p>
+      else {
+        // Turn Special marks into subsequent html modifiers
+        let fullClause = []
+        statement.content.forEach(clause => {
+          if (clause.marks.length > 0) {
+            if (clause.marks[0].type === 'bold')
+              fullClause.push(<b>{clause.value}</b>)
+          } else fullClause.push(clause.value)
+        })
+        return <p key={i}>{fullClause}</p>
+      }
+    })
     return (
       <Container>
         <h1>{this.props.title}</h1>
-        {descriptors}
+        {productCopy}
         <StyledHr width={'100%'} margin={'.8rem'} />
         <form className="purchase" onSubmit={this.handleSubmit}>
           <QuantityAdjustButton

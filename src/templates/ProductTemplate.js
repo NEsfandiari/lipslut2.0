@@ -17,26 +17,27 @@ class ProductTemplate extends Component {
     const images = data.images.map(img => img.file.url)
     let productMedia
 
-    // if there is media to link to
-    if (data.sellingPoints) {
-      const sellingPoints = data.sellingPoints.data
-      const media = data.mediaLogos.map(img => {
-        return {
-          image: img.file.url,
-        }
-      })
-      data.mediaStories.forEach((story, i) => {
-        media[i]['link'] = story
-      })
-      productMedia = (
-        <ProductMedia sellingPoints={sellingPoints} media={media} />
-      )
-    }
+    // Replace Code with conditionals over ingredients list
+
+    // if (data.sellingPoints) {
+    //   const sellingPoints = data.sellingPoints.data
+    //   const media = data.mediaLogos.map(img => {
+    //     return {
+    //       image: img.file.url,
+    //     }
+    //   })
+    //   data.mediaStories.forEach((story, i) => {
+    //     media[i]['link'] = story
+    //   })
+    //   productMedia = (
+    //     <ProductMedia sellingPoints={sellingPoints} media={media} />
+    //   )
+    // }
     return (
       <Container>
         <Product
           title={data.title}
-          descriptors={data.descriptors}
+          productCopy={data.productCopy.content}
           images={images}
           price={data.price}
           sku={data.sku}

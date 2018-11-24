@@ -17,24 +17,23 @@ exports.createPages = async ({ actions, graphql }) => {
               edges {
                 node {
                   title
-                  descriptors
                   price
                   sku
+                  productCopy {
+                    content {
+                      nodeType
+                      content {
+                        value
+                        nodeType
+                        marks {
+                          type
+                        }
+                      }
+                    }
+                  }
                   images {
                     file {
                       url
-                    }
-                  }
-                  mediaLogos {
-                    file {
-                      url
-                    }
-                  }
-                  mediaStories
-                  sellingPoints {
-                    data {
-                      headline
-                      description
                     }
                   }
                 }

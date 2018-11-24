@@ -25,7 +25,7 @@ const Container = styled.div`
 
 class Product extends Component {
   render() {
-    const { images, descriptors, title, price, sku } = this.props
+    const { images, productCopy, title, price, sku } = this.props
     return (
       <Container>
         <ProductPhotos images={images} />
@@ -33,7 +33,7 @@ class Product extends Component {
           {cartContext => (
             <ProductDescription
               handleCart={cartContext.handleCart}
-              descriptors={descriptors}
+              productCopy={productCopy}
               title={title}
               price={price}
               images={images}
