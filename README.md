@@ -49,5 +49,5 @@ npm run lambda-serve
 
 1. Create a file called .env.development
 2. Add this file to your .gitignore
-3. Go to the Netlify Dashboard for Lipslut under the settings tab in the "Build and Deploy" section.
+3. Go to the Netlify Dashboard for elated-carson-131bb5. Under the settings tab in the "Build and Deploy" section
 4. Copy and Paste every single environment variable listed there. However, for the GATSBY_NODE_ENV set this variable to "development"
