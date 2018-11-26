@@ -24,7 +24,14 @@ Then Install the dependencies:
 npm i
 ```
 
-Then you can run it by:
+## Environment Variables
+
+1. Create a file called .env.development
+2. Add this file to your .gitignore
+3. Go to the Netlify Dashboard for elated-carson-131bb5. Under the settings tab in the "Build and Deploy" section
+4. Copy and Paste every single environment variable listed there. However, for the GATSBY_NODE_ENV set this variable to "development"
+
+## Run the App
 
 ```sh
 cd lipslut2.0
@@ -50,10 +57,3 @@ To run a local instance of the lambda functions:
 ```sh
 npm run lambda-serve
 ```
-
-## Environment Variables
-
-1. Create a file called .env.development
-2. Add this file to your .gitignore
-3. Go to the Netlify Dashboard for elated-carson-131bb5. Under the settings tab in the "Build and Deploy" section
-4. Copy and Paste every single environment variable listed there. However, for the GATSBY_NODE_ENV set this variable to "development"
