@@ -18,6 +18,12 @@ Then clone the repo :
 git clone https://github.com/NEsfandiari/lipslut2.0.git
 ```
 
+Then Install the dependencies:
+
+```sh
+npm i
+```
+
 Then you can run it by:
 
 ```sh
