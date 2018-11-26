@@ -85,6 +85,7 @@ class NavButtons extends Component {
   }
   render() {
     const { handleMobileSidebar, handleSidebar, curUser, logOut } = this.props
+    // TODO: remove this hardcode and refer to contentful
     const campaignLinks = [
       {
         text: 'F*ck Trump',

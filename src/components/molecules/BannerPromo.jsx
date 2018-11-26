@@ -51,7 +51,7 @@ class BannerPromo extends Component {
       <Container style={{ display: display }}>
         <p>
           Checkout our newest Batch, 100% of Profits towards charity.{' '}
-          <Link to="/Lipslut-Lab">Click Here</Link>
+          <Link to='/BATCH—001:-"02"'>Click Here</Link>
         </p>
         <IoIosClose onClick={this.hidePromo} />
       </Container>
