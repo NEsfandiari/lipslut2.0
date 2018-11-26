@@ -37,6 +37,7 @@ class Firebase {
   }
 
   signIn = uid => {
+    debugger
     return this.store()
       .collection('users')
       .doc(uid)
@@ -151,6 +152,7 @@ class Firebase {
   }
   storeUser = user => {
     postLambda('newAccount', user).then(res => {
+      debugger
       this.store()
         .collection('users')
         .doc(user.uid)

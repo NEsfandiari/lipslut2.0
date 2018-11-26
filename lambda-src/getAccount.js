@@ -56,16 +56,19 @@ exports.handler = async function(event, context, callback) {
         headers: shopifyConfig,
         data: JSON.stringify(payload1),
       })
-      token =
-        token.data.data.customerAccessTokenCreate.customerAccessToken
-          .accessToken
+      if (token.data.data.customerAccessTokenCreate.userErrors.length > 0)
+        throw token.data.data.customerAccessTokenCreate.userErrors
+      else
+        token =
+          token.data.data.customerAccessTokenCreate.customerAccessToken
+            .accessToken
     } catch (err) {
       console.log(err)
       let response = {
         statusCode: 500,
         headers,
         body: JSON.stringify({
-          error: err.message,
+          error: err,
         }),
       }
       callback(null, response)
@@ -124,7 +127,6 @@ exports.handler = async function(event, context, callback) {
         data: JSON.stringify(payload2),
       })
       customer = customer.data.data.customer
-      console.log(customer)
       let response = {
         statusCode: 200,
         headers,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import { Product, ProductMedia } from '../components'
+import { Product } from '../components'
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ class ProductTemplate extends Component {
     const images = data.images.map(img => img.file.url)
     let productMedia
 
-    // Replace Code with conditionals over ingredients list
+    // TODO: Replace Code with conditionals over ingredients list
 
     // if (data.sellingPoints) {
     //   const sellingPoints = data.sellingPoints.data

@@ -63,7 +63,6 @@ exports.handler = async function(event, context, callback) {
 
     // IF the user has an account ASK shopify for a customeraccesstoken and asscoiate the checkout with the account
     if (!data.hasAccount) {
-      console.log('hey')
       let response = {
         statusCode: 200,
         headers,

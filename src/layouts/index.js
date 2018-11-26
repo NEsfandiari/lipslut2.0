@@ -83,8 +83,10 @@ class Layout extends Component {
     this.setState({ cart: cartData })
 
     firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.signIn(user)
+      if (user && !this.state.curUser) {
+        debugger
+        // Commented out due to broken code
+        // this.signIn(user)
       } else {
         this.setState({ curUser: null })
       }
@@ -94,13 +96,16 @@ class Layout extends Component {
   // Firebase Functionality
   signIn = user => {
     // TODO: Seperate database schema into more react friendly schema
+    debugger
     firebase
       .signIn(user.uid)
       .then(curUser => {
         curUser = curUser.data()
+        debugger
         postLambda('getAccount', curUser).then(res => {
           curUser['orderHistory'] = res.data.customer.orders
           this.setState({ curUser })
+          debugger
         })
       })
       .catch(err => {
@@ -166,6 +171,7 @@ class Layout extends Component {
           <Container>
             <Helmet
               title="Lipslut"
+              // TODO: Fill this out with accurate site metadata for google
               meta={[
                 { name: 'description', content: 'Sample' },
                 { name: 'keywords', content: 'sample, something' },

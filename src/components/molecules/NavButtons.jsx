@@ -82,7 +82,6 @@ const Container = styled.div`
 class NavButtons extends Component {
   constructor(props, context) {
     super(props)
-    console.log(context)
   }
   render() {
     const { handleMobileSidebar, handleSidebar, curUser, logOut } = this.props
