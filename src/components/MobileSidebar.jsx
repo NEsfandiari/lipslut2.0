@@ -69,20 +69,6 @@ class MobileSidebar extends Component {
 
     const moreLinks = navbarItems.find(element => element.navButton === 'More')
 
-    const userLinksNoUser = navbarItems.find(
-      element => element.navButton === 'userLinksNoUser'
-    )
-
-    const userLinksUser = navbarItems.find(
-      element => element.navButton === 'userLinksUser'
-    )
-
-    const userLinks = !curUser ? userLinksNoUser : userLinksUser
-
-    const helpLinks = navbarItems.find(
-      element => element.navButton === 'helpLinks'
-    )
-
     // ******************************************
 
     return (
