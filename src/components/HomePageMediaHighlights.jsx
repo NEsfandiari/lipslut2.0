@@ -12,6 +12,7 @@ const Container = styled.div`
     width: 60%;
     text-align: center;
     font-weight: 700;
+    height: 5rem;
     font-family: Playfair Display;
   }
   .brandCarousel {
