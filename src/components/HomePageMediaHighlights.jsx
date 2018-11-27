@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import lightBlueLayout from '../layouts/lightBlue'
+import 'animate.css'
 
 const Container = styled.div`
   display: flex;
@@ -29,6 +30,18 @@ const Container = styled.div`
       max-width: 9rem;
     }
   }
+  .animation {
+    animation: fadein 1.25s;
+    @keyframes fadein {
+      from {
+        opacity: 0.3;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
   @media (max-width: 420px) {
     padding: 2.5rem 1.5rem;
     .highlight {
@@ -43,16 +56,21 @@ const Container = styled.div`
 class MediaHighlights extends Component {
   state = {
     highlight: 0,
+    animation: false,
   }
   handleHighlight = e => {
     this.setState({
       highlight: parseInt(e.target.name),
+      animation: !this.state.animation,
     })
   }
   render() {
+    const animation = `highlight animated ${
+      this.state.animation ? 'animation' : 'fadeIn'
+    }`
     const highlight = (
       <h1 className="highlight">
-        <i>{this.props.quotes[this.state.highlight]}</i>
+        <i className={animation}>{this.props.quotes[this.state.highlight]}</i>
       </h1>
     )
     const brands = this.props.logos.map((image, i) => (
