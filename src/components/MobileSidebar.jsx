@@ -54,32 +54,37 @@ class MobileSidebar extends Component {
     const { handleMobileSidebar, display, logOut, curUser } = this.props
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
-    const campaignLinks = [
-      {
-        text: 'F*ck Trump',
-        page: 'Fck-Trump',
-      },
-      {
-        text: 'F*ck Kavanaugh',
-        page: 'Fck-Kavanaugh',
-      },
-      {
-        text: 'F*ck Hollywood',
-        page: 'Fck-Hollywood',
-      },
-    ]
-    const morelinks = [
-      { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
-      {
-        text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
-        page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
-      },
-    ]
-    const labLinks = [
-      { text: 'BATCH—001: "02"', page: 'BATCH—001:-"02"' },
-      { text: 'BATCH—001: "04"', page: 'BATCH—001:-"04"' },
-      { text: 'BATCH—001: "05"', page: 'BATCH—001:-"05"' },
-    ]
+
+    // breaking up navbar item data *************
+    const navbarItems = this.props.navbarItems.contentfulHomePage.navbarItems
+      .data
+
+    const campaignLinks = navbarItems.find(
+      element => element.navButton === 'Campaigns'
+    )
+
+    const lsLabLinks = navbarItems.find(
+      element => element.navButton === 'Lipslut Lab'
+    )
+
+    const moreLinks = navbarItems.find(element => element.navButton === 'More')
+
+    const userLinksNoUser = navbarItems.find(
+      element => element.navButton === 'userLinksNoUser'
+    )
+
+    const userLinksUser = navbarItems.find(
+      element => element.navButton === 'userLinksUser'
+    )
+
+    const userLinks = !curUser ? userLinksNoUser : userLinksUser
+
+    const helpLinks = navbarItems.find(
+      element => element.navButton === 'helpLinks'
+    )
+
+    // ******************************************
+
     return (
       <Container
         display={display}
@@ -107,18 +112,18 @@ class MobileSidebar extends Component {
           )}
           <MobileDropdown
             handleMobileSidebar={handleMobileSidebar}
-            dropdownText="CAMPAIGNS"
-            links={campaignLinks}
+            dropdownText={campaignLinks.navButton}
+            links={campaignLinks.dropdownLinks}
           />
           <MobileDropdown
             handleMobileSidebar={handleMobileSidebar}
-            dropdownText="LIPSLUT LAB"
-            links={labLinks}
+            dropdownText={lsLabLinks.navButton}
+            links={lsLabLinks.dropdownLinks}
           />
           <MobileDropdown
             handleMobileSidebar={handleMobileSidebar}
-            dropdownText="MORE"
-            links={morelinks}
+            dropdownText={moreLinks.navButton}
+            links={moreLinks.dropdownLinks}
           />
         </div>
       </Container>

@@ -6,6 +6,7 @@ import CartSidebar from './CartSidebar.jsx'
 import MobileSidebar from './MobileSidebar.jsx'
 import { CartConsumer } from '../containers/CartContext'
 import 'futura-font/styles.css'
+import { graphql, StaticQuery } from 'gatsby'
 
 const NavContainer = Styled.div`
   position: fixed;
@@ -49,8 +50,6 @@ class Navbar extends Component {
   }
 
   render() {
-    console.log('hey navbar.jsx: ', this.props)
-
     const {
       curUser,
       sidebar,
@@ -61,24 +60,51 @@ class Navbar extends Component {
     const { mobileSidebar, mobileDisplayFix } = this.state
     return (
       <div>
-        <MobileSidebar
-          display={mobileSidebar}
-          handleMobileSidebar={this.handleMobileSidebar}
-          logOut={this.logOut}
-          curUser={curUser}
-          handleSidebar={handleSidebar}
-          mobileDisplayFix={mobileDisplayFix}
+        {/* static query to pass navbar items to component */}
+        <StaticQuery
+          query={graphql`
+            {
+              contentfulHomePage(pageName: { eq: "Home Page V1" }) {
+                navbarItems {
+                  data {
+                    icon
+                    dropdown
+                    navButton
+                    dropdownLinks {
+                      name
+                      route
+                    }
+                  }
+                }
+              }
+            }
+          `}
+          render={data => (
+            <React.Fragment>
+              <MobileSidebar
+                display={mobileSidebar}
+                handleMobileSidebar={this.handleMobileSidebar}
+                logOut={this.logOut}
+                curUser={curUser}
+                handleSidebar={handleSidebar}
+                mobileDisplayFix={mobileDisplayFix}
+                navbarItems={data}
+              />
+
+              <NavContainer>
+                <BannerPromo handleBannerMargin={handleBannerMargin} />
+                <NavButtons
+                  curUser={curUser}
+                  handleMobileSidebar={this.handleMobileSidebar}
+                  handleSidebar={handleSidebar}
+                  logOut={this.logOut}
+                  navbarItems={data}
+                />
+              </NavContainer>
+            </React.Fragment>
+          )}
         />
-        <NavContainer navbarItems={this.props.navbarItems}>
-          <BannerPromo handleBannerMargin={handleBannerMargin} />
-          <NavButtons
-            curUser={curUser}
-            handleMobileSidebar={this.handleMobileSidebar}
-            handleSidebar={handleSidebar}
-            logOut={this.logOut}
-            navbarItems={this.props.navbarItems}
-          />
-        </NavContainer>
+
         <CartConsumer>
           {cartContext => (
             <CartSidebar

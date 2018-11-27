@@ -103,17 +103,6 @@ export const query = graphql`
           src
         }
       }
-      navbarItems {
-        data {
-          icon
-          dropdown
-          navButton
-          dropdownLinks {
-            name
-            route
-          }
-        }
-      }
     }
   }
 `
