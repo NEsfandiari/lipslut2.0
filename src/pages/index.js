@@ -32,11 +32,32 @@ class IndexPage extends Component {
     const quotes = contentfulData.mediaHighlightQuotes
     const logos = contentfulData.mediaHighlightLogos
     const philosophyCopy = contentfulData.philosophy.content
+
+    //Refactored query to filter out emtpy strings and header text
     const statementsCopy = contentfulData.mission.content
+      .filter(
+        statement =>
+          statement.nodeType === 'paragraph' &&
+          statement.content[0].value !== ''
+      )
+      .map(content => content.content[0].value)
+
+    //Pulled out mission header
+    const missionHeader = contentfulData.mission.content[0].content[0].value
+
+    //Pulled out mission icon image urls
+    const missionIcons = contentfulData.missionIcons.map(src => src.fluid.src)
+
     return (
       <Container>
         <HomePageFeatured titles={titles} photos={photos} />
-        <HomePageMissionStatements statementsCopy={statementsCopy} />
+
+        {/* passed mission statement icons and header as props */}
+        <HomePageMissionStatements
+          statementsCopy={statementsCopy}
+          missionIcons={missionIcons}
+          missionHeader={missionHeader}
+        />
         <HomePageMissionPhilosophy philosophyCopy={philosophyCopy} />
         <HomePageMediaHighlights quotes={quotes} logos={logos} />
       </Container>
@@ -72,6 +93,12 @@ export const query = graphql`
       }
       mediaHighlightQuotes
       mediaHighlightLogos {
+        fluid {
+          src
+        }
+      }
+      missionIcons {
+        title
         fluid {
           src
         }
