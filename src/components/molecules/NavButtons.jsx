@@ -84,46 +84,78 @@ class NavButtons extends Component {
     super(props)
   }
   render() {
+    console.log('hey: ', this.props)
+
+    // breaking up navbar item data *************
+    const navbarItems = this.props.navbarItems
+
+    const campaignLinks = navbarItems.find(
+      element => element.navButton === 'Campaigns'
+    )
+
+    const lsLabLinks = navbarItems.find(
+      element => element.navButton === 'Lipslut Lab'
+    )
+
+    const moreLinks = navbarItems.find(element => element.navButton === 'More')
+
+    const userLinksNoUser = navbarItems.find(
+      element => element.navButton === 'userLinksNoUser'
+    )
+
+    const userLinksUser = navbarItems.find(
+      element => element.navButton === 'userLinksUser'
+    )
+
+    const userLinks = !curUser ? userLinksNoUser : userLinksUser
+
+    const helpLinks = navbarItems.find(
+      element => element.navButton === 'helpLinks'
+    )
+
+    // ******************************************
+
     const { handleMobileSidebar, handleSidebar, curUser, logOut } = this.props
     // TODO: remove this hardcode and refer to contentful
-    const campaignLinks = [
-      {
-        text: 'F*ck Trump',
-        page: 'Fck-Trump',
-      },
-      {
-        text: 'F*ck Kavanaugh',
-        page: 'Fck-Kavanaugh',
-      },
-      {
-        text: 'F*ck Hollywood',
-        page: 'Fck-Hollywood',
-      },
-    ]
-    const labLinks = [
-      { text: 'BATCH—001: "02"', page: 'BATCH—001:-"02"' },
-      { text: 'BATCH—001: "04"', page: 'BATCH—001:-"04"' },
-      { text: 'BATCH—001: "05"', page: 'BATCH—001:-"05"' },
-    ]
-    const moreLinks = [
-      { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
-      {
-        text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
-        page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
-      },
-    ]
-    const userLinks = !curUser
-      ? [{ text: 'Sign Up', page: 'signup' }, { text: 'Log In', page: 'login' }]
-      : [
-          { text: 'Account', page: 'account' },
-          { text: 'Log Out', page: '', onClick: logOut },
-        ]
-    const helpLinks = [
-      { text: 'FAQ', page: 'faq' },
-      { text: 'Help', page: 'faq' },
-      { text: 'Returns', page: 'faq' },
-      { text: 'team@lipslut.com', page: 'contact' },
-    ]
+    // const campaignLinks2 = [
+    //   {
+    //     text: 'F*ck Trump',
+    //     page: 'Fck-Trump',
+    //   },
+    //   {
+    //     text: 'F*ck Kavanaugh',
+    //     page: 'Fck-Kavanaugh',
+    //   },
+    //   {
+    //     text: 'F*ck Hollywood',
+    //     page: 'Fck-Hollywood',
+    //   },
+    // ]
+    // const labLinks = [
+    //   { text: 'BATCH—001: "02"', page: 'BATCH—001:-"02"' },
+    //   { text: 'BATCH—001: "04"', page: 'BATCH—001:-"04"' },
+    //   { text: 'BATCH—001: "05"', page: 'BATCH—001:-"05"' },
+    // ]
+    // const moreLinks = [
+    //   { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
+    //   {
+    //     text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
+    //     page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
+    //   },
+    // ]
+    // const userLinks = !curUser
+    //   ? [{ text: 'Sign Up', page: 'signup' }, { text: 'Log In', page: 'login' }]
+    //   : [
+    //       { text: 'Account', page: 'account' },
+    //       { text: 'Log Out', page: '', onClick: logOut },
+    //     ]
+    // const helpLinks = [
+    //   { text: 'FAQ', page: 'faq' },
+    //   { text: 'Help', page: 'faq' },
+    //   { text: 'Returns', page: 'faq' },
+    //   { text: 'team@lipslut.com', page: 'contact' },
+    // ]
+
     return (
       <Container>
         <div className="leftNav">
@@ -132,9 +164,18 @@ class NavButtons extends Component {
             onClick={handleMobileSidebar}
             size="1.5rem"
           />
-          <DropdownMenu links={campaignLinks} dropdownText={'Campaigns'} />
-          <DropdownMenu links={labLinks} dropdownText={'Lipslut Lab'} />
-          <DropdownMenu links={moreLinks} dropdownText={'More'} />
+          <DropdownMenu
+            links={campaignLinks.dropdownLinks}
+            dropdownText={campaignLinks.navButton}
+          />
+          <DropdownMenu
+            links={lsLabLinks.dropdownLinks}
+            dropdownText={lsLabLinks.navButton}
+          />
+          <DropdownMenu
+            links={moreLinks.dropdownLinks}
+            dropdownText={moreLinks.navButton}
+          />
           <NavLink to="about">About</NavLink>
         </div>
         <div className="logo">
@@ -151,11 +192,11 @@ class NavButtons extends Component {
         </div>
         <div className="rightNav">
           <DropdownMenu
-            links={helpLinks}
+            links={helpLinks.dropdownLinks}
             dropdownText={<FaRegQuestionCircle size="1.9rem" />}
           />
           <DropdownMenu
-            links={userLinks}
+            links={userLinks.dropdownLinks}
             dropdownText={<FaRegUser size="1.9rem" />}
           />
           <ShoppingBagIcon click={handleSidebar} />

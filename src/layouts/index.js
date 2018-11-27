@@ -8,6 +8,8 @@ import { CartProvider } from '../containers/CartContext'
 import FirebaseProvider from '../containers/FirebaseProvider'
 import firebase from '../utilities/firebase'
 // import { UserProvider } from '../containers/UserContext'
+import { graphql, StaticQuery } from 'gatsby'
+
 import './index.css'
 
 const Container = styled.div`
@@ -61,6 +63,7 @@ const Container = styled.div`
     }
   }
 `
+
 // Gatsby window object problem hack
 const windowGlobal = typeof window !== 'undefined' && window
 
@@ -148,6 +151,9 @@ class Layout extends Component {
   }
 
   render() {
+    // navbar items from contentful
+    const navbarItems = this.props.data.contentfulHomePage.navbarItems.data
+
     const { children } = this.props
     // TODO: Remove this pattern and convert out of a gatsby v1 magic layout
     // Cannot Pass Props down to children in Gatsby v2 with gatsby v1 magic Layout, Need this Hack for now
@@ -177,13 +183,38 @@ class Layout extends Component {
                 { name: 'keywords', content: 'sample, something' },
               ]}
             />
-            <Navbar
-              curUser={this.state.curUser}
-              sidebar={this.state.sidebar}
-              displayFix={this.state.displayFix}
-              handleSidebar={this.handleSidebar}
-              handleBannerMargin={this.handleBannerMargin}
+
+            {/* static query to pass navbar items to component */}
+            <StaticQuery
+              query={graphql`
+                {
+                  contentfulHomePage(pageName: { eq: "Home Page V1" }) {
+                    navbarItems {
+                      data {
+                        icon
+                        dropdown
+                        navButton
+                        dropdownLinks {
+                          name
+                          route
+                        }
+                      }
+                    }
+                  }
+                }
+              `}
+              render={data => (
+                <Navbar
+                  curUser={this.state.curUser}
+                  sidebar={this.state.sidebar}
+                  displayFix={this.state.displayFix}
+                  handleSidebar={this.handleSidebar}
+                  handleBannerMargin={this.handleBannerMargin}
+                  navbarItems={data.contentfulHomePage.navbarItems.data}
+                />
+              )}
             />
+
             <div
               className="all-components-layout"
               style={{ marginTop: this.state.bannerMargin + 'rem' }}

@@ -49,6 +49,8 @@ class Navbar extends Component {
   }
 
   render() {
+    console.log('hey navbar.jsx: ', this.props)
+
     const {
       curUser,
       sidebar,
@@ -67,13 +69,14 @@ class Navbar extends Component {
           handleSidebar={handleSidebar}
           mobileDisplayFix={mobileDisplayFix}
         />
-        <NavContainer>
+        <NavContainer navbarItems={this.props.navbarItems}>
           <BannerPromo handleBannerMargin={handleBannerMargin} />
           <NavButtons
             curUser={curUser}
             handleMobileSidebar={this.handleMobileSidebar}
             handleSidebar={handleSidebar}
             logOut={this.logOut}
+            navbarItems={this.props.navbarItems}
           />
         </NavContainer>
         <CartConsumer>
