@@ -150,7 +150,8 @@ class NavButtons extends Component {
           </Link>
         </div>
 
-        {/* These DropdownMenus are for the right side of the navbar, and are never going to change, so are semi hardcoded. */}
+        {/* These DropdownMenus are for the right side of the navbar,
+            and are never going to change, so are semi hardcoded. */}
         <div className="rightNav">
           <DropdownMenu
             links={helpLinks.dropdownLinks}
