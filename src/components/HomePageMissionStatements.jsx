@@ -43,7 +43,7 @@ const Container = Styled.div`
 
 const MissionStatements = props => {
   let statements = props.missionIcons.map((icon, idx) => (
-    <MissionStatement text={props.statementsCopy[idx]} image={icon} />
+    <MissionStatement key={idx} text={props.statementsCopy[idx]} image={icon} />
   ))
   return (
     <Container>

@@ -9,6 +9,7 @@ import { CartProvider } from '../containers/CartContext'
 import FirebaseProvider from '../containers/FirebaseProvider'
 import firebase from '../utilities/firebase'
 // import { UserProvider } from '../containers/UserContext'
+
 import './index.css'
 
 const Container = styled.div`
@@ -62,6 +63,7 @@ const Container = styled.div`
     }
   }
 `
+
 // Gatsby window object problem hack
 const windowGlobal = typeof window !== 'undefined' && window
 
@@ -85,9 +87,7 @@ class Layout extends Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user && !this.state.curUser) {
-        debugger
-        // Commented out due to broken code
-        // this.signIn(user)
+        this.signIn(user)
       } else {
         this.setState({ curUser: null })
       }
@@ -97,16 +97,13 @@ class Layout extends Component {
   // Firebase Functionality
   signIn = user => {
     // TODO: Seperate database schema into more react friendly schema
-    debugger
     firebase
       .signIn(user.uid)
       .then(curUser => {
         curUser = curUser.data()
-        debugger
         postLambda('getAccount', curUser).then(res => {
           curUser['orderHistory'] = res.data.customer.orders
           this.setState({ curUser })
-          debugger
         })
       })
       .catch(err => {
@@ -204,6 +201,7 @@ class Layout extends Component {
               handleSidebar={this.handleSidebar}
               handleBannerMargin={this.handleBannerMargin}
             />
+
             <div
               className="all-components-layout"
               style={{ marginTop: this.state.bannerMargin + 'rem' }}
