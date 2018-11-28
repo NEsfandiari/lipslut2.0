@@ -84,9 +84,7 @@ class Layout extends Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user && !this.state.curUser) {
-        debugger
-        // Commented out due to broken code
-        // this.signIn(user)
+        this.signIn(user)
       } else {
         this.setState({ curUser: null })
       }
@@ -96,16 +94,13 @@ class Layout extends Component {
   // Firebase Functionality
   signIn = user => {
     // TODO: Seperate database schema into more react friendly schema
-    debugger
     firebase
       .signIn(user.uid)
       .then(curUser => {
         curUser = curUser.data()
-        debugger
         postLambda('getAccount', curUser).then(res => {
           curUser['orderHistory'] = res.data.customer.orders
           this.setState({ curUser })
-          debugger
         })
       })
       .catch(err => {

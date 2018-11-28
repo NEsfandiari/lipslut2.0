@@ -37,7 +37,6 @@ class Firebase {
   }
 
   signIn = uid => {
-    debugger
     return this.store()
       .collection('users')
       .doc(uid)
