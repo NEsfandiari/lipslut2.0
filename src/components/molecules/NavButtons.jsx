@@ -85,30 +85,37 @@ class NavButtons extends Component {
   }
   render() {
     // breaking up navbar item data *************
-    const navbarItems = this.props.navbarItems.contentfulHomePage.navbarItems
-      .data
+    const navbarItemsLeft = this.props.navbarItems.contentfulHomePage
+      .navbarItems.data.leftNav
 
-    const campaignLinks = navbarItems.find(
-      element => element.navButton === 'Campaigns'
-    )
+    const navbarItemsRight = this.props.navbarItems.contentfulHomePage
+      .navbarItems.data.rightNav
 
-    const lsLabLinks = navbarItems.find(
-      element => element.navButton === 'Lipslut Lab'
-    )
+    const navItemsLeft = navbarItemsLeft.map(item => {
+      if (item.dropdown) {
+        return (
+          <DropdownMenu
+            links={item.dropdownLinks}
+            dropdownText={item.navButton}
+          />
+        )
+      } else
+        return (
+          <NavLink to={item.navButton.toLowerCase()}>{item.navButton}</NavLink>
+        )
+    })
 
-    const moreLinks = navbarItems.find(element => element.navButton === 'More')
-
-    const userLinksNoUser = navbarItems.find(
+    const userLinksNoUser = navbarItemsRight.find(
       element => element.navButton === 'userLinksNoUser'
     )
 
-    const userLinksUser = navbarItems.find(
+    const userLinksUser = navbarItemsRight.find(
       element => element.navButton === 'userLinksUser'
     )
 
     const userLinks = !curUser ? userLinksNoUser : userLinksUser
 
-    const helpLinks = navbarItems.find(
+    const helpLinks = navbarItemsRight.find(
       element => element.navButton === 'helpLinks'
     )
 
@@ -123,19 +130,7 @@ class NavButtons extends Component {
             onClick={handleMobileSidebar}
             size="1.5rem"
           />
-          <DropdownMenu
-            links={campaignLinks.dropdownLinks}
-            dropdownText={campaignLinks.navButton}
-          />
-          <DropdownMenu
-            links={lsLabLinks.dropdownLinks}
-            dropdownText={lsLabLinks.navButton}
-          />
-          <DropdownMenu
-            links={moreLinks.dropdownLinks}
-            dropdownText={moreLinks.navButton}
-          />
-          <NavLink to="about">About</NavLink>
+          {navItemsLeft}
         </div>
         <div className="logo">
           <Link to="/">

@@ -67,12 +67,23 @@ class Navbar extends Component {
               contentfulHomePage(pageName: { eq: "Home Page V1" }) {
                 navbarItems {
                   data {
-                    icon
-                    dropdown
-                    navButton
-                    dropdownLinks {
-                      name
-                      route
+                    leftNav {
+                      icon
+                      dropdown
+                      navButton
+                      dropdownLinks {
+                        name
+                        route
+                      }
+                    }
+                    rightNav {
+                      icon
+                      dropdown
+                      navButton
+                      dropdownLinks {
+                        name
+                        route
+                      }
                     }
                   }
                 }
@@ -81,7 +92,7 @@ class Navbar extends Component {
           `}
           render={data => (
             <React.Fragment>
-              <MobileSidebar
+              {/* <MobileSidebar
                 display={mobileSidebar}
                 handleMobileSidebar={this.handleMobileSidebar}
                 logOut={this.logOut}
@@ -89,7 +100,7 @@ class Navbar extends Component {
                 handleSidebar={handleSidebar}
                 mobileDisplayFix={mobileDisplayFix}
                 navbarItems={data}
-              />
+              /> */}
 
               <NavContainer>
                 <BannerPromo handleBannerMargin={handleBannerMargin} />
