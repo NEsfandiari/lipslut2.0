@@ -49,8 +49,7 @@ class Firebase {
         this.auth()
           .signInWithPopup(new this.auth.GoogleAuthProvider())
           .then(user => {
-            debugger
-            // Todo Catch page change and slow it down
+            // TODO: Loads Page Too fast for
             navigate('/')
           })
           .catch(error => {
