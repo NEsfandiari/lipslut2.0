@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Helmet from 'react-helmet'
 import { Navbar, Footer } from '../components'
+import ChatButton from '../components/atoms/ChatButton'
 import postLambda from '../utilities/postLambda'
 import Cart from '../utilities/cart'
 import { CartProvider } from '../containers/CartContext'
@@ -176,7 +177,21 @@ class Layout extends Component {
                 { name: 'description', content: 'Sample' },
                 { name: 'keywords', content: 'sample, something' },
               ]}
-            />
+            >
+              {/* TODO: Following script for chat messenger should be paced in Netlify > Build & Deploy > Post processing > Snippet injection > Inser before </head> */}
+              <script>{`      
+                (function(d, w, c) {
+                  w.ChatraID = 'JD5jT4iBuacZ26eBx';
+                  var s = d.createElement('script');
+                  w[c] = w[c] || function() {
+                    (w[c].q = w[c].q || []).push(arguments);
+                  };
+                  s.async = true;
+                  s.src = 'https://call.chatra.io/chatra.js';
+                  if (d.head) d.head.appendChild(s);
+                })(document, window, 'Chatra');
+              `}</script>
+            </Helmet>
             <Navbar
               curUser={this.state.curUser}
               sidebar={this.state.sidebar}
@@ -192,6 +207,7 @@ class Layout extends Component {
             </div>
             <Footer />
           </Container>
+          <ChatButton />
         </CartProvider>
       </FirebaseProvider>
     )
