@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { TiShoppingBag } from 'react-icons/ti'
 import { CartConsumer } from '../../containers/CartContext'
+import { graphql, StaticQuery } from 'gatsby'
 
 const Container = styled.div`
   cursor: pointer;
   display: flex;
-  margin-bottom: 0.2rem;
+  padding: 0.5rem;
+  margin-bottom: 0.4rem;
+  img {
+    height: 1.9rem;
+    margin: 0;
+    max-width: 1.8rem;
+  }
   p {
     position: relative;
     cursor: pointer;
@@ -29,7 +35,26 @@ class ShoppingBagIcon extends Component {
     const { click } = this.props
     return (
       <Container>
-        <TiShoppingBag size="2.4rem" onClick={click} />
+        <StaticQuery
+          query={graphql`
+            {
+              contentfulHomePage(pageName: { eq: "Home Page V1" }) {
+                cartIcon {
+                  fluid {
+                    src
+                  }
+                }
+              }
+            }
+          `}
+          render={data => (
+            <img
+              src={data.contentfulHomePage.cartIcon.fluid.src}
+              alt="cartIcon"
+              onClick={click}
+            />
+          )}
+        />
         <CartConsumer>
           {cartContext => <p onClick={click}>{cartContext.cart.length}</p>}
         </CartConsumer>

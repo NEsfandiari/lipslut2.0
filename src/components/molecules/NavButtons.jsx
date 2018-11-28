@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FaRegUser, FaBars, FaRegQuestionCircle } from 'react-icons/fa'
+import { FaBars } from 'react-icons/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
@@ -86,15 +86,13 @@ class NavButtons extends Component {
       handleSidebar,
       curUser,
       logOut,
-      navbarItems,
+      navbarData,
     } = this.props
 
     // breaking up navbar item data *************
-    const navbarItemsLeft =
-      navbarItems.contentfulHomePage.navbarItems.data.leftNav
+    const navbarItemsLeft = navbarData.navbarItems.data.leftNav
 
-    const navbarItemsRight =
-      navbarItems.contentfulHomePage.navbarItems.data.rightNav
+    const navbarItemsRight = navbarData.navbarItems.data.rightNav
 
     // left of logo data
     const navItemsLeft = navbarItemsLeft.map(item => {
@@ -118,7 +116,6 @@ class NavButtons extends Component {
     const userLinksNoUser = navbarItemsRight.find(
       element => element.navButton === 'userLinksNoUser'
     )
-
     const userLinksUser = navbarItemsRight.find(
       element => element.navButton === 'userLinksUser'
     )
@@ -156,12 +153,24 @@ class NavButtons extends Component {
         <div className="rightNav">
           <DropdownMenu
             links={helpLinks.dropdownLinks}
-            dropdownText={<FaRegQuestionCircle size="1.9rem" />}
+            dropdownText={
+              <img
+                src={navbarData.helpIcon.fluid.src}
+                alt="help icon"
+                style={{ height: '2rem', margin: 0 }}
+              />
+            }
           />
           <DropdownMenu
             links={userLinks.dropdownLinks}
             logOut={logOut}
-            dropdownText={<FaRegUser size="1.9rem" />}
+            dropdownText={
+              <img
+                src={navbarData.profileIcon.fluid.src}
+                alt="user icon"
+                style={{ height: '2rem', margin: 0 }}
+              />
+            }
           />
           <ShoppingBagIcon click={handleSidebar} />
         </div>
