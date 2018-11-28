@@ -8,6 +8,7 @@ import { CartProvider } from '../containers/CartContext'
 import FirebaseProvider from '../containers/FirebaseProvider'
 import firebase from '../utilities/firebase'
 // import { UserProvider } from '../containers/UserContext'
+
 import './index.css'
 
 const Container = styled.div`
@@ -61,6 +62,7 @@ const Container = styled.div`
     }
   }
 `
+
 // Gatsby window object problem hack
 const windowGlobal = typeof window !== 'undefined' && window
 
@@ -172,6 +174,7 @@ class Layout extends Component {
                 { name: 'keywords', content: 'sample, something' },
               ]}
             />
+
             <Navbar
               curUser={this.state.curUser}
               sidebar={this.state.sidebar}
@@ -179,6 +182,7 @@ class Layout extends Component {
               handleSidebar={this.handleSidebar}
               handleBannerMargin={this.handleBannerMargin}
             />
+
             <div
               className="all-components-layout"
               style={{ marginTop: this.state.bannerMargin + 'rem' }}

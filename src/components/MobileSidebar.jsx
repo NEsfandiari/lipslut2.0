@@ -54,32 +54,25 @@ class MobileSidebar extends Component {
     const { handleMobileSidebar, display, logOut, curUser } = this.props
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
-    const campaignLinks = [
-      {
-        text: 'F*ck Trump',
-        page: 'Fck-Trump',
-      },
-      {
-        text: 'F*ck Kavanaugh',
-        page: 'Fck-Kavanaugh',
-      },
-      {
-        text: 'F*ck Hollywood',
-        page: 'Fck-Hollywood',
-      },
-    ]
-    const morelinks = [
-      { text: 'Lipslut Hat', page: 'Lipslut-Hat' },
-      {
-        text: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs',
-        page: 'Leftylibglobalistsantifacommiesocialisthollyweirdopigs/',
-      },
-    ]
-    const labLinks = [
-      { text: 'BATCH—001: "02"', page: 'BATCH—001:-"02"' },
-      { text: 'BATCH—001: "04"', page: 'BATCH—001:-"04"' },
-      { text: 'BATCH—001: "05"', page: 'BATCH—001:-"05"' },
-    ]
+
+    const navbarItemsLeft = this.props.navbarItems.contentfulHomePage
+      .navbarItems.data.leftNav
+
+    const navItemsLeft = navbarItemsLeft.map(item => {
+      if (item.dropdownLinks) {
+        return (
+          <MobileDropdown
+            handleMobileSidebar={handleMobileSidebar}
+            dropdownText={item.navButton}
+            links={item.dropdownLinks}
+            key={item.navButton}
+          />
+        )
+      }
+    })
+
+    // ******************************************
+
     return (
       <Container
         display={display}
@@ -105,21 +98,7 @@ class MobileSidebar extends Component {
               LOG OUT
             </NavLink>
           )}
-          <MobileDropdown
-            handleMobileSidebar={handleMobileSidebar}
-            dropdownText="CAMPAIGNS"
-            links={campaignLinks}
-          />
-          <MobileDropdown
-            handleMobileSidebar={handleMobileSidebar}
-            dropdownText="LIPSLUT LAB"
-            links={labLinks}
-          />
-          <MobileDropdown
-            handleMobileSidebar={handleMobileSidebar}
-            dropdownText="MORE"
-            links={morelinks}
-          />
+          {navItemsLeft}
         </div>
       </Container>
     )

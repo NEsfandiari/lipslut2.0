@@ -52,11 +52,11 @@ class DropdownMenu extends Component {
     const display = this.state.display ? 'initial' : 'none'
     const links = this.props.links.map((link, i) => (
       <NavLink
-        to={link.page}
+        to={link.route}
         onClick={link.onClick ? link.onClick : null}
         key={i}
       >
-        {link.text}
+        {link.name}
       </NavLink>
     ))
     return (
