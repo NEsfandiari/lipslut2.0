@@ -80,16 +80,21 @@ const Container = styled.div`
 `
 
 class NavButtons extends Component {
-  constructor(props, context) {
-    super(props)
-  }
   render() {
-    // breaking up navbar item data *************
-    const navbarItemsLeft = this.props.navbarItems.contentfulHomePage
-      .navbarItems.data.leftNav
+    const {
+      handleMobileSidebar,
+      handleSidebar,
+      curUser,
+      logOut,
+      navbarItems,
+    } = this.props
 
-    const navbarItemsRight = this.props.navbarItems.contentfulHomePage
-      .navbarItems.data.rightNav
+    // breaking up navbar item data *************
+    const navbarItemsLeft =
+      navbarItems.contentfulHomePage.navbarItems.data.leftNav
+
+    const navbarItemsRight =
+      navbarItems.contentfulHomePage.navbarItems.data.rightNav
 
     // left of logo data
     const navItemsLeft = navbarItemsLeft.map(item => {
@@ -124,9 +129,6 @@ class NavButtons extends Component {
       element => element.navButton === 'helpLinks'
     )
 
-    // ******************************************
-
-    const { handleMobileSidebar, handleSidebar, curUser, logOut } = this.props
     return (
       <Container>
         <div className="leftNav">
@@ -158,6 +160,7 @@ class NavButtons extends Component {
           />
           <DropdownMenu
             links={userLinks.dropdownLinks}
+            logOut={logOut}
             dropdownText={<FaRegUser size="1.9rem" />}
           />
           <ShoppingBagIcon click={handleSidebar} />

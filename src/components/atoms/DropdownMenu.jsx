@@ -53,7 +53,7 @@ class DropdownMenu extends Component {
     const links = this.props.links.map((link, i) => (
       <NavLink
         to={link.route}
-        onClick={link.onClick ? link.onClick : null}
+        onClick={link.name === 'Log Out' ? this.props.logOut : null}
         key={i}
       >
         {link.name}
