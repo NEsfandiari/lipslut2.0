@@ -619,6 +619,12 @@ pre tt:before,
 pre tt:after {
   content: '';
 }
+/* Hide default Chatra button */
+#chatra:not(.chatra--expanded) {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none;
+}
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;
