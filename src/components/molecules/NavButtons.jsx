@@ -91,20 +91,25 @@ class NavButtons extends Component {
     const navbarItemsRight = this.props.navbarItems.contentfulHomePage
       .navbarItems.data.rightNav
 
+    // left of logo data
     const navItemsLeft = navbarItemsLeft.map(item => {
       if (item.dropdown) {
         return (
           <DropdownMenu
             links={item.dropdownLinks}
             dropdownText={item.navButton}
+            key={item.navButton}
           />
         )
       } else
         return (
-          <NavLink to={item.navButton.toLowerCase()}>{item.navButton}</NavLink>
+          <NavLink to={item.navButton.toLowerCase()} key={item.navButton}>
+            {item.navButton}
+          </NavLink>
         )
     })
 
+    // right of logo data
     const userLinksNoUser = navbarItemsRight.find(
       element => element.navButton === 'userLinksNoUser'
     )
@@ -144,6 +149,8 @@ class NavButtons extends Component {
             />
           </Link>
         </div>
+
+        {/* These DropdownMenus are for the right side of the navbar, and are never going to change, so are semi hardcoded. */}
         <div className="rightNav">
           <DropdownMenu
             links={helpLinks.dropdownLinks}

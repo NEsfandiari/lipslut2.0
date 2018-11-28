@@ -56,18 +56,51 @@ class MobileSidebar extends Component {
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
 
     // breaking up navbar item data *************
-    const navbarItems = this.props.navbarItems.contentfulHomePage.navbarItems
-      .data
+    // const navbarItems = this.props.navbarItems.contentfulHomePage.navbarItems
+    //   .data
 
-    const campaignLinks = navbarItems.find(
-      element => element.navButton === 'Campaigns'
-    )
+    // const campaignLinks = navbarItems.find(
+    //   element => element.navButton === 'Campaigns'
+    // )
 
-    const lsLabLinks = navbarItems.find(
-      element => element.navButton === 'Lipslut Lab'
-    )
+    // const lsLabLinks = navbarItems.find(
+    //   element => element.navButton === 'Lipslut Lab'
+    // )
 
-    const moreLinks = navbarItems.find(element => element.navButton === 'More')
+    // const moreLinks = navbarItems.find(element => element.navButton === 'More')
+
+    const navbarItemsLeft = this.props.navbarItems.contentfulHomePage
+      .navbarItems.data.leftNav
+
+    // console.log('hey: ', navbarItemsLeft)
+
+    const navItemsLeft = navbarItemsLeft.map(item => {
+      console.log('hey: ', item)
+      if (item.dropdownLinks) {
+        return (
+          <MobileDropdown
+            handleMobileSidebar={handleMobileSidebar}
+            dropdownText={item.navButton}
+            links={item.dropdownLinks}
+            key={item.navButton}
+          />
+        )
+      }
+    })
+    // const navbarItemsRight = this.props.navbarItems.contentfulHomePage
+    //   .navbarItems.data.rightNav
+
+    // const campaignLinks = navbarItemsLeft.find(
+    //   element => element.navButton === 'Campaigns'
+    // )
+
+    // const lsLabLinks = navbarItemsLeft.find(
+    //   element => element.navButton === 'Lipslut Lab'
+    // )
+
+    // const moreLinks = navbarItemsLeft.find(
+    //   element => element.navButton === 'More'
+    // )
 
     // ******************************************
 
@@ -96,7 +129,7 @@ class MobileSidebar extends Component {
               LOG OUT
             </NavLink>
           )}
-          <MobileDropdown
+          {/* <MobileDropdown
             handleMobileSidebar={handleMobileSidebar}
             dropdownText={campaignLinks.navButton}
             links={campaignLinks.dropdownLinks}
@@ -110,7 +143,8 @@ class MobileSidebar extends Component {
             handleMobileSidebar={handleMobileSidebar}
             dropdownText={moreLinks.navButton}
             links={moreLinks.dropdownLinks}
-          />
+          /> */}
+          {navItemsLeft}
         </div>
       </Container>
     )

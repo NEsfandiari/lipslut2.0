@@ -92,7 +92,7 @@ class Navbar extends Component {
           `}
           render={data => (
             <React.Fragment>
-              {/* <MobileSidebar
+              <MobileSidebar
                 display={mobileSidebar}
                 handleMobileSidebar={this.handleMobileSidebar}
                 logOut={this.logOut}
@@ -100,7 +100,7 @@ class Navbar extends Component {
                 handleSidebar={handleSidebar}
                 mobileDisplayFix={mobileDisplayFix}
                 navbarItems={data}
-              /> */}
+              />
 
               <NavContainer>
                 <BannerPromo handleBannerMargin={handleBannerMargin} />

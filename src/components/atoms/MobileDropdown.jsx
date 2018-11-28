@@ -52,8 +52,10 @@ class DropdownMenu extends Component {
   }
   render() {
     const display = this.state.display ? 'flex' : 'none'
-    const links = this.props.links.map(link => (
-      <NavLink to={link.route}>{link.name}</NavLink>
+    const links = this.props.links.map((link, i) => (
+      <NavLink to={link.route} key={i}>
+        {link.name}
+      </NavLink>
     ))
     return (
       <Container>
