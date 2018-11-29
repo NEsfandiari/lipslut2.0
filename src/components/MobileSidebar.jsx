@@ -51,12 +51,17 @@ class MobileSidebar extends Component {
     this.props.handleSidebar()
   }
   render() {
-    const { handleMobileSidebar, display, logOut, curUser } = this.props
+    const {
+      handleMobileSidebar,
+      display,
+      logOut,
+      curUser,
+      navbarData,
+    } = this.props
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
 
-    const navbarItemsLeft = this.props.navbarItems.contentfulHomePage
-      .navbarItems.data.leftNav
+    const navbarItemsLeft = navbarData.navbarItems.data.leftNav
 
     const navItemsLeft = navbarItemsLeft.map(item => {
       if (item.dropdownLinks) {

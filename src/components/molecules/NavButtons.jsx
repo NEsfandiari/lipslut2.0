@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FaRegUser, FaBars, FaRegQuestionCircle } from 'react-icons/fa'
+import { FaBars } from 'react-icons/fa'
 import { NavLink, ShoppingBagIcon, DropdownMenu } from '../atoms'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
@@ -80,16 +80,19 @@ const Container = styled.div`
 `
 
 class NavButtons extends Component {
-  constructor(props, context) {
-    super(props)
-  }
   render() {
-    // breaking up navbar item data *************
-    const navbarItemsLeft = this.props.navbarItems.contentfulHomePage
-      .navbarItems.data.leftNav
+    const {
+      handleMobileSidebar,
+      handleSidebar,
+      curUser,
+      logOut,
+      navbarData,
+    } = this.props
 
-    const navbarItemsRight = this.props.navbarItems.contentfulHomePage
-      .navbarItems.data.rightNav
+    // breaking up navbar item data *************
+    const navbarItemsLeft = navbarData.navbarItems.data.leftNav
+
+    const navbarItemsRight = navbarData.navbarItems.data.rightNav
 
     // left of logo data
     const navItemsLeft = navbarItemsLeft.map(item => {
@@ -113,7 +116,6 @@ class NavButtons extends Component {
     const userLinksNoUser = navbarItemsRight.find(
       element => element.navButton === 'userLinksNoUser'
     )
-
     const userLinksUser = navbarItemsRight.find(
       element => element.navButton === 'userLinksUser'
     )
@@ -124,9 +126,6 @@ class NavButtons extends Component {
       element => element.navButton === 'helpLinks'
     )
 
-    // ******************************************
-
-    const { handleMobileSidebar, handleSidebar, curUser, logOut } = this.props
     return (
       <Container>
         <div className="leftNav">
@@ -155,11 +154,24 @@ class NavButtons extends Component {
         <div className="rightNav">
           <DropdownMenu
             links={helpLinks.dropdownLinks}
-            dropdownText={<FaRegQuestionCircle size="1.9rem" />}
+            dropdownText={
+              <img
+                src={navbarData.helpIcon.fluid.src}
+                alt="help icon"
+                style={{ height: '2rem', margin: 0 }}
+              />
+            }
           />
           <DropdownMenu
             links={userLinks.dropdownLinks}
-            dropdownText={<FaRegUser size="1.9rem" />}
+            logOut={logOut}
+            dropdownText={
+              <img
+                src={navbarData.profileIcon.fluid.src}
+                alt="user icon"
+                style={{ height: '2rem', margin: 0 }}
+              />
+            }
           />
           <ShoppingBagIcon click={handleSidebar} />
         </div>

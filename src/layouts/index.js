@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Helmet from 'react-helmet'
 import { Navbar, Footer } from '../components'
+import ChatButton from '../components/atoms/ChatButton'
 import postLambda from '../utilities/postLambda'
 import Cart from '../utilities/cart'
 import { CartProvider } from '../containers/CartContext'
@@ -145,6 +146,7 @@ class Layout extends Component {
   }
 
   render() {
+    console.log(process.env.GATSBY_NODE_ENV)
     const { children } = this.props
     // TODO: Remove this pattern and convert out of a gatsby v1 magic layout
     // Cannot Pass Props down to children in Gatsby v2 with gatsby v1 magic Layout, Need this Hack for now
@@ -155,6 +157,22 @@ class Layout extends Component {
         resetSidebar: this.resetSidebar,
         signIn: this.signIn,
       })
+    )
+
+    // Insert script when in development. Utilize script in Netlify when in production.
+    const chatraScript = process.env.GATSBY_NODE_ENV === 'development' && (
+      <script>{`
+        (function(d, w, c) {
+          w.ChatraID = 'JD5jT4iBuacZ26eBx';
+          var s = d.createElement('script');
+          w[c] = w[c] || function() {
+            (w[c].q = w[c].q || []).push(arguments);
+          };
+          s.async = true;
+          s.src = 'https://call.chatra.io/chatra.js';
+          if (d.head) d.head.appendChild(s);
+        })(document, window, 'Chatra');
+      `}</script>
     )
 
     return (
@@ -173,8 +191,9 @@ class Layout extends Component {
                 { name: 'description', content: 'Sample' },
                 { name: 'keywords', content: 'sample, something' },
               ]}
-            />
-
+            >
+              {chatraScript}
+            </Helmet>
             <Navbar
               curUser={this.state.curUser}
               sidebar={this.state.sidebar}
@@ -191,6 +210,7 @@ class Layout extends Component {
             </div>
             <Footer />
           </Container>
+          <ChatButton />
         </CartProvider>
       </FirebaseProvider>
     )

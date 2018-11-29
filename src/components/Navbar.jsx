@@ -60,11 +60,20 @@ class Navbar extends Component {
     const { mobileSidebar, mobileDisplayFix } = this.state
     return (
       <div>
-        {/* static query to pass navbar items to component */}
         <StaticQuery
           query={graphql`
             {
               contentfulHomePage(pageName: { eq: "Home Page V1" }) {
+                profileIcon {
+                  fluid {
+                    src
+                  }
+                }
+                helpIcon {
+                  fluid {
+                    src
+                  }
+                }
                 navbarItems {
                   data {
                     leftNav {
@@ -99,7 +108,7 @@ class Navbar extends Component {
                 curUser={curUser}
                 handleSidebar={handleSidebar}
                 mobileDisplayFix={mobileDisplayFix}
-                navbarItems={data}
+                navbarData={data.contentfulHomePage}
               />
 
               <NavContainer>
@@ -109,7 +118,7 @@ class Navbar extends Component {
                   handleMobileSidebar={this.handleMobileSidebar}
                   handleSidebar={handleSidebar}
                   logOut={this.logOut}
-                  navbarItems={data}
+                  navbarData={data.contentfulHomePage}
                 />
               </NavContainer>
             </React.Fragment>

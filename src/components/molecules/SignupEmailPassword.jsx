@@ -104,6 +104,7 @@ class SignupEmailPassword extends Component {
         />
         <StyledInput
           placeholder="Password"
+          min="8"
           aria-label="Password"
           name="password"
           onChange={this.handleChange}
