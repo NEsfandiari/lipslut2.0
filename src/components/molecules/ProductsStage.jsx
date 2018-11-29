@@ -1,37 +1,26 @@
 import React, { Component } from 'react'
+import ProductDetails from '../atoms/ProductDetails'
 
 class ProductsStage extends Component {
   constructor(props) {
     super(props)
-    const products = {}
-    console.log(
-      'hey this is the props: ',
-      this.props.data.allContentfulProductPage.edges
+    this.product = this.props.data.allContentfulProductPage.edges.reduce(
+      (acc, p) => {
+        const { claims, ingredients, title } = p.node
+        if (this.props.title === title) {
+          acc['claims'] = claims ? claims.content : null
+          acc['ingredients'] = ingredients
+            ? ingredients.content[0].content[0].value
+            : null
+        }
+        return acc
+      },
+      {}
     )
-    this.props.data.allContentfulProductPage.edges.forEach(product => {
-      products[product.node.title] = {
-        claims: product.node.claims.content
-          ? product.node.claims.content
-          : null,
-        ingredients: product.node.ingredients.content[0].content[0].value
-          ? product.node.ingredients.content[0].content[0].value
-          : null,
-      }
-      console.log('hey check this out: ', products)
-    })
-    console.log('finished')
-    /**
-     *
-     * sorting the data doesn't finish because some products don't have all of the variables
-     * Need to use logic to replace those items with nulls
-     *
-     * ternary needs to go further up the data. Too far down
-     *
-     */
   }
+
   render() {
-    console.log('hey getting here')
-    return <div>hi</div>
+    return <ProductDetails product={this.product} />
   }
 }
 

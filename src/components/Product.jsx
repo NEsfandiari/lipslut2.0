@@ -78,8 +78,7 @@ class Product extends Component {
         <StaticQuery
           query={query}
           render={data => {
-            console.log('working here')
-            return <ProductsStage data={data} />
+            return <ProductsStage data={data} title={title} />
           }}
         />
       </React.Fragment>
