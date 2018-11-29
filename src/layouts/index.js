@@ -86,6 +86,8 @@ class Layout extends Component {
     this.setState({ cart: cartData })
 
     firebase.auth().onAuthStateChanged(user => {
+      console.log('FIREBASE AUTH ONAUTHSTATE CHANGED')
+      console.log('USER', user)
       if (user && !this.state.curUser) {
         this.signIn(user)
       } else {
@@ -97,14 +99,20 @@ class Layout extends Component {
   // Firebase Functionality
   signIn = user => {
     // TODO: Seperate database schema into more react friendly schema
+    console.log('SIGN IN WORKED')
     firebase
       .signIn(user.uid)
       .then(curUser => {
+        console.log('curUser', curUser)
         curUser = curUser.data()
+        console.log('BEFORE POSTLAMBDA')
         postLambda('getAccount', curUser).then(res => {
+          console.log('IN POSTLAMBDA')
           curUser['orderHistory'] = res.data.customer.orders
           this.setState({ curUser })
+          console.log('CURRENT USER ON SIGN UP', this.state.curUser)
         })
+        console.log('AFTER POSTLAMBDA')
       })
       .catch(err => {
         console.log(err)
@@ -146,6 +154,7 @@ class Layout extends Component {
   }
 
   render() {
+    console.log('CURRENT USER', this.state.curUser)
     const { children } = this.props
     // TODO: Remove this pattern and convert out of a gatsby v1 magic layout
     // Cannot Pass Props down to children in Gatsby v2 with gatsby v1 magic Layout, Need this Hack for now
