@@ -58,7 +58,6 @@ class Firebase {
           })
         break
       case 'emailPassword':
-        console.log('FIREBASE SIGN IN RAN')
         this.auth()
           .signInWithEmailAndPassword(email, password)
           .then(() => navigate('/'))
