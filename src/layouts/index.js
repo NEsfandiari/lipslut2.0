@@ -146,7 +146,6 @@ class Layout extends Component {
   }
 
   render() {
-    console.log(process.env.GATSBY_NODE_ENV)
     const { children } = this.props
     // TODO: Remove this pattern and convert out of a gatsby v1 magic layout
     // Cannot Pass Props down to children in Gatsby v2 with gatsby v1 magic Layout, Need this Hack for now
