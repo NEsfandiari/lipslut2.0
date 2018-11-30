@@ -68,7 +68,7 @@ const Container = styled.div`
 const windowGlobal = typeof window !== 'undefined' && window
 
 class Layout extends Component {
-  constructor(props, context) {
+  constructor(props) {
     super(props)
     this.state = {
       cart: [],
@@ -80,7 +80,6 @@ class Layout extends Component {
   }
 
   componentDidMount() {
-    // TODO: Create Context for the current User Information
     let cartData = windowGlobal.localStorage.getItem('cart') || '[]'
     cartData = JSON.parse(cartData)
     this.setState({ cart: cartData })
@@ -100,11 +99,13 @@ class Layout extends Component {
     firebase
       .signIn(user.uid)
       .then(curUser => {
-        curUser = curUser.data()
-        postLambda('getAccount', curUser).then(res => {
-          curUser['orderHistory'] = res.data.customer.orders
-          this.setState({ curUser })
-        })
+        if (curUser.data()) {
+          curUser = curUser.data()
+          postLambda('getAccount', curUser).then(res => {
+            curUser['orderHistory'] = res.data.customer.orders
+            this.setState({ curUser })
+          })
+        }
       })
       .catch(err => {
         console.log(err)
@@ -146,7 +147,6 @@ class Layout extends Component {
   }
 
   render() {
-    console.log(process.env.GATSBY_NODE_ENV)
     const { children } = this.props
     // TODO: Remove this pattern and convert out of a gatsby v1 magic layout
     // Cannot Pass Props down to children in Gatsby v2 with gatsby v1 magic Layout, Need this Hack for now
