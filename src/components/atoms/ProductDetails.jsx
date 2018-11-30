@@ -60,6 +60,8 @@ const Container = styled.div`
 //inline style for modal background (used inline style so we did not need to add more styles to top level index.css)
 //styled components do not apply due to use of portal
 const style = {
+  display: 'flex',
+  alignItems: 'center',
   position: 'fixed',
   top: 0,
   bottom: 0,
@@ -76,10 +78,11 @@ const ingredientsStyle = {
   padding: '2em',
   backgroundColor: 'white',
   width: '50%',
+  height: 'fit-content',
   margin: '0 auto',
-  marginTop: '25%',
 }
 
+//component to display product claims and key ingredients (uses lightBlue wrapper)
 class ProductDetails extends Component {
   constructor(props) {
     super(props)
@@ -87,9 +90,9 @@ class ProductDetails extends Component {
     this.toggleList = this.toggleList.bind(this)
   }
 
+  //shows and hides modal for ingredients list
   toggleList() {
     this.setState(st => ({ hideList: !st.hideList }))
-    console.log('clicked')
   }
 
   render() {
@@ -105,7 +108,7 @@ class ProductDetails extends Component {
     //renders jsx for left side product details
     for (let i = 0; i < keyIndex; i++) {
       leftContent.push(
-        <div className={`ProductDetails-${claims[i].nodeType}`}>
+        <div className={`ProductDetails-${claims[i].nodeType}`} key={i}>
           {claims[i].content[0].value}
         </div>
       )
@@ -119,13 +122,14 @@ class ProductDetails extends Component {
           <div
             onClick={this.toggleList}
             className={`ProductDetails-ingredientList-Link`}
+            key={i}
           >
             {claims[i].content[0].value}
           </div>
         )
       } else {
         rightContent.push(
-          <div className={`ProductDetails-${claims[i].nodeType}`}>
+          <div className={`ProductDetails-${claims[i].nodeType}`} key={i}>
             {claims[i].content[0].value}
           </div>
         )
@@ -155,7 +159,11 @@ class ProductDetails extends Component {
                   </div>
                   <div>
                     <button
-                      style={{ backgroundColor: 'none', border: 'none' }}
+                      style={{
+                        backgroundColor: 'none',
+                        border: 'none',
+                        outline: 0,
+                      }}
                       onClick={this.toggleList}
                     >
                       <FaTimes />
