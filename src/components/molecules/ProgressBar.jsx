@@ -18,6 +18,10 @@ const Bar = styled.div.attrs(props => ({
   background: #ff0086;
 `
 
+// TODO Add lambda function to notify shopify of free shipping
+// TODO progress bar needs animation
+// TODO Center Congrats message (i.e. Congrats! You get free standard shipping)
+// TODO clean up and polish needed
 class ProgressBar extends Component {
   static defaultProps = {
     goal: 40,
