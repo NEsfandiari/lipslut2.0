@@ -5,7 +5,8 @@ import ProductDetails from '../atoms/ProductDetails'
 class ProductsStage extends Component {
   constructor(props) {
     super(props)
-    const { claims, ingredients, title } = this.props.data
+    console.log(this.props.data)
+    const { claims, ingredients } = this.props.data
     this.product = {}
     this.product['claims'] = claims ? claims.content : null
     this.product['ingredients'] = ingredients
