@@ -183,6 +183,8 @@ class Layout extends Component {
             handleCart: this.handleCart,
           }}
         >
+          {/* placeholder div for Modal's children*/}
+          <div id="modalContainer" />
           <Container>
             <Helmet
               title="Lipslut"
@@ -194,6 +196,7 @@ class Layout extends Component {
             >
               {chatraScript}
             </Helmet>
+
             <Navbar
               curUser={this.state.curUser}
               sidebar={this.state.sidebar}

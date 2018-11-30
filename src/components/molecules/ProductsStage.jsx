@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ProductDetails from '../atoms/ProductDetails'
 
+//formats data from contentful to create productDetails with data
 class ProductsStage extends Component {
   constructor(props) {
     super(props)
@@ -19,8 +20,11 @@ class ProductsStage extends Component {
     )
   }
 
+  //if there are no claims, do not render product details (for hat)
   render() {
-    return <ProductDetails product={this.product} />
+    return this.product.claims ? (
+      <ProductDetails product={this.product} />
+    ) : null
   }
 }
 
