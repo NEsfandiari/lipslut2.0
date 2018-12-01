@@ -150,7 +150,6 @@ class Firebase {
   }
   storeUser = user => {
     postLambda('newAccount', user).then(res => {
-      debugger
       this.store()
         .collection('users')
         .doc(user.uid)

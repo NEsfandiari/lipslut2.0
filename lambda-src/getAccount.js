@@ -63,12 +63,12 @@ exports.handler = async function(event, context, callback) {
           token.data.data.customerAccessTokenCreate.customerAccessToken
             .accessToken
     } catch (err) {
-      console.log(err)
+      console.log(err[0])
       let response = {
         statusCode: 500,
         headers,
         body: JSON.stringify({
-          error: err,
+          error: err[0],
         }),
       }
       callback(null, response)
