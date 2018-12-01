@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-
+import ProductsStage from '../components/molecules/ProductsStage'
 import { Product } from '../components'
 
 const Container = styled.div`
@@ -8,6 +8,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `
+
 class ProductTemplate extends Component {
   componentDidMount() {
     this.props.resetSidebar()
@@ -34,16 +35,19 @@ class ProductTemplate extends Component {
     //   )
     // }
     return (
-      <Container>
-        <Product
-          title={data.title}
-          productCopy={data.productCopy.content}
-          images={images}
-          price={data.price}
-          sku={data.sku}
-        />
-        {productMedia}
-      </Container>
+      <React.Fragment>
+        <Container>
+          <Product
+            title={data.title}
+            productCopy={data.productCopy.content}
+            images={images}
+            price={data.price}
+            sku={data.sku}
+          />
+          {productMedia}
+        </Container>
+        <ProductsStage data={data} title={data.title} />
+      </React.Fragment>
     )
   }
 }
