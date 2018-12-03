@@ -7,8 +7,8 @@ class ProductsStage extends Component {
     super(props)
     const { claims, ingredients } = this.props.data
     this.product = {}
-    this.product['claims'] = claims ? claims.content : null
-    this.product['ingredients'] = ingredients
+    this.product.claims = claims ? claims.content : null
+    this.product.ingredients = ingredients
       ? ingredients.content[0].content[0].value
       : null
   }
