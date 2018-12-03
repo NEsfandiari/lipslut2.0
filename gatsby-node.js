@@ -17,6 +17,21 @@ exports.createPages = async ({ actions, graphql }) => {
               edges {
                 node {
                   title
+                  claims {
+                    content {
+                      nodeType
+                      content {
+                        value
+                      }
+                    }
+                  }
+                  ingredients {
+                    content {
+                      content {
+                        value
+                      }
+                    }
+                  }
                   price
                   sku
                   productCopy {
