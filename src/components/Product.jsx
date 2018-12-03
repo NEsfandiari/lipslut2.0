@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { ProductPhotos, ProductDescription } from './molecules'
 import { CartConsumer } from '../containers/CartContext'
-// import ProductDetails from './molecules/ProductDetails'
 
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
   animation: fadein 1s;
+  padding: 1rem;
   @keyframes fadein {
     from {
       opacity: 0;
@@ -41,7 +41,6 @@ class Product extends Component {
               sku={sku}
             />
           )}
-          {/* <ProductDetails /> */}
         </CartConsumer>
       </Container>
     )

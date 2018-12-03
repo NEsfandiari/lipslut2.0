@@ -10,6 +10,9 @@ const Container = styled.div`
   }
 `
 
+// wrapper component for viewport width blue background
+// (used for product details and banner at top)
+
 const lightBlue = WrappedComponent => props => (
   <Container>
     <WrappedComponent {...props} clasName="children" />
