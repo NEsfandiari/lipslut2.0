@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { IoIosClose } from 'react-icons/io'
 import { ShoppingBagIcon } from '../atoms'
+import ProgressBar from './ProgressBar'
 
 const Container = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   width: 90%;
@@ -36,6 +38,7 @@ class CartSidebarHeader extends Component {
         <IoIosClose onClick={handleSidebar} size={'2rem'} className="close" />
         <h3>Your Bag</h3>
         <ShoppingBagIcon id="bag" click={handleSidebar} />
+        <ProgressBar cart={this.props.cart} />
       </Container>
     )
   }

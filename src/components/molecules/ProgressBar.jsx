@@ -2,12 +2,18 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  width: 362.97px;
-  border: 1px solid #ff0086;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `
 
 const Message = styled.p`
   margin-top: 40px;
+`
+
+const BarContainer = styled.div`
+  width: 100%;
+  border: 1px solid #ff0086;
 `
 
 const Bar = styled.div.attrs(props => ({
@@ -16,16 +22,15 @@ const Bar = styled.div.attrs(props => ({
   width: ${props => props.progress};
   height: 16px;
   background: #ff0086;
+  transition: 1.5s;
+  transition-timing-function: ease;
 `
-
-// TODO Add lambda function to notify shopify of free shipping
-// TODO progress bar needs animation
-// TODO Center Congrats message (i.e. Congrats! You get free standard shipping)
-// TODO clean up and polish needed
 class ProgressBar extends Component {
   static defaultProps = {
-    goal: 40,
+    freeShippingGoal: 40,
   }
+
+  // TODO Add lambda function to notify shopify of free shipping
 
   render() {
     const { cart } = this.props
@@ -34,25 +39,41 @@ class ProgressBar extends Component {
         return accumulator + currentValue.price * currentValue.quantity
       }, 0)
       .toFixed(2)
-    const percentage =
-      subtotal / this.props.goal > 1
+
+    const percentageComplete =
+      subtotal / this.props.freeShippingGoal > 1
         ? '100%'
-        : `${(subtotal / this.props.goal) * 100}%`
+        : `${(subtotal / this.props.freeShippingGoal) * 100}%`
+
+    const goalShortfall = (this.props.freeShippingGoal - subtotal).toFixed(2)
+
+    // Styles needed as bold font and regular font in current font family (i.e. futura) are visually indistinguishable
+    const progressStyles = {
+      fontFamily: 'helvetica',
+      fontSize: '1.1em',
+      fontWeight: '900',
+    }
+
+    const successMessage = 'Congrats! You get free standard shipping.'
+    const progressMessage = (
+      <span>
+        You are <strong style={progressStyles}>${goalShortfall}</strong> away
+        from free standard shipping
+      </span>
+    )
 
     const message =
-      this.props.goal - subtotal < 0
-        ? 'Congrats! You get free standard shipping.'
-        : `You are $${(this.props.goal - subtotal).toFixed(
-            2
-          )} away from free standard shipping`
+      this.props.freeShippingGoal - subtotal < 0
+        ? successMessage
+        : progressMessage
 
     return (
-      <React.Fragment>
+      <Container>
         <Message>{message}</Message>
-        <Container>
-          <Bar progress={percentage} />
-        </Container>
-      </React.Fragment>
+        <BarContainer>
+          <Bar progress={percentageComplete} />
+        </BarContainer>
+      </Container>
     )
   }
 }
