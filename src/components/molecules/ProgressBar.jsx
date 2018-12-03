@@ -8,7 +8,7 @@ const Container = styled.div`
 `
 
 const Message = styled.p`
-  margin-top: 40px;
+  margin: 0.5rem 0;
 `
 
 const BarContainer = styled.div`
