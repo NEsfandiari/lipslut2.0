@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import { FaTimes } from 'react-icons/fa'
 import Modal from '../Modal'
 import styled from 'styled-components'
 import lightBlue from '../../layouts/lightBlue'
 
 const Container = styled.div`
+  padding: 4rem 5rem 0rem;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-
+  flex-direction: column;
+  align-items: center;
+  .ProductDetails-Content {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+  }
   .ProductDetails-heading-5 {
-    font-size: 1.38316rem;
+    font-size: 1.4em;
     margin-bottom: 1rem;
   }
 
@@ -30,26 +32,20 @@ const Container = styled.div`
   .ProductDetails-leftContent,
   .ProductDetails-rightContent {
     display: flex;
-    flex-basis: 30%;
     flex-direction: column;
+    flex-basis: 45%;
   }
-
-  .ProductDetails-leftContent {
-    margin-left: 4rem;
-  }
-
-  .ProductDetails-rightContent {
-    margin-right: 4rem;
-  }
-
   .ProductDetails-ingredientList-Link {
     color: blue;
     text-decoration: underline;
   }
 
-  @media screen and (max-width: 414px) {
-    flex-direction: column;
-
+  @media screen and (max-width: 420px) {
+    padding: 1rem 0rem;
+    .ProductDetails-Content {
+      flex-direction: column;
+      width: 100%;
+    }
     .ProductDetails-leftContent,
     .ProductDetails-rightContent {
       margin: 2rem;
@@ -77,12 +73,11 @@ const ingredientsStyle = {
   border: '2px solid black',
   padding: '2em',
   backgroundColor: 'white',
-  width: '50%',
+  width: '70%',
   height: 'fit-content',
   margin: '0 auto',
 }
 
-//component to display product claims and key ingredients (uses lightBlue wrapper)
 class ProductDetails extends Component {
   constructor(props) {
     super(props)
@@ -90,7 +85,6 @@ class ProductDetails extends Component {
     this.toggleList = this.toggleList.bind(this)
   }
 
-  //shows and hides modal for ingredients list
   toggleList() {
     this.setState(st => ({ hideList: !st.hideList }))
   }
@@ -100,12 +94,10 @@ class ProductDetails extends Component {
     let rightContent = []
     let { claims } = this.props.product
 
-    //finds index where ingredients List begins
-    let keyIndex = claims.findIndex(elem => {
-      return elem.content[0].value === 'Key Ingredients: '
+    let keyIndex = claims.findIndex(element => {
+      return element.content[0].value === 'Key Ingredients: '
     })
 
-    //renders jsx for left side product details
     for (let i = 0; i < keyIndex; i++) {
       leftContent.push(
         <div className={`ProductDetails-${claims[i].nodeType}`} key={i}>
@@ -114,7 +106,6 @@ class ProductDetails extends Component {
       )
     }
 
-    //renders jsx for right side product details (ingredients)
     for (let i = keyIndex; i < claims.length; i++) {
       //makes clickable button for ingredient list
       if (claims[i].content[0].value === 'Full ingredient list') {
@@ -137,8 +128,11 @@ class ProductDetails extends Component {
     }
     return (
       <Container>
-        <div className="ProductDetails-leftContent">{leftContent}</div>
-        <div className="ProductDetails-rightContent">{rightContent}</div>
+        <div className="ProductDetails-Content">
+          <div className="ProductDetails-leftContent">{leftContent}</div>
+          <div className="ProductDetails-rightContent">{rightContent}</div>
+        </div>
+
         {this.state.hideList ? (
           ''
         ) : (

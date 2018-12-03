@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 //top level component uses portal to insert children into top level of DOM
