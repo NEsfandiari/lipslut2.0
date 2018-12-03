@@ -5,15 +5,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`
-
-const Message = styled.p`
-  margin: 0.4375rem 0;
-`
-
-const BarContainer = styled.div`
-  width: 100%;
-  background: #fff;
+  p {
+    margin: 0.4375rem 0;
+  }
+  .bar-container {
+    width: 100%;
+    background: #fff;
+  }
 `
 
 const Bar = styled.div.attrs(props => ({
@@ -29,8 +27,6 @@ class ProgressBar extends Component {
   static defaultProps = {
     freeShippingGoal: 40,
   }
-
-  // TODO Add lambda function to notify shopify of free shipping
 
   render() {
     const { cart } = this.props
@@ -69,10 +65,10 @@ class ProgressBar extends Component {
 
     return (
       <Container>
-        <Message>{message}</Message>
-        <BarContainer>
+        <p>{message}</p>
+        <div className="bar-container">
           <Bar progress={percentageComplete} />
-        </BarContainer>
+        </div>
       </Container>
     )
   }
