@@ -8,19 +8,19 @@ const Container = styled.div`
 `
 
 const Message = styled.p`
-  margin: 0.5rem 0;
+  margin: 0.4375rem 0;
 `
 
 const BarContainer = styled.div`
   width: 100%;
-  border: 1px solid #ff0086;
+  background: #fff;
 `
 
 const Bar = styled.div.attrs(props => ({
   progress: props.progress || '0',
 }))`
   width: ${props => props.progress};
-  height: 16px;
+  height: 0.875rem;
   background: #ff0086;
   transition: 1.5s;
   transition-timing-function: ease;
