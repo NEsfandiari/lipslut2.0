@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductDetails renders correctly 1`] = `
+<div
+  className="sc-bdVaJa iylCwT"
+>
+  <div
+    className="sc-bwzfXH exGvLt"
+  >
+    <div
+      className="ProductDetails-Content"
+    >
+      <div
+        className="ProductDetails-leftContent"
+      >
+        <div
+          className="ProductDetails-heading-5"
+        >
+          What is it?
+        </div>
+        <div
+          className="ProductDetails-paragraph"
+        >
+          A long wearing liquid lipstick with a matte finish.
+        </div>
+        <div
+          className="ProductDetails-heading-5"
+        >
+          How to use:
+        </div>
+        <div
+          className="ProductDetails-paragraph"
+        >
+          Smooth a thin layer onto lips user our angled applicator for a bold pop of all day color. 
+        </div>
+        <div
+          className="ProductDetails-heading-5"
+        >
+          Claims:
+        </div>
+        <div
+          className="ProductDetails-paragraph"
+        >
+          Cruelty Free, Paraben Free, Vegan. 
+        </div>
+      </div>
+      <div
+        className="ProductDetails-rightContent"
+      >
+        <div
+          className="ProductDetails-heading-5"
+        >
+          Key Ingredients: 
+        </div>
+        <div
+          className="ProductDetails-heading-6"
+        >
+          Color-Lock Technology
+        </div>
+        <div
+          className="ProductDetails-paragraph"
+        >
+          One-of-a-kind, lightweight and creamy formula locks pigment onto lips for a high payoff look that won’t crease, fade, or smudge all day. 
+        </div>
+        <div
+          className="ProductDetails-heading-6"
+        >
+          Coconut + Jojoba Oil
+        </div>
+        <div
+          className="ProductDetails-paragraph"
+        >
+          Makes for a silky application that spreads smooth and even. Sticky goop can f*ck off!
+        </div>
+        <div
+          className="ProductDetails-heading-6"
+        >
+          Vitamin E
+        </div>
+        <div
+          className="ProductDetails-paragraph"
+        >
+          Leaves lips extra moisturized and plush. Helps provide a velvety seamless finish without flakiness or streakiness. 
+        </div>
+        <div
+          className="ProductDetails-ingredientList-Link"
+          onClick={[Function]}
+        >
+          Full ingredient list
+        </div>
+        <div
+          className="ProductDetails-paragraph"
+        >
+          
+        </div>
+        <div
+          className="ProductDetails-paragraph"
+        >
+          
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+`;

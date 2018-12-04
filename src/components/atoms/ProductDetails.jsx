@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import lightBlue from '../../layouts/lightBlue'
 
 const Container = styled.div`
-  padding: 4rem 5rem 0rem;
+  padding: 4rem 5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
