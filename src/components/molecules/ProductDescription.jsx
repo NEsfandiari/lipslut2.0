@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import Modal from '../Modal'
 
 import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
@@ -75,11 +76,16 @@ class ProductDescription extends Component {
       price: this.props.price,
       status: 'ADD TO BAG',
       hideModal: true,
+      charity: '',
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleAdjust = this.handleAdjust.bind(this)
     this.handlePrice = this.handlePrice.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChangeModal = this.handleChangeModal.bind(this)
+  }
+  static contextTypes = {
+    firebase: PropTypes.object,
   }
   toggleModal() {
     this.setState(st => ({ hideModal: !st.hideModal }))
@@ -104,8 +110,18 @@ class ProductDescription extends Component {
       price: newPrice.toFixed(2),
     })
   }
+  handleChangeModal(e) {
+    this.setState({ charity: e.target.value })
+  }
   handleSubmit = e => {
     e.preventDefault()
+    const { firebase } = this.context
+    try {
+      firebase.addVote(this.props.title, this.state.charity)
+    } catch (err) {
+      console.log(err)
+      this.setState({ status: 'FAILURE' })
+    }
     this.props.handleCart(
       'add',
       this.props.title,
@@ -114,7 +130,7 @@ class ProductDescription extends Component {
       this.props.images[0],
       this.props.sku
     )
-    this.setState({ status: 'ADDED!' })
+    this.setState({ status: 'ADDED!' }, this.toggleModal())
   }
   render() {
     const charities = this.props.charities.charities.map(charity => (
@@ -200,7 +216,11 @@ class ProductDescription extends Component {
                 </div>
                 <div>
                   <form action="" onSubmit={this.handleSubmit}>
-                    <select name="charities" id="charitiesDropDown">
+                    <select
+                      name="charities"
+                      id="charitiesDropDown"
+                      onChange={this.handleChangeModal}
+                    >
                       <option value="" />
                       {charities}
                     </select>
