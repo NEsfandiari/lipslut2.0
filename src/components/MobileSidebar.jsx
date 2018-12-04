@@ -31,6 +31,11 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
   }
+  .userIcon {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
   .links {
     margin-top: 0.5rem;
     display: flex;
@@ -62,6 +67,7 @@ class MobileSidebar extends Component {
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
 
     const navbarItemsLeft = navbarData.navbarItems.data.leftNav
+    const userIcon = navbarData.profileIcon.fluid.src
 
     const navItemsLeft = navbarItemsLeft.map(item => {
       if (item.dropdownLinks) {
@@ -76,8 +82,6 @@ class MobileSidebar extends Component {
       }
     })
 
-    // ******************************************
-
     return (
       <Container
         display={display}
@@ -87,8 +91,16 @@ class MobileSidebar extends Component {
         <div className="header">
           <IoIosClose onClick={handleMobileSidebar} size={'2rem'} />
           {curUser ? (
-            <Link to="/account" onClick={handleMobileSidebar}>
-              <FaUser color="#FF0088" size="2.35rem" />
+            <Link
+              to="/account"
+              onClick={handleMobileSidebar}
+              className="userIcon"
+            >
+              <img
+                src={userIcon}
+                alt="user icon"
+                style={{ height: '2rem', margin: 0 }}
+              />
             </Link>
           ) : null}
           <ShoppingBagIcon click={this.cartClick} />
@@ -96,11 +108,11 @@ class MobileSidebar extends Component {
         <div className="links">
           {!curUser ? (
             <NavLink onClick={handleMobileSidebar} to="/login">
-              LOG IN
+              Log In
             </NavLink>
           ) : (
             <NavLink to="" onClick={logOut}>
-              LOG OUT
+              Log Out
             </NavLink>
           )}
           {navItemsLeft}

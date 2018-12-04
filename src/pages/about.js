@@ -5,7 +5,7 @@ import { graphql } from 'gatsby'
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-top: 3rem;
+  padding: 3rem;
   img {
     flex-basis: 50%;
     max-height: 33rem;
@@ -30,7 +30,7 @@ const Container = styled.div`
   }
   @media (max-width: 420px) {
     flex-direction: column;
-    padding-top: 1rem;
+    padding: 1rem;
     img {
       width: 100%;
     }

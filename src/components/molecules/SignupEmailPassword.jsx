@@ -12,7 +12,7 @@ const Container = styled.form`
   .name {
     display: flex;
     justify-content: space-between;
-    width: 22rem;
+    width: 20rem;
   }
   .radio {
     margin-top: 0.4rem;
@@ -77,7 +77,7 @@ class SignupEmailPassword extends Component {
           <StyledInput
             aria-label="First Name"
             type="text"
-            width="10.5rem"
+            width="9.5rem"
             placeholder="First Name"
             name="firstName"
             value={this.state.firstName}
@@ -86,7 +86,7 @@ class SignupEmailPassword extends Component {
           <StyledInput
             aria-label="Last Name"
             type="text"
-            width="10.5rem"
+            width="9.5rem"
             placeholder="Last Name"
             name="lastName"
             onChange={this.handleChange}
@@ -100,7 +100,7 @@ class SignupEmailPassword extends Component {
           name="email"
           onChange={this.handleChange}
           value={this.state.email}
-          width="22rem"
+          width="20rem"
         />
         <StyledInput
           placeholder="Password"
@@ -109,9 +109,9 @@ class SignupEmailPassword extends Component {
           name="password"
           onChange={this.handleChange}
           value={this.state.password}
-          width="22rem"
+          width="20rem"
         />
-        <StyledButton width="22rem" height="2.2rem" margin="0">
+        <StyledButton width="20rem" height="2.2rem" margin="0">
           {this.state.status}
         </StyledButton>
         <div className="radio">

@@ -7,13 +7,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   max-height: 32rem;
-  .orders {
-    overflow: auto;
-  }
   background-color: white;
   border-radius: 3px;
   margin-left: 1rem;
   padding: 2rem;
+  .orders {
+    overflow: auto;
+  }
   h3 {
     margin-bottom: 2rem;
   }
@@ -23,9 +23,9 @@ const Container = styled.div`
   @media (max-width: 420px) {
     width: 90%;
     margin: 0;
-    padding: 1rem;
     margin-top: 1rem;
     align-items: center;
+    padding: 0.5rem;
   }
 `
 

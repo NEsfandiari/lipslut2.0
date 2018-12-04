@@ -159,13 +159,11 @@ class Firebase {
           lastName: user.lastName,
           email: user.email,
           newsletter: user.newsletter,
-          password: user.password,
           phone: '',
           orderHistory: [],
         })
         .then(() => {
-          this.signIn(user.uid)
-          navigate('/')
+          window.location.replace('/')
         })
     })
   }

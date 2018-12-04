@@ -87,11 +87,11 @@ class AccountDetails extends Component {
           />
         )}
         {!this.state.editing ? (
-          <StyledButton width="17rem" margin="0rem" onClick={this.showEdit}>
+          <StyledButton width="16rem" margin="0rem" onClick={this.showEdit}>
             EDIT
           </StyledButton>
         ) : (
-          <StyledButton width="17rem" margin="0rem" onClick={this.handleUpdate}>
+          <StyledButton width="16rem" margin="0rem" onClick={this.handleUpdate}>
             UPDATE
           </StyledButton>
         )}

@@ -42,6 +42,12 @@ const Container = styled.div`
     flex-direction: column;
     padding-left: 0.5rem;
   }
+  @media (max-width: 420px) {
+    p {
+      font-size: 0.55rem;
+    }
+    width: 110%;
+  }
 `
 
 class Order extends Component {
