@@ -43,6 +43,39 @@ class Firebase {
       .get()
   }
 
+  addVote = (product, charity) => {
+    console.log('addVote happening')
+    let path =
+      'charities/KM4lN3lc00gRhVb42asx/' +
+      product.slice(0, -1) +
+      '/eiCT5ljtAQZCsnZjF8BY/' +
+      charity
+    console.log('PATH', path)
+    let voteRef = firebase.database().ref(path)
+    console.log('VOTEREF', voteRef)
+    voteRef.transaction(function(voteCount) {
+      return voteCount + 1
+    })
+  }
+
+  // addVote = vote => {
+  //   this.store()
+  //     .collection('charities')
+  //     .doc('KM4lN3lc00gRhVb42asx')
+  //     .collection(productVariable)
+  //     .update({
+  //       email: email,
+  //     })
+  // }
+
+  // .doc(user.uid)
+  // .update({
+  //   phone: phone,
+  //   email: email,
+  //   firstName: firstName,
+  //   lastName: lastName,
+  // })
+
   login = (componentThis, signInMethod, email, password) => {
     switch (signInMethod) {
       case 'google':
@@ -148,6 +181,7 @@ class Firebase {
         componentThis.props.handleError(errorMessage)
       })
   }
+
   storeUser = user => {
     postLambda('newAccount', user).then(res => {
       this.store()
