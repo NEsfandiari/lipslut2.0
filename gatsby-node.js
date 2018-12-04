@@ -17,6 +17,9 @@ exports.createPages = async ({ actions, graphql }) => {
               edges {
                 node {
                   title
+                  charities {
+                    charities
+                  }
                   claims {
                     content {
                       nodeType
