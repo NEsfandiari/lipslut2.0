@@ -30,8 +30,10 @@ const Container = styled.div`
   .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
-  .userIcon {
+  .userIcon,
+  .xIcon {
     display: flex;
     align-items: center;
     margin: 0;
@@ -89,7 +91,11 @@ class MobileSidebar extends Component {
         mobileDisplayFix={mobileDisplayFix}
       >
         <div className="header">
-          <IoIosClose onClick={handleMobileSidebar} size={'2rem'} />
+          <IoIosClose
+            onClick={handleMobileSidebar}
+            size={'2rem'}
+            className="xIcon"
+          />
           {curUser ? (
             <Link
               to="/account"
