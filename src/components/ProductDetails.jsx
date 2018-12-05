@@ -79,13 +79,9 @@ const ingredientsStyle = {
 }
 
 class ProductDetails extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { hideList: true }
-    this.toggleList = this.toggleList.bind(this)
-  }
+  state = { hideList: true }
 
-  toggleList() {
+  toggleList = () => {
     this.setState(st => ({ hideList: !st.hideList }))
   }
 
