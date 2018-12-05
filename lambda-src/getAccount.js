@@ -22,7 +22,6 @@ exports.handler = async function(event, context, callback) {
   if (event.body[0] == '{') {
     let data = JSON.parse(event.body)
     data = JSON.parse(data.body)
-
     const payload1 = {
       query: `mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
         customerAccessTokenCreate(input: $input) {
@@ -44,7 +43,7 @@ exports.handler = async function(event, context, callback) {
       variables: {
         input: {
           email: data.email,
-          password: data.password,
+          password: data.uid,
         },
       },
     }

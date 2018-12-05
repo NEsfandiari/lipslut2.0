@@ -38,7 +38,7 @@ class LoginEmailPassword extends Component {
           name="email"
           onChange={this.handleChange}
           value={this.state.email}
-          width="22rem"
+          width="20rem"
         />
         <StyledInput
           aria-label="Email Address"
@@ -46,9 +46,9 @@ class LoginEmailPassword extends Component {
           name="password"
           onChange={this.handleChange}
           value={this.state.password}
-          width="22rem"
+          width="20rem"
         />
-        <StyledButton width="22rem" height="2.2rem" margin="2rem">
+        <StyledButton width="20rem" height="2.2rem" margin="2rem">
           LOG IN
         </StyledButton>
       </Container>

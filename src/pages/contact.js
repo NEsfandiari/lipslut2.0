@@ -7,9 +7,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-left: 10rem;
-  padding-right: 10rem;
-  padding-top: 5rem;
+  padding: 5rem 10rem;
   a {
     color: #9ae0f5;
     transition: 0.3s;

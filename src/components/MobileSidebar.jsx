@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
-import { FaUser } from 'react-icons/fa'
 import { IoIosClose } from 'react-icons/io'
 import { NavLink, ShoppingBagIcon, MobileDropdown } from './atoms'
 import 'animate.css'
@@ -30,6 +29,13 @@ const Container = styled.div`
   .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+  }
+  .userIcon,
+  .xIcon {
+    display: flex;
+    align-items: center;
+    margin: 0;
   }
   .links {
     margin-top: 0.5rem;
@@ -62,7 +68,7 @@ class MobileSidebar extends Component {
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
 
     const navbarItemsLeft = navbarData.navbarItems.data.leftNav
-
+    const userIcon = navbarData.profileIcon.fluid.src
     const navItemsLeft = navbarItemsLeft.map(item => {
       if (item.dropdownLinks) {
         return (
@@ -76,8 +82,6 @@ class MobileSidebar extends Component {
       }
     })
 
-    // ******************************************
-
     return (
       <Container
         display={display}
@@ -85,10 +89,22 @@ class MobileSidebar extends Component {
         mobileDisplayFix={mobileDisplayFix}
       >
         <div className="header">
-          <IoIosClose onClick={handleMobileSidebar} size={'2rem'} />
+          <IoIosClose
+            onClick={handleMobileSidebar}
+            size={'2rem'}
+            className="xIcon"
+          />
           {curUser ? (
-            <Link to="/account" onClick={handleMobileSidebar}>
-              <FaUser color="#FF0088" size="2.35rem" />
+            <Link
+              to="/account"
+              onClick={handleMobileSidebar}
+              className="userIcon"
+            >
+              <img
+                src={userIcon}
+                alt="user icon"
+                style={{ height: '2rem', margin: 0 }}
+              />
             </Link>
           ) : null}
           <ShoppingBagIcon click={this.cartClick} />
@@ -96,11 +112,11 @@ class MobileSidebar extends Component {
         <div className="links">
           {!curUser ? (
             <NavLink onClick={handleMobileSidebar} to="/login">
-              LOG IN
+              Log In
             </NavLink>
           ) : (
             <NavLink to="" onClick={logOut}>
-              LOG OUT
+              Log Out
             </NavLink>
           )}
           {navItemsLeft}

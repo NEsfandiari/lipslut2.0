@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { FaTimes } from 'react-icons/fa'
-import Modal from '../Modal'
+import Modal from './Modal'
 import styled from 'styled-components'
-import lightBlue from '../../layouts/lightBlue'
+import lightBlue from '../layouts/lightBlue'
 
 const Container = styled.div`
   padding: 4rem 5rem 2rem;
@@ -79,20 +79,16 @@ const ingredientsStyle = {
 }
 
 class ProductDetails extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { hideList: true }
-    this.toggleList = this.toggleList.bind(this)
-  }
+  state = { hideList: true }
 
-  toggleList() {
+  toggleList = () => {
     this.setState(st => ({ hideList: !st.hideList }))
   }
 
   render() {
     let leftContent = []
     let rightContent = []
-    let { claims } = this.props.product
+    const { claims } = this.props
 
     let keyIndex = claims.findIndex(element => {
       return element.content[0].value === 'Key Ingredients: '
@@ -165,7 +161,7 @@ class ProductDetails extends Component {
                   </div>
                 </div>
                 <p style={{ fontSize: '12px', lineHeight: '20px' }}>
-                  {this.props.product.ingredients}
+                  {this.props.ingredients}
                 </p>
               </div>
             </div>

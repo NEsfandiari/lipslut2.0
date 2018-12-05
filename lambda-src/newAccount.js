@@ -42,7 +42,7 @@ exports.handler = async function(event, context, callback) {
       variables: {
         input: {
           email: data.email,
-          password: data.password,
+          password: data.uid,
           acceptsMarketing: data.newsletter,
           firstName: data.firstName,
           lastName: data.lastName,
@@ -57,7 +57,6 @@ exports.handler = async function(event, context, callback) {
         headers: shopifyConfig,
         data: JSON.stringify(payload),
       })
-      console.log(customer.data)
       if (customer.data.errors) customer = customer.data.errors
       else customer = customer.data.data.customerCreate
       let response = {
