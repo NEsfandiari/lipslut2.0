@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Link } from 'gatsby'
-import { FaUser } from 'react-icons/fa'
 import { IoIosClose } from 'react-icons/io'
 import { NavLink, ShoppingBagIcon, MobileDropdown } from './atoms'
 import 'animate.css'
@@ -70,7 +69,6 @@ class MobileSidebar extends Component {
 
     const navbarItemsLeft = navbarData.navbarItems.data.leftNav
     const userIcon = navbarData.profileIcon.fluid.src
-
     const navItemsLeft = navbarItemsLeft.map(item => {
       if (item.dropdownLinks) {
         return (

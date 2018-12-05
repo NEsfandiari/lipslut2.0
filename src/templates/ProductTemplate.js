@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import ProductsStage from '../components/molecules/ProductsStage'
-import { Product } from '../components'
+import { Product, ProductDetails } from '../components'
 
 const Container = styled.div`
   display: flex;
@@ -16,24 +15,15 @@ class ProductTemplate extends Component {
   render() {
     const data = this.props.pageContext.node
     const images = data.images.map(img => img.file.url)
-    let productMedia
 
-    // TODO: Replace Code with conditionals over ingredients list
-
-    // if (data.sellingPoints) {
-    //   const sellingPoints = data.sellingPoints.data
-    //   const media = data.mediaLogos.map(img => {
-    //     return {
-    //       image: img.file.url,
-    //     }
-    //   })
-    //   data.mediaStories.forEach((story, i) => {
-    //     media[i]['link'] = story
-    //   })
-    //   productMedia = (
-    //     <ProductMedia sellingPoints={sellingPoints} media={media} />
-    //   )
-    // }
+    let productDetails
+    if (data.claims && data.ingredients) {
+      const claims = data.claims.content
+      const ingredients = data.ingredients.content[0].content[0].value
+      productDetails = (
+        <ProductDetails claims={claims} ingredients={ingredients} />
+      )
+    }
     return (
       <React.Fragment>
         <Container>
@@ -44,9 +34,8 @@ class ProductTemplate extends Component {
             price={data.price}
             sku={data.sku}
           />
-          {productMedia}
         </Container>
-        <ProductsStage data={data} title={data.title} />
+        {productDetails}
       </React.Fragment>
     )
   }
