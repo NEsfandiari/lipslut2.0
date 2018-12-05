@@ -22,6 +22,7 @@ const StyledButton = Styled.button`
     color: ${({ hoverTextColor }) => hoverTextColor || '#FF0086'};
   }
   @media (max-width: 420px) {
+    
   }
 `
 

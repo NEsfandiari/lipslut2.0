@@ -8,7 +8,7 @@ import Cart from '../utilities/cart'
 import { CartProvider } from '../containers/CartContext'
 import FirebaseProvider from '../containers/FirebaseProvider'
 import firebase from '../utilities/firebase'
-// import { UserProvider } from '../containers/UserContext'
+import { UserProvider } from '../containers/UserContext'
 
 import './index.css'
 
@@ -99,6 +99,8 @@ class Layout extends Component {
     firebase
       .signIn(user.uid)
       .then(curUser => {
+        // If the user info exists in the database sign them in
+        debugger
         if (curUser.data()) {
           curUser = curUser.data()
           postLambda('getAccount', curUser).then(res => {
@@ -110,6 +112,9 @@ class Layout extends Component {
       .catch(err => {
         console.log(err)
       })
+  }
+  handleSignup = user => {
+    this.setState({ curUser: user })
   }
 
   // Sidebar/Banner UI Logic
@@ -177,44 +182,51 @@ class Layout extends Component {
 
     return (
       <FirebaseProvider firebase={firebase}>
-        <CartProvider
+        <UserProvider
           value={{
-            cart: this.state.cart,
-            handleCart: this.handleCart,
+            curUser: this.state.curUser,
+            handleSignup: this.handleSignup,
           }}
         >
-          {/* placeholder div for Modal's children*/}
-          <div id="modalContainer" />
-          <Container>
-            <Helmet
-              title="Lipslut"
-              // TODO: Fill this out with accurate site metadata for google
-              meta={[
-                { name: 'description', content: 'Sample' },
-                { name: 'keywords', content: 'sample, something' },
-              ]}
-            >
-              {chatraScript}
-            </Helmet>
+          <CartProvider
+            value={{
+              cart: this.state.cart,
+              handleCart: this.handleCart,
+            }}
+          >
+            {/* placeholder div for Modal's children*/}
+            <div id="modalContainer" />
+            <Container>
+              <Helmet
+                title="Lipslut"
+                // TODO: Fill this out with accurate site metadata for google
+                meta={[
+                  { name: 'description', content: 'Sample' },
+                  { name: 'keywords', content: 'sample, something' },
+                ]}
+              >
+                {chatraScript}
+              </Helmet>
 
-            <Navbar
-              curUser={this.state.curUser}
-              sidebar={this.state.sidebar}
-              displayFix={this.state.displayFix}
-              handleSidebar={this.handleSidebar}
-              handleBannerMargin={this.handleBannerMargin}
-            />
+              <Navbar
+                curUser={this.state.curUser}
+                sidebar={this.state.sidebar}
+                displayFix={this.state.displayFix}
+                handleSidebar={this.handleSidebar}
+                handleBannerMargin={this.handleBannerMargin}
+              />
 
-            <div
-              className="all-components-layout"
-              style={{ marginTop: this.state.bannerMargin + 'rem' }}
-            >
-              {childrenWithProps}
-            </div>
-            <Footer />
-          </Container>
-          <ChatButton />
-        </CartProvider>
+              <div
+                className="all-components-layout"
+                style={{ marginTop: this.state.bannerMargin + 'rem' }}
+              >
+                {childrenWithProps}
+              </div>
+              <Footer />
+            </Container>
+            <ChatButton />
+          </CartProvider>
+        </UserProvider>
       </FirebaseProvider>
     )
   }
