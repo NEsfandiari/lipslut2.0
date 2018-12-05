@@ -4,6 +4,7 @@ import { CartSidebarBody, CartSidebarFooter } from './molecules'
 // FIX: file naming issue on build, have to pull off this hack for now
 import CartSidebarHeader from './molecules/CartSIdebarHeader.jsx'
 import postLambda from '../utilities/postLambda'
+import PropTypes from 'prop-types'
 import 'animate.css'
 
 const Container = styled.div`
@@ -31,15 +32,44 @@ const Container = styled.div`
 `
 
 class CartSidebar extends Component {
+  static contextTypes = {
+    firebase: PropTypes.object,
+  }
   handleAdjust = e => {
     let i = parseInt(e.target.dataset.id)
+    let keys
+    let lastVote
+    let newVotes
+
+    //get the previous info for charities this user voted for when adding this product to the cart
+    if (this.props.cart[i].charities) {
+      keys = Object.keys(this.props.cart[i].charities)
+      lastVote = keys[keys.length - 1]
+      newVotes = this.props.cart[i].charities
+    }
+
     if (e.target.className === 'add') {
       let newVal = this.props.cart[i].quantity + 1
       this.props.handleCart('edit', 'quantity', newVal, i)
+
+      //increase charity vote count by 1
+      if (this.props.cart[i].charities) {
+        newVotes[lastVote] = this.props.cart[i].charities[lastVote] + 1
+        this.props.handleCart('edit', 'charities', newVotes, i)
+      }
     } else {
       let newVal = this.props.cart[i].quantity - 1
       if (newVal < 1) newVal = 1
       this.props.handleCart('edit', 'quantity', newVal, i)
+
+      //decrease charity vote count by 1
+      if (this.props.cart[i].charities) {
+        newVotes[lastVote] = this.props.cart[i].charities[lastVote] - 1
+        if (newVotes[lastVote] < 1) {
+          delete newVotes[lastVote]
+        }
+        this.props.handleCart('edit', 'charities', newVotes, i)
+      }
     }
   }
 
@@ -52,6 +82,24 @@ class CartSidebar extends Component {
       }
     })
     const hasAccount = this.props.curUser ? true : false
+
+    //update voteCounts in firebase
+    let totalVotes = {}
+    for (let item of this.props.cart) {
+      for (let charity in item.charities) {
+        totalVotes[charity] =
+          (totalVotes[charity] || 0) + item.charities[charity]
+      }
+    }
+    const { firebase } = this.context
+    for (let key in totalVotes) {
+      try {
+        firebase.addVote(key, totalVotes[key])
+      } catch (err) {
+        console.log(err)
+        this.setState({ status: 'FAILURE' })
+      }
+    }
     postLambda('createCheckout', {
       items,
       hasAccount,

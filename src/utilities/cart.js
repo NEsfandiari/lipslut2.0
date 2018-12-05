@@ -18,7 +18,7 @@ class Cart {
     })
     windowGlobal.localStorage.setItem('cart', JSON.stringify(newCart))
   }
-  static addItem(componentThis, title, price, quantity, image, sku) {
+  static addItem(componentThis, title, price, quantity, image, sku, charity) {
     let newCart = componentThis.state.cart
     // test if sku is in cart
     let cartI = null
@@ -28,7 +28,14 @@ class Cart {
     cartI !== null
       ? newCart[cartI].quantity++
       : newCart.push({ title, price, quantity, image, sku })
-
+    if (charity !== '') {
+      if (!newCart[newCart.length - 1].charities) {
+        newCart[newCart.length - 1].charities = {}
+      }
+      newCart[newCart.length - 1].charities[charity] =
+        (newCart[newCart.length - 1].charities[charity] || 0) +
+        parseInt(quantity)
+    }
     componentThis.setState({
       cart: newCart,
       sidebar: true,

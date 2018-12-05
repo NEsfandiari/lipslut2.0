@@ -14,6 +14,7 @@ class ProductTemplate extends Component {
   }
   render() {
     const data = this.props.pageContext.node
+    const charities = data.charities
     const images = data.images.map(img => img.file.url)
 
     let productDetails
@@ -33,6 +34,7 @@ class ProductTemplate extends Component {
             images={images}
             price={data.price}
             sku={data.sku}
+            charities={charities}
           />
         </Container>
         {productDetails}

@@ -43,6 +43,29 @@ class Firebase {
       .get()
   }
 
+  addVote = async (charity, quantity) => {
+    let voteData = await this.store()
+      .collection('charities')
+      .doc(charity)
+      .get()
+    //if there is no voteData for this charity in firebase, add the charity to firebase
+    if (!voteData.data()) {
+      this.store()
+        .collection('charities')
+        .doc(charity)
+        .set({ votes: parseInt(quantity) })
+    } else {
+      //if there is voteData in firebase, get the previous vote total and add 1 to it
+      let curVotes = voteData.data().votes
+      this.store()
+        .collection('charities')
+        .doc(charity)
+        .update({
+          votes: curVotes + parseInt(quantity),
+        })
+    }
+  }
+
   login = (componentThis, signInMethod, email, password) => {
     switch (signInMethod) {
       case 'google':
@@ -148,6 +171,7 @@ class Firebase {
         componentThis.props.handleError(errorMessage)
       })
   }
+
   storeUser = user => {
     postLambda('newAccount', user).then(res => {
       this.store()
