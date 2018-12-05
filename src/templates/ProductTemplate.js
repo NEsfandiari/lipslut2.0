@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-<<<<<<< HEAD
-import ProductsStage from '../components/molecules/ProductsStage'
-import { Product } from '../components'
-import DataVis from '../components/molecules/DataVis'
-=======
 import { Product, ProductDetails } from '../components'
->>>>>>> master
 
 const Container = styled.div`
   display: flex;
