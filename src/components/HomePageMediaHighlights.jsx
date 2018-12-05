@@ -43,12 +43,16 @@ const Container = styled.div`
   }
 
   @media (max-width: 420px) {
-    padding: 2.5rem 1.5rem;
+    padding: 3rem 1.5rem;
     .highlight {
       width: 100%;
+      font-size: 1.8rem;
     }
     .brandCarousel {
       width: 100%;
+      img {
+        max-width: 7rem;
+      }
     }
   }
 `
