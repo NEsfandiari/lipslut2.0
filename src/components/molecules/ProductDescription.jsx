@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { FaTimes } from 'react-icons/fa'
 import styled from 'styled-components'
-import Modal from '../Modal'
+import { FaTimes } from 'react-icons/fa'
 
+import Modal from '../../layouts/Modal'
 import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
 
 const Container = styled.div`
