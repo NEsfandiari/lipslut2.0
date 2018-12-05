@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import ProductsStage from '../components/molecules/ProductsStage'
 import { Product } from '../components'
+import DataVis from '../components/molecules/DataVis'
 
 const Container = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ class ProductTemplate extends Component {
           {productMedia}
         </Container>
         <ProductsStage data={data} title={data.title} />
+        <DataVis />
       </React.Fragment>
     )
   }
