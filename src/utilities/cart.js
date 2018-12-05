@@ -28,11 +28,14 @@ class Cart {
     cartI !== null
       ? newCart[cartI].quantity++
       : newCart.push({ title, price, quantity, image, sku })
-    if (!newCart[newCart.length - 1].charities) {
-      newCart[newCart.length - 1].charities = {}
+    if (charity !== '') {
+      if (!newCart[newCart.length - 1].charities) {
+        newCart[newCart.length - 1].charities = {}
+      }
+      newCart[newCart.length - 1].charities[charity] =
+        (newCart[newCart.length - 1].charities[charity] || 0) +
+        parseInt(quantity)
     }
-    newCart[newCart.length - 1].charities[charity] =
-      (newCart[newCart.length - 1].charities[charity] || 0) + parseInt(quantity)
     componentThis.setState({
       cart: newCart,
       sidebar: true,

@@ -120,12 +120,22 @@ class ProductDescription extends Component {
       this.props.sku,
       this.state.charity
     )
-    this.setState({ status: 'ADDED!' }, this.toggleModal())
+    this.setState({ status: 'ADDED!' })
+
+    if (this.state.charity !== '') {
+      this.setState(this.toggleModal())
+    }
   }
   render() {
-    const charities = this.props.charities.charities.map(charity => (
-      <option value={charity}>{charity}</option>
-    ))
+    console.log('PROPS', this.props)
+
+    let charities
+    if (this.props.charities !== null) {
+      charities = this.props.charities.charities.map(charity => (
+        <option value={charity}>{charity}</option>
+      ))
+    }
+
     const productCopy = this.props.productCopy.map((statement, i) => {
       if (statement.content.length === 1)
         return <p key={i}>{statement.content[0].value}</p>
@@ -156,7 +166,7 @@ class ProductDescription extends Component {
           />
           <StyledButton
             type="button"
-            onClick={this.toggleModal}
+            onClick={charities ? this.toggleModal : this.handleSubmit}
             height={'2.5rem'}
             width={'18rem'}
             fontSize={'.65rem'}

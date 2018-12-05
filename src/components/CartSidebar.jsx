@@ -37,30 +37,39 @@ class CartSidebar extends Component {
   }
   handleAdjust = e => {
     let i = parseInt(e.target.dataset.id)
+    let keys
+    let lastVote
+    let newVotes
 
     //get the previous info for charities this user voted for when adding this product to the cart
-    let keys = Object.keys(this.props.cart[i].charities)
-    let lastVote = keys[keys.length - 1]
-    let newVotes = this.props.cart[i].charities
+    if (this.props.cart[i].charities) {
+      keys = Object.keys(this.props.cart[i].charities)
+      lastVote = keys[keys.length - 1]
+      newVotes = this.props.cart[i].charities
+    }
 
     if (e.target.className === 'add') {
       let newVal = this.props.cart[i].quantity + 1
       this.props.handleCart('edit', 'quantity', newVal, i)
 
       //increase charity vote count by 1
-      newVotes[lastVote] = this.props.cart[i].charities[lastVote] + 1
-      this.props.handleCart('edit', 'charities', newVotes, i)
+      if (this.props.cart[i].charities) {
+        newVotes[lastVote] = this.props.cart[i].charities[lastVote] + 1
+        this.props.handleCart('edit', 'charities', newVotes, i)
+      }
     } else {
       let newVal = this.props.cart[i].quantity - 1
       if (newVal < 1) newVal = 1
       this.props.handleCart('edit', 'quantity', newVal, i)
 
       //decrease charity vote count by 1
-      newVotes[lastVote] = this.props.cart[i].charities[lastVote] - 1
-      if (newVotes[lastVote] < 1) {
-        delete newVotes[lastVote]
+      if (this.props.cart[i].charities) {
+        newVotes[lastVote] = this.props.cart[i].charities[lastVote] - 1
+        if (newVotes[lastVote] < 1) {
+          delete newVotes[lastVote]
+        }
+        this.props.handleCart('edit', 'charities', newVotes, i)
       }
-      this.props.handleCart('edit', 'charities', newVotes, i)
     }
   }
 
