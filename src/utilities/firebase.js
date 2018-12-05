@@ -43,38 +43,28 @@ class Firebase {
       .get()
   }
 
-  addVote = (product, charity) => {
-    console.log('addVote happening')
-    let path =
-      'charities/KM4lN3lc00gRhVb42asx/' +
-      product.slice(0, -1) +
-      '/eiCT5ljtAQZCsnZjF8BY/' +
-      charity
-    console.log('PATH', path)
-    let voteRef = firebase.database().ref(path)
-    console.log('VOTEREF', voteRef)
-    voteRef.transaction(function(voteCount) {
-      return voteCount + 1
-    })
+  addVote = async (charity, quantity) => {
+    let voteData = await this.store()
+      .collection('charities')
+      .doc(charity)
+      .get()
+    //if there is no voteData for this charity in firebase, add the charity to firebase
+    if (!voteData.data()) {
+      this.store()
+        .collection('charities')
+        .doc(charity)
+        .set({ votes: parseInt(quantity) })
+    } else {
+      //if there is voteData in firebase, get the previous vote total and add 1 to it
+      let curVotes = voteData.data().votes
+      this.store()
+        .collection('charities')
+        .doc(charity)
+        .update({
+          votes: curVotes + parseInt(quantity),
+        })
+    }
   }
-
-  // addVote = vote => {
-  //   this.store()
-  //     .collection('charities')
-  //     .doc('KM4lN3lc00gRhVb42asx')
-  //     .collection(productVariable)
-  //     .update({
-  //       email: email,
-  //     })
-  // }
-
-  // .doc(user.uid)
-  // .update({
-  //   phone: phone,
-  //   email: email,
-  //   firstName: firstName,
-  //   lastName: lastName,
-  // })
 
   login = (componentThis, signInMethod, email, password) => {
     switch (signInMethod) {

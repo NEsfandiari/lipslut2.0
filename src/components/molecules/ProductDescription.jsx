@@ -115,20 +115,21 @@ class ProductDescription extends Component {
   }
   handleSubmit = e => {
     e.preventDefault()
-    const { firebase } = this.context
-    try {
-      firebase.addVote(this.props.title, this.state.charity)
-    } catch (err) {
-      console.log(err)
-      this.setState({ status: 'FAILURE' })
-    }
+    // const { firebase } = this.context
+    // try {
+    //   firebase.addVote(this.state.charity)
+    // } catch (err) {
+    //   console.log(err)
+    //   this.setState({ status: 'FAILURE' })
+    // }
     this.props.handleCart(
       'add',
       this.props.title,
       this.props.price,
       parseInt(this.state.quantity),
       this.props.images[0],
-      this.props.sku
+      this.props.sku,
+      this.state.charity
     )
     this.setState({ status: 'ADDED!' }, this.toggleModal())
   }
