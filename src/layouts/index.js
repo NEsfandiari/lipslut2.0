@@ -100,7 +100,6 @@ class Layout extends Component {
       .signIn(user.uid)
       .then(curUser => {
         // If the user info exists in the database sign them in
-        debugger
         if (curUser.data()) {
           curUser = curUser.data()
           postLambda('getAccount', curUser).then(res => {
