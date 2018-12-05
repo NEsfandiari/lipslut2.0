@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 import Modal from '../Modal'
 
 import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
@@ -84,9 +83,6 @@ class ProductDescription extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChangeModal = this.handleChangeModal.bind(this)
   }
-  static contextTypes = {
-    firebase: PropTypes.object,
-  }
   toggleModal() {
     this.setState(st => ({ hideModal: !st.hideModal }))
   }
@@ -115,13 +111,6 @@ class ProductDescription extends Component {
   }
   handleSubmit = e => {
     e.preventDefault()
-    // const { firebase } = this.context
-    // try {
-    //   firebase.addVote(this.state.charity)
-    // } catch (err) {
-    //   console.log(err)
-    //   this.setState({ status: 'FAILURE' })
-    // }
     this.props.handleCart(
       'add',
       this.props.title,
