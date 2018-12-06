@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
+import styled from 'styled-components'
 
 import Modal from '../../layouts/Modal'
 import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
