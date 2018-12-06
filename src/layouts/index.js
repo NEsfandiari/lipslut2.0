@@ -151,11 +151,6 @@ class Layout extends Component {
   }
 
   render() {
-    //TODO
-    //getting prop of "availableForSale" as boolean from shopify
-    //this.props.pageContext.availableForSale
-    //need to pass prop down and render modal of "sold out" if no available when user clicks "add to cart"
-    console.log(this.props)
     const { children } = this.props
     // TODO: Remove this pattern and convert out of a gatsby v1 magic layout
     // Cannot Pass Props down to children in Gatsby v2 with gatsby v1 magic Layout, Need this Hack for now
