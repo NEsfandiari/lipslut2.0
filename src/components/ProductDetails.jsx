@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FaTimes } from 'react-icons/fa'
-import Modal from './Modal'
+import Modal from '../layouts/Modal'
 import styled from 'styled-components'
 import lightBlue from '../layouts/lightBlue'
 
