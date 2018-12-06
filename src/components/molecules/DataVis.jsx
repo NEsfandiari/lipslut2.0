@@ -22,10 +22,9 @@ const Container = Styled.div`
 
 class DataVis extends Component {
   render() {
-    // const { title, image, route } = this.props
     return (
       <Container className="DataVis">
-        <DVStates />
+        <DVStates ordersData={this.props.ordersData} />
         {/* add charity line graph component
         add user spending chart component */}
       </Container>

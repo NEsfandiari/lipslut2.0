@@ -54,5 +54,14 @@ module.exports = {
       },
     },
     `gatsby-plugin-netlify`,
+    {
+      //gatsby source filesystem for importing csv for data visualization
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `src`,
+        path: `${__dirname}/src/`,
+      },
+    },
+    `gatsby-transformer-csv`,
   ],
 }
