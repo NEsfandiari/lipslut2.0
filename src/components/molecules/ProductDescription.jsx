@@ -127,8 +127,6 @@ class ProductDescription extends Component {
     }
   }
   render() {
-    console.log('PROPS', this.props)
-
     let charities
     if (this.props.charities !== null) {
       charities = this.props.charities.charities.map(charity => (

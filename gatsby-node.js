@@ -13,6 +13,14 @@ exports.createPages = async ({ actions, graphql }) => {
       graphql(
         `
           {
+            allShopifyProduct {
+              edges {
+                node {
+                  title
+                  availableForSale
+                }
+              }
+            }
             allContentfulProductPage {
               edges {
                 node {
@@ -69,11 +77,19 @@ exports.createPages = async ({ actions, graphql }) => {
           let path = node.title.replace(/\s+/g, '-') + '/'
           path = path.replace(/\./, '')
           path = path.replace(/\*/, '')
+          let key = node.title.replace('.', '')
+          let availableForSale
+          result.data.allShopifyProduct.edges.forEach(function(product) {
+            if (key === product.node.title.replace('.', '')) {
+              availableForSale = product.node.availableForSale
+            }
+          })
           createPage({
             path,
             component: ProductPageTemplate,
             context: {
               node,
+              availableForSale,
             },
           })
         })
