@@ -61,41 +61,7 @@ class DVStates extends Component {
     super(props)
   }
 
-  // using dummy data instead of pulling sales from CSV file
-  // TODO: refactor with dynamic data from CSV file
   static defaultProps = {
-    stateSales: {
-      NY: 12,
-      TX: 5,
-      MO: 4,
-      MN: 2,
-      AZ: 3,
-      IN: 2,
-      NC: 1,
-      CA: 20,
-      CO: 1,
-      MD: 1,
-      FL: 3,
-      IL: 18,
-      VT: 1,
-      WI: 3,
-      HI: 2,
-      NE: 2,
-      UT: 1,
-      WA: 2,
-      KS: 1,
-      OH: 4,
-      LA: 2,
-      MA: 2,
-      VA: 1,
-      CT: 1,
-      MI: 2,
-      RI: 2,
-      DC: 2,
-      KY: 2,
-      NJ: 1,
-      PA: 1,
-    },
     // d's connect dots to create visualization by state
     statePaths: {
       HI: {
@@ -302,25 +268,26 @@ class DVStates extends Component {
   }
 
   // makes max opacity by state with highest sales and then creates individual state opacity based off that max
-  stateOrderBreakdown(stateOrders) {
+  stateOrderBreakdown(ordersData) {
     let totalOrders = 0
-    for (let i in stateOrders) {
-      totalOrders += stateOrders[i]
+    for (let i in ordersData) {
+      totalOrders += ordersData[i]
     }
 
     let stateOrderPercentage = {}
 
-    // getting max value from all stateOrders' values
-    const max = Math.max(...Object.values(stateOrders))
+    // getting max value from all ordersData' values
+    const max = Math.max(...Object.values(ordersData))
 
-    for (let i in stateOrders) {
-      stateOrderPercentage[i] = stateOrders[i] / max
+    for (let i in ordersData) {
+      stateOrderPercentage[i] = ordersData[i] / max
     }
     return stateOrderPercentage
   }
 
   render() {
-    const statesOpacity = this.stateOrderBreakdown(this.props.stateSales)
+    console.log('hey over here: ', this.props)
+    const statesOpacity = this.stateOrderBreakdown(this.props.ordersData)
 
     const visStates = Object.keys(this.props.statePaths).map(st => {
       return (
