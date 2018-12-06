@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
-import { Link } from 'gatsby'
 import styled from 'styled-components'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
+import { StyledHr } from '../components/atoms'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   padding: 5rem 10rem;
+  .copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
   a {
     color: #00a6ff;
     transition: 0.3s;
@@ -15,8 +22,17 @@ const Container = styled.div`
   a:hover {
     color: #9ae0f5;
   }
-  h1 {
-    font-size: 4rem;
+  h4 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  p {
+    text-align: center;
+    font-size: 1rem;
+  }
+  .bolded {
+    font-size: 1.3rem;
+    font-weight: bold;
   }
   animation: fadein 1s;
   @keyframes fadein {
@@ -42,36 +58,36 @@ class Contact extends Component {
   render() {
     const contactCopy = this.props.data.contentfulSupportPage.copy.content.map(
       line => {
-        if (line.nodeType === 'heading-1')
-          return <h1>{line.content[0].value}</h1>
-        else if (line.nodeType === 'paragraph' && line.content.length > 1)
-          return (
-            <p>
-              {line.content[0].value}
-              <Link to={line.content[1].data.uri}>
-                {line.content[1].content[0].value}
-              </Link>
-            </p>
-          )
+        if (line.nodeType === 'heading-4')
+          return <h4>{line.content[0].value}</h4>
+        else if (
+          line.nodeType === 'paragraph' &&
+          line.content[0].marks.length > 0
+        )
+          return <p className="bolded">{line.content[0].value}</p>
         else if (line.nodeType === 'paragraph')
           return <p>{line.content[0].value}</p>
         return ''
       }
     )
-    return <Container>{contactCopy}</Container>
+    return (
+      <Container>
+        <div className="copy">{contactCopy}</div>
+        <StyledHr />
+        <p className="bolded">
+          No current listings, but always happy to chat! Tell us how you’re
+          ready to make an impact.
+        </p>
+        <Link to="mailto:team@lipslut.com">team@lipslut.com</Link>
+      </Container>
+    )
   }
 }
 export const query = graphql`
   {
-    contentfulSupportPage(pageName: { eq: "Contact" }) {
+    contentfulSupportPage(pageName: { eq: "Careers" }) {
       id
       pageName
-      images {
-        id
-        fluid {
-          src
-        }
-      }
       copy {
         content {
           nodeType
