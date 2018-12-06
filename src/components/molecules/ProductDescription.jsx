@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { FaTimes } from 'react-icons/fa'
 import styled from 'styled-components'
-import Modal from '../Modal'
+import { FaTimes } from 'react-icons/fa'
 
+import Modal from '../../layouts/Modal'
 import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
 
 const Container = styled.div`
@@ -65,6 +65,7 @@ const modalStyle = {
   width: '70%',
   height: 'fit-content',
   margin: '0 auto',
+  maxWidth: '30rem',
 }
 
 class ProductDescription extends Component {
@@ -218,26 +219,24 @@ class ProductDescription extends Component {
                       name="charities"
                       id="charitiesDropDown"
                       onChange={this.handleChangeModal}
+                      style={{
+                        minWidth: '14rem',
+                        marginBottom: '1rem',
+                        width: '97%',
+                      }}
                     >
                       <option value="" />
                       {charities}
                     </select>
                     <div>
-                      <button
-                        style={{
-                          backgroundColor: '#FF0086',
-                          border: 'none',
-                          outline: 0,
-                          marginTop: '2rem',
-                          height: '74px',
-                          color: 'white',
-                          fontWeight: 'bold',
-                          fontSize: '14px',
-                          padding: '1.875rem',
-                        }}
+                      <StyledButton
+                        width="14rem"
+                        margin="0"
+                        fontSize=".65rem"
+                        height="2.5rem"
                       >
-                        Add To Cart
-                      </button>
+                        <b>ADD TO BAG</b>
+                      </StyledButton>
                     </div>
                   </form>
                 </div>

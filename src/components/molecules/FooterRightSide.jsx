@@ -24,7 +24,7 @@ class FooterLeftSide extends Component {
           <NavLink color="white" hovercolor="black" to="/contact">
             Contact Us
           </NavLink>
-          <NavLink color="white" hovercolor="black" to="/faq">
+          <NavLink color="white" hovercolor="black" to="/careers">
             Careers
           </NavLink>
           <NavLink color="white" hovercolor="black" to="/faq">
