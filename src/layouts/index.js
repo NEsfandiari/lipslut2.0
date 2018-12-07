@@ -9,8 +9,9 @@ import { CartProvider } from '../containers/CartContext'
 import FirebaseProvider from '../containers/FirebaseProvider'
 import firebase from '../utilities/firebase'
 import { UserProvider } from '../containers/UserContext'
-
 import './index.css'
+import 'pace-js'
+import 'pace-js/themes/pink/pace-theme-minimal.css'
 
 const Container = styled.div`
   h1,
@@ -179,6 +180,11 @@ class Layout extends Component {
       `}</script>
     )
 
+    // Insert script when in development. Utilize script in Netlify when in production.
+    const loadingScript = process.env.GATSBY_NODE_ENV === 'development' && (
+      <script src="https://unpkg.com/pace-js@1.0.2/pace.min.js" />
+    )
+
     return (
       <FirebaseProvider firebase={firebase}>
         <UserProvider
@@ -193,6 +199,7 @@ class Layout extends Component {
               handleCart: this.handleCart,
             }}
           >
+            {loadingScript}
             {/* placeholder div for Modal's children*/}
             <Container>
               <div id="modalContainer" />
