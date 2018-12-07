@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-
 import styled from 'styled-components'
-import ModalLayout from '../../layouts/ModalLayout'
-import ModalVote from '../atoms/ModalVote'
-import ModalSoldOut from '../atoms/ModalSoldOut'
+
+import ModalVote from './ProductVoteModal'
+import ModalSoldOut from './ProductSoldOutModal'
 
 import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
 
@@ -149,23 +148,15 @@ class ProductDescription extends Component {
           </StyledButton>
           <p className="price">${this.state.price}</p>
         </form>
-        {this.state.hideModal ? (
-          ''
+        {this.state.hideModal ? null : this.props.availableForSale ? (
+          <ModalVote
+            charities={this.props.charities}
+            toggleModal={this.toggleModal}
+            handleChangeModal={this.handleChangeModal}
+            handleSubmit={this.handleSubmit}
+          />
         ) : (
-          //ModalLayout component is rendered with a portal
-          //everything inside ModalLayout is rendered at the top level (index.js)
-          <ModalLayout>
-            {this.props.availableForSale ? (
-              <ModalVote
-                charities={this.props.charities}
-                toggleModal={this.toggleModal}
-                handleChangeModal={this.handleChangeModal}
-                handleSubmit={this.handleSubmit}
-              />
-            ) : (
-              <ModalSoldOut toggleModal={this.toggleModal} />
-            )}
-          </ModalLayout>
+          <ModalSoldOut toggleModal={this.toggleModal} />
         )}
       </Container>
     )

@@ -12,7 +12,7 @@ exports.handler = async function(event, context, callback) {
   let quantity = JSON.parse(event.body).available
   if (quantity === 0) {
     try {
-      let resp = await axios.post(
+      await axios.post(
         'https://api.netlify.com/build_hooks/5c085e4a67610c582ef779f5'
       )
     } catch (err) {

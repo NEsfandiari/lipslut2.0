@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import ModalLayout from '../layouts/ModalLayout'
-import ModalIngredients from './atoms/ModalIngredients'
+import ModalIngredients from './molecules/ProductIngredientsModal'
 import lightBlue from '../layouts/lightBlue'
 
 const Container = styled.div`
@@ -105,14 +104,10 @@ class ProductDetails extends Component {
         </div>
 
         {this.state.hideList || (
-          //ModalLayout component is rendered with a portal
-          //everything inside ModalLayout is rendered at the top level (index.js)
-          <ModalLayout>
-            <ModalIngredients
-              ingredients={this.props.ingredients}
-              toggleList={this.toggleList}
-            />
-          </ModalLayout>
+          <ModalIngredients
+            ingredients={this.props.ingredients}
+            toggleList={this.toggleList}
+          />
         )}
       </Container>
     )
