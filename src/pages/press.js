@@ -19,6 +19,7 @@ const Container = styled.div`
     max-height: 20rem;
     min-height: 15rem;
     min-width: 20rem;
+    opacity: 0.8;
   }
   p {
     margin: 0;
@@ -29,7 +30,7 @@ const Container = styled.div`
     z-index: 2;
     text-align: center;
     height: 0;
-    text-shadow: 0px 0px 10px black;
+    text-shadow: 0px 0px 1px #292929;
   }
   a {
     color: white;
@@ -38,7 +39,7 @@ const Container = styled.div`
   a:hover {
     text-decoration: underline;
     img {
-      opacity: 50%;
+      opacity: 0.6;
     }
   }
   animation: fadein 1s;
