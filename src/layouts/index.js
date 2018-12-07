@@ -9,8 +9,8 @@ import { CartProvider } from '../containers/CartContext'
 import FirebaseProvider from '../containers/FirebaseProvider'
 import firebase from '../utilities/firebase'
 import { UserProvider } from '../containers/UserContext'
-
 import './index.css'
+import 'pace-js/themes/pink/pace-theme-minimal.css'
 
 const Container = styled.div`
   h1,
@@ -204,6 +204,10 @@ class Layout extends Component {
                   { name: 'keywords', content: 'sample, something' },
                 ]}
               >
+                {/* only load pace loading bar in real browser, not for gatsby */}
+                {typeof window !== 'undefined' && (
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.js" />
+                )}
                 {chatraScript}
               </Helmet>
 
