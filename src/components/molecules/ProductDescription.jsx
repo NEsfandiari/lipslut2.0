@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+
 import styled from 'styled-components'
 import ModalLayout from '../../layouts/ModalLayout'
 import ModalVote from '../atoms/ModalVote'
 import ModalSoldOut from '../atoms/ModalSoldOut'
+
 import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
 
 const Container = styled.div`

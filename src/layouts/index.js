@@ -194,8 +194,8 @@ class Layout extends Component {
             }}
           >
             {/* placeholder div for Modal's children*/}
-            <div id="modalContainer" />
             <Container>
+              <div id="modalContainer" />
               <Helmet
                 title="Lipslut"
                 // TODO: Fill this out with accurate site metadata for google
@@ -221,7 +221,7 @@ class Layout extends Component {
               >
                 {childrenWithProps}
               </div>
-              <Footer />
+              <Footer curUser={this.state.curUser} />
             </Container>
             <ChatButton />
           </CartProvider>
