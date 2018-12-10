@@ -26,7 +26,7 @@ class Cart {
       item.sku === sku ? (cartI = i) : (cartI = null)
     })
     cartI !== null
-      ? newCart[cartI].quantity++
+      ? (newCart[cartI].quantity += quantity)
       : newCart.push({ title, price, quantity, image, sku })
     if (charity !== '') {
       if (!newCart[newCart.length - 1].charities) {
