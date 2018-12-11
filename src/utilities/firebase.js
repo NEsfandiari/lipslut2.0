@@ -165,7 +165,7 @@ class Firebase {
           this.addEmail(userInfo.email)
         }
         //send email for verification
-        await user
+        await user = this.auth.currentUser
           .sendEmailVerification()
           .then(function() {
             // Email sent.
