@@ -120,6 +120,9 @@ exports.createPages = async ({ actions, graphql }) => {
                   Line_Item_Name
                   Line_Item_Qty
                   Shipping_State
+                }
+              }
+            }
             allShopifyProduct {
               edges {
                 node {
