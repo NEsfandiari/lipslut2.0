@@ -175,7 +175,8 @@ class Firebase {
           .catch(function(error) {
             // An error happened.
           })
-        if (user.emailVerified) {
+        console.log(user, user.emailVerified())
+        if (user.emailVerified()) {
           console.log('email is verified, storing user info')
           this.storeUser(userInfo)
         } else {
