@@ -58,16 +58,14 @@ class SignupEmailPassword extends Component {
     const { firstName, lastName, email, password, newsletter } = this.state
     this.setState({ status: <Loading /> })
     try {
-      firebase
-        .signupEmailPassword(
-          this,
-          firstName,
-          lastName,
-          email,
-          password,
-          newsletter
-        )
-        .then(firebase.emailValidation())
+      firebase.signupEmailPassword(
+        this,
+        firstName,
+        lastName,
+        email,
+        password,
+        newsletter
+      )
     } catch (err) {
       console.log(err)
       this.setState({ status: 'FAILURE' })
