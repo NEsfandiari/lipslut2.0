@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { FaTimes } from 'react-icons/fa'
-import Modal from '../layouts/Modal'
 import styled from 'styled-components'
+import ModalIngredients from './molecules/ProductIngredientsModal'
 import lightBlue from '../layouts/lightBlue'
 
 const Container = styled.div`
@@ -52,31 +51,6 @@ const Container = styled.div`
     }
   }
 `
-
-//inline style for modal background (used inline style so we did not need to add more styles to top level index.css)
-//styled components do not apply due to use of portal
-const style = {
-  display: 'flex',
-  alignItems: 'center',
-  position: 'fixed',
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  width: '100vw',
-  height: '100vh',
-  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-  zIndex: 100000,
-}
-
-const ingredientsStyle = {
-  border: '2px solid black',
-  padding: '2em',
-  backgroundColor: 'white',
-  width: '70%',
-  height: 'fit-content',
-  margin: '0 auto',
-}
 
 class ProductDetails extends Component {
   state = { hideList: true }
@@ -129,43 +103,11 @@ class ProductDetails extends Component {
           <div className="ProductDetails-rightContent">{rightContent}</div>
         </div>
 
-        {this.state.hideList ? (
-          ''
-        ) : (
-          //Modal component is rendered with a portal
-          //everything inside Modal is rendered at the top level (index.js)
-          <Modal>
-            <div style={style}>
-              <div id="ingredientsBox" style={ingredientsStyle}>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <h3>Ingredients</h3>
-                  </div>
-                  <div>
-                    <button
-                      style={{
-                        backgroundColor: 'none',
-                        border: 'none',
-                        outline: 0,
-                      }}
-                      onClick={this.toggleList}
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                </div>
-                <p style={{ fontSize: '12px', lineHeight: '20px' }}>
-                  {this.props.ingredients}
-                </p>
-              </div>
-            </div>
-          </Modal>
+        {this.state.hideList || (
+          <ModalIngredients
+            ingredients={this.props.ingredients}
+            toggleList={this.toggleList}
+          />
         )}
       </Container>
     )

@@ -18,8 +18,8 @@ class FooterLeftSide extends Component {
     return (
       <Container>
         <div>
-          <NavLink color="white" hovercolor="black" to="/account">
-            My Account
+          <NavLink color="white" hovercolor="black" to="/about">
+            Our Story
           </NavLink>
           <NavLink color="white" hovercolor="black" to="/contact">
             Contact Us
@@ -32,10 +32,12 @@ class FooterLeftSide extends Component {
           </NavLink>
         </div>
         <div>
-          <NavLink color="white" hovercolor="black" to="/about">
-            Our Story
-          </NavLink>
-          <NavLink color="white" hovercolor="black" to="/">
+          {this.props.curUser ? (
+            <NavLink color="white" hovercolor="black" to="/account">
+              My Account
+            </NavLink>
+          ) : null}
+          <NavLink color="white" hovercolor="black" to="/press">
             Press
           </NavLink>
           <NavLink color="white" hovercolor="black" to="/terms-conditions">

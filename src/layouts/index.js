@@ -9,8 +9,8 @@ import { CartProvider } from '../containers/CartContext'
 import FirebaseProvider from '../containers/FirebaseProvider'
 import firebase from '../utilities/firebase'
 import { UserProvider } from '../containers/UserContext'
-
 import './index.css'
+import 'pace-js/themes/pink/pace-theme-minimal.css'
 
 const Container = styled.div`
   h1,
@@ -194,8 +194,8 @@ class Layout extends Component {
             }}
           >
             {/* placeholder div for Modal's children*/}
-            <div id="modalContainer" />
             <Container>
+              <div id="modalContainer" />
               <Helmet
                 title="Lipslut"
                 // TODO: Fill this out with accurate site metadata for google
@@ -204,6 +204,10 @@ class Layout extends Component {
                   { name: 'keywords', content: 'sample, something' },
                 ]}
               >
+                {/* only load pace loading bar in real browser, not for gatsby */}
+                {typeof window !== 'undefined' && (
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.js" />
+                )}
                 {chatraScript}
               </Helmet>
 
@@ -221,7 +225,7 @@ class Layout extends Component {
               >
                 {childrenWithProps}
               </div>
-              <Footer />
+              <Footer curUser={this.state.curUser} />
             </Container>
             <ChatButton />
           </CartProvider>

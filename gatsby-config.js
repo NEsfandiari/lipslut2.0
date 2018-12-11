@@ -10,11 +10,11 @@ module.exports = {
     url: 'http:/',
   },
   plugins: [
-    'gatsby-plugin-react-helmet',
+    `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-stripe-checkout`,
     `gatsby-plugin-stripe-elements`,
-    'gatsby-plugin-layout',
+    `gatsby-plugin-layout`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -27,7 +27,7 @@ module.exports = {
         icon: `src/images/favicon.ico`, // This path is relative to the root of the site.
       },
     },
-    'gatsby-plugin-offline',
+    `gatsby-plugin-offline`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
@@ -46,7 +46,7 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-source-shopify',
+      resolve: `gatsby-source-shopify`,
       options: {
         shopName: 'lipslut2-0',
         accessToken: '68c81bce2d7868af2bf51cb7fd99066a',
@@ -63,5 +63,6 @@ module.exports = {
       },
     },
     `gatsby-transformer-csv`,
+    `gatsby-plugin-netlify-cache`,
   ],
 }

@@ -38,7 +38,7 @@ class Footer extends Component {
         <div className="middle">
           <div className="divider" />
         </div>
-        <FooterRightSide />
+        <FooterRightSide curUser={this.props.curUser} />
       </Container>
     )
   }

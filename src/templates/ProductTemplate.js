@@ -32,6 +32,7 @@ class ProductTemplate extends Component {
   render() {
     const data = this.props.pageContext.node
     const charities = data.charities
+    const availableForSale = this.props.pageContext.availableForSale
     const images = data.images.map(img => img.file.url)
 
     //This is used to map the data.title product name to the supplier's product name.
@@ -80,6 +81,7 @@ class ProductTemplate extends Component {
             price={data.price}
             sku={data.sku}
             charities={charities}
+            availableForSale={availableForSale}
           />
         </Container>
         {productDetails}
