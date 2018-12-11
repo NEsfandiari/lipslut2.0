@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Styled from 'styled-components'
+import ReactTooltip from 'react-tooltip'
 
 const Container = Styled.div`
     display: flex;
@@ -57,6 +58,12 @@ circle:hover {
 `
 
 class DVStates extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      totalOrders: 0,
+    }
+  }
   static defaultProps = {
     // d's connect dots to create visualization by state
     statePaths: {
@@ -263,13 +270,19 @@ class DVStates extends Component {
     },
   }
 
+  componentDidMount() {
+    let totalOrders = 0
+    for (let i in this.props.ordersData) {
+      totalOrders += this.props.ordersData[i]
+    }
+    this.setState({
+      totalOrders: totalOrders,
+    })
+  }
+
   // makes max opacity by state with highest sales and then creates individual state opacity based off that max
   stateOrderBreakdown(ordersData) {
-    let totalOrders = 0
-    for (let i in ordersData) {
-      totalOrders += ordersData[i]
-    }
-
+    let totalOrders = this.state.totalOrders
     let stateOrderPercentage = {}
 
     // getting max value from all ordersData' values
@@ -281,9 +294,23 @@ class DVStates extends Component {
     return stateOrderPercentage
   }
 
-  render() {
-    const statesOpacity = this.stateOrderBreakdown(this.props.ordersData)
+  //calculates state purchases as percentage of total purcahses
+  orderPercentageByState(ordersData) {
+    let totalOrders = this.state.totalOrders
+    let stateOrderPercentageOfTotal = {}
+    for (let i in ordersData) {
+      stateOrderPercentageOfTotal[i] =
+        (Math.round((ordersData[i] / totalOrders) * 10000) / 100).toString() +
+        '%'
+    }
+    return stateOrderPercentageOfTotal
+  }
 
+  render() {
+    const percentOfTotalOrdersByState = this.orderPercentageByState(
+      this.props.ordersData
+    )
+    const statesOpacity = this.stateOrderBreakdown(this.props.ordersData)
     const visStates = Object.keys(this.props.statePaths).map(st => {
       return (
         <path
@@ -292,6 +319,8 @@ class DVStates extends Component {
           d={this.props.statePaths[st].d}
           stroke="black"
           strokeWidth="0.02em"
+          onMouseEnter={() => console.log(st, percentOfTotalOrdersByState[st])}
+          data-tip={`${st}: ${percentOfTotalOrdersByState[st]} of total sales`}
         />
       )
     })
@@ -303,6 +332,7 @@ class DVStates extends Component {
             <g>{visStates}</g>
           </svg>
         </figure>
+        <ReactTooltip />
       </Container>
     )
   }
