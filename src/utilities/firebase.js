@@ -142,7 +142,7 @@ class Firebase {
         componentThis.props.handleError(errorMessage)
       })
   }
-  signupEmailPassword = async (
+  signupEmailPassword = (
     componentThis,
     firstName,
     lastName,
@@ -150,9 +150,9 @@ class Firebase {
     password,
     newsletter
   ) => {
-    await this.auth()
+    this.auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(user => {
+      .then(async user => {
         let userInfo = {
           uid: user.user.uid,
           email,
@@ -164,24 +164,39 @@ class Firebase {
         if (newsletter) {
           this.addEmail(userInfo.email)
         }
-        this.storeUser(userInfo)
+        //send email for verification
+        await user
+          .sendEmailVerification()
+          .then(function() {
+            // Email sent.
+            console.log('Email sent')
+          })
+          .catch(function(error) {
+            // An error happened.
+          })
+        if (user.emailVerified) {
+          console.log('email is verified, storing user info')
+          this.storeUser(userInfo)
+        } else {
+          console.log('email is not verified yet')
+        }
       })
       .catch(function(error) {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
       })
 
-    //send email for verification
-    let user = this.auth().currentUser
-    user
-      .sendEmailVerification()
-      .then(function() {
-        // Email sent.
-        console.log('Email sent')
-      })
-      .catch(function(error) {
-        // An error happened.
-      })
+    // //send email for verification
+    // let user = this.auth().currentUser
+    // user
+    //   .sendEmailVerification()
+    //   .then(function() {
+    //     // Email sent.
+    //     console.log('Email sent')
+    //   })
+    //   .catch(function(error) {
+    //     // An error happened.
+    //   })
   }
 
   storeUser = user => {
