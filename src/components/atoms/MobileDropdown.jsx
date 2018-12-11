@@ -31,10 +31,6 @@ const Container = styled.div`
     flex-direction: column;
     padding: 0.5rem;
     padding-left: 1rem;
-    a {
-      overflow: visible;
-      height: 2rem;
-    }
   }
 `
 
