@@ -142,7 +142,7 @@ class Firebase {
         componentThis.props.handleError(errorMessage)
       })
   }
-  signupEmailPassword = (
+  signupEmailPassword = async (
     componentThis,
     firstName,
     lastName,
@@ -150,7 +150,7 @@ class Firebase {
     password,
     newsletter
   ) => {
-    this.auth()
+    await this.auth()
       .createUserWithEmailAndPassword(email, password)
       .then(user => {
         let userInfo = {
@@ -169,6 +169,18 @@ class Firebase {
       .catch(function(error) {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
+      })
+
+    //send email for verification
+    let user = this.auth().currentUser
+    user
+      .sendEmailVerification()
+      .then(function() {
+        // Email sent.
+        console.log('Email sent')
+      })
+      .catch(function(error) {
+        // An error happened.
       })
   }
 
