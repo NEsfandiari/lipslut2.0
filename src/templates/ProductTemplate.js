@@ -32,7 +32,10 @@ class ProductTemplate extends Component {
       productDetails = (
         <React.Fragment>
           <ProductDetails claims={claims} ingredients={ingredients} />
-          <DataVis ordersData={this.props.pageContext.mapData} />
+          <DataVis
+            ordersData={this.props.pageContext.mapData}
+            title={data.title}
+          />
         </React.Fragment>
       )
     }
