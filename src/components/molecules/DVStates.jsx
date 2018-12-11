@@ -31,8 +31,8 @@ const figure = Styled.div`
 path:hover,
 circle:hover {
   stroke: #002868 !important;
-  stroke-width: 2px;
-  stroke-linejoin: round;
+  strokeWidth: 2px;
+  strokeLinejoin: round;
   fill: #002868 !important;
   cursor: pointer;
 }
@@ -47,20 +47,16 @@ circle:hover {
   top: 0px;
   left: 0px;
   z-index: 1;
-  background-color: #ffffff;
+  backgroundColor: #ffffff;
   border: 2px solid #bf0a30;
-  border-radius: 5px;
+  borderRadius: 5px;
   padding: 5px;
-  font-family: arial;
+  fontFamily: arial;
 }
 
 `
 
 class DVStates extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   static defaultProps = {
     // d's connect dots to create visualization by state
     statePaths: {
@@ -286,7 +282,6 @@ class DVStates extends Component {
   }
 
   render() {
-    console.log('hey over here: ', this.props)
     const statesOpacity = this.stateOrderBreakdown(this.props.ordersData)
 
     const visStates = Object.keys(this.props.statePaths).map(st => {
@@ -296,7 +291,7 @@ class DVStates extends Component {
           fill={`rgba(255,0,134,${statesOpacity[st] ? statesOpacity[st] : 0}`}
           d={this.props.statePaths[st].d}
           stroke="black"
-          stroke-width="0.02em"
+          strokeWidth="0.02em"
         />
       )
     })
