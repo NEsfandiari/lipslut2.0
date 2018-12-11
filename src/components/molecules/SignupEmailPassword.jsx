@@ -66,6 +66,7 @@ class SignupEmailPassword extends Component {
         password,
         newsletter
       )
+      // add email verification here
     } catch (err) {
       console.log(err)
       this.setState({ status: 'FAILURE' })

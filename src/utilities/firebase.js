@@ -172,6 +172,19 @@ class Firebase {
       })
   }
 
+  emailValidation() {
+    let user = firebase.auth().currentUser
+
+    user
+      .sendEmailVerification()
+      .then(function() {
+        // Email sent.
+      })
+      .catch(function(error) {
+        // An error happened.
+      })
+  }
+
   storeUser = user => {
     postLambda('newAccount', user).then(res => {
       this.store()
