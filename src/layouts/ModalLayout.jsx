@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 //top level component uses portal to insert children into top level of DOM
 //modalContainer is located in layout index.js, whenever modal is rendered
 //it's children get placed in modalContainer
-class Modal extends Component {
+class ModalLayout extends Component {
   constructor(props) {
     super(props)
     this.modalNode = document.createElement('div')
@@ -25,4 +25,4 @@ class Modal extends Component {
   }
 }
 
-export default Modal
+export default ModalLayout

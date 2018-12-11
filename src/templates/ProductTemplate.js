@@ -22,6 +22,7 @@ class ProductTemplate extends Component {
   render() {
     const data = this.props.pageContext.node
     const charities = data.charities
+    const availableForSale = this.props.pageContext.availableForSale
     const images = data.images.map(img => img.file.url)
 
     let productDetails
@@ -45,6 +46,7 @@ class ProductTemplate extends Component {
             price={data.price}
             sku={data.sku}
             charities={charities}
+            availableForSale={availableForSale}
           />
         </Container>
         {productDetails}
