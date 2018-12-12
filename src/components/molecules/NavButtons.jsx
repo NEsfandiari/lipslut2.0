@@ -24,6 +24,9 @@ const Container = styled.div`
     align-items: center;
     flex-basis: 45%;
     padding-left: 1rem;
+    a {
+      margin-right: 0.5rem;
+    }
   }
   .logo {
     display: flex;
@@ -35,6 +38,9 @@ const Container = styled.div`
     justify-content: flex-end;
     align-items: center;
     flex-basis: 45%;
+    a {
+      margin-right: 0.5rem;
+    }
   }
   @media (max-width: 420px) {
     width: 100%;

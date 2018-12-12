@@ -25,6 +25,9 @@ const Container = Styled.div`
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     flex-basis: 60%;
+    p{
+      width: 80%;
+    }
   }
   @media (max-width: 420px) {
     padding:0;
