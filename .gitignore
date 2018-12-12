@@ -7,3 +7,4 @@ firebase-key.json
 # Build directory
 /public
 .DS_Store
+lambda/
