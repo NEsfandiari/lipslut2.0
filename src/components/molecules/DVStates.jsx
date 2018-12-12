@@ -33,7 +33,8 @@ circle:hover {
   stroke: #002868 !important;
   strokeWidth: 2px;
   strokeLinejoin: round;
-  fill: #002868 !important;
+  // fill: rgba(255,0,134,1) !important;
+  fill: rgba(255,0,93,0.6)!important;
   cursor: pointer;
 }
 #path67 {
@@ -53,7 +54,6 @@ circle:hover {
   padding: 5px;
   fontFamily: arial;
 }
-
 `
 
 class DVStates extends Component {
