@@ -385,7 +385,13 @@ class DVStates extends Component {
 
     return (
       <Container className="DVStates-Container">
-        <h2 style={{ textAlign: 'center' }}>
+        <h2
+          style={{
+            textAlign: 'center',
+            paddingTop: '1.6em',
+            paddingBottom: '0.3em',
+          }}
+        >
           {/* customize map title for Leftylibglobalistsantifacommiesocialisthollyweirdopigs; dynamic title for other products; may need to change title */}
           {this.props.title.length > 20
             ? `Where can we find ${this.props.title}?`
@@ -396,7 +402,13 @@ class DVStates extends Component {
           <svg id="us-map" viewBox="174 100 935 593">
             <g>{visStates}</g>
           </svg>
-          <p style={{ fontSize: '0.3em', textAlign: 'right' }}>
+          <p
+            style={{
+              fontSize: '0.3em',
+              textAlign: 'right',
+              paddingBottom: '2em',
+            }}
+          >
             *Sales per million pairs of lips
           </p>
         </Figure>
