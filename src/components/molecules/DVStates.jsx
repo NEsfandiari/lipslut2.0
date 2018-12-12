@@ -17,9 +17,10 @@ const Container = Styled.div`
   }
   @media (max-width: 420px) {
     padding: 1rem;
-    width: 40%;
+    width: 100%;
+    max-width: 23rem;
     h2{
-      font-size: 1.5rem !important;
+      font-size: 1.2rem !important;
     }
   }
 `
