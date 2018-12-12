@@ -106,6 +106,9 @@ exports.createPages = async ({ actions, graphql }) => {
     delete ordersData['']
     return ordersData
   }
+  // ===================================
+  // Create Product Pages Dynamically
+  // ===================================
   const { createPage } = actions
   return new Promise((resolve, reject) => {
     const ProductPageTemplate = path.resolve(`src/templates/ProductTemplate.js`)

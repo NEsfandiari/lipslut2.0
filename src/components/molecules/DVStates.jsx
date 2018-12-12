@@ -2,58 +2,59 @@ import React, { Component } from 'react'
 import Styled from 'styled-components'
 import ReactTooltip from 'react-tooltip'
 
-const Container = Styled.div``
-
-//     display: flex;
-//     flexDirection: column;
-//     alignItems: center;
-//     padding: .5rem;
-//     .button:hover{
-//         b{
-//           color:white;
-//         }
-//       }
-//     h2 {
-//       fontSize: 2rem;
-//     }
-//     b{
-//       color: #FF0086;
-//     }
-// `
+const Container = Styled.div`
+  width: 150%;
+  max-width: 60rem;
+  padding: 3rem;
+  h2{
+    text-align: center;
+    margin: 1.5rem;
+    margin:0;
+    max-width: 60rem;
+    white-space: nowrap;
+    overflow: visible;
+    height: 4rem;
+  }
+  @media (max-width: 420px) {
+    padding: 1rem;
+    width: 40%;
+    h2{
+      font-size: 1.5rem !important;
+    }
+  }
+`
 
 const Figure = Styled.div`
-#us-map {
-  display: block;
-  width: 100%;
-  borderStyle: solid;
-  borderWidth: 5;
-}
-path:hover,
-circle:hover {
-  stroke: #002868 !important;
-  strokeWidth: 2px;
-  strokeLinejoin: round;
-  // fill: rgba(255,0,134,1) !important;
-  fill: rgba(255,0,93,0.6)!important;
-  cursor: pointer;
-}
-#path67 {
-  fill: none !important;
-  stroke: #a9a9a9 !important;
-  cursor: default;
-}
-#info-box {
-  display: none;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 1;
-  backgroundColor: #ffffff;
-  border: 2px solid #bf0a30;
-  borderRadius: 5px;
-  padding: 5px;
-  fontFamily: arial;
-}
+  #us-map {
+    display: block;
+    width: 100%;
+  }
+  path:hover,
+  circle:hover {
+    stroke: #002868 !important;
+    stroke-Width: 1px;
+    stroke-Linejoin: round;
+    fill: rgba(255,0,134,1) !important;
+    fill: rgba(255,0,93,0.6)!important;
+    cursor: pointer;
+  }
+  #path67 {
+    fill: none !important;
+    stroke: #a9a9a9 !important;
+    cursor: default;
+  }
+  #info-box {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    background-Color: #ffffff;
+    border: 2px solid #bf0a30;
+    border-Radius: 5px;
+    padding: 5px;
+    font-Family: arial;
+  }
 `
 
 class DVStates extends Component {
@@ -385,17 +386,11 @@ class DVStates extends Component {
 
     return (
       <Container className="DVStates-Container">
-        <h2
-          style={{
-            textAlign: 'center',
-            paddingTop: '1.6em',
-            paddingBottom: '0.3em',
-          }}
-        >
+        <h2>
           {/* customize map title for Leftylibglobalistsantifacommiesocialisthollyweirdopigs; dynamic title for other products; may need to change title */}
           {this.props.title.length > 20
             ? `Where can we find ${this.props.title}?`
-            : `How many people per state say ${this.props.title}?`}
+            : `Which states say ${this.props.title}?`}
         </h2>
         <Figure>
           {/* 174 100 959 593 */}

@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { StyledButton, StyledInput } from '.'
-
-// TODO: Switch Form to Formspree
+import { StyledButton, StyledInput } from './'
 
 const Container = styled.form`
   display: flex;
@@ -23,6 +20,7 @@ class FooterEmailForm extends Component {
     color: '#FF009A',
   }
   handleSubmit = e => {
+    e.preventDefault()
     this.setState({ email: '' })
   }
   handleChange = e => {
