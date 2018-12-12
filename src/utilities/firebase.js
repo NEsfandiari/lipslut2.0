@@ -12,28 +12,11 @@ const config = {
   messagingSenderId: '973290593236',
 }
 
-// TODO move functions into seprate modules Like this
-export const addEmail = email => {
-  this.store()
-    .collection('emails')
-    .add({
-      email: email,
-    })
-}
-
 class Firebase {
   constructor() {
     firebase.initializeApp(config)
     this.store = firebase.firestore
     this.auth = firebase.auth
-  }
-
-  addEmail = email => {
-    this.store()
-      .collection('emails')
-      .add({
-        email: email,
-      })
   }
 
   signIn = uid => {
