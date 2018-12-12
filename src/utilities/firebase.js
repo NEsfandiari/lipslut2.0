@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 import { navigate } from 'gatsby'
 import postLambda from './postLambda'
-import * as admin from 'firebase-admin'
+// import * as admin from 'firebase-admin'
 
 const config = {
   apiKey: 'AIzaSyCbFZ7xiMAbvt9LtlknAa4eeK-WMqV9f1s',
@@ -178,16 +178,28 @@ class Firebase {
       })
       .catch(error => {
         console.log('The request errored out and the error is: ', error)
-        //delete user from fire store
-        admin
-          .auth()
-          .deleteUser(user.uid)
+        let curUser = this.auth().currentUser
+
+        curUser
+          .delete()
           .then(function() {
-            console.log('Successfully deleted user')
+            // User deleted.
+            console.log('USER DELETED')
           })
           .catch(function(error) {
-            console.log('Error deleting user:', error)
+            // An error happened.
+            console.log('ERROR HAPPENED WITH USER DELETION')
           })
+        //delete user from fire store
+        // admin
+        //   .auth()
+        //   .deleteUser(user.uid)
+        //   .then(function() {
+        //     console.log('Successfully deleted user')
+        //   })
+        //   .catch(function(error) {
+        //     console.log('Error deleting user:', error)
+        //   })
       })
   }
 
