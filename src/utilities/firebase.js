@@ -162,8 +162,7 @@ class Firebase {
       .then(res => {
         response = res
         console.log('The result from correct email is: ', res)
-        let errorMessage = res.data.customerCreate.userErrors
-        if (errorMessage.length > 0) {
+        if (res.data.customer.customer === null) {
           let curUser = this.auth().currentUser
 
           curUser
