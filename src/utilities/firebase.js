@@ -156,42 +156,58 @@ class Firebase {
       })
   }
 
-  // storeUser = user => {
-  //   postLambda('newAccount', user)
-  //     .then(res => {
-  //       console.log('The result from correct email is: ', res)
-  //       this.store()
-  //         .collection('users')
-  //         .doc(user.uid)
-  //         .set({
-  //           uid: user.uid,
-  //           firstName: user.firstName,
-  //           lastName: user.lastName,
-  //           email: user.email,
-  //           newsletter: user.newsletter,
-  //           phone: '',
-  //           orderHistory: [],
-  //         })
-  //         .then(() => {
-  //           window.location.replace('/')
-  //         })
-  //     })
-  //     .catch(error => {
-  //       console.log('The request errored out and the error is: ', error)
-  //       let curUser = this.auth().currentUser
+  storeUser = user => {
+    postLambda('newAccount', user)
+      .then(res => {
+        console.log('The result from correct email is: ', res)
+        let errorMessage = res.data.customerCreate.userErrors
+        if (errorMessage.length > 0) {
+          let curUser = this.auth().currentUser
 
-  //       curUser
-  //         .delete()
-  //         .then(function() {
-  //           // User deleted.
-  //           console.log('USER DELETED')
-  //         })
-  //         .catch(function(error) {
-  //           // An error happened.
-  //           console.log('ERROR HAPPENED WITH USER DELETION')
-  //         })
-  //     })
-  // }
+          curUser
+            .delete()
+            .then(function() {
+              // User deleted.
+              console.log('USER DELETED')
+            })
+            .catch(function(error) {
+              // An error happened.
+              console.log('ERROR HAPPENED WITH USER DELETION')
+            })
+        } else {
+          this.store()
+            .collection('users')
+            .doc(user.uid)
+            .set({
+              uid: user.uid,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              newsletter: user.newsletter,
+              phone: '',
+              orderHistory: [],
+            })
+            .then(() => {
+              window.location.replace('/')
+            })
+        }
+      })
+      .catch(error => {
+        console.log('The request errored out and the error is: ', error)
+        let curUser = this.auth().currentUser
+
+        curUser
+          .delete()
+          .then(function() {
+            // User deleted.
+            console.log('USER DELETED')
+          })
+          .catch(function(error) {
+            // An error happened.
+            console.log('ERROR HAPPENED WITH USER DELETION')
+          })
+      })
+  }
 
   updateAccount = (user, firstName, lastName, email, phone) => {
     this.store()
