@@ -72,6 +72,7 @@ class Contact extends Component {
               src={images[i].fluid.src}
               target="_blank"
               rel="noopener noreferrer"
+              alt="Article Link"
             />
           </div>
         </a>
