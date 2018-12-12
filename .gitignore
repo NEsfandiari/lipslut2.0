@@ -6,6 +6,7 @@ yarn-error.log
 firebase-key.json
 
 lambda
+test
 
 # Build directory
 /public
