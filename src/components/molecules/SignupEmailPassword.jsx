@@ -56,7 +56,6 @@ class SignupEmailPassword extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { firebase } = this.context
-    console.log('context', this.context)
     const { firstName, lastName, email, password, newsletter } = this.state
     this.setState({ status: <Loading /> })
     try {
