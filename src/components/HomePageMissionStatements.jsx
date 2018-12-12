@@ -27,7 +27,7 @@ const Container = Styled.div`
         }
         p{
             font-size: .9rem;
-            width:80%;
+            width: 70%;
         }
     }
     @media (max-width: 420px) {

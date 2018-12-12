@@ -8,6 +8,7 @@ const Container = styled.form`
   flex-direction: column;
   align-items: center;
   margin: 0;
+  font-size: 0.9rem;
 `
 
 class LoginEmailPassword extends Component {
@@ -47,6 +48,7 @@ class LoginEmailPassword extends Component {
           onChange={this.handleChange}
           value={this.state.password}
           width="20rem"
+          type="password"
         />
         <StyledButton width="20rem" height="2.2rem" margin="2rem">
           LOG IN

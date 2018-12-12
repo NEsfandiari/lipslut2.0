@@ -22,13 +22,7 @@ class FooterEmailForm extends Component {
     email: '',
     color: '#FF009A',
   }
-  static contextTypes = {
-    firebase: PropTypes.object,
-  }
   handleSubmit = e => {
-    e.preventDefault()
-    const { firebase } = this.context
-    firebase.addEmail(this.state.email)
     this.setState({ email: '' })
   }
   handleChange = e => {
@@ -48,7 +42,7 @@ class FooterEmailForm extends Component {
   }
   render() {
     return (
-      <Container onSubmit={this.handleSubmit}>
+      <Container onSubmit={this.handleSubmit} data-netlify="true" name="email">
         <StyledInput
           id="emailForm"
           aria-label="Email Form"
