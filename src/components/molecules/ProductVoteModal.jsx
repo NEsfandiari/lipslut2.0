@@ -77,7 +77,7 @@ class ModalVote extends Component {
                   id="charitiesDropDown"
                   onChange={this.props.handleChangeModal}
                   style={{
-                    minWidth: '14rem',
+                    minWidth: '13rem',
                     marginBottom: '1rem',
                     width: '97%',
                   }}
@@ -87,7 +87,7 @@ class ModalVote extends Component {
                 </select>
                 <div>
                   <StyledButton
-                    width="14rem"
+                    width="13rem"
                     margin="0"
                     fontSize=".65rem"
                     height="2.5rem"
