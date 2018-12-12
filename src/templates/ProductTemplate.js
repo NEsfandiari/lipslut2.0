@@ -32,10 +32,6 @@ class ProductTemplate extends Component {
       productDetails = (
         <React.Fragment>
           <ProductDetails claims={claims} ingredients={ingredients} />
-          <DataVis
-            ordersData={this.props.pageContext.mapData}
-            title={data.title}
-          />
         </React.Fragment>
       )
     }
@@ -53,6 +49,12 @@ class ProductTemplate extends Component {
           />
         </Container>
         {productDetails}
+        {charities && (
+          <DataVis
+            ordersData={this.props.pageContext.mapData}
+            title={data.title}
+          />
+        )}
       </React.Fragment>
     )
   }

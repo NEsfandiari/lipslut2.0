@@ -65,12 +65,6 @@ class DVStates extends Component {
     }
   }
   static defaultProps = {
-    multiplier: {
-      'F*ck Hollywood.': 100000,
-      'F*ck Trump.': 10000,
-      'F*ck Kavanaugh': 10000,
-      'Leftylibglobalistsantifacommiesocialisthollyweirdopigs.': 100000,
-    },
     // d's connect dots to create visualization by state
     statePaths: {
       HI: {
@@ -336,30 +330,15 @@ class DVStates extends Component {
     })
   }
 
-  // makes max opacity by state with highest sales and then creates individual state opacity based off that max
+  // scales orderData from 0 to 1 to use for opacity property
   stateOrderBreakdown(ordersData, max) {
     let totalOrders = this.state.totalOrders
     let stateOrderPercentage = {}
-
-    // getting max value from all ordersData' values
-    // const max = Math.max(...Object.values(ordersData))
 
     for (let i in ordersData) {
       stateOrderPercentage[i] = ordersData[i] / max
     }
     return stateOrderPercentage
-  }
-
-  //calculates state purchases as percentage of total purcahses
-  orderPercentageByState(ordersData) {
-    let totalOrders = this.state.totalOrders
-    let stateOrderPercentageOfTotal = {}
-    for (let i in ordersData) {
-      stateOrderPercentageOfTotal[i] =
-        (Math.round((ordersData[i] / totalOrders) * 10000) / 100).toString() +
-        '%'
-    }
-    return stateOrderPercentageOfTotal
   }
 
   //calculates state purchases as percentage of state population
@@ -374,50 +353,52 @@ class DVStates extends Component {
     return stateOrderPercentageOfPop
   }
 
+  perCapitaByState(percentageByState) {
+    let perCapitaByState = {}
+    for (let state in percentageByState) {
+      perCapitaByState[state] = (percentageByState[state] * 1000000).toFixed(2)
+    }
+    return perCapitaByState
+  }
+
   render() {
     const percentageByState = this.orderPercentageByStatePop(
       this.props.ordersData
     )
+    // with max being the state with highest sales per capita
     const max = Math.max(...Object.values(percentageByState))
-    console.log('max', max)
-    console.log(
-      'orderPercentageByStatePop: ',
-      this.orderPercentageByStatePop(this.props.ordersData)
-    )
-    // const percentOfTotalOrdersByState = this.orderPercentageByState(
-    //   this.props.ordersData
-    // )
-    const percentageByStateRatio = this.stateOrderBreakdown(
-      percentageByState,
-      max
-    )
-    console.log('last hope: ', percentageByStateRatio)
-    const statesOpacity = this.stateOrderBreakdown(this.props.ordersData)
+    const statesOpacity = this.stateOrderBreakdown(percentageByState, max)
+    const perCapitaByState = this.perCapitaByState(percentageByState)
     const visStates = Object.keys(this.props.statePaths).map(st => {
       return (
         <path
           id={st}
-          // fill={`rgba(255,0,134,${statesOpacity[st] ? statesOpacity[st] : 0}`}
           fill={`rgba(255,0,134,${
-            percentageByStateRatio[st] === undefined
-              ? 0
-              : percentageByStateRatio[st]
+            statesOpacity[st] === undefined ? 0 : statesOpacity[st]
           }`}
           d={this.props.statePaths[st].d}
           stroke="black"
           strokeWidth="0.02em"
-          // onMouseEnter={() => console.log(st, percentOfTotalOrdersByState[st])}
-          // data-tip={`${st}: ${percentOfTotalOrdersByState[st]} of total sales`}
+          data-tip={`${st}: ${perCapitaByState[st]} sales per capita`}
         />
       )
     })
 
     return (
       <Container className="DVStates-Container">
+        <h2 style={{ textAlign: 'center' }}>
+          {/* customize map title for Leftylibglobalistsantifacommiesocialisthollyweirdopigs */}
+          {this.props.title.length > 20
+            ? `Where can we find ${this.props.title}?`
+            : `How many people per state say ${this.props.title}?`}
+        </h2>
         <figure>
           <svg id="us-map" width="35em" viewBox="174 100 959 593">
             <g>{visStates}</g>
           </svg>
+          <p style={{ fontSize: '0.5em', textAlign: 'right' }}>
+            *Sales per million pairs of lips
+          </p>
         </figure>
         <ReactTooltip />
       </Container>
