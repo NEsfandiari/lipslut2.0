@@ -152,7 +152,7 @@ class Firebase {
   ) => {
     this.auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(async user => {
+      .then(user => {
         let userInfo = {
           uid: user.user.uid,
           email,
@@ -164,41 +164,12 @@ class Firebase {
         if (newsletter) {
           this.addEmail(userInfo.email)
         }
-        //send email for verification
-        user = await this.auth().currentUser
-        user
-          .sendEmailVerification()
-          .then(function() {
-            // Email sent.
-            console.log('Email sent')
-          })
-          .catch(function(error) {
-            // An error happened.
-          })
-        console.log(user, user.emailVerified())
-        if (user.emailVerified()) {
-          console.log('email is verified, storing user info')
-          this.storeUser(userInfo)
-        } else {
-          console.log('email is not verified yet')
-        }
+        this.storeUser(userInfo)
       })
       .catch(function(error) {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
       })
-
-    // //send email for verification
-    // let user = this.auth().currentUser
-    // user
-    //   .sendEmailVerification()
-    //   .then(function() {
-    //     // Email sent.
-    //     console.log('Email sent')
-    //   })
-    //   .catch(function(error) {
-    //     // An error happened.
-    //   })
   }
 
   storeUser = user => {
@@ -218,6 +189,8 @@ class Firebase {
         .then(() => {
           window.location.replace('/')
         })
+    }).catch(function(error) =>{
+      console.log('the error is: ', error)
     })
   }
 
