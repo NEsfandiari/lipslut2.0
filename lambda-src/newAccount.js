@@ -57,6 +57,7 @@ exports.handler = async function(event, context, callback) {
         headers: shopifyConfig,
         data: JSON.stringify(payload),
       })
+      console.log('customer is here: ', customer)
       if (customer.data.errors) customer = customer.data.errors
       else customer = customer.data.data.customerCreate
       let response = {
