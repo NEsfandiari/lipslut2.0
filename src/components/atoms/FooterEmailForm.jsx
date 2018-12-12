@@ -42,9 +42,8 @@ class FooterEmailForm extends Component {
   }
   render() {
     return (
-      <Container onSubmit={this.handleSubmit}>
+      <Container onSubmit={this.handleSubmit} data-netlify="true" name="email">
         <StyledInput
-          data-netlify="true"
           id="emailForm"
           aria-label="Email Form"
           width="13rem"
