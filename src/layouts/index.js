@@ -34,12 +34,13 @@ const Container = styled.div`
 
   p {
     font-size: 0.9rem;
+    line-height: 1.3rem;
   }
   a {
     text-decoration: none;
   }
   img {
-    border-radius: 3px;
+    border-radius: 1.5px;
   }
 
   display: flex;

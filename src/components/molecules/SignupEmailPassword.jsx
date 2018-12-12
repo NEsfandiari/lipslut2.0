@@ -9,6 +9,8 @@ const Container = styled.form`
   justify-content: space-around;
   align-items: center;
   height: 14rem;
+  font-size: 0.9rem;
+
   .name {
     display: flex;
     justify-content: space-between;
@@ -110,6 +112,7 @@ class SignupEmailPassword extends Component {
           onChange={this.handleChange}
           value={this.state.password}
           width="20rem"
+          type="password"
         />
         <StyledButton width="20rem" height="2.2rem" margin="0">
           {this.state.status}

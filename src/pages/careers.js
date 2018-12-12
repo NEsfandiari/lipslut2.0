@@ -74,7 +74,7 @@ class Contact extends Component {
       <Container>
         <div className="copy">{contactCopy}</div>
         <StyledHr />
-        <p className="bolded">
+        <p>
           No current listings, but always happy to chat! Tell us how you’re
           ready to make an impact.
         </p>
