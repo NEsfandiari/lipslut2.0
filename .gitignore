@@ -10,3 +10,4 @@ lambda
 # Build directory
 /public
 .DS_Store
+lambda/

@@ -711,6 +711,10 @@
        * @author   Feross Aboukhadijeh <https://feross.org>
        * @license  MIT
        */
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
       e.exports = function(e) {
         return (
           null != e &&
@@ -1147,8 +1151,13 @@
             e.maxContentLength &&
               e.maxContentLength > -1 &&
               (_.maxBodyLength = e.maxContentLength)
+<<<<<<< HEAD
           var q = O.request(_, function(n) {
             if (!q.aborted) {
+=======
+          var k = O.request(_, function(n) {
+            if (!k.aborted) {
+>>>>>>> master
               clearTimeout(m), (m = null)
               var s = n
               switch (n.headers['content-encoding']) {
@@ -1158,7 +1167,11 @@
                   ;(s = s.pipe(p.createUnzip())),
                     delete n.headers['content-encoding']
               }
+<<<<<<< HEAD
               var i = n.req || q,
+=======
+              var i = n.req || k,
+>>>>>>> master
                 a = {
                   status: n.statusCode,
                   statusText: n.statusMessage,
@@ -1185,7 +1198,11 @@
                       )
                 }),
                   s.on('error', function(t) {
+<<<<<<< HEAD
                     q.aborted || r(h(t, e, null, i))
+=======
+                    k.aborted || r(h(t, e, null, i))
+>>>>>>> master
                   }),
                   s.on('end', function() {
                     var n = Buffer.concat(u)
@@ -1197,27 +1214,46 @@
               }
             }
           })
+<<<<<<< HEAD
           q.on('error', function(t) {
             q.aborted || r(h(t, e, null, q))
+=======
+          k.on('error', function(t) {
+            k.aborted || r(h(t, e, null, k))
+>>>>>>> master
           }),
             e.timeout &&
               !m &&
               (m = setTimeout(function() {
+<<<<<<< HEAD
                 q.abort(),
+=======
+                k.abort(),
+>>>>>>> master
                   r(
                     d(
                       'timeout of ' + e.timeout + 'ms exceeded',
                       e,
                       'ECONNABORTED',
+<<<<<<< HEAD
                       q
+=======
+                      k
+>>>>>>> master
                     )
                   )
               }, e.timeout)),
             e.cancelToken &&
               e.cancelToken.promise.then(function(e) {
+<<<<<<< HEAD
                 q.aborted || (q.abort(), r(e))
               }),
             n.isStream(g) ? g.pipe(q) : q.end(g)
+=======
+                k.aborted || (k.abort(), r(e))
+              }),
+            n.isStream(g) ? g.pipe(k) : k.end(g)
+>>>>>>> master
         })
       }
     },
@@ -1694,7 +1730,11 @@
     },
     function(e) {
       e.exports = {
+<<<<<<< HEAD
         _args: [['axios@0.18.0', '/Users/trauma/Bin/lipslut2.0']],
+=======
+        _args: [['axios@0.18.0', '/Users/nikiesfandiari/Desktop/lipslut']],
+>>>>>>> master
         _from: 'axios@0.18.0',
         _id: 'axios@0.18.0',
         _inBundle: !1,
@@ -1714,7 +1754,11 @@
         _requiredBy: ['/', '/gatsby-source-contentful'],
         _resolved: 'https://registry.npmjs.org/axios/-/axios-0.18.0.tgz',
         _spec: '0.18.0',
+<<<<<<< HEAD
         _where: '/Users/trauma/Bin/lipslut2.0',
+=======
+        _where: '/Users/nikiesfandiari/Desktop/lipslut',
+>>>>>>> master
         author: { name: 'Matt Zabriskie' },
         browser: { './lib/adapters/http.js': './lib/adapters/xhr.js' },
         bugs: { url: 'https://github.com/axios/axios/issues' },
