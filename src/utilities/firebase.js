@@ -2,6 +2,7 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 import { navigate } from 'gatsby'
 import postLambda from './postLambda'
+import * as admin from 'firebase-admin'
 
 const config = {
   apiKey: 'AIzaSyCbFZ7xiMAbvt9LtlknAa4eeK-WMqV9f1s',
@@ -175,6 +176,7 @@ class Firebase {
   storeUser = user => {
     postLambda('newAccount', user)
       .then(res => {
+        console.log('The result from correct email is: ', res)
         this.store()
           .collection('users')
           .doc(user.uid)
@@ -192,7 +194,17 @@ class Firebase {
           })
       })
       .catch(error => {
-        console.log('the error is: ', error)
+        console.log('The request errored out and the error is: ', error)
+        //delete user from fire store
+        admin
+          .auth()
+          .deleteUser(user.uid)
+          .then(function() {
+            console.log('Successfully deleted user')
+          })
+          .catch(function(error) {
+            console.log('Error deleting user:', error)
+          })
       })
   }
 
