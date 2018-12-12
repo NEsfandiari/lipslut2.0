@@ -105,6 +105,7 @@ class SignupEmailPassword extends Component {
           width="20rem"
         />
         <StyledInput
+          type="password"
           placeholder="Password"
           min="8"
           aria-label="Password"

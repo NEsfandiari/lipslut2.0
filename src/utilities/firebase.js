@@ -2,6 +2,7 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 import { navigate } from 'gatsby'
 import postLambda from './postLambda'
+// import * as admin from 'firebase-admin'
 
 const config = {
   apiKey: 'AIzaSyCbFZ7xiMAbvt9LtlknAa4eeK-WMqV9f1s',
@@ -156,23 +157,36 @@ class Firebase {
   }
 
   storeUser = user => {
-    postLambda('newAccount', user).then(res => {
-      this.store()
-        .collection('users')
-        .doc(user.uid)
-        .set({
-          uid: user.uid,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          newsletter: user.newsletter,
-          phone: '',
-          orderHistory: [],
-        })
-        .then(() => {
-          window.location.replace('/')
-        })
-    })
+    postLambda('newAccount', user)
+      .then(res => {
+        // Check response as to whether email is valid
+        if (!res.data.customer.customer) {
+          let curUser = this.auth().currentUser
+          curUser.delete()
+          throw new Error('Please enter a valid email address')
+        } else {
+          // If email is valid, store in firestore
+          this.store()
+            .collection('users')
+            .doc(user.uid)
+            .set({
+              uid: user.uid,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              newsletter: user.newsletter,
+              phone: '',
+              orderHistory: [],
+            })
+            .then(() => {
+              window.location.replace('/')
+            })
+        }
+      })
+      .catch(function(error) {
+        const errorMessage = error.message
+        componentThis.props.handleError(errorMessage)
+      })
   }
 
   updateAccount = (user, firstName, lastName, email, phone) => {
