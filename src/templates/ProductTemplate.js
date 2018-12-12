@@ -49,6 +49,7 @@ class ProductTemplate extends Component {
           />
         </Container>
         {productDetails}
+        {/* only render data visualization for products with charities, which have voting feature */}
         {charities && (
           <DataVis
             ordersData={this.props.pageContext.mapData}

@@ -2,32 +2,31 @@ import React, { Component } from 'react'
 import Styled from 'styled-components'
 import ReactTooltip from 'react-tooltip'
 
-const Container = Styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: .5rem;
-    .button:hover{
-        b{
-          color:white;
-        }
-      }
-    h2 {
-      font-size: 2rem;
-    }
-    b{
-      color: #FF0086;   
-    }
-`
+const Container = Styled.div``
 
-const figure = Styled.div`
+//     display: flex;
+//     flexDirection: column;
+//     alignItems: center;
+//     padding: .5rem;
+//     .button:hover{
+//         b{
+//           color:white;
+//         }
+//       }
+//     h2 {
+//       fontSize: 2rem;
+//     }
+//     b{
+//       color: #FF0086;
+//     }
+// `
+
+const Figure = Styled.div`
 #us-map {
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  borderStyle: solid;
+  borderWidth: 5;
 }
 path:hover,
 circle:hover {
@@ -65,7 +64,7 @@ class DVStates extends Component {
     }
   }
   static defaultProps = {
-    // d's connect dots to create visualization by state
+    // d's connect dots to create visualization by state, pop is state population
     statePaths: {
       HI: {
         d:
@@ -387,19 +386,20 @@ class DVStates extends Component {
     return (
       <Container className="DVStates-Container">
         <h2 style={{ textAlign: 'center' }}>
-          {/* customize map title for Leftylibglobalistsantifacommiesocialisthollyweirdopigs */}
+          {/* customize map title for Leftylibglobalistsantifacommiesocialisthollyweirdopigs; dynamic title for other products; may need to change title */}
           {this.props.title.length > 20
             ? `Where can we find ${this.props.title}?`
             : `How many people per state say ${this.props.title}?`}
         </h2>
-        <figure>
-          <svg id="us-map" width="35em" viewBox="174 100 959 593">
+        <Figure>
+          {/* 174 100 959 593 */}
+          <svg id="us-map" viewBox="174 100 935 593">
             <g>{visStates}</g>
           </svg>
-          <p style={{ fontSize: '0.5em', textAlign: 'right' }}>
+          <p style={{ fontSize: '0.3em', textAlign: 'right' }}>
             *Sales per million pairs of lips
           </p>
-        </figure>
+        </Figure>
         <ReactTooltip />
       </Container>
     )
