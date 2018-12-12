@@ -24,7 +24,10 @@ class DataVis extends Component {
   render() {
     return (
       <Container className="DataVis">
-        <DVStates ordersData={this.props.ordersData} />
+        <DVStates
+          ordersData={this.props.ordersData}
+          title={this.props.title.replace('.', '')}
+        />
         {/* add charity line graph component
         add user spending chart component */}
       </Container>
