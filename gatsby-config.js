@@ -60,7 +60,7 @@ module.exports = {
       options: {
         name: `sorted`,
         path: `${__dirname}/src/__data__`,
-        ignore: [`**/\.*`],
+        ignore: [`**/.*`],
       },
     },
     `gatsby-transformer-csv`,
