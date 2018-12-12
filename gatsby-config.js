@@ -58,9 +58,11 @@ module.exports = {
       //gatsby source filesystem for importing csv for data visualization
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `sorted`,
-        path: `${__dirname}/src/__data__`,
-        ignore: [`**/\.*`],
+        name: `src`,
+        path: `${__dirname}/src/`,
+        // name: `sorted`,
+        // path: `${__dirname}/src/__data__`,
+        // ignore: [`**/\.*`],
       },
     },
     `gatsby-transformer-csv`,
