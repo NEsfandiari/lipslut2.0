@@ -31,6 +31,7 @@ const Container = styled.div`
     text-align: center;
     height: 0;
     text-shadow: 0px 0px 1px #212121;
+    line-height: 2rem;
   }
   a {
     color: white;
