@@ -173,25 +173,27 @@ class Firebase {
   }
 
   storeUser = user => {
-    postLambda('newAccount', user).then(res => {
-      this.store()
-        .collection('users')
-        .doc(user.uid)
-        .set({
-          uid: user.uid,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          newsletter: user.newsletter,
-          phone: '',
-          orderHistory: [],
-        })
-        .then(() => {
-          window.location.replace('/')
-        })
-    }).catch(function(error) =>{
-      console.log('the error is: ', error)
-    })
+    postLambda('newAccount', user)
+      .then(res => {
+        this.store()
+          .collection('users')
+          .doc(user.uid)
+          .set({
+            uid: user.uid,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            newsletter: user.newsletter,
+            phone: '',
+            orderHistory: [],
+          })
+          .then(() => {
+            window.location.replace('/')
+          })
+      })
+      .catch(error => {
+        console.log('the error is: ', error)
+      })
   }
 
   updateAccount = (user, firstName, lastName, email, phone) => {
