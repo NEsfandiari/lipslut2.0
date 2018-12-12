@@ -156,26 +156,16 @@ class Firebase {
       })
   }
 
-  storeUser = async user => {
-    let response
-    await postLambda('newAccount', user)
+  storeUser = user => {
+    postLambda('newAccount', user)
       .then(res => {
-        response = res
-        console.log('The result from correct email is: ', res)
-        if (res.data.customer.customer === null) {
+        // Check response as to whether email is valid
+        if (!res.data.customer.customer) {
           let curUser = this.auth().currentUser
-
-          curUser
-            .delete()
-            .then(function() {
-              // User deleted.
-              console.log('USER DELETED')
-            })
-            .catch(function(error) {
-              // An error happened.
-              console.log('ERROR HAPPENED WITH USER DELETION')
-            })
+          curUser.delete()
+          throw new Error('Please enter a valid email address')
         } else {
+          // If email is valid, store in firestore
           this.store()
             .collection('users')
             .doc(user.uid)
@@ -193,21 +183,10 @@ class Firebase {
             })
         }
       })
-      .catch(error => {
-        // console.log('The request errored out and the error is: ', error)
-        // let curUser = this.auth().currentUser
-        // curUser
-        //   .delete()
-        //   .then(function() {
-        //     // User deleted.
-        //     console.log('USER DELETED')
-        //   })
-        //   .catch(function(error) {
-        //     // An error happened.
-        //     console.log('ERROR HAPPENED WITH USER DELETION')
-        //   })
+      .catch(function(error) {
+        const errorMessage = error.message
+        componentThis.props.handleError(errorMessage)
       })
-    console.log('RESPONSE', response)
   }
 
   updateAccount = (user, firstName, lastName, email, phone) => {
