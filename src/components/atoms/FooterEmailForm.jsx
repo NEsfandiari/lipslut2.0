@@ -44,7 +44,7 @@ class FooterEmailForm extends Component {
       <Container
         onSubmit={this.handleSubmit}
         name="email"
-        data-netlify="true"
+        netlify
         data-netlify-honeypot="bot-field"
       >
         <StyledInput
