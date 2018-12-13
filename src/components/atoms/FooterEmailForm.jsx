@@ -18,10 +18,11 @@ class FooterEmailForm extends Component {
   state = {
     email: '',
     color: '#FF009A',
+    status: 'Sign Up',
   }
   handleSubmit = e => {
     e.preventDefault()
-    this.setState({ email: '' })
+    this.setState({ email: '', status: 'Added!' })
   }
   handleChange = e => {
     this.setState({
@@ -40,7 +41,12 @@ class FooterEmailForm extends Component {
   }
   render() {
     return (
-      <Container onSubmit={this.handleSubmit} netlify name="email">
+      <Container
+        onSubmit={this.handleSubmit}
+        name="email"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+      >
         <StyledInput
           id="emailForm"
           aria-label="Email Form"
@@ -61,7 +67,7 @@ class FooterEmailForm extends Component {
           onMouseLeave={this.handleHoverOut}
           className="button"
         >
-          Sign Up
+          {this.state.status}
         </StyledButton>
       </Container>
     )
