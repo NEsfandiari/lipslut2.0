@@ -176,15 +176,17 @@ class Firebase {
   }
 
   updateAccount = (user, firstName, lastName, email, phone) => {
-    this.store()
-      .collection('users')
-      .doc(user.uid)
-      .update({
-        phone: phone,
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-      })
+    postLambda('updateAccount', user).then(res => {
+      this.store()
+        .collection('users')
+        .doc(user.uid)
+        .update({
+          phone: phone,
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+        })
+    })
   }
 }
 
