@@ -23,10 +23,10 @@ class Cart {
     // test if sku is in cart
     let cartI = null
     componentThis.state.cart.forEach((item, i) => {
-      item.sku === sku ? (cartI = i) : (cartI = null)
+      if (item.sku === sku) cartI = i
     })
     cartI !== null
-      ? newCart[cartI].quantity++
+      ? (newCart[cartI].quantity += quantity)
       : newCart.push({ title, price, quantity, image, sku })
     if (charity !== '') {
       if (!newCart[newCart.length - 1].charities) {

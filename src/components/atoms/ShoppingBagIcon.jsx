@@ -56,7 +56,13 @@ class ShoppingBagIcon extends Component {
           )}
         />
         <CartConsumer>
-          {cartContext => <p onClick={click}>{cartContext.cart.length}</p>}
+          {cartContext => (
+            <p onClick={click}>
+              {cartContext.cart.reduce((acc, val) => {
+                return acc + val.quantity
+              }, 0)}
+            </p>
+          )}
         </CartConsumer>
       </Container>
     )
