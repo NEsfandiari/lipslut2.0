@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { StyledButton, StyledInput } from '.'
-
-// TODO: Switch Form to Formspree
+import { StyledButton, StyledInput } from './'
 
 const Container = styled.form`
   display: flex;
@@ -22,13 +19,8 @@ class FooterEmailForm extends Component {
     email: '',
     color: '#FF009A',
   }
-  static contextTypes = {
-    firebase: PropTypes.object,
-  }
   handleSubmit = e => {
     e.preventDefault()
-    const { firebase } = this.context
-    firebase.addEmail(this.state.email)
     this.setState({ email: '' })
   }
   handleChange = e => {
@@ -48,7 +40,7 @@ class FooterEmailForm extends Component {
   }
   render() {
     return (
-      <Container onSubmit={this.handleSubmit}>
+      <Container onSubmit={this.handleSubmit} data-netlify="true" name="email">
         <StyledInput
           id="emailForm"
           aria-label="Email Form"

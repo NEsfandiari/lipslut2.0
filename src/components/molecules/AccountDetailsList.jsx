@@ -4,11 +4,11 @@ import styled from 'styled-components'
 const Container = styled.div`
   overflow: auto;
   p {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
   }
   .labels {
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 `
 

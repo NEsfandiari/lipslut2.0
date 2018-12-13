@@ -8,6 +8,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .ProductDetails-Content {
     display: flex;
     justify-content: space-between;
@@ -15,17 +16,20 @@ const Container = styled.div`
   }
   .ProductDetails-heading-5 {
     font-size: 1.4em;
-    margin-bottom: 1rem;
+    margin-bottom: 0.7rem;
   }
 
   .ProductDetails-paragraph {
     font-size: 0.9rem;
     margin-bottom: 2rem;
+    line-height: 1.5rem;
   }
 
   .ProductDetails-heading-6 {
     font-weight: bold;
     font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   .ProductDetails-leftContent,
@@ -82,7 +86,7 @@ class ProductDetails extends Component {
         rightContent.push(
           <div
             onClick={this.toggleList}
-            className={`ProductDetails-ingredientList-Link`}
+            className="ProductDetails-ingredientList-Link"
             key={i}
           >
             {claims[i].content[0].value}

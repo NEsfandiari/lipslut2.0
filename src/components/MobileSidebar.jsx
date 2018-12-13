@@ -10,14 +10,13 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   right: 0.0001rem;
-  z-index: 3;
+  z-index: 4;
   width: 100%;
   height: 100%;
   padding: 1.5rem;
   background-color: #f9f7f1;
   display: flex;
   flex-direction: column;
-  overflow: auto;
   svg:hover {
     cursor: pointer;
     color: dimgray;
@@ -38,12 +37,14 @@ const Container = styled.div`
     margin: 0;
   }
   .links {
-    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    max-height: 80vh;
+    margin-top: 0.5rem;
+    overflow: auto;
     a {
       margin: 0.5rem;
+      font-size: 0.9rem;
     }
   }
   @media (min-width: 420px) {

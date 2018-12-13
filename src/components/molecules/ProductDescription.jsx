@@ -35,6 +35,9 @@ const Container = styled.div`
     overflow: visible;
     width: 23rem;
   }
+  p {
+    line-height: 1.5rem;
+  }
 
   @media (max-width: 420px) {
     padding: 0rem;

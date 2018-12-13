@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Product, ProductDetails } from '../components'
+import DataVis from '../components/molecules/DataVis'
 
 const Container = styled.div`
   display: flex;
@@ -12,6 +13,7 @@ class ProductTemplate extends Component {
   componentDidMount() {
     this.props.resetSidebar()
   }
+
   render() {
     const data = this.props.pageContext.node
     const charities = data.charities
@@ -23,7 +25,9 @@ class ProductTemplate extends Component {
       const claims = data.claims.content
       const ingredients = data.ingredients.content[0].content[0].value
       productDetails = (
-        <ProductDetails claims={claims} ingredients={ingredients} />
+        <React.Fragment>
+          <ProductDetails claims={claims} ingredients={ingredients} />
+        </React.Fragment>
       )
     }
     return (
@@ -40,6 +44,13 @@ class ProductTemplate extends Component {
           />
         </Container>
         {productDetails}
+        {/* only render data visualization for products with charities, which have voting feature */}
+        {charities && (
+          <DataVis
+            ordersData={this.props.pageContext.mapData}
+            title={data.title}
+          />
+        )}
       </React.Fragment>
     )
   }

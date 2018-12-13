@@ -9,6 +9,8 @@ const Container = styled.form`
   justify-content: space-around;
   align-items: center;
   height: 14rem;
+  font-size: 0.9rem;
+
   .name {
     display: flex;
     justify-content: space-between;
@@ -54,7 +56,6 @@ class SignupEmailPassword extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { firebase } = this.context
-    console.log('context', this.context)
     const { firstName, lastName, email, password, newsletter } = this.state
     this.setState({ status: <Loading /> })
     try {
@@ -104,6 +105,7 @@ class SignupEmailPassword extends Component {
           width="20rem"
         />
         <StyledInput
+          type="password"
           placeholder="Password"
           min="8"
           aria-label="Password"
@@ -111,6 +113,7 @@ class SignupEmailPassword extends Component {
           onChange={this.handleChange}
           value={this.state.password}
           width="20rem"
+          type="password"
         />
         <StyledButton width="20rem" height="2.2rem" margin="0">
           {this.state.status}

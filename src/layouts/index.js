@@ -34,18 +34,20 @@ const Container = styled.div`
 
   p {
     font-size: 0.9rem;
+    line-height: 1.3rem;
   }
   a {
     text-decoration: none;
   }
   img {
-    border-radius: 3px;
+    border-radius: 1.5px;
   }
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 
   .all-components-layout {
     display: flex;

@@ -15,9 +15,6 @@ const Container = styled.div`
   a:hover {
     color: #9ae0f5;
   }
-  h1 {
-    font-size: 4rem;
-  }
   animation: fadein 1s;
   @keyframes fadein {
     from {
