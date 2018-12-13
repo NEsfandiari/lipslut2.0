@@ -18,7 +18,7 @@ const Container = Styled.div`
   @media (max-width: 420px) {
     padding: 1rem;
     width: 100%;
-    max-width: 21.5rem;
+    max-width: 20rem;
     h2{
       font-size: 1.2rem !important;
     }
