@@ -22,6 +22,12 @@ class FooterEmailForm extends Component {
   }
   handleSubmit = e => {
     e.preventDefault()
+    let email = this.state.email
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encode({ 'form-name': 'email', email }),
+    })
     this.setState({ email: '', status: 'Added!' })
   }
   handleChange = e => {

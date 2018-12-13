@@ -56,7 +56,7 @@ const Container = styled.div`
     max-width: 1260px;
     padding: 0px 1.0875rem;
 
-    min-height: 80vh;
+    min-height: 50vh;
 
     @media (max-width: 420px) {
       max-width: 100vw;
