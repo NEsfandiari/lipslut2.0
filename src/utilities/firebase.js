@@ -2,7 +2,6 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 import { navigate } from 'gatsby'
 import postLambda from './postLambda'
-// import * as admin from 'firebase-admin'
 
 const config = {
   apiKey: 'AIzaSyCbFZ7xiMAbvt9LtlknAa4eeK-WMqV9f1s',
