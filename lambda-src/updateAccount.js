@@ -81,8 +81,9 @@ exports.handler = async function(event, context, callback) {
       callback(null, response)
     }
 
-    console.log('updateAccountResponse is: ', updateAccountResponse)
-
     // update customer data
   }
+
+  //testing response
+  console.log('updateAccountResponse is: ', updateAccountResponse)
 }
