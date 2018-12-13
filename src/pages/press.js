@@ -13,7 +13,7 @@ const Container = styled.div`
     margin-bottom: 1rem;
   }
   img {
-    border-radius: 3px;
+    border-radius: 2px;
     position: relative;
     margin: 0;
     max-height: 20rem;

@@ -184,7 +184,8 @@ class Firebase {
       })
       .catch(function(error) {
         const errorMessage = error.message
-        componentThis.props.handleError(errorMessage)
+        // ToDo Actually catch this error
+        // componentThis.props.handleError(errorMessage)
       })
   }
 
