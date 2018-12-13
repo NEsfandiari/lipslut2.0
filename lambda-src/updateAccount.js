@@ -14,6 +14,7 @@ const shopifyConfig = {
 let updateAccountResponse
 
 exports.handler = async function(event, context, callback) {
+  console.log('is this even happening right now what the eff?')
   // TEST for POST request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
