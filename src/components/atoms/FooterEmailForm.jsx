@@ -32,6 +32,7 @@ class FooterEmailForm extends Component {
         )
         .join('&')
     }
+
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -56,13 +57,7 @@ class FooterEmailForm extends Component {
   }
   render() {
     return (
-      <Container
-        onSubmit={this.handleSubmit}
-        name="email"
-        method="post"
-        data-netlify="true"
-        data-netlify-honeypot="bot-field"
-      >
+      <Container onSubmit={this.handleSubmit} name="email" netlify>
         <StyledInput
           id="emailForm"
           aria-label="Email Form"
@@ -71,7 +66,7 @@ class FooterEmailForm extends Component {
           borderRadius="3px"
           marginBottom="0"
           type="email"
-          name="form-name"
+          name="email"
           value={this.state.email}
           onChange={this.handleChange}
         />
