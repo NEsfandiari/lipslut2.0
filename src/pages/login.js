@@ -4,6 +4,7 @@ import {
   LoginEmailPassword,
   LoginGoogle,
   LoginFacebook,
+  LoginForgotPassword,
 } from '../components/molecules'
 import { NavLink } from '../components/atoms'
 import lightBlueLayout from '../layouts/lightBlue.jsx'
@@ -16,6 +17,15 @@ const Container = styled.div`
   padding: 4rem;
   a {
     text-decoration-line: default;
+  }
+  .forgotten {
+    color: black;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+    cursor: pointer;
+    :hover {
+      color: #00a6f6;
+    }
   }
   animation: fadein 1s;
   @keyframes fadein {
@@ -35,6 +45,7 @@ const Container = styled.div`
     background-color: #ffa62c;
     color: white;
     font-size: 0.8rem;
+    text-align: center;
   }
   @media (max-width: 420px) {
     margin-top: 1rem;
@@ -45,6 +56,7 @@ const Container = styled.div`
 class Login extends Component {
   state = {
     errorMessage: null,
+    forgotten: false,
   }
   componentDidMount() {
     this.props.resetSidebar()
@@ -53,17 +65,25 @@ class Login extends Component {
     this.setState({ errorMessage: errorMessage })
   }
 
+  handleForgottenPassword = () => {
+    this.setState({ forgotten: !this.state.forgotten })
+  }
+
   render() {
     const displayError = {
       display: typeof this.state.errorMessage !== 'string' ? 'none' : 'inherit',
     }
     return (
       <Container>
-        <h2>Hey again!</h2>
+        <h2>{this.state.forgotten ? 'Forgot your password?' : 'Hey again!'}</h2>
         <p className="errorMessage animated fadeInRight" style={displayError}>
           {this.state.errorMessage}
         </p>
-        <LoginEmailPassword handleError={this.handleError} />
+        {this.state.forgotten ? (
+          <LoginForgotPassword handleError={this.handleError} />
+        ) : (
+          <LoginEmailPassword handleError={this.handleError} />
+        )}
         <p>or</p>
         <LoginGoogle handleError={this.handleError} />
         <LoginFacebook handleError={this.handleError} />
@@ -75,14 +95,9 @@ class Login extends Component {
         >
           Don't have an account? <u>Create One!</u>
         </NavLink>
-        <NavLink
-          to="/signup"
-          fontSize=".8rem"
-          hovercolor="#00a6f6"
-          letterSpacing="0"
-        >
-          <u>Forgot your password?</u>
-        </NavLink>
+        <p className="forgotten">
+          <u onClick={this.handleForgottenPassword}>Forgot your password?</u>
+        </p>
       </Container>
     )
   }

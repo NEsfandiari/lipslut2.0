@@ -20,10 +20,10 @@ const Container = styled.form`
   }
 `
 
-class LoginEmailPassword extends Component {
+class LoginForgotPassword extends Component {
   state = {
     email: '',
-    password: '',
+    status: 'Send Email',
   }
   static contextTypes = {
     firebase: PropTypes.object,
@@ -31,9 +31,10 @@ class LoginEmailPassword extends Component {
   handleSubmit = e => {
     e.preventDefault()
     const { firebase } = this.context
-    const { email, password } = this.state
-    firebase.login(this, 'emailPassword', email, password)
+    this.setState({ status: 'Sent!', email: '' })
+    firebase.forgottenPassword(this, this.state.email)
   }
+
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -42,6 +43,10 @@ class LoginEmailPassword extends Component {
   render() {
     return (
       <Container onSubmit={this.handleSubmit}>
+        <p>
+          Enter your email address and we will email you a link to reset your
+          password.
+        </p>
         <StyledInput
           aria-label="Email Address"
           placeholder="Email"
@@ -50,21 +55,12 @@ class LoginEmailPassword extends Component {
           value={this.state.email}
           width="20rem"
         />
-        <StyledInput
-          aria-label="Email Address"
-          placeholder="Password"
-          name="password"
-          onChange={this.handleChange}
-          value={this.state.password}
-          width="20rem"
-          type="password"
-        />
         <StyledButton width="20rem" height="2.2rem" margin="2rem">
-          LOG IN
+          {this.state.status}
         </StyledButton>
       </Container>
     )
   }
 }
 
-export default LoginEmailPassword
+export default LoginForgotPassword

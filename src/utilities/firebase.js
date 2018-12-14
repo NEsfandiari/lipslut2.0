@@ -200,6 +200,18 @@ class Firebase {
         lastName: lastName,
       })
   }
+
+  forgottenPassword(componentThis, email) {
+    this.auth()
+      .sendPasswordResetEmail(email)
+      .then(function() {
+        return
+      })
+      .catch(function(error) {
+        const errorMessage = error.message
+        componentThis.props.handleError(errorMessage)
+      })
+  }
 }
 
 export default new Firebase()
