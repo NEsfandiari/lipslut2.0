@@ -77,7 +77,8 @@ class DropdownMenu extends Component {
         <NavLink
           to={link.route}
           onClick={link.name === 'Log Out' ? this.props.logOut : null}
-          // key={i}
+          // browser gives warning about innerRef (says it should be ref), but ref does not work
+          // innerRef is used because NavLink renders a gatsby Link: documentation here: https://www.gatsbyjs.org/docs/gatsby-link/
           innerRef={el => (this.myRefs[i] = el)}
           key={i}
           onKeyDown={e => {
