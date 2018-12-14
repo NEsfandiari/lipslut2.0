@@ -379,6 +379,7 @@ class DVStates extends Component {
             statesOpacity[st] === undefined ? 0 : statesOpacity[st]
           }`}
           d={this.props.statePaths[st].d}
+          key={st}
           stroke="black"
           strokeWidth="0.02em"
           data-tip={`${st}: ${perCapitaByState[st]} sales per capita`}

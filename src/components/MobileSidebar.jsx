@@ -5,8 +5,11 @@ import { IoIosClose } from 'react-icons/io'
 import { NavLink, ShoppingBagIcon, MobileDropdown } from './atoms'
 import 'animate.css'
 
-const Container = styled.div`
-  display: ${({ mobileDisplayFix }) => mobileDisplayFix || 'none'} !important;
+const Container = styled.div`"
+  display: ${({ mobileDisplayFix }) => {
+    console.log('mdf', mobileDisplayFix || 'none')
+    return mobileDisplayFix || 'none'
+  }} !important;
   position: fixed;
   top: 0;
   right: 0.0001rem;
@@ -65,8 +68,11 @@ class MobileSidebar extends Component {
       curUser,
       navbarData,
     } = this.props
+
+    console.log('mobilesidebar prop', display)
+
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
-    const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
+    const mobileDisplayFix = this.props.mobileDisplayFix ? 'initial' : 'none'
 
     const navbarItemsLeft = navbarData.navbarItems.data.leftNav
     const userIcon = navbarData.profileIcon.fluid.src

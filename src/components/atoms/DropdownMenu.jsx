@@ -51,6 +51,14 @@ class DropdownMenu extends Component {
     focusTarget.focus()
   }
 
+  showMenu = () => {
+    this.setState({ display: true })
+  }
+
+  hideMenu = () => {
+    this.setState({ display: false })
+  }
+
   toggleMenu(focusTarget) {
     this.setState(
       st => ({
@@ -69,8 +77,9 @@ class DropdownMenu extends Component {
         <NavLink
           to={link.route}
           onClick={link.name === 'Log Out' ? this.props.logOut : null}
-          key={i}
+          // key={i}
           innerRef={el => (this.myRefs[i] = el)}
+          key={i}
           onKeyDown={e => {
             if (e.key === 'ArrowDown' && i !== array.length - 1) {
               this.focus(this.myRefs[i + 1])
@@ -103,6 +112,10 @@ class DropdownMenu extends Component {
                 this.toggleMenu(this.myRefs[0])
               } else if (e.key === 'ArrowUp') {
                 this.toggleMenu(this.myRefs[this.myRefs.length - 1])
+              }
+            } else {
+              if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+                this.toggleMenu()
               }
             }
           }}
