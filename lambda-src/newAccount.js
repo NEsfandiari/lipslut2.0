@@ -50,6 +50,13 @@ exports.handler = async function(event, context, callback) {
     }
 
     try {
+      console.log({
+        url: 'https://lipslut2-0.myshopify.com/api/graphql',
+        method: 'POST',
+        headers: shopifyConfig,
+        data: JSON.stringify(payload),
+      })
+      console.log('\n\n\nGetting to try 1\n\n\n')
       let customer = await axios({
         url: 'https://lipslut2-0.myshopify.com/api/graphql',
         method: 'POST',
@@ -69,6 +76,8 @@ exports.handler = async function(event, context, callback) {
       }
       callback(null, response)
     } catch (err) {
+      console.log('\n\n\nErroring out from try 1\n\n\n')
+      console.log('\n\n\nThis is the error: ', err, '\n\n\n')
       let response = {
         statusCode: 500,
         headers,
