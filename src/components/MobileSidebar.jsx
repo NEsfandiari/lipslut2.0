@@ -5,11 +5,8 @@ import { IoIosClose } from 'react-icons/io'
 import { NavLink, ShoppingBagIcon, MobileDropdown } from './atoms'
 import 'animate.css'
 
-const Container = styled.div`"
-  display: ${({ mobileDisplayFix }) => {
-    console.log('mdf', mobileDisplayFix || 'none')
-    return mobileDisplayFix || 'none'
-  }} !important;
+const Container = styled.div`
+  display: ${({ mobileDisplayFix }) => mobileDisplayFix || 'none'} !important;
   position: fixed;
   top: 0;
   right: 0.0001rem;
@@ -69,8 +66,6 @@ class MobileSidebar extends Component {
       navbarData,
     } = this.props
 
-    console.log('mobilesidebar prop', display)
-
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
     const mobileDisplayFix = this.props.mobileDisplayFix ? 'initial' : 'none'
 
@@ -90,11 +85,7 @@ class MobileSidebar extends Component {
     })
 
     return (
-      <Container
-        display={display}
-        className={animation}
-        mobileDisplayFix={mobileDisplayFix}
-      >
+      <Container className={animation} mobileDisplayFix={mobileDisplayFix}>
         <div className="header">
           <IoIosClose
             onClick={handleMobileSidebar}
