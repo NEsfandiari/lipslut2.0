@@ -1,6 +1,5 @@
 require('dotenv').config({ path: '.env.development' })
 const axios = require('axios')
-const statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
@@ -14,7 +13,7 @@ exports.handler = async function(event, context, callback) {
   // TEST for POST request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
-      statusCode,
+      statusCode: 200,
       headers,
       body: '',
     })
@@ -57,8 +56,10 @@ exports.handler = async function(event, context, callback) {
         headers: shopifyConfig,
         data: JSON.stringify(payload),
       })
-      if (customer.data.errors) customer = customer.data.errors
+
+      if (customer.data.errors) throw new Error(customer.data.errors)
       else customer = customer.data.data.customerCreate
+
       let response = {
         statusCode: 200,
         headers,
@@ -68,7 +69,6 @@ exports.handler = async function(event, context, callback) {
       }
       callback(null, response)
     } catch (err) {
-      console.log(err)
       let response = {
         statusCode: 500,
         headers,
@@ -76,7 +76,7 @@ exports.handler = async function(event, context, callback) {
           error: err.message,
         }),
       }
-      callback(null, response)
+      callback(response)
     }
   }
 }

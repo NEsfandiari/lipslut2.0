@@ -334,7 +334,6 @@ class DVStates extends Component {
 
   // scales orderData from 0 to 1 to use for opacity property
   stateOrderBreakdown(ordersData, max) {
-    let totalOrders = this.state.totalOrders
     let stateOrderPercentage = {}
 
     for (let i in ordersData) {
