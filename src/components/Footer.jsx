@@ -11,7 +11,7 @@ const Container = Styled.div`
     background-color: #75CAEB;
     color: white;
     .middle{
-      flex-basis: 20%;
+      flex-basis: 10%;
       display: flex;
       justify-content: center;
 
@@ -20,10 +20,11 @@ const Container = Styled.div`
       height: 16rem;
       width: 2px;
       border-left: 1.5px solid black;
+      display: none;
     }
     @media (max-width: 420px) {
       flex-direction: column;
-      padding: 3rem;
+      padding: 2rem;
       .divider{
         display: none;
       }
