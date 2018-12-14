@@ -79,34 +79,7 @@ exports.handler = async function(event, context, callback) {
     }
 
     // update customer data
-
-    // const payload2 = {
-    //   query: `mutation customerAddressCreate($customerAccessToken: String!, $address: MailingAddressInput!) {
-    //     customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
-    //       userErrors {
-    //         field
-    //         message
-    //       }
-    //       customerAddress {
-    //         id
-    //       }
-    //     }
-    //   }
-    //   `,
-    //   variables: {
-    //     customerAccessToken: token,
-    //     address: {
-    //       lastName: 'Doe',
-    //       firstName: 'John',
-    //       address1: '123 Test Street',
-    //       province: 'QC',
-    //       country: 'Canada',
-    //       zip: 'H3K0X2',
-    //       city: 'Montreal',
-    //     },
-    //   },
-    // }
-
+    // TODO fix connection to shopify; shopify not updating
     const payload2 = {
       query: `mutation customerUpdate($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
         customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
@@ -141,18 +114,14 @@ exports.handler = async function(event, context, callback) {
 
     let response
     try {
-      console.log('\n\n\nGetting to update call\n\n\n')
       response = await axios({
         url: 'https://lipslut2-0.myshopify.com/api/graphql',
-        method: 'POST',
+        method: 'UPDATE',
         headers: shopifyConfig,
         data: JSON.stringify(payload2),
       })
-
-      console.log('\n\n\nhey look at me RESPONSE: ', response, '\n\n\n')
-
       if (response.status !== 200) throw 'error in update'
-      else console.log('\n\n\nSUCCESS!!!\n\n\n')
+      else console.log('\n\n\n SUCCESS!!!\n\n\n')
     } catch (err) {
       console.log(err[0])
       let response = {
