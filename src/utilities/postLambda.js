@@ -5,11 +5,10 @@ const windowGlobal = typeof window !== 'undefined' && window
 // : process.env.GATSBY_LAMBDA_ENDPOINT + lambdaName,
 function postLambda(lambdaName, data) {
   try {
-    console.log('\n\n\nhostname: ', windowGlobal.location.hostname, '\n\n\n')
     return axios.post(
       windowGlobal.location.hostname === 'localhost'
         ? `https://2aee27ab.ngrok.io/${lambdaName}`
-        : `https://deploy-preview-15--elated-carson-131bb5.netlify.com/${lambdaName}`,
+        : process.env.GATSBY_LAMBDA_ENDPOINT + lambdaName,
       {
         headers: {
           'Content-Type': 'application/json',
