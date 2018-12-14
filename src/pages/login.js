@@ -96,7 +96,11 @@ class Login extends Component {
           Don't have an account? <u>Create One!</u>
         </NavLink>
         <p className="forgotten">
-          <u onClick={this.handleForgottenPassword}>Forgot your password?</u>
+          <u onClick={this.handleForgottenPassword}>
+            {this.state.forgotten
+              ? 'I remembered my password!'
+              : 'Forgot your password?'}
+          </u>
         </p>
       </Container>
     )
