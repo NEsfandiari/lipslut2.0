@@ -24,7 +24,7 @@ const Container = Styled.div`
     }
     @media (max-width: 420px) {
       flex-direction: column;
-      padding: 4rem;
+      padding: 2rem;
       .divider{
         display: none;
       }

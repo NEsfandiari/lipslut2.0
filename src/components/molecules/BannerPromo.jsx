@@ -17,7 +17,7 @@ const Container = styled.div`
   :hover {
     background-color: #d9f3fc;
   }
-  p {
+  .banner-text {
     margin-bottom: 0;
     margin-right: 1rem;
   }
@@ -34,6 +34,14 @@ const Container = styled.div`
     color: dimgrey;
     cursor: pointer;
   }
+  @media (max-width: 420px) {
+    .banner-text {
+      font-size: 0.85rem;
+      margin: 0.5rem;
+      width: 80%;
+      line-height: 1rem;
+    }
+  }
 `
 class BannerPromo extends Component {
   state = {
@@ -49,11 +57,11 @@ class BannerPromo extends Component {
     const display = this.state.display ? 'flex' : 'none'
     return (
       <Container style={{ display: display }}>
-        <p>
+        <p className="banner-text">
           Checkout our newest Batch, 100% of Profits towards charity.{' '}
           <Link to='/BATCH—001:-"02"'>Click Here</Link>
         </p>
-        <IoIosClose onClick={this.hidePromo} />
+        <IoIosClose onClick={this.hidePromo} size="1.5rem" />
       </Container>
     )
   }

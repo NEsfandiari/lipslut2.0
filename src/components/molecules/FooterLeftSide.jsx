@@ -11,6 +11,9 @@ const Container = styled.div`
   .label {
     margin: 0;
   }
+  @media (max-width: 420px) {
+    width: 100%;
+  }
 `
 
 class FooterLeftSide extends Component {
