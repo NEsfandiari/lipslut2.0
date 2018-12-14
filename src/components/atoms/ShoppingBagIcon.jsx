@@ -18,7 +18,7 @@ const Container = styled.div`
     cursor: pointer;
     margin: 0;
     padding: 0;
-    right: 0.8rem;
+    right: 0.7rem;
     width: 1.1rem;
     height: 1.1rem;
     color: white;
@@ -56,7 +56,13 @@ class ShoppingBagIcon extends Component {
           )}
         />
         <CartConsumer>
-          {cartContext => <p onClick={click}>{cartContext.cart.length}</p>}
+          {cartContext => (
+            <p onClick={click}>
+              {cartContext.cart.reduce((acc, val) => {
+                return acc + val.quantity
+              }, 0)}
+            </p>
+          )}
         </CartConsumer>
       </Container>
     )
