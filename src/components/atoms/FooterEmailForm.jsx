@@ -18,14 +18,31 @@ class FooterEmailForm extends Component {
   state = {
     email: '',
     color: '#FF009A',
+    status: 'Sign Up',
   }
   handleSubmit = e => {
     e.preventDefault()
-    this.setState({ email: '' })
+    let email = this.state.email
+
+    // Netlify Form Encoding for Email Subscriberes
+    const encode = data => {
+      return Object.keys(data)
+        .map(
+          key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
+        )
+        .join('&')
+    }
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encode({ 'form-name': 'email', email }),
+    })
+    this.setState({ email: '', status: 'Added!' })
   }
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value,
+      email: e.target.value,
     })
   }
   handleHoverIn = e => {
@@ -40,7 +57,7 @@ class FooterEmailForm extends Component {
   }
   render() {
     return (
-      <Container onSubmit={this.handleSubmit} data-netlify="true" name="email">
+      <Container onSubmit={this.handleSubmit} name="email" netlify>
         <StyledInput
           id="emailForm"
           aria-label="Email Form"
@@ -61,7 +78,7 @@ class FooterEmailForm extends Component {
           onMouseLeave={this.handleHoverOut}
           className="button"
         >
-          Sign Up
+          {this.state.status}
         </StyledButton>
       </Container>
     )

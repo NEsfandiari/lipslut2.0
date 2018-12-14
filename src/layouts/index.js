@@ -47,7 +47,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
 
   .all-components-layout {
     display: flex;
@@ -56,6 +55,8 @@ const Container = styled.div`
     align-items: center;
     max-width: 1260px;
     padding: 0px 1.0875rem;
+
+    min-height: 50vh;
 
     @media (max-width: 420px) {
       max-width: 100vw;

@@ -113,7 +113,6 @@ class SignupEmailPassword extends Component {
           onChange={this.handleChange}
           value={this.state.password}
           width="20rem"
-          type="password"
         />
         <StyledButton width="20rem" height="2.2rem" margin="0">
           {this.state.status}

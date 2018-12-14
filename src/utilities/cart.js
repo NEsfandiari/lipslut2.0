@@ -20,11 +20,13 @@ class Cart {
   }
   static addItem(componentThis, title, price, quantity, image, sku, charity) {
     let newCart = componentThis.state.cart
+
     // test if sku is in cart
     let cartI = null
     componentThis.state.cart.forEach((item, i) => {
       if (item.sku === sku) cartI = i
     })
+
     cartI !== null
       ? (newCart[cartI].quantity += quantity)
       : newCart.push({ title, price, quantity, image, sku })
