@@ -81,6 +81,8 @@ class MobileSidebar extends Component {
             key={item.navButton}
           />
         )
+      } else {
+        return null
       }
     })
 
