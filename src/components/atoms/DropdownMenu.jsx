@@ -81,6 +81,7 @@ class DropdownMenu extends Component {
           // innerRef is used because NavLink renders a gatsby Link: documentation here: https://www.gatsbyjs.org/docs/gatsby-link/
           innerRef={el => (this.myRefs[i] = el)}
           key={i}
+          //adds keyboard navigation to navbar dropdown links
           onKeyDown={e => {
             if (e.key === 'ArrowDown' && i !== array.length - 1) {
               this.focus(this.myRefs[i + 1])
