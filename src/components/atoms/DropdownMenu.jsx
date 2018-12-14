@@ -40,61 +40,75 @@ const Container = styled.div`
 class DropdownMenu extends Component {
   constructor(props) {
     super(props)
-    this.dropdown = React.createRef()
+    this.myRefs = this.props.links.map(link => React.createRef())
+    this.state = { display: false }
     this.focus = this.focus.bind(this)
   }
-  state = {
-    display: false,
-  }
-  showMenu = () => {
-    this.setState({ display: true })
-  }
-  hideMenu = () => {
-    this.setState({ display: false })
-  }
-  focus() {
-    console.log('focus ran! ', this.dropdown.current)
-    this.innerRef.focus()
+
+  //for accessibility --> called to programmatically move focus to next item in Dropdown Menu
+  //needed so screen reader can follow focus when navigating with keyboard
+  focus(focusTarget) {
+    focusTarget.focus()
   }
 
-  toggleMenu() {
-    console.log('toggling!')
-    this.setState(st => ({
-      display: !st.display,
-    }))
+  toggleMenu(focusTarget) {
+    this.setState(
+      st => ({
+        display: !st.display,
+      }),
+      () => {
+        if (focusTarget) this.focus(focusTarget)
+      }
+    )
   }
 
   render() {
-    console.log('here are mahh refs: ', this.dropdown)
     const display = this.state.display ? 'initial' : 'none'
-    const links = this.props.links.map((link, i) => (
-      <NavLink
-        to={link.route}
-        onClick={link.name === 'Log Out' ? this.props.logOut : null}
-        key={i}
-        innerRef={el => (this.innerRef = el)}
-      >
-        {link.name}
-      </NavLink>
-    ))
+    const links = this.props.links.map((link, i, array) => {
+      return (
+        <NavLink
+          to={link.route}
+          onClick={link.name === 'Log Out' ? this.props.logOut : null}
+          key={i}
+          innerRef={el => (this.myRefs[i] = el)}
+          onKeyDown={e => {
+            if (e.key === 'ArrowDown' && i !== array.length - 1) {
+              this.focus(this.myRefs[i + 1])
+            } else if (e.key === 'ArrowUp' && i !== 0) {
+              this.focus(this.myRefs[i - 1])
+            } else if (e.key === 'ArrowDown') {
+              this.focus(this.myRefs[0])
+            } else if (e.key === 'ArrowUp') {
+              this.focus(this.myRefs[array.length - 1])
+            } else if (e.key === 'Escape' || e.key === 'Enter') {
+              this.toggleMenu()
+            }
+          }}
+        >
+          {link.name}
+        </NavLink>
+      )
+    })
+
     return (
-      <Container
-        onMouseLeave={this.hideMenu}
-        role="button"
-        onKeyDown={e => {
-          console.log('trying these: ', e.key)
-          if (e.key === 'Enter' || e.key === ' ') {
-            this.toggleMenu()
-            this.focus()
-          }
-        }}
-        role="button"
-        onBlur={() => {
-          console.log('i am working')
-          this.hideMenu()
-        }}
-      >
-        <NavLink className="dropdown" onMouseEnter={this.showMenu} to="">
+      <Container onMouseLeave={this.hideMenu}>
+        <NavLink
+          className="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded={this.state.display}
+          onKeyDown={e => {
+            if (this.state.display === false) {
+              if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+                this.toggleMenu(this.myRefs[0])
+              } else if (e.key === 'ArrowUp') {
+                this.toggleMenu(this.myRefs[this.myRefs.length - 1])
+              }
+            }
+          }}
+          onMouseEnter={this.showMenu}
+          to=""
+        >
           {this.props.dropdownText}
         </NavLink>
         <div className="dropdown-content" style={{ display }}>
@@ -104,64 +118,5 @@ class DropdownMenu extends Component {
     )
   }
 }
-
-// class DropdownMenu extends React.Component {
-//   constructor(props) {
-//     super(props)
-
-//     this.state = { isOpen: false }
-//     this.timeOutId = null
-
-//     this.onClickHandler = this.onClickHandler.bind(this)
-//     this.onBlurHandler = this.onBlurHandler.bind(this)
-//     this.onFocusHandler = this.onFocusHandler.bind(this)
-//   }
-
-//   onClickHandler() {
-//     this.setState(currentState => ({
-//       isOpen: !currentState.isOpen,
-//     }))
-//   }
-
-//   // We close the popover on the next tick by using setTimeout.
-//   // This is necessary because we need to first check if
-//   // another child of the element has received focus as
-//   // the blur event fires prior to the new focus event.
-//   onBlurHandler() {
-//     this.timeOutId = setTimeout(() => {
-//       this.setState({
-//         isOpen: false,
-//       })
-//     })
-//   }
-
-//   // If a child receives focus, do not close the popover.
-//   onFocusHandler() {
-//     clearTimeout(this.timeOutId)
-//   }
-
-//   render() {
-//     // React assists us by bubbling the blur and
-//     // focus events to the parent.
-//     return (
-//       <div onBlur={this.onBlurHandler} onFocus={this.onFocusHandler}>
-//         <button
-//           onClick={this.onClickHandler}
-//           aria-haspopup="true"
-//           aria-expanded={this.state.isOpen}
-//         >
-//           Select an option
-//         </button>
-//         {this.state.isOpen ? (
-//           <ul>
-//             <li>Option 1</li>
-//             <li>Option 2</li>
-//             <li>Option 3</li>
-//           </ul>
-//         ) : null}
-//       </div>
-//     )
-//   }
-// }
 
 export default DropdownMenu
