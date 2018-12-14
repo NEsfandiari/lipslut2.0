@@ -8,7 +8,7 @@ const Container = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: .5rem;
+    padding: .5rem 1rem;
     .button:hover{
         b{
           color:white;

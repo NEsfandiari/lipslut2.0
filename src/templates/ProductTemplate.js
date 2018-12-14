@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import { Product, ProductDetails } from '../components'
 import DataVis from '../components/molecules/DataVis'
 
-import { graphql, StaticQuery } from 'gatsby'
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,9 +10,6 @@ const Container = styled.div`
 `
 
 class ProductTemplate extends Component {
-  constructor(props) {
-    super(props)
-  }
   componentDidMount() {
     this.props.resetSidebar()
   }

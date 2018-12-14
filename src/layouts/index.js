@@ -34,19 +34,19 @@ const Container = styled.div`
 
   p {
     font-size: 0.9rem;
+    line-height: 1.3rem;
   }
   a {
     text-decoration: none;
   }
   img {
-    border-radius: 3px;
+    border-radius: 1.5px;
   }
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
 
   .all-components-layout {
     display: flex;
@@ -55,6 +55,8 @@ const Container = styled.div`
     align-items: center;
     max-width: 1260px;
     padding: 0px 1.0875rem;
+
+    min-height: 50vh;
 
     @media (max-width: 420px) {
       max-width: 100vw;

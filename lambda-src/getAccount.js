@@ -1,6 +1,5 @@
 require('dotenv').config({ path: '.env.development' })
 const axios = require('axios')
-const statusCode = 200
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
@@ -14,7 +13,7 @@ exports.handler = async function(event, context, callback) {
   // TEST for POST request
   if (event.httpMethod !== 'POST' || !event.body) {
     callback(null, {
-      statusCode,
+      statusCode: 200,
       headers,
       body: '',
     })
@@ -62,15 +61,14 @@ exports.handler = async function(event, context, callback) {
           token.data.data.customerAccessTokenCreate.customerAccessToken
             .accessToken
     } catch (err) {
-      console.log(err[0])
       let response = {
         statusCode: 500,
         headers,
         body: JSON.stringify({
-          error: err[0],
+          error: err.message,
         }),
       }
-      callback(null, response)
+      callback(response)
     }
     const payload2 = {
       query: `query customerQuery($customerAccessToken: String!){
@@ -135,7 +133,6 @@ exports.handler = async function(event, context, callback) {
       }
       callback(null, response)
     } catch (err) {
-      console.log(err)
       let response = {
         statusCode: 500,
         headers,
@@ -143,7 +140,7 @@ exports.handler = async function(event, context, callback) {
           error: err.message,
         }),
       }
-      callback(null, response)
+      callback(response)
     }
   }
 }

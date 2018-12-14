@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { StyledButton, StyledInput } from '.'
-
-// TODO: Switch Form to Formspree
+import { StyledButton, StyledInput } from './'
 
 const Container = styled.form`
   display: flex;
@@ -21,19 +18,31 @@ class FooterEmailForm extends Component {
   state = {
     email: '',
     color: '#FF009A',
-  }
-  static contextTypes = {
-    firebase: PropTypes.object,
+    status: 'Sign Up',
   }
   handleSubmit = e => {
     e.preventDefault()
-    const { firebase } = this.context
-    firebase.addEmail(this.state.email)
-    this.setState({ email: '' })
+    let email = this.state.email
+
+    // Netlify Form Encoding for Email Subscriberes
+    const encode = data => {
+      return Object.keys(data)
+        .map(
+          key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
+        )
+        .join('&')
+    }
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encode({ 'form-name': 'email', email }),
+    })
+    this.setState({ email: '', status: 'Added!' })
   }
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value,
+      email: e.target.value,
     })
   }
   handleHoverIn = e => {
@@ -48,7 +57,7 @@ class FooterEmailForm extends Component {
   }
   render() {
     return (
-      <Container onSubmit={this.handleSubmit}>
+      <Container onSubmit={this.handleSubmit} name="email" netlify>
         <StyledInput
           id="emailForm"
           aria-label="Email Form"
@@ -69,7 +78,7 @@ class FooterEmailForm extends Component {
           onMouseLeave={this.handleHoverOut}
           className="button"
         >
-          Sign Up
+          {this.state.status}
         </StyledButton>
       </Container>
     )
