@@ -30,7 +30,7 @@ const Container = Styled.div`
     }
   }
   @media (max-width: 420px) {
-    padding:0;
+    padding:0rem;
     h1{
       font-size: 2rem;
     }

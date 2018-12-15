@@ -34,7 +34,7 @@ const Container = Styled.div`
       .statements{
         flex-direction: column;
       }
-      padding:1rem;
+      padding:3rem;
       flex-direction: column;
     }
     
