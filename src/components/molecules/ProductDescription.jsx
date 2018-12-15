@@ -107,22 +107,36 @@ class ProductDescription extends Component {
       this.setState(this.toggleModal())
     }
   }
+
   render() {
     const productCopy = this.props.productCopy.map((statement, i) => {
-      if (statement.content.length === 1)
+      if (statement.content.length === 1) {
         return <p key={i}>{statement.content[0].value}</p>
-      else {
+      } else {
         // Turn Special marks into subsequent html modifiers
+        //
+        // TODO: this code is underdocumented & unclear in its intent
+        //    please clairfy the goals here
+        // TODO: refactor this into separate function
+
         let fullClause = []
-        statement.content.forEach(clause => {
+        statement.content.forEach((clause, idx) => {
           if (clause.marks.length > 0) {
-            if (clause.marks[0].type === 'bold')
-              fullClause.push(<b>{clause.value}</b>)
-          } else fullClause.push(clause.value)
+            if (clause.marks[0].type === 'bold') {
+              fullClause.push(<b key={idx}>{clause.value}</b>)
+            } else {
+              // do nothing? TODO unclear if this is correct
+            }
+          } else {
+            fullClause.push(
+              <React.Fragment key={idx}>clause.value</React.Fragment>
+            )
+          }
         })
         return <p key={i}>{fullClause}</p>
       }
     })
+
     return (
       <Container>
         <h1>{this.props.title}</h1>
