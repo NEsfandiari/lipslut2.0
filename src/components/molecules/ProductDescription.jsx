@@ -129,7 +129,7 @@ class ProductDescription extends Component {
             }
           } else {
             fullClause.push(
-              <React.Fragment key={idx}>clause.value</React.Fragment>
+              <React.Fragment key={idx}>{clause.value}</React.Fragment>
             )
           }
         })
