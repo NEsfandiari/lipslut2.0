@@ -23,7 +23,7 @@ const Container = styled.div`
   button,
   input,
   select {
-    font-family: 'futura';
+    font-family: futura-pt, sans-serif;
   }
 
   h3,

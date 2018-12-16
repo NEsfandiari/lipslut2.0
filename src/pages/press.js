@@ -66,7 +66,11 @@ class Contact extends Component {
     const images = this.props.data.contentfulSupportPage.images
     const PressArticles = this.props.data.contentfulSupportPage.copy.content.map(
       (line, i) => (
-        <a href={line.content[1].data.uri}>
+        <a
+          href={line.content[1].data.uri}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <div className="article">
             <p>{line.content[1].content[0].value}</p>
             <img

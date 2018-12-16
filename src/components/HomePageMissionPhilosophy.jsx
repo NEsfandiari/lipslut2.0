@@ -4,8 +4,7 @@ import Styled from 'styled-components'
 const Container = Styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 4rem;
-  padding: 4rem;
+  padding: 6rem;
   div{
       display: flex;
       flex-direction:column;
@@ -30,7 +29,7 @@ const Container = Styled.div`
     }
   }
   @media (max-width: 420px) {
-    padding:0rem;
+    padding: 2rem 0rem;
     h1{
       font-size: 2rem;
     }

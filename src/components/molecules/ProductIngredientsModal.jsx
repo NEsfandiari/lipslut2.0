@@ -40,7 +40,9 @@ class ModalIngredients extends Component {
               }}
             >
               <div>
-                <h3>Ingredients</h3>
+                <h3>
+                  <b>Ingredients</b>
+                </h3>
               </div>
               <div>
                 <button
