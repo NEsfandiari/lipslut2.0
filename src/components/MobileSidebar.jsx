@@ -65,8 +65,9 @@ class MobileSidebar extends Component {
       curUser,
       navbarData,
     } = this.props
+
     const animation = 'animated ' + (display ? 'slideInLeft' : 'slideOutLeft')
-    const mobileDisplayFix = this.props.mobileDisplayFix ? 'inital' : 'none'
+    const mobileDisplayFix = this.props.mobileDisplayFix ? 'initial' : 'none'
 
     const navbarItemsLeft = navbarData.navbarItems.data.leftNav
     const userIcon = navbarData.profileIcon.fluid.src
@@ -80,15 +81,13 @@ class MobileSidebar extends Component {
             key={item.navButton}
           />
         )
+      } else {
+        return null
       }
     })
 
     return (
-      <Container
-        display={display}
-        className={animation}
-        mobileDisplayFix={mobileDisplayFix}
-      >
+      <Container className={animation} mobileDisplayFix={mobileDisplayFix}>
         <div className="header">
           <IoIosClose
             onClick={handleMobileSidebar}

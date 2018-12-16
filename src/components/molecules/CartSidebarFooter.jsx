@@ -50,7 +50,7 @@ class CartSidebarFooter extends Component {
           <h4>${subtotal}</h4>
         </div>
         <StyledButton
-          onClick={cart.length !== 0 ? handleCheckout : ''}
+          onClick={cart.length !== 0 ? handleCheckout : null}
           style={{ opacity: opacity }}
           height={'3rem'}
           width={'18.5rem'}
