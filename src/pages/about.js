@@ -15,6 +15,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 50%;
+    padding-left: 1rem;
   }
   h1 {
     font-size: 3.5rem;
