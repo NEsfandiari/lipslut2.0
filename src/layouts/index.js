@@ -203,7 +203,7 @@ class Layout extends Component {
                 title="Lipslut"
                 // TODO: Fill this out with accurate site metadata for google
                 meta={[
-                  { name: 'description', content: 'Sample' },
+                  { name: 'description', content: 'Lipslut is fashion, subversion, and a middle finger to the current sociopolitical landscape. By working hard towards solving the issues you care about, Lipslut is ready to help you make a statement.' },
                   { name: 'keywords', content: 'sample, something' },
                 ]}
               >

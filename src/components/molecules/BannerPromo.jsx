@@ -58,7 +58,7 @@ class BannerPromo extends Component {
     return (
       <Container style={{ display: display }}>
         <p className="banner-text">
-          Checkout our newest Batch, 100% of Profits towards charity.{' '}
+          Checkout our newest Batch, 50% of Profits towards charity.{' '}
           <Link to='/BATCH—001:-"02"'>Click Here</Link>
         </p>
         <IoIosClose onClick={this.hidePromo} size="1.5rem" />
