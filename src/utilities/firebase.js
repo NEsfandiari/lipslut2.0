@@ -99,7 +99,7 @@ class Firebase {
           password: user.additionalUserInfo.profile.id,
           newsletter: true,
         }
-        this.storeUser(userInfo)
+        this.storeUser(userInfo, componentThis)
       })
       .catch(error => {
         const errorMessage = error.message
@@ -118,7 +118,7 @@ class Firebase {
           password: user.additionalUserInfo.profile.id,
           newsletter: true,
         }
-        this.storeUser(userInfo)
+        this.storeUser(userInfo, componentThis)
       })
       .catch(error => {
         const errorMessage = error.message
@@ -144,40 +144,47 @@ class Firebase {
           password,
           newsletter,
         }
-        this.storeUser(userInfo)
+        this.storeUser(userInfo, componentThis)
       })
       .catch(function(error) {
+        let curUser = this.auth().currentUser
+        curUser.delete()
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
       })
   }
 
-  storeUser = user => {
-    postLambda('newAccount', user).then(res => {
-      // Check response as to whether email is valid
-      if (!res.data.customer.customer) {
-        let curUser = this.auth().currentUser
-        curUser.delete()
-        throw new Error('Please enter a valid email address')
-      } else {
-        // If email is valid, store in firestore
-        this.store()
-          .collection('users')
-          .doc(user.uid)
-          .set({
-            uid: user.uid,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            newsletter: user.newsletter,
-            phone: '',
-            orderHistory: [],
-          })
-          .then(() => {
-            window.location.replace('/')
-          })
-      }
-    })
+  storeUser = (user, componentThis) => {
+    postLambda('newAccount', user)
+      .then(res => {
+        // Check response as to whether email is valid
+        if (!res.data.customer.customer) {
+          let curUser = this.auth().currentUser
+          curUser.delete()
+          throw new Error('Please enter a valid email address')
+        } else {
+          // If email is valid, store in firestore
+          this.store()
+            .collection('users')
+            .doc(user.uid)
+            .set({
+              uid: user.uid,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              newsletter: user.newsletter,
+              phone: '',
+              orderHistory: [],
+            })
+            .then(() => {
+              window.location.replace('/')
+            })
+        }
+      })
+      .catch(error => {
+        const errorMessage = error.message
+        componentThis.props.handleError(errorMessage)
+      })
   }
 
   updateAccount = (user, firstName, lastName, email, phone) => {
