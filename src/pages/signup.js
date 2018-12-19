@@ -16,6 +16,7 @@ const Container = styled.div`
   align-items: center;
   padding: 4rem;
   animation: fadein 1s;
+  min-height: 75vh;
   @keyframes fadein {
     from {
       opacity: 0;

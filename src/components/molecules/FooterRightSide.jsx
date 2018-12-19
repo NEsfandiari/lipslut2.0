@@ -6,6 +6,7 @@ const Container = styled.div`
   flex-basis: 40%;
   display: flex;
   justify-content: space-around;
+  padding-left: 1rem;
   div {
     display: flex;
     flex-direction: column;

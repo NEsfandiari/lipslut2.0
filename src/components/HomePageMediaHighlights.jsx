@@ -10,10 +10,10 @@ const Container = styled.div`
   align-items: center;
   padding: 7rem;
   .highlight {
-    width: 60%;
+    width: 70%;
     text-align: center;
     font-weight: 700;
-    height: 5rem;
+    height: 7rem;
     font-family: Playfair Display;
   }
   .brandCarousel {
@@ -41,7 +41,9 @@ const Container = styled.div`
       }
     }
   }
-
+  @media (max-width: 1050px) {
+    padding: 5rem 2rem;
+  }
   @media (max-width: 420px) {
     padding: 3rem 1.5rem;
     .highlight {

@@ -19,6 +19,9 @@ const Container = Styled.div`
   }
   .slogans{
       flex-basis: 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
   }
   .philosophy{
     padding-left: 1.5rem;
@@ -27,6 +30,9 @@ const Container = Styled.div`
     p{
       width: 80%;
     }
+  }
+  @media (max-width: 1050px){
+      padding: 5rem 2rem;
   }
   @media (max-width: 420px) {
     padding: 2rem 0rem;

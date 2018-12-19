@@ -30,6 +30,9 @@ const Container = Styled.div`
             width: 70%;
         }
     }
+    @media (max-width: 1050px){
+      padding: 5rem 2rem;
+    }
     @media (max-width: 420px) {
       .statements{
         flex-direction: column;

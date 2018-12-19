@@ -15,6 +15,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 4rem;
+  min-height: 75vh;
   a {
     text-decoration-line: default;
   }
