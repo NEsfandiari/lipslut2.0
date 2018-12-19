@@ -144,9 +144,6 @@ class Firebase {
           password,
           newsletter,
         }
-        if (newsletter) {
-          this.addEmail(userInfo.email)
-        }
         this.storeUser(userInfo)
       })
       .catch(function(error) {
