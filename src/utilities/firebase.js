@@ -151,6 +151,7 @@ class Firebase {
         curUser.delete()
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
+        componentThis.setState({ status: 'Try Again' })
       })
   }
 
@@ -184,6 +185,7 @@ class Firebase {
       .catch(error => {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
+        componentThis.setState({ status: 'Try Again' })
       })
   }
 
@@ -210,6 +212,7 @@ class Firebase {
       .catch(function(error) {
         const errorMessage = error.message
         componentThis.props.handleError(errorMessage)
+        componentThis.setState({ status: 'Try Again' })
       })
   }
 }
