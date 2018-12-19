@@ -41,7 +41,7 @@ exports.handler = async function(event, context, callback) {
       variables: {
         input: {
           email: data.email,
-          password: data.uid,
+          password: data.password,
           acceptsMarketing: data.newsletter,
           firstName: data.firstName,
           lastName: data.lastName,

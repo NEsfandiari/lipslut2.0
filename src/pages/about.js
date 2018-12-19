@@ -29,15 +29,19 @@ const Container = styled.div`
       opacity: 1;
     }
   }
-  @media (max-width: 420px) {
+  @media (max-width: 850px) {
     flex-direction: column;
-    padding: 1rem;
+    align-items: center;
+    padding: 3rem;
     img {
       width: 100%;
     }
     h1 {
       text-align: center;
     }
+  }
+  @media (max-width: 420px) {
+    padding: 1rem;
   }
 `
 class About extends Component {
