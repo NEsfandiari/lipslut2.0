@@ -11,6 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   padding: 1rem;
   overflow: auto;
+  flex-basis: 50%;
 
   .purchase {
     display: flex;
