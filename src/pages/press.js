@@ -38,7 +38,6 @@ const Container = styled.div`
     transition: 0.3s;
   }
   a:hover {
-    text-decoration: underline;
     img {
       opacity: 1;
       transition: 0.4s;

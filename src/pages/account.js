@@ -10,7 +10,7 @@ const Container = styled.div`
   justify-content: space-around;
   padding: 2rem;
   animation: fadein 1s;
-  min-height: 75vh;
+  min-height: 80vh;
   @keyframes fadein {
     from {
       opacity: 0;
