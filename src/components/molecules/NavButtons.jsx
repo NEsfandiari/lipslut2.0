@@ -42,6 +42,17 @@ const Container = styled.div`
       margin-right: 0.5rem;
     }
   }
+  @media (max-width: 1000px) {
+    .leftNav {
+      width: 100%;
+      a {
+        display: none;
+      }
+      .hamburger {
+        display: initial;
+      }
+    }
+  }
   @media (max-width: 420px) {
     width: 100%;
     padding: 1rem;
@@ -61,14 +72,7 @@ const Container = styled.div`
     }
     .leftNav {
       flex-basis: 20%;
-      width: 100%;
       padding-left: 0rem;
-      a {
-        display: none;
-      }
-      .hamburger {
-        display: initial;
-      }
     }
     .logo {
       flex-basis: 55%;

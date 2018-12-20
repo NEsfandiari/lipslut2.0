@@ -7,10 +7,10 @@ import ModalSoldOut from './ProductSoldOutModal'
 import { StyledHr, StyledButton, QuantityAdjustButton } from '../atoms'
 
 const Container = styled.div`
-  flex-basis: 50%;
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  overflow: auto;
 
   .purchase {
     display: flex;
@@ -37,6 +37,10 @@ const Container = styled.div`
   }
   p {
     line-height: 1.5rem;
+  }
+  @media (max-width: 1050px) {
+    text-align: center;
+    align-items: center;
   }
 
   @media (max-width: 420px) {

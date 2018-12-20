@@ -15,8 +15,10 @@ const Container = Styled.div`
     overflow: visible;
     height: 4rem;
   }
+  @media (max-width: 1050px) {
+    padding: 2rem 0rem;
+  }
   @media (max-width: 420px) {
-    padding: 0rem;
     width: 100%;
     max-width: 20rem;
     h2{

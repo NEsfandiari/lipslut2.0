@@ -20,7 +20,6 @@ const Container = styled.div`
     position: relative;
     background-color: #f2f6f6;
     border-radius: 2px;
-    box-shadow: 1px 1px 5px 0 rgba(46, 61, 73, 0.2);
     animation-duration: 0.5s;
     width: 110%;
     right: 5%;
@@ -31,6 +30,7 @@ const Container = styled.div`
     flex-direction: column;
     padding: 0.5rem;
     padding-left: 1rem;
+    margin-left: 4rem;
   }
 `
 

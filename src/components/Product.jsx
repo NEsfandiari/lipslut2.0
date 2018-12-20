@@ -8,6 +8,7 @@ const Container = styled.div`
   justify-content: space-between;
   animation: fadein 1s;
   padding: 1rem;
+  max-width: 100vw;
   @keyframes fadein {
     from {
       opacity: 0;
@@ -16,7 +17,7 @@ const Container = styled.div`
       opacity: 1;
     }
   }
-  @media (max-width: 420px) {
+  @media (max-width: 1050px) {
     flex-direction: column;
     width: 95%;
     position: relative;
