@@ -27,6 +27,7 @@ const Container = Styled.div`
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     flex-basis: 60%;
+    max-width: 52rem;
     p{
       width: 80%;
     }

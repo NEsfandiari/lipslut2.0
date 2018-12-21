@@ -9,7 +9,7 @@ const Container = styled.div`
   padding: 0.5rem;
   margin-bottom: 0.4rem;
   img {
-    height: 1.9rem;
+    height: 1.7rem;
     margin: 0;
     max-width: 1.8rem;
   }

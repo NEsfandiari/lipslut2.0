@@ -168,7 +168,7 @@ class NavButtons extends Component {
               <img
                 src={navbarData.helpIcon.fluid.src}
                 alt="help icon"
-                style={{ height: '2rem', margin: 0 }}
+                style={{ height: '1.7rem', margin: 0 }}
               />
             }
           />
@@ -179,7 +179,7 @@ class NavButtons extends Component {
               <img
                 src={navbarData.profileIcon.fluid.src}
                 alt="user icon"
-                style={{ height: '2rem', margin: 0 }}
+                style={{ height: '1.7rem', margin: 0 }}
               />
             }
           />

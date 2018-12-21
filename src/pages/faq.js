@@ -41,6 +41,12 @@ class Faq extends Component {
     const header = this.props.data.contentfulSupportPage.copy.content[0]
       .content[0].value
     const faqs = this.props.data.contentfulSupportPage.copy.content.map(faq => {
+      if (faq.nodeType === 'heading-1')
+        return (
+          <>
+            <h1>{faq.content[0].value}</h1>
+          </>
+        )
       if (faq.nodeType === 'heading-3')
         return (
           <>

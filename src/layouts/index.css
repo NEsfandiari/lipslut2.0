@@ -28,7 +28,7 @@
 
 /* GATSBY INIT STYLES BELOW */
 html {
-  font-family: 'futura';
+  font-family: futura-pt, sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }

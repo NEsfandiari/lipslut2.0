@@ -4,10 +4,11 @@ import ModalIngredients from './molecules/ProductIngredientsModal'
 import lightBlue from '../layouts/lightBlue'
 
 const Container = styled.div`
-  padding: 4rem 5rem 2rem;
+  padding: 4rem 5rem 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 35rem;
 
   .ProductDetails-Content {
     display: flex;
@@ -45,6 +46,7 @@ const Container = styled.div`
 
   @media screen and (max-width: 420px) {
     padding: 1rem 0rem;
+    height: 100%;
     .ProductDetails-Content {
       flex-direction: column;
       width: 100%;
