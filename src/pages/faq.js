@@ -6,15 +6,19 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4rem 8rem;
+  padding: 2rem 8rem;
   .questions {
     margin-top: 1rem;
   }
-  h3 {
+  h1 {
     margin-top: 3rem;
+  }
+  h3 {
+    margin-top: 2rem;
   }
   p {
     line-height: 1.5rem;
+    margin-bottom: 1rem;
   }
   animation: fadein 1s;
   @keyframes fadein {
@@ -59,9 +63,6 @@ class Faq extends Component {
     })
     return (
       <Container>
-        <h1>
-          <b>{header}</b>
-        </h1>
         <div className="questions">{faqs}</div>
       </Container>
     )
