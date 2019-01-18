@@ -14,6 +14,9 @@ const Container = Styled.div`
           color:white;
         }
       }
+    img{
+      width: 38rem;
+    }
     h2 {
       font-size: 2rem;
     }
