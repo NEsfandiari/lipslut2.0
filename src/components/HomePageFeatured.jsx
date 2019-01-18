@@ -27,7 +27,7 @@ class HomePageFeatured extends Component {
         />
         <FeaturedProduct
           title={titles[1]}
-          route="/Fck-Kavanaugh"
+          route="/Notorious-RBG"
           image={photos[1].fluid.src}
         />
       </Container>
