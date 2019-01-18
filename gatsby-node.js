@@ -188,8 +188,8 @@ exports.createPages = async ({ actions, graphql }) => {
         // Create pages for each graphql node.
         result.data.allContentfulProductPage.edges.forEach(({ node }) => {
           let path = node.title.replace(/\s+/g, '-') + '/'
-          path = path.replace(/\./, '')
-          path = path.replace(/\*/, '')
+          path = path.replace(/\./g, '')
+          path = path.replace(/\*/g, '')
           let key = node.title.replace('.', '')
           let availableForSale
           result.data.allShopifyProduct.edges.forEach(function(product) {
